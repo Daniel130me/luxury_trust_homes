@@ -107,7 +107,7 @@ router.get("/client/summary", requireAuth, async (req, res) => {
           id: true, at: true, note: true, label: true,
           case: {
             select: {
-              id: true, reference: true, status: true,
+              id: true, enquiryId: true, reference: true, status: true,
               property: { select: { title: true, images: { take: 1, orderBy: [{ isCover: "desc" }, { sortOrder: "asc" }], select: { url: true, label: true } } } },
             },
           },

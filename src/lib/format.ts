@@ -129,7 +129,36 @@ export const PAYMENT_STATUS_LABELS: Record<string, string> = {
 };
 
 /** Tailwind classes per status — one place to keep badges consistent. */
+/** Status chip backgrounds exported for list views. */
+export const STATUS_TONES: Record<string, string> = {
+  APPROVED: "bg-emerald-50 text-emerald-700",
+  SUCCESSFUL: "bg-emerald-50 text-emerald-700",
+  COMPLETED: "bg-emerald-50 text-emerald-700",
+  AVAILABLE: "bg-emerald-50 text-emerald-700",
+  PENDING_REVIEW: "bg-brand-50 text-brand-700",
+  UNDER_REVIEW: "bg-brand-50 text-brand-700",
+  LAWYER_ASSIGNED: "bg-brand-50 text-brand-700",
+  NEW_ENQUIRY: "bg-brand-50 text-brand-700",
+  OUTSTANDING: "bg-brand-50 text-brand-700",
+  OPEN: "bg-brand-50 text-brand-700",
+  IN_PROGRESS: "bg-sky-50 text-sky-700",
+  NEGOTIATION: "bg-sky-50 text-sky-700",
+  AWAITING_PAYMENT: "bg-sky-50 text-sky-700",
+  PAYMENT_PENDING: "bg-amber-50 text-amber-700",
+  PENDING_CONFIRMATION: "bg-amber-50 text-amber-700",
+  CHANGES_REQUESTED: "bg-rose-50 text-rose-700",
+  FAILED: "bg-rose-50 text-rose-700",
+  CANCELLED: "bg-rose-50 text-rose-700",
+  REJECTED: "bg-rose-50 text-rose-700",
+  DRAFT: "bg-zinc-100 text-zinc-600",
+  UNAVAILABLE: "bg-zinc-100 text-zinc-600",
+};
+
 export function statusTone(status: string): string {
+  return STATUS_TONES[status] ?? "bg-brand-50 text-brand-700";
+}
+
+function _statusToneOld(status: string): string {
   switch (status) {
     case "APPROVED":
     case "SUCCESSFUL":

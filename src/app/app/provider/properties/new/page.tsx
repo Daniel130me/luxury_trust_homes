@@ -1,0 +1,7 @@
+"use client";
+
+import { PropertyForm } from "@/components/platform/property-form";
+
+export default function NewPropertyPage() {
+  return <PropertyForm mode="new" />;
+}
