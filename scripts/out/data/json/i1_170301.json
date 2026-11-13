@@ -1,0 +1,145 @@
+{
+ "u_chinedu": {
+  "interest": "selling",
+  "location": {
+   "state": "Lagos",
+   "region": "Island"
+  }
+ },
+ "u_amina": {
+  "interest": "selling",
+  "location": {
+   "state": "Enugu"
+  }
+ },
+ "u_femi": {
+  "interest": "selling",
+  "location": {
+   "state": "Lagos",
+   "region": "Island"
+  }
+ },
+ "u_victoria": {
+  "interest": "selling",
+  "location": {
+   "state": "Lagos",
+   "region": "Mainland"
+  }
+ },
+ "u_ibrahim": {
+  "interest": "selling",
+  "location": {
+   "state": "Enugu"
+  }
+ },
+ "u_ngozi": {
+  "interest": "selling",
+  "location": {
+   "state": "Enugu"
+  }
+ },
+ "u_segun": {
+  "interest": "selling",
+  "location": {
+   "state": "Enugu"
+  }
+ },
+ "u_daniel": {
+  "interest": "buying",
+  "location": {
+   "state": "Lagos",
+   "region": "Island"
+  },
+  "alerts": {
+   "enabled": true,
+   "here": true,
+   "listingType": "sale",
+   "maxPrice": 250000000
+  }
+ },
+ "u_grace": {
+  "interest": "renting",
+  "location": {
+   "state": "Lagos",
+   "region": "Mainland"
+  },
+  "alerts": {
+   "enabled": true,
+   "here": true,
+   "listingType": "rent"
+  }
+ },
+ "u_samuel": {
+  "interest": "buying",
+  "location": {
+   "state": "Lagos"
+  },
+  "alerts": {
+   "enabled": false,
+   "here": true,
+   "listingType": "sale"
+  }
+ },
+ "u_blessing": {
+  "interest": "renting",
+  "location": {
+   "state": "Lagos",
+   "region": "Mainland"
+  }
+ },
+ "u_kemi": {
+  "interest": "buying",
+  "location": {
+   "state": "Lagos",
+   "region": "Mainland",
+   "lga": "Kosofe"
+  },
+  "alerts": {
+   "enabled": true,
+   "here": true,
+   "listingType": "sale",
+   "category": "semi_detached_duplex"
+  }
+ },
+ "u_emeka": {
+  "interest": "buying",
+  "location": {
+   "state": "Lagos",
+   "region": "Island"
+  }
+ },
+ "u_halima": {
+  "interest": "renting",
+  "location": {
+   "state": "Enugu"
+  },
+  "alerts": {
+   "enabled": true,
+   "here": true,
+   "listingType": "rent"
+  }
+ },
+ "u_tobi": {
+  "interest": "buying",
+  "location": {
+   "state": "Enugu"
+  },
+  "alerts": {
+   "enabled": true,
+   "here": true,
+   "listingType": "sale"
+  }
+ },
+ "u_funmi": {
+  "interest": "renting",
+  "location": {
+   "state": "Enugu"
+  }
+ },
+ "u_yusuf": {
+  "interest": "browsing",
+  "location": {
+   "state": "Lagos"
+  }
+ }
+}

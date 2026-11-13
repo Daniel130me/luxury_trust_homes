@@ -1,0 +1,1 @@
+{lawyer:["workspace.staff","listing.moderate","listing.viewAll","case.viewAll","case.manage","case.observe","contact.disclose","user.viewAll","user.manage","payment.manage","reports.view","settings.manage","helpdesk.manage"],support:["workspace.staff","listing.viewAll","case.viewAll","case.observe","user.viewAll","helpdesk.manage"],provider:[],client:[]}

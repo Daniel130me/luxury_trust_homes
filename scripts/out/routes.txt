@@ -1,0 +1,17 @@
+/about
+/app/client
+/app/help
+/app/notifications
+/app/profile
+/app/provider
+/app/saved
+/app/staff
+/contact
+/forgot-password
+/help
+/login
+/privacy
+/properties
+/register
+/sell
+/terms

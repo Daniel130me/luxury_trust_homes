@@ -1,0 +1,111 @@
+[
+ {
+  "state": "Lagos",
+  "region": "Island",
+  "lga": "Eti-Osa",
+  "areas": [
+   "Lekki Phase 1",
+   "Ikoyi",
+   "Old Ikoyi",
+   "Banana Island",
+   "Victoria Island",
+   "Oniru",
+   "Ikate",
+   "Chevron",
+   "Ajah",
+   "Badore",
+   "Sangotedo"
+  ]
+ },
+ {
+  "state": "Lagos",
+  "region": "Island",
+  "lga": "Ibeju-Lekki",
+  "areas": [
+   "Eleko",
+   "Awoyaya",
+   "Abijo"
+  ]
+ },
+ {
+  "state": "Lagos",
+  "region": "Island",
+  "lga": "Lagos Island",
+  "areas": [
+   "Lagos Island",
+   "Obalende"
+  ]
+ },
+ {
+  "state": "Lagos",
+  "region": "Mainland",
+  "lga": "Ikeja",
+  "areas": [
+   "Ikeja GRA",
+   "Alausa",
+   "Opebi",
+   "Allen"
+  ]
+ },
+ {
+  "state": "Lagos",
+  "region": "Mainland",
+  "lga": "Lagos Mainland",
+  "areas": [
+   "Yaba",
+   "Alagomeji",
+   "Sabo",
+   "Ebute Metta"
+  ]
+ },
+ {
+  "state": "Lagos",
+  "region": "Mainland",
+  "lga": "Kosofe",
+  "areas": [
+   "Gbagada Phase 1",
+   "Gbagada Phase 2",
+   "Magodo Phase 2",
+   "Magodo GRA Phase 2",
+   "Ogudu"
+  ]
+ },
+ {
+  "state": "Lagos",
+  "region": "Mainland",
+  "lga": "Surulere",
+  "areas": [
+   "Surulere",
+   "Adeniran Ogunsanya"
+  ]
+ },
+ {
+  "state": "Enugu",
+  "lga": "Enugu North",
+  "areas": [
+   "GRA",
+   "Independence Layout",
+   "New Haven",
+   "Ogui"
+  ]
+ },
+ {
+  "state": "Enugu",
+  "lga": "Enugu East",
+  "areas": [
+   "Trans-Ekulu",
+   "Abakpa Nike",
+   "Emene"
+  ]
+ },
+ {
+  "state": "Enugu",
+  "lga": "Enugu South",
+  "areas": [
+   "Achara Layout",
+   "Uwani",
+   "Maryland",
+   "Awkunanaw"
+  ]
+ }
+]

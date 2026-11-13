@@ -1,0 +1,3860 @@
+{
+ "schemaVersion": 4,
+ "users": [
+  {
+   "id": "u_adaeze",
+   "name": "Adaeze Okonkwo",
+   "email": "adaeze.okonkwo@elvictoria.example",
+   "phone": "+2348031100201",
+   "role": "lawyer",
+   "organisation": "Partner, Property & Conveyancing",
+   "city": "Lagos",
+   "registeredAt": "2025-01-06 09:00",
+   "status": "active",
+   "passwordHash": "2718b1cc4053e6c65de52847ef2d6d188361decc36e221dac73423de5536d91b"
+  },
+  {
+   "id": "u_tunde",
+   "name": "Tunde Adebayo",
+   "email": "tunde.adebayo@elvictoria.example",
+   "phone": "+2348031100202",
+   "role": "lawyer",
+   "organisation": "Partner, Real Estate Transactions",
+   "city": "Lagos",
+   "registeredAt": "2025-01-06 09:05",
+   "status": "active",
+   "passwordHash": "2718b1cc4053e6c65de52847ef2d6d188361decc36e221dac73423de5536d91b"
+  },
+  {
+   "id": "u_nneka",
+   "name": "Nneka Eze",
+   "email": "nneka.eze@elvictoria.example",
+   "phone": "+2348031100203",
+   "role": "lawyer",
+   "organisation": "Partner, Tenancy & Advisory",
+   "city": "Enugu",
+   "registeredAt": "2025-01-06 09:10",
+   "status": "active",
+   "passwordHash": "2718b1cc4053e6c65de52847ef2d6d188361decc36e221dac73423de5536d91b"
+  },
+  {
+   "id": "u_mariam",
+   "name": "Mariam Bello",
+   "email": "mariam.bello@elvictoria.example",
+   "phone": "+2348031100301",
+   "role": "support",
+   "organisation": "Client Support Officer",
+   "city": "Lagos",
+   "registeredAt": "2025-03-03 10:00",
+   "status": "active",
+   "passwordHash": "2718b1cc4053e6c65de52847ef2d6d188361decc36e221dac73423de5536d91b"
+  },
+  {
+   "id": "u_obinna",
+   "name": "Obinna Chukwu",
+   "email": "obinna.chukwu@elvictoria.example",
+   "phone": "+2348031100302",
+   "role": "support",
+   "organisation": "Operations Support Officer",
+   "city": "Lagos",
+   "registeredAt": "2025-06-16 10:00",
+   "status": "active",
+   "passwordHash": "2718b1cc4053e6c65de52847ef2d6d188361decc36e221dac73423de5536d91b"
+  },
+  {
+   "id": "u_chinedu",
+   "name": "Chinedu Nwosu",
+   "email": "chinedu@crestfieldhomes.example",
+   "phone": "+2348052245110",
+   "role": "provider",
+   "providerKind": "developer",
+   "organisation": "Crestfield Homes Ltd",
+   "city": "Lagos",
+   "registeredAt": "2025-04-11 14:20",
+   "status": "active",
+   "passwordHash": "2718b1cc4053e6c65de52847ef2d6d188361decc36e221dac73423de5536d91b",
+   "interest": "selling",
+   "preferredLocation": {
+    "state": "Lagos",
+    "region": "Island"
+   }
+  },
+  {
+   "id": "u_amina",
+   "name": "Amina Yusuf",
+   "email": "amina.yusuf@mail.example",
+   "phone": "+2348063321904",
+   "role": "provider",
+   "providerKind": "owner",
+   "city": "Enugu",
+   "registeredAt": "2025-05-02 11:45",
+   "status": "active",
+   "passwordHash": "2718b1cc4053e6c65de52847ef2d6d188361decc36e221dac73423de5536d91b",
+   "interest": "selling",
+   "preferredLocation": {
+    "state": "Enugu"
+   }
+  },
+  {
+   "id": "u_femi",
+   "name": "Femi Balogun",
+   "email": "femi@balogunrealty.example",
+   "phone": "+2348025567712",
+   "role": "provider",
+   "providerKind": "agent",
+   "organisation": "Balogun & Partners Realty",
+   "city": "Lagos",
+   "registeredAt": "2025-03-21 09:30",
+   "status": "active",
+   "passwordHash": "2718b1cc4053e6c65de52847ef2d6d188361decc36e221dac73423de5536d91b",
+   "interest": "selling",
+   "preferredLocation": {
+    "state": "Lagos",
+    "region": "Island"
+   }
+  },
+  {
+   "id": "u_victoria",
+   "name": "Victoria Adeola",
+   "email": "victoria.adeola@mail.example",
+   "phone": "+2348090013458",
+   "role": "provider",
+   "providerKind": "owner",
+   "city": "Lagos",
+   "registeredAt": "2025-07-08 16:10",
+   "status": "active",
+   "passwordHash": "2718b1cc4053e6c65de52847ef2d6d188361decc36e221dac73423de5536d91b",
+   "interest": "selling",
+   "preferredLocation": {
+    "state": "Lagos",
+    "region": "Mainland"
+   }
+  },
+  {
+   "id": "u_ibrahim",
+   "name": "Ibrahim Musa",
+   "email": "ibrahim@sahelcourt.example",
+   "phone": "+2348037789021",
+   "role": "provider",
+   "providerKind": "developer",
+   "organisation": "Sahel Court Developments",
+   "city": "Enugu",
+   "registeredAt": "2025-08-19 12:00",
+   "status": "active",
+   "passwordHash": "2718b1cc4053e6c65de52847ef2d6d188361decc36e221dac73423de5536d91b",
+   "interest": "selling",
+   "preferredLocation": {
+    "state": "Enugu"
+   }
+  },
+  {
+   "id": "u_ngozi",
+   "name": "Ngozi Obi",
+   "email": "ngozi@coalcityrealtors.example",
+   "phone": "+2348067734502",
+   "role": "provider",
+   "providerKind": "agency",
+   "organisation": "Coal City Realtors",
+   "city": "Enugu",
+   "registeredAt": "2025-09-04 10:25",
+   "status": "active",
+   "passwordHash": "2718b1cc4053e6c65de52847ef2d6d188361decc36e221dac73423de5536d91b",
+   "interest": "selling",
+   "preferredLocation": {
+    "state": "Enugu"
+   }
+  },
+  {
+   "id": "u_segun",
+   "name": "Segun Ajayi",
+   "email": "segun.ajayi@mail.example",
+   "phone": "+2348058812266",
+   "role": "provider",
+   "providerKind": "landlord",
+   "city": "Enugu",
+   "registeredAt": "2025-10-13 15:40",
+   "status": "active",
+   "passwordHash": "2718b1cc4053e6c65de52847ef2d6d188361decc36e221dac73423de5536d91b",
+   "interest": "selling",
+   "preferredLocation": {
+    "state": "Enugu"
+   }
+  },
+  {
+   "id": "u_daniel",
+   "name": "Daniel Johnson",
+   "email": "daniel.johnson@mail.example",
+   "phone": "+2348021234561",
+   "role": "client",
+   "clientKind": "buyer",
+   "city": "Lagos",
+   "registeredAt": "2026-02-14 18:05",
+   "status": "active",
+   "passwordHash": "2718b1cc4053e6c65de52847ef2d6d188361decc36e221dac73423de5536d91b",
+   "interest": "buying",
+   "preferredLocation": {
+    "state": "Lagos",
+    "region": "Island"
+   },
+   "alerts": {
+    "enabled": true,
+    "here": true,
+    "listingType": "sale",
+    "maxPrice": 250000000
+   }
+  },
+  {
+   "id": "u_grace",
+   "name": "Grace Afolabi",
+   "email": "grace.afolabi@mail.example",
+   "phone": "+2348021234562",
+   "role": "client",
+   "clientKind": "renter",
+   "city": "Lagos",
+   "registeredAt": "2026-03-09 08:40",
+   "status": "active",
+   "passwordHash": "2718b1cc4053e6c65de52847ef2d6d188361decc36e221dac73423de5536d91b",
+   "interest": "renting",
+   "preferredLocation": {
+    "state": "Lagos",
+    "region": "Mainland"
+   },
+   "alerts": {
+    "enabled": true,
+    "here": true,
+    "listingType": "rent"
+   }
+  },
+  {
+   "id": "u_samuel",
+   "name": "Samuel Okoro",
+   "email": "samuel.okoro@mail.example",
+   "phone": "+2348021234563",
+   "role": "client",
+   "clientKind": "buyer",
+   "city": "Lagos",
+   "registeredAt": "2026-04-22 20:15",
+   "status": "active",
+   "passwordHash": "2718b1cc4053e6c65de52847ef2d6d188361decc36e221dac73423de5536d91b",
+   "interest": "buying",
+   "preferredLocation": {
+    "state": "Lagos"
+   },
+   "alerts": {
+    "enabled": false,
+    "here": true,
+    "listingType": "sale"
+   }
+  },
+  {
+   "id": "u_blessing",
+   "name": "Blessing Eze",
+   "email": "blessing.eze@mail.example",
+   "phone": "+2348021234564",
+   "role": "client",
+   "clientKind": "renter",
+   "city": "Lagos",
+   "registeredAt": "2026-05-30 12:00",
+   "status": "active",
+   "passwordHash": "2718b1cc4053e6c65de52847ef2d6d188361decc36e221dac73423de5536d91b",
+   "interest": "renting",
+   "preferredLocation": {
+    "state": "Lagos",
+    "region": "Mainland"
+   }
+  },
+  {
+   "id": "u_kemi",
+   "name": "Kemi Williams",
+   "email": "kemi.williams@mail.example",
+   "phone": "+2348021234565",
+   "role": "client",
+   "clientKind": "buyer",
+   "city": "Lagos",
+   "registeredAt": "2026-06-11 10:30",
+   "status": "active",
+   "passwordHash": "2718b1cc4053e6c65de52847ef2d6d188361decc36e221dac73423de5536d91b",
+   "interest": "buying",
+   "preferredLocation": {
+    "state": "Lagos",
+    "region": "Mainland",
+    "lga": "Kosofe"
+   },
+   "alerts": {
+    "enabled": true,
+    "here": true,
+    "listingType": "sale",
+    "category": "semi_detached_duplex"
+   }
+  },
+  {
+   "id": "u_emeka",
+   "name": "Emeka Obi",
+   "email": "emeka.obi@mail.example",
+   "phone": "+2348021234566",
+   "role": "client",
+   "clientKind": "buyer",
+   "city": "Lagos",
+   "registeredAt": "2026-06-28 17:50",
+   "status": "active",
+   "passwordHash": "2718b1cc4053e6c65de52847ef2d6d188361decc36e221dac73423de5536d91b",
+   "interest": "buying",
+   "preferredLocation": {
+    "state": "Lagos",
+    "region": "Island"
+   }
+  },
+  {
+   "id": "u_halima",
+   "name": "Halima Sani",
+   "email": "halima.sani@mail.example",
+   "phone": "+2348021234567",
+   "role": "client",
+   "clientKind": "renter",
+   "city": "Enugu",
+   "registeredAt": "2026-07-15 09:10",
+   "status": "active",
+   "passwordHash": "2718b1cc4053e6c65de52847ef2d6d188361decc36e221dac73423de5536d91b",
+   "interest": "renting",
+   "preferredLocation": {
+    "state": "Enugu"
+   },
+   "alerts": {
+    "enabled": true,
+    "here": true,
+    "listingType": "rent"
+   }
+  },
+  {
+   "id": "u_tobi",
+   "name": "Tobi Adeyemi",
+   "email": "tobi.adeyemi@mail.example",
+   "phone": "+2348021234568",
+   "role": "client",
+   "clientKind": "buyer",
+   "city": "Lagos",
+   "registeredAt": "2026-08-03 13:25",
+   "status": "active",
+   "passwordHash": "2718b1cc4053e6c65de52847ef2d6d188361decc36e221dac73423de5536d91b",
+   "interest": "buying",
+   "preferredLocation": {
+    "state": "Enugu"
+   },
+   "alerts": {
+    "enabled": true,
+    "here": true,
+    "listingType": "sale"
+   }
+  },
+  {
+   "id": "u_funmi",
+   "name": "Funmilayo Ojo",
+   "email": "funmilayo.ojo@mail.example",
+   "phone": "+2348021234569",
+   "role": "client",
+   "clientKind": "renter",
+   "city": "Enugu",
+   "registeredAt": "2026-08-27 19:00",
+   "status": "active",
+   "passwordHash": "2718b1cc4053e6c65de52847ef2d6d188361decc36e221dac73423de5536d91b",
+   "interest": "renting",
+   "preferredLocation": {
+    "state": "Enugu"
+   }
+  },
+  {
+   "id": "u_yusuf",
+   "name": "Yusuf Garba",
+   "email": "yusuf.garba@mail.example",
+   "phone": "+2348021234570",
+   "role": "client",
+   "clientKind": "buyer",
+   "city": "Kano",
+   "registeredAt": "2026-09-18 11:35",
+   "status": "deactivated",
+   "passwordHash": "2718b1cc4053e6c65de52847ef2d6d188361decc36e221dac73423de5536d91b",
+   "interest": "browsing",
+   "preferredLocation": {
+    "state": "Lagos"
+   }
+  }
+ ],
+ "properties": [
+  {
+   "ref": 1001,
+   "provider": "u_chinedu",
+   "title": "Contemporary 4-Bedroom Detached Duplex",
+   "category": "detached_duplex",
+   "listingType": "sale",
+   "price": 185000000,
+   "state": "Lagos",
+   "lga": "Eti-Osa",
+   "area": "Lekki Phase 1",
+   "address": "Off Admiralty Way, within a gated close near the Lekki Phase 1 roundabout.",
+   "beds": 4,
+   "baths": 5,
+   "toilets": 5,
+   "sqm": 520,
+   "parking": 4,
+   "furnishing": "unfurnished",
+   "description": "A newly completed four-bedroom detached duplex with a one-room boys’ quarters, set in a quiet gated close in Lekki Phase 1. The ground floor opens into a double-height living room, a separate family lounge and a fully fitted kitchen with a pantry and store. All bedrooms are ensuite, and the master suite has a walk-in closet and private balcony. The compound is interlocked with parking for four cars.",
+   "features": [
+    "Ensuite bedrooms",
+    "Boys’ quarters",
+    "Fitted kitchen",
+    "Walk-in closet",
+    "24-hour security",
+    "Gated estate",
+    "Standby generator",
+    "Borehole water",
+    "Interlocked compound"
+   ],
+   "status": "approved",
+   "availability": "available",
+   "featured": true,
+   "created": "2026-08-04 10:12",
+   "history": [
+    [
+     "2026-08-04 10:20",
+     "submitted",
+     null
+    ],
+    [
+     "2026-08-06 14:05",
+     "approved",
+     "adaeze"
+    ]
+   ]
+  },
+  {
+   "ref": 1002,
+   "provider": "u_femi",
+   "title": "Luxury 3-Bedroom Apartment",
+   "category": "apartment",
+   "listingType": "sale",
+   "price": 120000000,
+   "state": "Lagos",
+   "lga": "Eti-Osa",
+   "area": "Old Ikoyi",
+   "address": "Bourdillon Road axis, in a serviced residential block with 12 units.",
+   "beds": 3,
+   "baths": 4,
+   "toilets": 4,
+   "sqm": 210,
+   "parking": 2,
+   "furnishing": "semi_furnished",
+   "description": "A refined three-bedroom apartment on the fourth floor of a serviced block off Bourdillon Road. The apartment has generous floor-to-ceiling windows, a guest toilet, a fitted kitchen with laundry area and a maid’s room. Residents share a pool, gym and a 24-hour power arrangement managed by the facility team.",
+   "features": [
+    "Swimming pool",
+    "Gym",
+    "Elevator",
+    "Fitted kitchen",
+    "24-hour security",
+    "Standby generator",
+    "Treated water",
+    "CCTV"
+   ],
+   "status": "approved",
+   "availability": "available",
+   "featured": true,
+   "created": "2026-08-10 09:00",
+   "history": [
+    [
+     "2026-08-10 09:15",
+     "submitted",
+     null
+    ],
+    [
+     "2026-08-12 11:30",
+     "approved",
+     "tunde"
+    ]
+   ]
+  },
+  {
+   "ref": 1003,
+   "provider": "u_victoria",
+   "title": "Modern 2-Bedroom Apartment",
+   "category": "apartment",
+   "listingType": "rent",
+   "price": 4500000,
+   "state": "Lagos",
+   "lga": "Lagos Mainland",
+   "area": "Alagomeji",
+   "address": "Off Herbert Macaulay Way, a short walk from the Yaba tech corridor.",
+   "serviceCharge": 350000,
+   "cautionDeposit": 450000,
+   "beds": 2,
+   "baths": 2,
+   "toilets": 3,
+   "sqm": 105,
+   "parking": 1,
+   "furnishing": "unfurnished",
+   "description": "A bright two-bedroom apartment in a compact, well-maintained building in Alagomeji, Yaba. Both rooms are ensuite with fitted wardrobes, and the open-plan kitchen and living area receives good natural light. Convenient for Yaba, Ebute Metta and the Third Mainland Bridge.",
+   "features": [
+    "Ensuite bedrooms",
+    "Fitted kitchen",
+    "Solar inverter",
+    "Borehole water",
+    "Fibre internet",
+    "CCTV"
+   ],
+   "status": "approved",
+   "availability": "under_offer",
+   "created": "2026-08-18 15:30",
+   "history": [
+    [
+     "2026-08-18 15:40",
+     "submitted",
+     null
+    ],
+    [
+     "2026-08-20 10:00",
+     "approved",
+     "nneka"
+    ]
+   ]
+  },
+  {
+   "ref": 1004,
+   "provider": "u_ibrahim",
+   "title": "5-Bedroom Executive Duplex",
+   "category": "detached_duplex",
+   "listingType": "sale",
+   "price": 180000000,
+   "state": "Enugu",
+   "lga": "Enugu North",
+   "area": "GRA",
+   "address": "Quiet close within Enugu GRA, on a 1,200 sqm plot.",
+   "beds": 5,
+   "baths": 6,
+   "toilets": 7,
+   "sqm": 780,
+   "parking": 6,
+   "furnishing": "unfurnished",
+   "description": "An executive five-bedroom detached duplex on a generous plot in a quiet close within Enugu GRA. The home has formal and family living rooms, a study, a cinema room, a two-room boys’ quarters and a landscaped garden with space for a pool. Finishes include imported tiles, a hardwood staircase and a fitted kitchen with island.",
+   "features": [
+    "Ensuite bedrooms",
+    "Boys’ quarters",
+    "Fitted kitchen",
+    "Garden",
+    "Smart home",
+    "CCTV",
+    "Standby generator",
+    "Ample parking"
+   ],
+   "status": "pending_review",
+   "availability": "available",
+   "created": "2026-11-03 13:10",
+   "history": [
+    [
+     "2026-11-04 09:30",
+     "submitted",
+     null
+    ]
+   ]
+  },
+  {
+   "ref": 1005,
+   "provider": "u_chinedu",
+   "title": "Residential Land, 600 sqm",
+   "category": "land",
+   "listingType": "sale",
+   "price": 38000000,
+   "state": "Lagos",
+   "lga": "Ibeju-Lekki",
+   "area": "Eleko",
+   "address": "Eleko junction axis, Lekki–Epe Expressway.",
+   "sqm": 600,
+   "description": "A dry 600 sqm residential plot within a developing estate at Eleko, Ibeju-Lekki. The estate has a perimeter fence, a gatehouse and graded internal roads. Suitable for a detached home or a pair of semi-detached units.",
+   "features": [
+    "Dry land",
+    "Perimeter fencing",
+    "Gated estate",
+    "Good road network"
+   ],
+   "status": "changes_requested",
+   "availability": "available",
+   "created": "2026-10-21 11:00",
+   "history": [
+    [
+     "2026-10-21 11:20",
+     "submitted",
+     null
+    ],
+    [
+     "2026-10-23 16:45",
+     "changes_requested",
+     "adaeze",
+     "Please review the property’s location description and provide clearer photographs. Indicate the distance from the Eleko junction and the estate name."
+    ]
+   ],
+   "feedback": "Please review the property’s location description and provide clearer photographs. Indicate the distance from the Eleko junction and the estate name."
+  },
+  {
+   "ref": 1006,
+   "provider": "u_femi",
+   "title": "3-Bedroom Terrace",
+   "category": "terrace",
+   "listingType": "sale",
+   "price": 72000000,
+   "state": "Lagos",
+   "lga": "Eti-Osa",
+   "area": "Badore",
+   "address": "Badore Road, Ajah.",
+   "beds": 3,
+   "baths": 3,
+   "toilets": 4,
+   "sqm": 190,
+   "parking": 1,
+   "description": "A three-bedroom terrace house in a row of six units on Badore Road. Each unit has a living room, kitchen and three ensuite bedrooms over two floors.",
+   "features": [
+    "Ensuite bedrooms",
+    "Fitted kitchen",
+    "Gated estate"
+   ],
+   "status": "rejected",
+   "availability": "available",
+   "created": "2026-09-29 10:00",
+   "history": [
+    [
+     "2026-09-29 10:05",
+     "submitted",
+     null
+    ],
+    [
+     "2026-10-02 12:20",
+     "rejected",
+     "tunde",
+     "The submitted photographs show a different development to the one described, and the provider was unable to confirm the seller’s authority to market the property."
+    ]
+   ],
+   "feedback": "The submitted photographs show a different development to the one described, and the provider was unable to confirm the seller’s authority to market the property."
+  },
+  {
+   "ref": 1007,
+   "provider": "u_victoria",
+   "title": "2-Bedroom Flat",
+   "category": "apartment",
+   "listingType": "rent",
+   "price": 3200000,
+   "state": "Lagos",
+   "lga": "Kosofe",
+   "area": "Gbagada Phase 1",
+   "address": "Off Diya Street, Gbagada Phase 1.",
+   "serviceCharge": 250000,
+   "cautionDeposit": 500000,
+   "beds": 2,
+   "baths": 2,
+   "toilets": 3,
+   "sqm": 95,
+   "parking": 1,
+   "furnishing": "unfurnished",
+   "description": "A well-kept two-bedroom flat in a block of four in Gbagada Phase 1, with a spacious living room, a guest toilet and a tiled compound.",
+   "features": [
+    "Ensuite bedrooms",
+    "Borehole water",
+    "Interlocked compound",
+    "Standby generator"
+   ],
+   "status": "approved",
+   "availability": "unavailable",
+   "created": "2026-08-02 09:00",
+   "history": [
+    [
+     "2026-08-02 09:10",
+     "submitted",
+     null
+    ],
+    [
+     "2026-08-03 15:00",
+     "approved",
+     "adaeze"
+    ]
+   ]
+  },
+  {
+   "ref": 1008,
+   "provider": "u_victoria",
+   "title": "4-Bedroom Semi-Detached Duplex",
+   "category": "semi_detached_duplex",
+   "listingType": "sale",
+   "price": 145000000,
+   "state": "Lagos",
+   "lga": "Kosofe",
+   "area": "Magodo Phase 2",
+   "address": "Shangisha, Magodo Phase 2 (draft — to be confirmed).",
+   "beds": 4,
+   "baths": 4,
+   "toilets": 5,
+   "sqm": 330,
+   "parking": 3,
+   "description": "Four-bedroom semi-detached duplex with BQ in Magodo Phase 2. Description in progress.",
+   "features": [
+    "Boys’ quarters",
+    "Gated estate"
+   ],
+   "status": "draft",
+   "availability": "available",
+   "created": "2026-11-02 19:30",
+   "history": []
+  },
+  {
+   "ref": 1009,
+   "provider": "u_femi",
+   "title": "5-Bedroom Detached Duplex with BQ",
+   "category": "detached_duplex",
+   "listingType": "sale",
+   "price": 210000000,
+   "state": "Lagos",
+   "lga": "Kosofe",
+   "area": "Magodo GRA Phase 2",
+   "address": "CMD Road end of Magodo GRA Phase 2, Shangisha.",
+   "beds": 5,
+   "baths": 6,
+   "toilets": 6,
+   "sqm": 600,
+   "parking": 5,
+   "furnishing": "unfurnished",
+   "description": "A spacious five-bedroom detached duplex in the secure Magodo GRA Phase 2 estate. The home includes a family lounge upstairs, a study, a two-room boys’ quarters and a large paved forecourt. The estate has controlled access and good internal roads.",
+   "features": [
+    "Ensuite bedrooms",
+    "Boys’ quarters",
+    "Gated estate",
+    "24-hour security",
+    "Fitted kitchen",
+    "Ample parking",
+    "Borehole water"
+   ],
+   "status": "approved",
+   "availability": "available",
+   "created": "2026-08-14 12:00",
+   "history": [
+    [
+     "2026-08-14 12:05",
+     "submitted",
+     null
+    ],
+    [
+     "2026-08-15 10:45",
+     "approved",
+     "tunde"
+    ]
+   ]
+  },
+  {
+   "ref": 1010,
+   "provider": "u_femi",
+   "title": "Serviced 3-Bedroom Apartment",
+   "category": "apartment",
+   "listingType": "rent",
+   "price": 15000000,
+   "state": "Lagos",
+   "lga": "Eti-Osa",
+   "area": "Oniru",
+   "address": "Oniru Estate, off Ligali Ayorinde Street.",
+   "serviceCharge": 3500000,
+   "cautionDeposit": 1500000,
+   "beds": 3,
+   "baths": 3,
+   "toilets": 4,
+   "sqm": 180,
+   "parking": 2,
+   "furnishing": "furnished",
+   "description": "A fully serviced and furnished three-bedroom apartment in Oniru, Victoria Island, ideal for executives. Service charge covers power, water, cleaning of common areas, and security. Includes a rooftop lounge and gym.",
+   "features": [
+    "Gym",
+    "Elevator",
+    "Swimming pool",
+    "24-hour security",
+    "Standby generator",
+    "Fibre internet",
+    "Serviced estate"
+   ],
+   "status": "approved",
+   "availability": "available",
+   "featured": true,
+   "created": "2026-09-01 10:00",
+   "history": [
+    [
+     "2026-09-01 10:10",
+     "submitted",
+     null
+    ],
+    [
+     "2026-09-02 09:20",
+     "approved",
+     "adaeze"
+    ]
+   ]
+  },
+  {
+   "ref": 1011,
+   "provider": "u_chinedu",
+   "title": "4-Bedroom Terrace Duplex",
+   "category": "terrace",
+   "listingType": "sale",
+   "price": 135000000,
+   "state": "Lagos",
+   "lga": "Eti-Osa",
+   "area": "Ikate",
+   "address": "Ikate Elegushi, off the Lekki–Epe Expressway.",
+   "beds": 4,
+   "baths": 4,
+   "toilets": 5,
+   "sqm": 290,
+   "parking": 2,
+   "furnishing": "unfurnished",
+   "description": "A four-bedroom terrace duplex in a new development of eight units at Ikate. Each unit has a rooftop terrace, a fitted kitchen and a room for domestic staff. Delivered with solar backup and treated water.",
+   "features": [
+    "Ensuite bedrooms",
+    "Fitted kitchen",
+    "Solar inverter",
+    "Treated water",
+    "Gated estate",
+    "CCTV"
+   ],
+   "status": "approved",
+   "availability": "available",
+   "created": "2026-08-25 14:00",
+   "history": [
+    [
+     "2026-08-25 14:10",
+     "submitted",
+     null
+    ],
+    [
+     "2026-08-27 11:00",
+     "approved",
+     "nneka"
+    ]
+   ]
+  },
+  {
+   "ref": 1012,
+   "provider": "u_victoria",
+   "title": "3-Bedroom Bungalow",
+   "category": "bungalow",
+   "listingType": "sale",
+   "price": 95000000,
+   "state": "Lagos",
+   "lga": "Ikeja",
+   "area": "Ikeja GRA",
+   "address": "Off Isaac John Street, Ikeja GRA.",
+   "beds": 3,
+   "baths": 3,
+   "toilets": 4,
+   "sqm": 260,
+   "parking": 3,
+   "description": "A charming three-bedroom bungalow on a mature plot in Ikeja GRA, with a garden, a covered car port and a one-room boys’ quarters. A good option for buyers who want single-level living close to the airport.",
+   "features": [
+    "Garden",
+    "Boys’ quarters",
+    "Ample parking",
+    "Borehole water"
+   ],
+   "status": "approved",
+   "availability": "under_offer",
+   "created": "2026-08-08 10:00",
+   "history": [
+    [
+     "2026-08-08 10:10",
+     "submitted",
+     null
+    ],
+    [
+     "2026-08-10 13:15",
+     "approved",
+     "tunde"
+    ]
+   ]
+  },
+  {
+   "ref": 1013,
+   "provider": "u_victoria",
+   "title": "1-Bedroom Mini Flat",
+   "category": "apartment",
+   "listingType": "rent",
+   "price": 1800000,
+   "state": "Lagos",
+   "lga": "Lagos Mainland",
+   "area": "Sabo",
+   "address": "Off Commercial Avenue, Sabo, Yaba.",
+   "cautionDeposit": 180000,
+   "beds": 1,
+   "baths": 1,
+   "toilets": 1,
+   "sqm": 48,
+   "parking": 1,
+   "description": "A neat one-bedroom mini flat in Sabo, Yaba, with a fitted kitchenette and prepaid meter. Close to the university and the Yaba bus terminal.",
+   "features": [
+    "Fitted kitchen",
+    "Borehole water",
+    "Fibre internet"
+   ],
+   "status": "approved",
+   "availability": "available",
+   "created": "2026-09-04 08:30",
+   "history": [
+    [
+     "2026-09-04 08:35",
+     "submitted",
+     null
+    ],
+    [
+     "2026-09-05 10:00",
+     "approved",
+     "nneka"
+    ]
+   ]
+  },
+  {
+   "ref": 1014,
+   "provider": "u_femi",
+   "title": "4-Bedroom Semi-Detached Duplex",
+   "category": "semi_detached_duplex",
+   "listingType": "sale",
+   "price": 115000000,
+   "state": "Lagos",
+   "lga": "Kosofe",
+   "area": "Gbagada Phase 2",
+   "address": "Off Olabode George Street, Gbagada Phase 2.",
+   "beds": 4,
+   "baths": 4,
+   "toilets": 5,
+   "sqm": 310,
+   "parking": 2,
+   "description": "A semi-detached four-bedroom duplex in Gbagada Phase 2 with a boys’ quarters, a spacious living and dining area and a quiet, well-lit street. Easy access to the Third Mainland Bridge and Ikorodu Road.",
+   "features": [
+    "Boys’ quarters",
+    "Ensuite bedrooms",
+    "Fitted kitchen",
+    "Standby generator",
+    "Interlocked compound"
+   ],
+   "status": "approved",
+   "availability": "under_offer",
+   "created": "2026-09-07 10:00",
+   "history": [
+    [
+     "2026-09-07 10:05",
+     "submitted",
+     null
+    ],
+    [
+     "2026-09-08 15:30",
+     "approved",
+     "adaeze"
+    ]
+   ]
+  },
+  {
+   "ref": 1015,
+   "provider": "u_amina",
+   "title": "3-Bedroom Apartment",
+   "category": "apartment",
+   "listingType": "rent",
+   "price": 3500000,
+   "state": "Enugu",
+   "lga": "Enugu North",
+   "area": "Independence Layout",
+   "address": "Independence Layout, close to the Enugu–Abakaliki Road junction.",
+   "serviceCharge": 300000,
+   "cautionDeposit": 350000,
+   "beds": 3,
+   "baths": 3,
+   "toilets": 4,
+   "sqm": 160,
+   "parking": 2,
+   "furnishing": "semi_furnished",
+   "description": "A spacious three-bedroom apartment in a secure, managed building in Independence Layout. Includes fitted wardrobes, air conditioning in all rooms and dedicated parking.",
+   "features": [
+    "Ensuite bedrooms",
+    "24-hour security",
+    "Standby generator",
+    "Treated water",
+    "Elevator"
+   ],
+   "status": "approved",
+   "availability": "available",
+   "created": "2026-09-10 11:00",
+   "history": [
+    [
+     "2026-09-10 11:10",
+     "submitted",
+     null
+    ],
+    [
+     "2026-09-11 09:50",
+     "approved",
+     "nneka"
+    ]
+   ]
+  },
+  {
+   "ref": 1016,
+   "provider": "u_ibrahim",
+   "title": "4-Bedroom Detached Duplex",
+   "category": "detached_duplex",
+   "listingType": "sale",
+   "price": 120000000,
+   "state": "Enugu",
+   "lga": "Enugu North",
+   "area": "Independence Layout",
+   "address": "Independence Layout, on a paved residential street.",
+   "beds": 4,
+   "baths": 5,
+   "toilets": 5,
+   "sqm": 450,
+   "parking": 4,
+   "description": "A modern four-bedroom detached duplex in Independence Layout, completed in 2026. Features a contemporary façade, a family lounge, a fitted kitchen and a boys’ quarters, with quick access to the city centre.",
+   "features": [
+    "Ensuite bedrooms",
+    "Boys’ quarters",
+    "Fitted kitchen",
+    "Smart home",
+    "CCTV",
+    "Solar inverter"
+   ],
+   "status": "approved",
+   "availability": "available",
+   "featured": true,
+   "created": "2026-09-15 10:00",
+   "history": [
+    [
+     "2026-09-15 10:20",
+     "submitted",
+     null
+    ],
+    [
+     "2026-09-17 12:00",
+     "approved",
+     "nneka"
+    ]
+   ]
+  },
+  {
+   "ref": 1017,
+   "provider": "u_amina",
+   "title": "Residential Plot, 1,000 sqm",
+   "category": "land",
+   "listingType": "sale",
+   "price": 28000000,
+   "state": "Enugu",
+   "lga": "Enugu South",
+   "area": "Achara Layout",
+   "address": "Achara Layout, off a tarred access road.",
+   "sqm": 1000,
+   "description": "A 1,000 sqm residential plot in an established part of Achara Layout. The area has tarred access roads and electricity connections nearby.",
+   "features": [
+    "Dry land",
+    "Good road network"
+   ],
+   "status": "approved",
+   "availability": "available",
+   "created": "2026-09-20 10:00",
+   "history": [
+    [
+     "2026-09-20 10:15",
+     "submitted",
+     null
+    ],
+    [
+     "2026-09-22 11:40",
+     "approved",
+     "tunde"
+    ]
+   ]
+  },
+  {
+   "ref": 1018,
+   "provider": "u_femi",
+   "title": "Grade A Office Floor, 420 sqm",
+   "category": "commercial",
+   "listingType": "rent",
+   "price": 45000000,
+   "state": "Lagos",
+   "lga": "Eti-Osa",
+   "area": "Victoria Island",
+   "address": "Adeola Odeku Street, Victoria Island.",
+   "serviceCharge": 9000000,
+   "baths": 4,
+   "toilets": 6,
+   "sqm": 420,
+   "parking": 10,
+   "description": "An open-plan office floor in a Grade A building on Adeola Odeku Street, with raised floors, central air conditioning, a reception area and dedicated parking. Suitable for a professional services firm or regional headquarters.",
+   "features": [
+    "Elevator",
+    "Standby generator",
+    "Ample parking",
+    "24-hour security",
+    "Fibre internet",
+    "CCTV"
+   ],
+   "status": "approved",
+   "availability": "available",
+   "created": "2026-09-24 10:00",
+   "history": [
+    [
+     "2026-09-24 10:05",
+     "submitted",
+     null
+    ],
+    [
+     "2026-09-25 14:15",
+     "approved",
+     "adaeze"
+    ]
+   ]
+  },
+  {
+   "ref": 1019,
+   "provider": "u_ngozi",
+   "title": "4-Bedroom Detached Duplex",
+   "category": "detached_duplex",
+   "listingType": "sale",
+   "price": 85000000,
+   "state": "Enugu",
+   "lga": "Enugu North",
+   "area": "New Haven",
+   "address": "New Haven, Enugu, within a fenced residential street.",
+   "beds": 4,
+   "baths": 5,
+   "toilets": 5,
+   "sqm": 480,
+   "parking": 4,
+   "description": "A family home in New Haven with a spacious compound, a two-room boys’ quarters and a large living room. Recently renovated with new roofing and a borehole.",
+   "features": [
+    "Boys’ quarters",
+    "Garden",
+    "Borehole water",
+    "Ample parking",
+    "Perimeter fencing"
+   ],
+   "status": "approved",
+   "availability": "available",
+   "created": "2026-09-26 10:00",
+   "history": [
+    [
+     "2026-09-26 10:10",
+     "submitted",
+     null
+    ],
+    [
+     "2026-09-28 10:30",
+     "approved",
+     "tunde"
+    ]
+   ]
+  },
+  {
+   "ref": 1020,
+   "provider": "u_ngozi",
+   "title": "3-Bedroom Apartment",
+   "category": "apartment",
+   "listingType": "rent",
+   "price": 1800000,
+   "state": "Enugu",
+   "lga": "Enugu South",
+   "area": "Uwani",
+   "address": "Uwani, Enugu, close to the main market road.",
+   "serviceCharge": 120000,
+   "cautionDeposit": 200000,
+   "beds": 3,
+   "baths": 3,
+   "toilets": 4,
+   "sqm": 140,
+   "parking": 2,
+   "description": "A three-bedroom apartment in Uwani with a guest toilet, a fitted kitchen and a shared generator. Located close to schools and the city centre.",
+   "features": [
+    "Fitted kitchen",
+    "Standby generator",
+    "24-hour security",
+    "Treated water"
+   ],
+   "status": "approved",
+   "availability": "available",
+   "created": "2026-10-01 10:00",
+   "history": [
+    [
+     "2026-10-01 10:05",
+     "submitted",
+     null
+    ],
+    [
+     "2026-10-02 16:00",
+     "approved",
+     "nneka"
+    ]
+   ]
+  },
+  {
+   "ref": 1021,
+   "provider": "u_segun",
+   "title": "4-Bedroom Bungalow",
+   "category": "bungalow",
+   "listingType": "sale",
+   "price": 48000000,
+   "state": "Enugu",
+   "lga": "Enugu East",
+   "area": "Trans-Ekulu",
+   "address": "Trans-Ekulu, Enugu, on a fenced corner plot.",
+   "beds": 4,
+   "baths": 3,
+   "toilets": 4,
+   "sqm": 300,
+   "parking": 3,
+   "description": "A well-built four-bedroom bungalow in Trans-Ekulu on a fenced plot with fruit trees and a covered parking area.",
+   "features": [
+    "Garden",
+    "Perimeter fencing",
+    "Borehole water",
+    "Ample parking"
+   ],
+   "status": "approved",
+   "availability": "unavailable",
+   "created": "2026-08-12 10:00",
+   "history": [
+    [
+     "2026-08-12 10:10",
+     "submitted",
+     null
+    ],
+    [
+     "2026-08-13 12:00",
+     "approved",
+     "adaeze"
+    ]
+   ]
+  },
+  {
+   "ref": 1022,
+   "provider": "u_segun",
+   "title": "3-Bedroom Flat",
+   "category": "apartment",
+   "listingType": "rent",
+   "price": 1200000,
+   "state": "Enugu",
+   "lga": "Enugu East",
+   "area": "Abakpa Nike",
+   "address": "Abakpa Nike, Enugu.",
+   "cautionDeposit": 150000,
+   "beds": 3,
+   "baths": 2,
+   "toilets": 3,
+   "sqm": 120,
+   "parking": 2,
+   "description": "A three-bedroom flat in a quiet compound in Abakpa Nike with spacious rooms, a large kitchen and steady water supply.",
+   "features": [
+    "Borehole water",
+    "Perimeter fencing",
+    "Ample parking"
+   ],
+   "status": "approved",
+   "availability": "available",
+   "created": "2026-10-14 10:00",
+   "history": [
+    [
+     "2026-10-14 10:05",
+     "submitted",
+     null
+    ],
+    [
+     "2026-10-15 11:30",
+     "approved",
+     "tunde"
+    ]
+   ]
+  },
+  {
+   "ref": 1023,
+   "provider": "u_segun",
+   "title": "Commercial Retail Plaza",
+   "category": "commercial",
+   "listingType": "sale",
+   "price": 220000000,
+   "state": "Enugu",
+   "lga": "Enugu North",
+   "area": "Ogui",
+   "address": "Ogui Road, Enugu, on a busy commercial stretch.",
+   "toilets": 8,
+   "sqm": 1400,
+   "parking": 24,
+   "description": "A two-storey retail plaza with 14 shop units, a banking hall and on-site parking along the busy Ogui Road corridor. Currently 80% let.",
+   "features": [
+    "Ample parking",
+    "Standby generator",
+    "Perimeter fencing",
+    "CCTV"
+   ],
+   "status": "pending_review",
+   "availability": "available",
+   "created": "2026-11-05 09:00",
+   "history": [
+    [
+     "2026-11-05 09:20",
+     "submitted",
+     null
+    ]
+   ]
+  },
+  {
+   "ref": 1024,
+   "provider": "u_chinedu",
+   "title": "3-Bedroom Semi-Detached Duplex",
+   "category": "semi_detached_duplex",
+   "listingType": "sale",
+   "price": 68000000,
+   "state": "Lagos",
+   "lga": "Eti-Osa",
+   "area": "Sangotedo",
+   "address": "Abraham Adesanya Estate road, Sangotedo, Ajah.",
+   "beds": 3,
+   "baths": 3,
+   "toilets": 4,
+   "sqm": 220,
+   "parking": 2,
+   "description": "A three-bedroom semi-detached duplex in a serviced estate in Sangotedo. Delivered with a fitted kitchen, POP ceilings and an interlocked forecourt.",
+   "features": [
+    "Fitted kitchen",
+    "Gated estate",
+    "Serviced estate",
+    "Interlocked compound",
+    "24-hour security"
+   ],
+   "status": "approved",
+   "availability": "available",
+   "created": "2026-09-30 10:00",
+   "history": [
+    [
+     "2026-09-30 10:10",
+     "submitted",
+     null
+    ],
+    [
+     "2026-10-01 15:20",
+     "approved",
+     "nneka"
+    ]
+   ]
+  },
+  {
+   "ref": 1025,
+   "provider": "u_femi",
+   "title": "2-Bedroom Apartment",
+   "category": "apartment",
+   "listingType": "rent",
+   "price": 7500000,
+   "state": "Lagos",
+   "lga": "Eti-Osa",
+   "area": "Lekki Phase 1",
+   "address": "Off Freedom Way, Lekki Phase 1.",
+   "serviceCharge": 900000,
+   "cautionDeposit": 750000,
+   "beds": 2,
+   "baths": 2,
+   "toilets": 3,
+   "sqm": 120,
+   "parking": 1,
+   "furnishing": "semi_furnished",
+   "description": "A two-bedroom apartment off Freedom Way in a building with an elevator, gym and 24-hour power support. Both rooms are ensuite.",
+   "features": [
+    "Elevator",
+    "Gym",
+    "Ensuite bedrooms",
+    "Standby generator"
+   ],
+   "status": "pending_review",
+   "availability": "available",
+   "created": "2026-11-06 11:00",
+   "history": [
+    [
+     "2026-11-06 11:10",
+     "submitted",
+     null
+    ]
+   ]
+  },
+  {
+   "ref": 1026,
+   "provider": "u_femi",
+   "title": "4-Bedroom Penthouse Apartment",
+   "category": "apartment",
+   "listingType": "sale",
+   "price": 650000000,
+   "state": "Lagos",
+   "lga": "Eti-Osa",
+   "area": "Banana Island",
+   "address": "Banana Island, Ikoyi.",
+   "beds": 4,
+   "baths": 5,
+   "toilets": 5,
+   "sqm": 450,
+   "parking": 3,
+   "furnishing": "furnished",
+   "description": "A furnished four-bedroom penthouse with lagoon views, a private terrace and a plunge pool.",
+   "features": [
+    "Swimming pool",
+    "Elevator",
+    "Smart home",
+    "Balcony",
+    "24-hour security"
+   ],
+   "status": "unavailable",
+   "availability": "available",
+   "created": "2026-08-20 10:00",
+   "history": [
+    [
+     "2026-08-20 10:05",
+     "submitted",
+     null
+    ],
+    [
+     "2026-08-22 12:00",
+     "approved",
+     "tunde"
+    ],
+    [
+     "2026-10-12 10:30",
+     "marked_unavailable",
+     "tunde",
+     "Withdrawn from public view at the owner’s request while ownership arrangements are confirmed offline."
+    ]
+   ]
+  }
+ ],
+ "cases": [
+  {
+   "id": "c_2001",
+   "eq": 4001,
+   "cs": 2001,
+   "property": "p_1001",
+   "client": "u_daniel",
+   "provider": "u_chinedu",
+   "lawyer": "u_adaeze",
+   "status": "in_progress",
+   "purpose": "purchase",
+   "contact": "phone",
+   "message": "I am interested in purchasing this property for my family. I would like to arrange an inspection and understand the title position before making an offer.",
+   "submitted": "2026-11-03 09:12",
+   "opened": "2026-11-04 10:05",
+   "timeline": [
+    [
+     "2026-11-03 09:12",
+     "u_daniel",
+     "Enquiry submitted by client.",
+     "participants",
+     "Enquiry submitted."
+    ],
+    [
+     "2026-11-03 09:40",
+     "u_adaeze",
+     "Enquiry received by the legal team.",
+     "participants"
+    ],
+    [
+     "2026-11-04 10:05",
+     "u_adaeze",
+     "Adaeze Okonkwo assigned to the case.",
+     "participants",
+     "Adaeze Okonkwo is handling this matter."
+    ],
+    [
+     "2026-11-04 10:05",
+     "u_adaeze",
+     "Transaction case ELV-CS-2001 opened.",
+     "participants"
+    ],
+    [
+     "2026-11-04 15:30",
+     "u_adaeze",
+     "Initial case review completed.",
+     "participants",
+     "Initial review of your enquiry completed."
+    ],
+    [
+     "2026-11-04 15:32",
+     "u_adaeze",
+     "Internal note added by Adaeze Okonkwo.",
+     "internal"
+    ],
+    [
+     "2026-11-05 11:20",
+     "u_adaeze",
+     "Update sent to the property provider by Adaeze Okonkwo.",
+     "internal"
+    ],
+    [
+     "2026-11-05 11:21",
+     "u_adaeze",
+     "Property provider contacted through the legal team.",
+     "participants",
+     "The property provider has been contacted by the legal team."
+    ],
+    [
+     "2026-11-05 16:48",
+     "u_chinedu",
+     "Message received from the property provider.",
+     "internal"
+    ],
+    [
+     "2026-11-06 09:15",
+     "u_adaeze",
+     "Status changed from Lawyer Assigned to In Progress.",
+     "participants",
+     "In progress. Inspection being arranged."
+    ],
+    [
+     "2026-11-06 09:18",
+     "u_adaeze",
+     "Update sent to the client by Adaeze Okonkwo.",
+     "internal"
+    ],
+    [
+     "2026-11-06 12:30",
+     "u_adaeze",
+     "Payment request ELV-PY-3011 for ₦18,500,000 raised by Adaeze Okonkwo: 10% commitment deposit.",
+     "participants",
+     "Payment of ₦18,500,000 requested: 10% commitment deposit."
+    ],
+    [
+     "2026-11-06 13:02",
+     "u_daniel",
+     "Payment attempt on ELV-PY-3011 failed.",
+     "participants",
+     "A payment attempt was unsuccessful. You can try again."
+    ],
+    [
+     "2026-11-06 13:10",
+     "u_daniel",
+     "Payment ELV-PY-3011 of ₦18,500,000 received (card).",
+     "participants",
+     "Payment of ₦18,500,000 received. Thank you."
+    ],
+    [
+     "2026-11-06 14:00",
+     "u_adaeze",
+     "Status changed from Payment Pending to In Progress. Deposit received; inspection scheduled.",
+     "participants",
+     "In progress. Deposit received; inspection scheduled."
+    ]
+   ],
+   "messages": [
+    [
+     "2026-11-03 09:12",
+     "client",
+     "u_daniel",
+     "I am interested in purchasing this property for my family. I would like to arrange an inspection and understand the title position before making an offer."
+    ],
+    [
+     "2026-11-04 15:32",
+     "internal",
+     "u_adaeze",
+     "Developer is Crestfield Homes. Title said to be a registered Certificate of Occupancy; to be sighted physically at their office. Do not share developer contacts until inspection date is fixed."
+    ],
+    [
+     "2026-11-05 11:20",
+     "provider",
+     "u_adaeze",
+     "Good morning Mr Nwosu. We have a qualified buyer for ELV-PR-1001. Kindly confirm inspection availability this week and whether the original title can be sighted at your office."
+    ],
+    [
+     "2026-11-05 16:48",
+     "provider",
+     "u_chinedu",
+     "Thank you. Inspection is possible on Saturday 8 Nov from 11am. The original C of O can be viewed at our Lekki office by appointment."
+    ],
+    [
+     "2026-11-06 09:18",
+     "client",
+     "u_adaeze",
+     "Dear Daniel, the developer has confirmed an inspection on Saturday 8 November from 11am. I will attend with you and arrange for the title to be sighted afterwards."
+    ],
+    [
+     "2026-11-06 10:02",
+     "client",
+     "u_daniel",
+     "Thank you, Saturday works for me. I will come with my wife."
+    ],
+    [
+     "2026-11-06 10:20",
+     "client",
+     "u_adaeze",
+     "Noted. I will meet you at the property gate at 10:50am on Saturday."
+    ],
+    [
+     "2026-11-06 10:25",
+     "provider",
+     "u_adaeze",
+     "Thank you. Inspection confirmed for Saturday 8 November at 11am. The buyer will attend with me."
+    ],
+    [
+     "2026-11-06 14:05",
+     "internal",
+     "u_adaeze",
+     "Commitment deposit cleared. Prepare offer letter draft after inspection."
+    ]
+   ]
+  },
+  {
+   "id": "c_2002",
+   "eq": 4002,
+   "property": "p_1002",
+   "client": "u_samuel",
+   "provider": "u_femi",
+   "lawyer": "u_tunde",
+   "status": "under_review",
+   "purpose": "more_information",
+   "contact": "email",
+   "message": "Could you confirm the service charge for this apartment, and whether the asking price is negotiable? I am also keen to know the age of the building.",
+   "submitted": "2026-11-05 14:22",
+   "timeline": [
+    [
+     "2026-11-05 14:22",
+     "u_samuel",
+     "Enquiry submitted by client.",
+     "participants",
+     "Enquiry submitted."
+    ],
+    [
+     "2026-11-05 14:40",
+     "u_tunde",
+     "Enquiry received by the legal team.",
+     "participants"
+    ],
+    [
+     "2026-11-05 14:45",
+     "u_tunde",
+     "Status changed from New Enquiry to Under Review. Gathering information from the agent.",
+     "participants",
+     "Under review. Gathering information from the agent."
+    ],
+    [
+     "2026-11-05 17:10",
+     "u_tunde",
+     "Tunde Adebayo assigned to the case.",
+     "participants",
+     "Tunde Adebayo is handling this matter."
+    ]
+   ],
+   "messages": [
+    [
+     "2026-11-05 14:22",
+     "client",
+     "u_samuel",
+     "Could you confirm the service charge for this apartment, and whether the asking price is negotiable? I am also keen to know the age of the building."
+    ]
+   ]
+  },
+  {
+   "id": "c_2003",
+   "eq": 4003,
+   "cs": 2003,
+   "property": "p_1003",
+   "client": "u_grace",
+   "provider": "u_victoria",
+   "lawyer": "u_nneka",
+   "status": "payment_pending",
+   "purpose": "rent",
+   "contact": "platform",
+   "message": "I would like to rent this apartment from December. I work in Yaba and the location suits me. Please let me know the next steps.",
+   "submitted": "2026-10-20 08:30",
+   "opened": "2026-10-20 12:10",
+   "timeline": [
+    [
+     "2026-10-20 08:30",
+     "u_grace",
+     "Enquiry submitted by client.",
+     "participants",
+     "Enquiry submitted."
+    ],
+    [
+     "2026-10-20 09:05",
+     "u_nneka",
+     "Enquiry received by the legal team.",
+     "participants"
+    ],
+    [
+     "2026-10-20 12:10",
+     "u_nneka",
+     "Nneka Eze assigned to the case.",
+     "participants",
+     "Nneka Eze is handling this matter."
+    ],
+    [
+     "2026-10-20 12:10",
+     "u_nneka",
+     "Transaction case ELV-CS-2003 opened.",
+     "participants"
+    ],
+    [
+     "2026-10-22 10:00",
+     "u_nneka",
+     "Status changed from Lawyer Assigned to In Progress.",
+     "participants",
+     "In progress."
+    ],
+    [
+     "2026-10-25 11:00",
+     "u_nneka",
+     "Status changed from In Progress to Negotiation / Inspection. Inspection held on 25 October.",
+     "participants",
+     "Negotiation / inspection. Inspection held on 25 October."
+    ],
+    [
+     "2026-10-29 15:30",
+     "u_nneka",
+     "Tenancy terms agreed with the landlord; tenancy agreement being prepared.",
+     "participants"
+    ],
+    [
+     "2026-11-04 10:20",
+     "u_nneka",
+     "Payment request ELV-PY-3009 for ₦4,500,000 raised by Nneka Eze: First year’s rent.",
+     "participants",
+     "Payment of ₦4,500,000 requested: First year’s rent."
+    ],
+    [
+     "2026-11-04 10:22",
+     "u_nneka",
+     "Payment request ELV-PY-3010 for ₦450,000 raised by Nneka Eze: Refundable caution deposit.",
+     "participants",
+     "Payment of ₦450,000 requested: Refundable caution deposit."
+    ],
+    [
+     "2026-11-04 10:25",
+     "u_nneka",
+     "Update sent to the client by Nneka Eze.",
+     "internal"
+    ]
+   ],
+   "messages": [
+    [
+     "2026-10-20 08:30",
+     "client",
+     "u_grace",
+     "I would like to rent this apartment from December. I work in Yaba and the location suits me. Please let me know the next steps."
+    ],
+    [
+     "2026-10-22 10:05",
+     "client",
+     "u_nneka",
+     "Hello Grace, the landlord is available for an inspection on Saturday 25 October at 10am. Please confirm."
+    ],
+    [
+     "2026-10-22 13:40",
+     "client",
+     "u_grace",
+     "Confirmed, I will be there."
+    ],
+    [
+     "2026-10-29 15:35",
+     "internal",
+     "u_nneka",
+     "Landlord accepted ₦4.5m/yr with a ₦450k caution deposit. Tenancy to commence 1 December."
+    ],
+    [
+     "2026-11-04 10:25",
+     "client",
+     "u_nneka",
+     "Grace, the landlord has accepted your terms. Two payment requests are now in your account: first year’s rent and the refundable caution deposit. The tenancy agreement will be issued once both are received."
+    ]
+   ]
+  },
+  {
+   "id": "c_2004",
+   "eq": 4004,
+   "cs": 2004,
+   "property": "p_1007",
+   "client": "u_blessing",
+   "provider": "u_victoria",
+   "lawyer": "u_adaeze",
+   "status": "completed",
+   "purpose": "rent",
+   "contact": "phone",
+   "message": "I am looking for a two-bedroom flat in Gbagada for my family. Is this still available, and when can I inspect?",
+   "submitted": "2026-08-12 10:15",
+   "opened": "2026-08-12 15:00",
+   "closed": "2026-10-03 12:00",
+   "closingNote": "Tenancy completed and keys handed over.",
+   "timeline": [
+    [
+     "2026-08-12 10:15",
+     "u_blessing",
+     "Enquiry submitted by client.",
+     "participants",
+     "Enquiry submitted."
+    ],
+    [
+     "2026-08-12 11:00",
+     "u_adaeze",
+     "Enquiry received by the legal team.",
+     "participants"
+    ],
+    [
+     "2026-08-12 15:00",
+     "u_adaeze",
+     "Adaeze Okonkwo assigned to the case.",
+     "participants",
+     "Adaeze Okonkwo is handling this matter."
+    ],
+    [
+     "2026-08-12 15:00",
+     "u_adaeze",
+     "Transaction case ELV-CS-2004 opened.",
+     "participants"
+    ],
+    [
+     "2026-08-16 11:00",
+     "u_adaeze",
+     "Status changed from Lawyer Assigned to Negotiation / Inspection. Inspection completed.",
+     "participants",
+     "Negotiation / inspection. Inspection completed."
+    ],
+    [
+     "2026-09-20 10:00",
+     "u_adaeze",
+     "Payment request ELV-PY-3001 for ₦3,200,000 raised by Adaeze Okonkwo: First year’s rent.",
+     "participants",
+     "Payment of ₦3,200,000 requested: First year’s rent."
+    ],
+    [
+     "2026-09-20 10:02",
+     "u_adaeze",
+     "Payment request ELV-PY-3002 for ₦500,000 raised by Adaeze Okonkwo: Refundable caution deposit.",
+     "participants",
+     "Payment of ₦500,000 requested: Refundable caution deposit."
+    ],
+    [
+     "2026-09-22 09:30",
+     "u_blessing",
+     "Payment ELV-PY-3001 of ₦3,200,000 received (card).",
+     "participants",
+     "Payment of ₦3,200,000 received. Thank you."
+    ],
+    [
+     "2026-09-22 09:36",
+     "u_blessing",
+     "Payment ELV-PY-3002 of ₦500,000 received (card).",
+     "participants",
+     "Payment of ₦500,000 received. Thank you."
+    ],
+    [
+     "2026-09-25 14:00",
+     "u_adaeze",
+     "Adaeze Okonkwo authorised release of the property provider's phone number for this case. Reason: Handover of keys and meter readings directly with the landlord.",
+     "participants",
+     "The legal team shared the property provider's phone number for this matter."
+    ],
+    [
+     "2026-10-03 12:00",
+     "u_adaeze",
+     "Status changed from Payment Pending to Completed. Tenancy completed and keys handed over.",
+     "participants",
+     "Completed. Tenancy completed and keys handed over."
+    ]
+   ],
+   "messages": [
+    [
+     "2026-08-12 10:15",
+     "client",
+     "u_blessing",
+     "I am looking for a two-bedroom flat in Gbagada for my family. Is this still available, and when can I inspect?"
+    ],
+    [
+     "2026-09-25 14:05",
+     "client",
+     "u_adaeze",
+     "Blessing, the landlord’s phone number is now available on this case so you can coordinate the key handover on 1 October."
+    ],
+    [
+     "2026-10-03 11:50",
+     "client",
+     "u_blessing",
+     "Keys received. Thank you for handling everything."
+    ]
+   ],
+   "disclosures": [
+    [
+     "2026-09-25 14:00",
+     "u_adaeze",
+     "provider",
+     [
+      "phone"
+     ],
+     "Handover of keys and meter readings directly with the landlord."
+    ]
+   ]
+  },
+  {
+   "id": "c_2005",
+   "eq": 4005,
+   "cs": 2005,
+   "property": "p_1009",
+   "client": "u_kemi",
+   "provider": "u_femi",
+   "lawyer": "u_tunde",
+   "status": "cancelled",
+   "purpose": "purchase",
+   "contact": "email",
+   "message": "I am interested in the Magodo duplex. Please arrange an inspection for me and my husband.",
+   "submitted": "2026-08-20 18:40",
+   "opened": "2026-08-21 10:00",
+   "closed": "2026-09-18 16:00",
+   "closingNote": "Client withdrew after inspection.",
+   "timeline": [
+    [
+     "2026-08-20 18:40",
+     "u_kemi",
+     "Enquiry submitted by client.",
+     "participants",
+     "Enquiry submitted."
+    ],
+    [
+     "2026-08-21 09:00",
+     "u_tunde",
+     "Enquiry received by the legal team.",
+     "participants"
+    ],
+    [
+     "2026-08-21 10:00",
+     "u_tunde",
+     "Tunde Adebayo assigned to the case.",
+     "participants",
+     "Tunde Adebayo is handling this matter."
+    ],
+    [
+     "2026-08-21 10:00",
+     "u_tunde",
+     "Transaction case ELV-CS-2005 opened.",
+     "participants"
+    ],
+    [
+     "2026-08-27 12:00",
+     "u_tunde",
+     "Status changed from Lawyer Assigned to Negotiation / Inspection.",
+     "participants",
+     "Negotiation / inspection."
+    ],
+    [
+     "2026-09-05 10:00",
+     "u_tunde",
+     "Payment request ELV-PY-3003 for ₦21,000,000 raised by Tunde Adebayo: 10% commitment deposit.",
+     "participants",
+     "Payment of ₦21,000,000 requested: 10% commitment deposit."
+    ],
+    [
+     "2026-09-06 19:20",
+     "u_kemi",
+     "Payment attempt on ELV-PY-3003 failed.",
+     "participants",
+     "A payment attempt was unsuccessful. You can try again."
+    ],
+    [
+     "2026-09-18 16:00",
+     "u_tunde",
+     "Status changed from Payment Pending to Cancelled. Client withdrew after inspection.",
+     "participants",
+     "Cancelled. Client withdrew after inspection."
+    ]
+   ],
+   "messages": [
+    [
+     "2026-08-20 18:40",
+     "client",
+     "u_kemi",
+     "I am interested in the Magodo duplex. Please arrange an inspection for me and my husband."
+    ],
+    [
+     "2026-09-17 09:10",
+     "client",
+     "u_kemi",
+     "After discussing as a family we have decided not to proceed. Please close the matter. Thank you for your help."
+    ],
+    [
+     "2026-09-18 15:58",
+     "internal",
+     "u_tunde",
+     "Client withdrew. Failed deposit attempt only; no funds received. Agent informed."
+    ]
+   ]
+  },
+  {
+   "id": "c_2006",
+   "eq": 4006,
+   "property": "p_1016",
+   "client": "u_tobi",
+   "provider": "u_ibrahim",
+   "status": "new_enquiry",
+   "purpose": "inspection",
+   "contact": "phone",
+   "message": "I relocate to Enugu in January and would like to inspect this property on my next visit in late November.",
+   "submitted": "2026-11-06 16:45",
+   "timeline": [
+    [
+     "2026-11-06 16:45",
+     "u_tobi",
+     "Enquiry submitted by client.",
+     "participants",
+     "Enquiry submitted."
+    ],
+    [
+     "2026-11-06 16:45",
+     "system",
+     "Enquiry received by the legal team.",
+     "participants"
+    ]
+   ],
+   "messages": [
+    [
+     "2026-11-06 16:45",
+     "client",
+     "u_tobi",
+     "I relocate to Enugu in January and would like to inspect this property on my next visit in late November."
+    ]
+   ]
+  },
+  {
+   "id": "c_2007",
+   "eq": 4007,
+   "property": "p_1010",
+   "client": "u_halima",
+   "provider": "u_femi",
+   "status": "new_enquiry",
+   "purpose": "rent",
+   "contact": "email",
+   "message": "I need a furnished apartment on the Island for a 12-month assignment starting in December. Is the rent inclusive of service charge?",
+   "submitted": "2026-11-04 20:10",
+   "timeline": [
+    [
+     "2026-11-04 20:10",
+     "u_halima",
+     "Enquiry submitted by client.",
+     "participants",
+     "Enquiry submitted."
+    ],
+    [
+     "2026-11-04 20:10",
+     "system",
+     "Enquiry received by the legal team.",
+     "participants"
+    ],
+    [
+     "2026-11-06 10:15",
+     "u_mariam",
+     "Support observation recorded by Mariam Bello.",
+     "internal"
+    ],
+    [
+     "2026-11-06 10:16",
+     "u_mariam",
+     "Escalated to the legal team by Mariam Bello: Client has a December start date and has not yet been contacted.",
+     "internal"
+    ]
+   ],
+   "messages": [
+    [
+     "2026-11-04 20:10",
+     "client",
+     "u_halima",
+     "I need a furnished apartment on the Island for a 12-month assignment starting in December. Is the rent inclusive of service charge?"
+    ],
+    [
+     "2026-11-06 10:15",
+     "internal",
+     "u_mariam",
+     "Client called the office line this morning asking for an update. No lawyer assigned yet."
+    ]
+   ],
+   "escalations": [
+    [
+     "2026-11-06 10:16",
+     "u_mariam",
+     "Client has a December start date and has not yet been contacted."
+    ]
+   ]
+  },
+  {
+   "id": "c_2008",
+   "eq": 4008,
+   "cs": 2006,
+   "property": "p_1020",
+   "client": "u_funmi",
+   "provider": "u_ngozi",
+   "lawyer": "u_nneka",
+   "status": "lawyer_assigned",
+   "purpose": "rent",
+   "contact": "phone",
+   "message": "I am interested in renting this apartment. Is there a generator schedule and how far is it from the city centre?",
+   "submitted": "2026-11-02 12:00",
+   "opened": "2026-11-03 09:20",
+   "timeline": [
+    [
+     "2026-11-02 12:00",
+     "u_funmi",
+     "Enquiry submitted by client.",
+     "participants",
+     "Enquiry submitted."
+    ],
+    [
+     "2026-11-02 12:30",
+     "u_nneka",
+     "Enquiry received by the legal team.",
+     "participants"
+    ],
+    [
+     "2026-11-03 09:20",
+     "u_nneka",
+     "Nneka Eze assigned to the case.",
+     "participants",
+     "Nneka Eze is handling this matter."
+    ],
+    [
+     "2026-11-03 09:20",
+     "u_nneka",
+     "Transaction case ELV-CS-2006 opened.",
+     "participants"
+    ]
+   ],
+   "messages": [
+    [
+     "2026-11-02 12:00",
+     "client",
+     "u_funmi",
+     "I am interested in renting this apartment. Is there a generator schedule and how far is it from the city centre?"
+    ]
+   ]
+  },
+  {
+   "id": "c_2009",
+   "eq": 4009,
+   "cs": 2007,
+   "property": "p_1012",
+   "client": "u_emeka",
+   "provider": "u_victoria",
+   "lawyer": "u_tunde",
+   "status": "negotiation",
+   "purpose": "purchase",
+   "contact": "phone",
+   "message": "I want to buy this bungalow. The asking price is slightly above my budget; I would like to make an offer of ₦90 million.",
+   "submitted": "2026-09-28 09:00",
+   "opened": "2026-09-28 14:00",
+   "timeline": [
+    [
+     "2026-09-28 09:00",
+     "u_emeka",
+     "Enquiry submitted by client.",
+     "participants",
+     "Enquiry submitted."
+    ],
+    [
+     "2026-09-28 09:30",
+     "u_tunde",
+     "Enquiry received by the legal team.",
+     "participants"
+    ],
+    [
+     "2026-09-28 14:00",
+     "u_tunde",
+     "Tunde Adebayo assigned to the case.",
+     "participants",
+     "Tunde Adebayo is handling this matter."
+    ],
+    [
+     "2026-09-28 14:00",
+     "u_tunde",
+     "Transaction case ELV-CS-2007 opened.",
+     "participants"
+    ],
+    [
+     "2026-10-01 10:00",
+     "u_tunde",
+     "Status changed from Lawyer Assigned to Negotiation / Inspection. Offer of ₦90,000,000 presented to the owner.",
+     "participants",
+     "Negotiation / inspection. Offer of ₦90,000,000 presented to the owner."
+    ],
+    [
+     "2026-10-03 16:20",
+     "u_victoria",
+     "Message received from the property provider.",
+     "internal"
+    ],
+    [
+     "2026-10-04 09:40",
+     "u_tunde",
+     "Internal note added by Tunde Adebayo.",
+     "internal"
+    ],
+    [
+     "2026-10-06 11:00",
+     "u_tunde",
+     "Price agreed at ₦92,500,000.",
+     "participants"
+    ],
+    [
+     "2026-10-08 10:00",
+     "u_tunde",
+     "Payment request ELV-PY-3005 for ₦9,250,000 raised by Tunde Adebayo: 10% commitment deposit.",
+     "participants",
+     "Payment of ₦9,250,000 requested: 10% commitment deposit."
+    ],
+    [
+     "2026-10-09 12:15",
+     "u_emeka",
+     "Payment ELV-PY-3005 of ₦9,250,000 received (card).",
+     "participants",
+     "Payment of ₦9,250,000 received. Thank you."
+    ],
+    [
+     "2026-10-10 09:00",
+     "u_tunde",
+     "Status changed from Payment Pending to Negotiation / Inspection. Deposit received; survey and title search coordination under way.",
+     "participants",
+     "Negotiation / inspection. Deposit received; survey and title search coordination under way."
+    ],
+    [
+     "2026-11-02 15:00",
+     "u_tunde",
+     "Update sent to the property provider by Tunde Adebayo.",
+     "internal"
+    ]
+   ],
+   "messages": [
+    [
+     "2026-09-28 09:00",
+     "client",
+     "u_emeka",
+     "I want to buy this bungalow. The asking price is slightly above my budget; I would like to make an offer of ₦90 million."
+    ],
+    [
+     "2026-10-01 10:05",
+     "provider",
+     "u_tunde",
+     "Mrs Adeola, we have received an offer of ₦90,000,000 for the Ikeja GRA bungalow from a qualified buyer. Please let us know your position."
+    ],
+    [
+     "2026-10-03 16:20",
+     "provider",
+     "u_victoria",
+     "I can accept ₦92.5 million if the buyer can complete within 60 days."
+    ],
+    [
+     "2026-10-04 09:40",
+     "internal",
+     "u_tunde",
+     "Owner counter at ₦92.5m, 60-day completion. Client indicated by phone he can stretch to ₦92.5m. Physical title review fixed for Tuesday."
+    ],
+    [
+     "2026-10-06 11:05",
+     "client",
+     "u_tunde",
+     "Emeka, the owner has accepted ₦92,500,000 with completion within 60 days. A 10% commitment deposit will be requested shortly."
+    ],
+    [
+     "2026-11-02 15:00",
+     "provider",
+     "u_tunde",
+     "Survey verification is complete. Please confirm a date for the physical review of the original title documents at our office."
+    ]
+   ]
+  },
+  {
+   "id": "c_2010",
+   "eq": 4010,
+   "cs": 2008,
+   "property": "p_1019",
+   "client": "u_daniel",
+   "provider": "u_ngozi",
+   "lawyer": "u_tunde",
+   "status": "in_progress",
+   "purpose": "purchase",
+   "contact": "email",
+   "message": "I am considering this property as an investment for a family member in Enugu. Can you confirm whether the roofing renovation came with any warranty?",
+   "submitted": "2026-10-15 13:00",
+   "opened": "2026-10-16 10:00",
+   "timeline": [
+    [
+     "2026-10-15 13:00",
+     "u_daniel",
+     "Enquiry submitted by client.",
+     "participants",
+     "Enquiry submitted."
+    ],
+    [
+     "2026-10-15 14:00",
+     "u_tunde",
+     "Enquiry received by the legal team.",
+     "participants"
+    ],
+    [
+     "2026-10-16 10:00",
+     "u_tunde",
+     "Tunde Adebayo assigned to the case.",
+     "participants",
+     "Tunde Adebayo is handling this matter."
+    ],
+    [
+     "2026-10-16 10:00",
+     "u_tunde",
+     "Transaction case ELV-CS-2008 opened.",
+     "participants"
+    ],
+    [
+     "2026-10-20 11:00",
+     "u_tunde",
+     "Status changed from Lawyer Assigned to In Progress.",
+     "participants",
+     "In progress."
+    ],
+    [
+     "2026-10-21 10:00",
+     "u_tunde",
+     "Update sent to the client by Tunde Adebayo.",
+     "internal"
+    ],
+    [
+     "2026-11-05 19:30",
+     "u_daniel",
+     "Message received from the client.",
+     "internal"
+    ]
+   ],
+   "messages": [
+    [
+     "2026-10-15 13:00",
+     "client",
+     "u_daniel",
+     "I am considering this property as an investment for a family member in Enugu. Can you confirm whether the roofing renovation came with any warranty?"
+    ],
+    [
+     "2026-10-21 10:00",
+     "client",
+     "u_tunde",
+     "Daniel, the agency has confirmed the roof was replaced in March 2026 by a registered contractor. We are requesting a copy of the warranty for inspection at their office."
+    ],
+    [
+     "2026-11-05 19:30",
+     "client",
+     "u_daniel",
+     "Thank you. Has the agency been able to share the warranty yet? My relative is ready to inspect next week."
+    ]
+   ]
+  },
+  {
+   "id": "c_2011",
+   "eq": 4011,
+   "cs": 2009,
+   "property": "p_1011",
+   "client": "u_samuel",
+   "provider": "u_chinedu",
+   "lawyer": "u_adaeze",
+   "status": "payment_pending",
+   "purpose": "purchase",
+   "contact": "phone",
+   "message": "I would like to purchase one of the terrace units at Ikate. Which units are still available?",
+   "submitted": "2026-10-05 10:00",
+   "opened": "2026-10-05 16:00",
+   "timeline": [
+    [
+     "2026-10-05 10:00",
+     "u_samuel",
+     "Enquiry submitted by client.",
+     "participants",
+     "Enquiry submitted."
+    ],
+    [
+     "2026-10-05 10:30",
+     "u_adaeze",
+     "Enquiry received by the legal team.",
+     "participants"
+    ],
+    [
+     "2026-10-05 16:00",
+     "u_adaeze",
+     "Adaeze Okonkwo assigned to the case.",
+     "participants",
+     "Adaeze Okonkwo is handling this matter."
+    ],
+    [
+     "2026-10-05 16:00",
+     "u_adaeze",
+     "Transaction case ELV-CS-2009 opened.",
+     "participants"
+    ],
+    [
+     "2026-10-09 10:00",
+     "u_adaeze",
+     "Status changed from Lawyer Assigned to In Progress.",
+     "participants",
+     "In progress."
+    ],
+    [
+     "2026-10-18 12:00",
+     "u_adaeze",
+     "Status changed from In Progress to Negotiation / Inspection. Unit 4 inspected and reserved.",
+     "participants",
+     "Negotiation / inspection. Unit 4 inspected and reserved."
+    ],
+    [
+     "2026-11-01 10:00",
+     "u_adaeze",
+     "Payment request ELV-PY-3007 for ₦13,500,000 raised by Adaeze Okonkwo: 10% commitment deposit — Unit 4.",
+     "participants",
+     "Payment of ₦13,500,000 requested: 10% commitment deposit — Unit 4."
+    ],
+    [
+     "2026-11-02 21:14",
+     "u_samuel",
+     "Payment attempt on ELV-PY-3007 failed.",
+     "participants",
+     "A payment attempt was unsuccessful. You can try again."
+    ]
+   ],
+   "messages": [
+    [
+     "2026-10-05 10:00",
+     "client",
+     "u_samuel",
+     "I would like to purchase one of the terrace units at Ikate. Which units are still available?"
+    ],
+    [
+     "2026-11-03 08:15",
+     "internal",
+     "u_adaeze",
+     "Card payment declined on 2 Nov. Client says daily card limit; advised bank transfer is available."
+    ]
+   ]
+  },
+  {
+   "id": "c_2012",
+   "eq": 4012,
+   "cs": 2010,
+   "property": "p_1014",
+   "client": "u_kemi",
+   "provider": "u_femi",
+   "lawyer": "u_nneka",
+   "status": "payment_pending",
+   "purpose": "purchase",
+   "contact": "email",
+   "message": "Following my previous search in Magodo, I would like to proceed on this Gbagada property instead. Please arrange next steps.",
+   "submitted": "2026-09-25 11:00",
+   "opened": "2026-09-25 15:00",
+   "timeline": [
+    [
+     "2026-09-25 11:00",
+     "u_kemi",
+     "Enquiry submitted by client.",
+     "participants",
+     "Enquiry submitted."
+    ],
+    [
+     "2026-09-25 11:30",
+     "u_nneka",
+     "Enquiry received by the legal team.",
+     "participants"
+    ],
+    [
+     "2026-09-25 15:00",
+     "u_nneka",
+     "Nneka Eze assigned to the case.",
+     "participants",
+     "Nneka Eze is handling this matter."
+    ],
+    [
+     "2026-09-25 15:00",
+     "u_nneka",
+     "Transaction case ELV-CS-2010 opened.",
+     "participants"
+    ],
+    [
+     "2026-10-02 10:00",
+     "u_nneka",
+     "Status changed from Lawyer Assigned to Negotiation / Inspection.",
+     "participants",
+     "Negotiation / inspection."
+    ],
+    [
+     "2026-10-20 10:00",
+     "u_nneka",
+     "Price agreed at ₦115,000,000.",
+     "participants"
+    ],
+    [
+     "2026-11-03 09:00",
+     "u_nneka",
+     "Payment request ELV-PY-3008 for ₦11,500,000 raised by Nneka Eze: 10% commitment deposit.",
+     "participants",
+     "Payment of ₦11,500,000 requested: 10% commitment deposit."
+    ],
+    [
+     "2026-11-05 13:40",
+     "u_kemi",
+     "Bank transfer reported for ELV-PY-3008; awaiting confirmation.",
+     "participants",
+     "Transfer for ₦11,500,000 reported. The legal team will confirm receipt."
+    ]
+   ],
+   "messages": [
+    [
+     "2026-09-25 11:00",
+     "client",
+     "u_kemi",
+     "Following my previous search in Magodo, I would like to proceed on this Gbagada property instead. Please arrange next steps."
+    ]
+   ]
+  },
+  {
+   "id": "c_2013",
+   "eq": 4013,
+   "cs": 2011,
+   "property": "p_1021",
+   "client": "u_tobi",
+   "provider": "u_segun",
+   "lawyer": "u_adaeze",
+   "status": "completed",
+   "purpose": "purchase",
+   "contact": "phone",
+   "message": "I would like to buy this bungalow in Trans-Ekulu for my parents. Please advise on the process.",
+   "submitted": "2026-08-15 09:00",
+   "opened": "2026-08-15 14:00",
+   "closed": "2026-10-28 15:00",
+   "closingNote": "Sale completed. Physical documents handed over at the ELVICTORIA office.",
+   "timeline": [
+    [
+     "2026-08-15 09:00",
+     "u_tobi",
+     "Enquiry submitted by client.",
+     "participants",
+     "Enquiry submitted."
+    ],
+    [
+     "2026-08-15 09:45",
+     "u_adaeze",
+     "Enquiry received by the legal team.",
+     "participants"
+    ],
+    [
+     "2026-08-15 14:00",
+     "u_adaeze",
+     "Adaeze Okonkwo assigned to the case.",
+     "participants",
+     "Adaeze Okonkwo is handling this matter."
+    ],
+    [
+     "2026-08-15 14:00",
+     "u_adaeze",
+     "Transaction case ELV-CS-2011 opened.",
+     "participants"
+    ],
+    [
+     "2026-08-22 10:00",
+     "u_adaeze",
+     "Status changed from Lawyer Assigned to Negotiation / Inspection.",
+     "participants",
+     "Negotiation / inspection."
+    ],
+    [
+     "2026-09-01 10:00",
+     "u_adaeze",
+     "Payment request ELV-PY-3004 for ₦9,600,000 raised by Adaeze Okonkwo: 20% deposit.",
+     "participants",
+     "Payment of ₦9,600,000 requested: 20% deposit."
+    ],
+    [
+     "2026-09-02 11:00",
+     "u_tobi",
+     "Payment ELV-PY-3004 of ₦9,600,000 received (card).",
+     "participants",
+     "Payment of ₦9,600,000 received. Thank you."
+    ],
+    [
+     "2026-09-12 10:00",
+     "u_adaeze",
+     "Adaeze Okonkwo authorised release of the property provider's phone number and email address for this case. Reason: Joint site visit with surveyor and handover planning.",
+     "participants",
+     "The legal team shared the property provider's phone number and email address for this matter."
+    ],
+    [
+     "2026-10-14 10:00",
+     "u_adaeze",
+     "Payment request ELV-PY-3006 for ₦38,400,000 raised by Adaeze Okonkwo: Balance of purchase price.",
+     "participants",
+     "Payment of ₦38,400,000 requested: Balance of purchase price."
+    ],
+    [
+     "2026-10-16 09:00",
+     "u_tobi",
+     "Bank transfer reported for ELV-PY-3006; awaiting confirmation.",
+     "participants",
+     "Transfer for ₦38,400,000 reported. The legal team will confirm receipt."
+    ],
+    [
+     "2026-10-17 12:00",
+     "u_adaeze",
+     "Adaeze Okonkwo confirmed receipt of ₦38,400,000 for ELV-PY-3006.",
+     "participants",
+     "Payment of ₦38,400,000 confirmed."
+    ],
+    [
+     "2026-10-28 15:00",
+     "u_adaeze",
+     "Status changed from Payment Pending to Completed. Sale completed. Physical documents handed over at the ELVICTORIA office.",
+     "participants",
+     "Completed. Sale completed. Physical documents handed over at the ELVICTORIA office."
+    ]
+   ],
+   "messages": [
+    [
+     "2026-08-15 09:00",
+     "client",
+     "u_tobi",
+     "I would like to buy this bungalow in Trans-Ekulu for my parents. Please advise on the process."
+    ],
+    [
+     "2026-09-12 10:05",
+     "provider",
+     "u_adaeze",
+     "Mr Ajayi, the buyer’s surveyor will visit on 16 September. We have shared your contact details with the buyer for this visit only."
+    ],
+    [
+     "2026-09-12 10:06",
+     "client",
+     "u_adaeze",
+     "Tobi, the landlord’s phone number and email are now visible on this case for coordinating the survey visit."
+    ]
+   ],
+   "disclosures": [
+    [
+     "2026-09-12 10:00",
+     "u_adaeze",
+     "provider",
+     [
+      "phone",
+      "email"
+     ],
+     "Joint site visit with surveyor and handover planning."
+    ]
+   ]
+  },
+  {
+   "id": "c_2014",
+   "eq": 4014,
+   "cs": 2012,
+   "property": "p_1013",
+   "client": "u_grace",
+   "provider": "u_victoria",
+   "lawyer": "u_nneka",
+   "status": "cancelled",
+   "purpose": "rent",
+   "contact": "platform",
+   "message": "Is this mini flat available from November? I am open to a one-year lease.",
+   "submitted": "2026-10-10 10:00",
+   "opened": "2026-10-11 09:00",
+   "closed": "2026-10-21 10:00",
+   "closingNote": "Client chose a different property (ELV-CS-2003).",
+   "timeline": [
+    [
+     "2026-10-10 10:00",
+     "u_grace",
+     "Enquiry submitted by client.",
+     "participants",
+     "Enquiry submitted."
+    ],
+    [
+     "2026-10-10 11:00",
+     "u_nneka",
+     "Enquiry received by the legal team.",
+     "participants"
+    ],
+    [
+     "2026-10-11 09:00",
+     "u_nneka",
+     "Nneka Eze assigned to the case.",
+     "participants",
+     "Nneka Eze is handling this matter."
+    ],
+    [
+     "2026-10-11 09:00",
+     "u_nneka",
+     "Transaction case ELV-CS-2012 opened.",
+     "participants"
+    ],
+    [
+     "2026-10-21 10:00",
+     "u_nneka",
+     "Status changed from Lawyer Assigned to Cancelled. Client chose a different property (ELV-CS-2003).",
+     "participants",
+     "Cancelled. Client chose a different property (ELV-CS-2003)."
+    ]
+   ],
+   "messages": [
+    [
+     "2026-10-10 10:00",
+     "client",
+     "u_grace",
+     "Is this mini flat available from November? I am open to a one-year lease."
+    ],
+    [
+     "2026-10-20 18:00",
+     "client",
+     "u_grace",
+     "Please close this one — I will go ahead with the Alagomeji apartment instead."
+    ]
+   ]
+  },
+  {
+   "id": "c_2015",
+   "eq": 4015,
+   "cs": 2013,
+   "property": "p_1015",
+   "client": "u_halima",
+   "provider": "u_amina",
+   "lawyer": "u_nneka",
+   "status": "in_progress",
+   "purpose": "rent",
+   "contact": "phone",
+   "message": "I am relocating within Enugu and would like to rent this apartment. Is the building pet-friendly?",
+   "submitted": "2026-10-26 09:00",
+   "opened": "2026-10-26 15:00",
+   "timeline": [
+    [
+     "2026-10-26 09:00",
+     "u_halima",
+     "Enquiry submitted by client.",
+     "participants",
+     "Enquiry submitted."
+    ],
+    [
+     "2026-10-26 10:00",
+     "u_nneka",
+     "Enquiry received by the legal team.",
+     "participants"
+    ],
+    [
+     "2026-10-26 15:00",
+     "u_nneka",
+     "Nneka Eze assigned to the case.",
+     "participants",
+     "Nneka Eze is handling this matter."
+    ],
+    [
+     "2026-10-26 15:00",
+     "u_nneka",
+     "Transaction case ELV-CS-2013 opened.",
+     "participants"
+    ],
+    [
+     "2026-10-28 10:00",
+     "u_nneka",
+     "Status changed from Lawyer Assigned to In Progress.",
+     "participants",
+     "In progress."
+    ],
+    [
+     "2026-11-04 11:00",
+     "u_nneka",
+     "Update sent to the property provider by Nneka Eze.",
+     "internal"
+    ],
+    [
+     "2026-11-05 18:20",
+     "u_amina",
+     "Message received from the property provider.",
+     "internal"
+    ]
+   ],
+   "messages": [
+    [
+     "2026-10-26 09:00",
+     "client",
+     "u_halima",
+     "I am relocating within Enugu and would like to rent this apartment. Is the building pet-friendly?"
+    ],
+    [
+     "2026-11-04 11:00",
+     "provider",
+     "u_nneka",
+     "Good morning Mrs Yusuf. The prospective tenant has asked whether small pets are permitted in the building, and would like to inspect next week. Please share your available dates."
+    ],
+    [
+     "2026-11-05 18:20",
+     "provider",
+     "u_amina",
+     "Small pets are fine. Inspection can be on Tuesday 11 or Thursday 13 November after 2pm."
+    ]
+   ]
+  },
+  {
+   "id": "c_2016",
+   "eq": 4016,
+   "property": "p_1017",
+   "client": "u_samuel",
+   "provider": "u_amina",
+   "status": "new_enquiry",
+   "purpose": "purchase",
+   "contact": "email",
+   "message": "I am interested in this Achara Layout plot. Is the plot within an approved layout and is the price negotiable for a quick payment?",
+   "submitted": "2026-11-06 11:30",
+   "timeline": [
+    [
+     "2026-11-06 11:30",
+     "u_samuel",
+     "Enquiry submitted by client.",
+     "participants",
+     "Enquiry submitted."
+    ],
+    [
+     "2026-11-06 11:30",
+     "system",
+     "Enquiry received by the legal team.",
+     "participants"
+    ]
+   ],
+   "messages": [
+    [
+     "2026-11-06 11:30",
+     "client",
+     "u_samuel",
+     "I am interested in this Achara Layout plot. Is the plot within an approved layout and is the price negotiable for a quick payment?"
+    ]
+   ]
+  },
+  {
+   "id": "c_2017",
+   "eq": 4017,
+   "cs": 2014,
+   "property": "p_1022",
+   "client": "u_blessing",
+   "provider": "u_segun",
+   "lawyer": "u_tunde",
+   "status": "lawyer_assigned",
+   "purpose": "rent",
+   "contact": "phone",
+   "message": "My sister is moving to Enugu for work. Could we inspect this flat on her behalf?",
+   "submitted": "2026-11-04 08:00",
+   "opened": "2026-11-04 13:00",
+   "timeline": [
+    [
+     "2026-11-04 08:00",
+     "u_blessing",
+     "Enquiry submitted by client.",
+     "participants",
+     "Enquiry submitted."
+    ],
+    [
+     "2026-11-04 09:00",
+     "u_tunde",
+     "Enquiry received by the legal team.",
+     "participants"
+    ],
+    [
+     "2026-11-04 13:00",
+     "u_tunde",
+     "Tunde Adebayo assigned to the case.",
+     "participants",
+     "Tunde Adebayo is handling this matter."
+    ],
+    [
+     "2026-11-04 13:00",
+     "u_tunde",
+     "Transaction case ELV-CS-2014 opened.",
+     "participants"
+    ]
+   ],
+   "messages": [
+    [
+     "2026-11-04 08:00",
+     "client",
+     "u_blessing",
+     "My sister is moving to Enugu for work. Could we inspect this flat on her behalf?"
+    ]
+   ]
+  },
+  {
+   "id": "c_2018",
+   "eq": 4018,
+   "cs": 2015,
+   "property": "p_1018",
+   "client": "u_emeka",
+   "provider": "u_femi",
+   "lawyer": "u_adaeze",
+   "status": "payment_pending",
+   "purpose": "rent",
+   "contact": "email",
+   "message": "My firm is looking for office space on the Island from January. We would like to inspect the floor and discuss a two-year lease.",
+   "submitted": "2026-10-08 10:00",
+   "opened": "2026-10-08 15:00",
+   "timeline": [
+    [
+     "2026-10-08 10:00",
+     "u_emeka",
+     "Enquiry submitted by client.",
+     "participants",
+     "Enquiry submitted."
+    ],
+    [
+     "2026-10-08 10:30",
+     "u_adaeze",
+     "Enquiry received by the legal team.",
+     "participants"
+    ],
+    [
+     "2026-10-08 15:00",
+     "u_adaeze",
+     "Adaeze Okonkwo assigned to the case.",
+     "participants",
+     "Adaeze Okonkwo is handling this matter."
+    ],
+    [
+     "2026-10-08 15:00",
+     "u_adaeze",
+     "Transaction case ELV-CS-2015 opened.",
+     "participants"
+    ],
+    [
+     "2026-10-14 10:00",
+     "u_adaeze",
+     "Status changed from Lawyer Assigned to Negotiation / Inspection. Inspection held with the agent.",
+     "participants",
+     "Negotiation / inspection. Inspection held with the agent."
+    ],
+    [
+     "2026-10-24 11:00",
+     "u_adaeze",
+     "Adaeze Okonkwo authorised release of the property provider's email address for this case. Reason: Client’s facilities team to share fit-out drawings with the agent.",
+     "participants",
+     "The legal team shared the property provider's email address for this matter."
+    ],
+    [
+     "2026-10-30 10:00",
+     "u_adaeze",
+     "Two-year lease terms agreed at ₦45,000,000 per annum.",
+     "participants"
+    ],
+    [
+     "2026-11-02 10:00",
+     "u_adaeze",
+     "Payment request ELV-PY-3012 for ₦45,000,000 raised by Adaeze Okonkwo: First year’s rent.",
+     "participants",
+     "Payment of ₦45,000,000 requested: First year’s rent."
+    ]
+   ],
+   "messages": [
+    [
+     "2026-10-08 10:00",
+     "client",
+     "u_emeka",
+     "My firm is looking for office space on the Island from January. We would like to inspect the floor and discuss a two-year lease."
+    ],
+    [
+     "2026-10-24 11:05",
+     "client",
+     "u_adaeze",
+     "Emeka, the agent’s email address is now available on this case so your facilities team can send the fit-out drawings. Commercial terms will remain with us."
+    ]
+   ],
+   "disclosures": [
+    [
+     "2026-10-24 11:00",
+     "u_adaeze",
+     "provider",
+     [
+      "email"
+     ],
+     "Client’s facilities team to share fit-out drawings with the agent."
+    ]
+   ]
+  },
+  {
+   "id": "c_2019",
+   "eq": 4019,
+   "cs": 2016,
+   "property": "p_1024",
+   "client": "u_funmi",
+   "provider": "u_chinedu",
+   "lawyer": "u_nneka",
+   "status": "in_progress",
+   "purpose": "purchase",
+   "contact": "phone",
+   "message": "I am buying a home in Lagos ahead of a transfer from Enugu. Can this unit be purchased on an instalment plan?",
+   "submitted": "2026-10-18 10:00",
+   "opened": "2026-10-18 16:00",
+   "timeline": [
+    [
+     "2026-10-18 10:00",
+     "u_funmi",
+     "Enquiry submitted by client.",
+     "participants",
+     "Enquiry submitted."
+    ],
+    [
+     "2026-10-18 11:00",
+     "u_nneka",
+     "Enquiry received by the legal team.",
+     "participants"
+    ],
+    [
+     "2026-10-18 16:00",
+     "u_nneka",
+     "Nneka Eze assigned to the case.",
+     "participants",
+     "Nneka Eze is handling this matter."
+    ],
+    [
+     "2026-10-18 16:00",
+     "u_nneka",
+     "Transaction case ELV-CS-2016 opened.",
+     "participants"
+    ],
+    [
+     "2026-10-21 10:00",
+     "u_nneka",
+     "Status changed from Lawyer Assigned to In Progress.",
+     "participants",
+     "In progress."
+    ],
+    [
+     "2026-10-21 10:10",
+     "u_nneka",
+     "Internal note added by Nneka Eze.",
+     "internal"
+    ],
+    [
+     "2026-10-30 14:00",
+     "u_obinna",
+     "Support observation recorded by Obinna Chukwu.",
+     "internal"
+    ]
+   ],
+   "messages": [
+    [
+     "2026-10-18 10:00",
+     "client",
+     "u_funmi",
+     "I am buying a home in Lagos ahead of a transfer from Enugu. Can this unit be purchased on an instalment plan?"
+    ],
+    [
+     "2026-10-21 10:10",
+     "internal",
+     "u_nneka",
+     "Developer offers a 6-month plan at a higher total price. Need written plan terms before advising client."
+    ],
+    [
+     "2026-10-30 14:00",
+     "internal",
+     "u_obinna",
+     "Client called asking about timelines; explained her lawyer will update her through the case."
+    ],
+    [
+     "2026-10-31 09:00",
+     "client",
+     "u_nneka",
+     "Funmilayo, the developer offers a six-month instalment plan. I am reviewing the written terms and will share a summary with you this week."
+    ]
+   ]
+  },
+  {
+   "id": "c_2020",
+   "eq": 4020,
+   "property": "p_1001",
+   "client": "u_tobi",
+   "provider": "u_chinedu",
+   "status": "under_review",
+   "purpose": "more_information",
+   "contact": "email",
+   "message": "Is the Lekki Phase 1 duplex still available? I would like to know the estate service charge and whether there is a pool.",
+   "submitted": "2026-11-05 08:20",
+   "timeline": [
+    [
+     "2026-11-05 08:20",
+     "u_tobi",
+     "Enquiry submitted by client.",
+     "participants",
+     "Enquiry submitted."
+    ],
+    [
+     "2026-11-05 09:00",
+     "u_tunde",
+     "Enquiry received by the legal team.",
+     "participants"
+    ],
+    [
+     "2026-11-05 09:10",
+     "u_tunde",
+     "Status changed from New Enquiry to Under Review.",
+     "participants",
+     "Under review."
+    ]
+   ],
+   "messages": [
+    [
+     "2026-11-05 08:20",
+     "client",
+     "u_tobi",
+     "Is the Lekki Phase 1 duplex still available? I would like to know the estate service charge and whether there is a pool."
+    ]
+   ]
+  }
+ ],
+ "payments": [],
+ "notifications": [
+  {
+   "id": "ntf_u_adaeze_2026-11-06 16:45",
+   "userId": "u_adaeze",
+   "category": "new_enquiry",
+   "title": "New property enquiry",
+   "body": "Tobi Adeyemi enquired about ELV-PR-1016 — 4-Bedroom Detached Duplex.",
+   "link": "c_2006",
+   "at": "2026-11-06 16:45",
+   "read": false
+  },
+  {
+   "id": "ntf_u_tunde_2026-11-06 16:45",
+   "userId": "u_tunde",
+   "category": "new_enquiry",
+   "title": "New property enquiry",
+   "body": "Tobi Adeyemi enquired about ELV-PR-1016 — 4-Bedroom Detached Duplex.",
+   "link": "c_2006",
+   "at": "2026-11-06 16:45",
+   "read": false
+  },
+  {
+   "id": "ntf_u_nneka_2026-11-06 16:45",
+   "userId": "u_nneka",
+   "category": "new_enquiry",
+   "title": "New property enquiry",
+   "body": "Tobi Adeyemi enquired about ELV-PR-1016 — 4-Bedroom Detached Duplex.",
+   "link": "c_2006",
+   "at": "2026-11-06 16:45",
+   "read": false
+  },
+  {
+   "id": "ntf_u_adaeze_2026-11-06 13:10",
+   "userId": "u_adaeze",
+   "category": "payment_success",
+   "title": "Payment received",
+   "body": "Daniel Johnson paid ₦18,500,000 on ELV-CS-2001.",
+   "link": "/app/staff/payments?focus=pay_3011",
+   "at": "2026-11-06 13:10",
+   "read": true
+  },
+  {
+   "id": "ntf_u_adaeze_2026-11-06 13:02",
+   "userId": "u_adaeze",
+   "category": "payment_failure",
+   "title": "Payment attempt failed",
+   "body": "A payment attempt by Daniel Johnson on ELV-PY-3011 failed.",
+   "link": "/app/staff/payments?focus=pay_3011",
+   "at": "2026-11-06 13:02",
+   "read": true
+  },
+  {
+   "id": "ntf_u_adaeze_2026-11-06 11:30",
+   "userId": "u_adaeze",
+   "category": "new_enquiry",
+   "title": "New property enquiry",
+   "body": "Samuel Okoro enquired about ELV-PR-1017 — Residential Plot, 1,000 sqm.",
+   "link": "c_2016",
+   "at": "2026-11-06 11:30",
+   "read": false
+  },
+  {
+   "id": "ntf_u_tunde_2026-11-06 11:30",
+   "userId": "u_tunde",
+   "category": "new_enquiry",
+   "title": "New property enquiry",
+   "body": "Samuel Okoro enquired about ELV-PR-1017 — Residential Plot, 1,000 sqm.",
+   "link": "c_2016",
+   "at": "2026-11-06 11:30",
+   "read": false
+  },
+  {
+   "id": "ntf_u_nneka_2026-11-06 11:30",
+   "userId": "u_nneka",
+   "category": "new_enquiry",
+   "title": "New property enquiry",
+   "body": "Samuel Okoro enquired about ELV-PR-1017 — Residential Plot, 1,000 sqm.",
+   "link": "c_2016",
+   "at": "2026-11-06 11:30",
+   "read": true
+  },
+  {
+   "id": "ntf_u_adaeze_2026-11-06 11:10",
+   "userId": "u_adaeze",
+   "category": "property_submission",
+   "title": "Listing submitted for review",
+   "body": "Femi Balogun submitted ELV-PR-1025 — 2-Bedroom Apartment (Apartment).",
+   "link": "p_1025",
+   "at": "2026-11-06 11:10",
+   "read": false
+  },
+  {
+   "id": "ntf_u_tunde_2026-11-06 11:10",
+   "userId": "u_tunde",
+   "category": "property_submission",
+   "title": "Listing submitted for review",
+   "body": "Femi Balogun submitted ELV-PR-1025 — 2-Bedroom Apartment (Apartment).",
+   "link": "p_1025",
+   "at": "2026-11-06 11:10",
+   "read": false
+  },
+  {
+   "id": "ntf_u_nneka_2026-11-06 11:10",
+   "userId": "u_nneka",
+   "category": "property_submission",
+   "title": "Listing submitted for review",
+   "body": "Femi Balogun submitted ELV-PR-1025 — 2-Bedroom Apartment (Apartment).",
+   "link": "p_1025",
+   "at": "2026-11-06 11:10",
+   "read": false
+  },
+  {
+   "id": "ntf_u_adaeze_2026-11-06 10:16",
+   "userId": "u_adaeze",
+   "category": "admin_alert",
+   "title": "Escalation on ELV-EQ-4007",
+   "body": "Client has a December start date and has not yet been contacted.",
+   "link": "c_2007",
+   "at": "2026-11-06 10:16",
+   "read": false
+  },
+  {
+   "id": "ntf_u_tunde_2026-11-06 10:16",
+   "userId": "u_tunde",
+   "category": "admin_alert",
+   "title": "Escalation on ELV-EQ-4007",
+   "body": "Client has a December start date and has not yet been contacted.",
+   "link": "c_2007",
+   "at": "2026-11-06 10:16",
+   "read": false
+  },
+  {
+   "id": "ntf_u_nneka_2026-11-06 10:16",
+   "userId": "u_nneka",
+   "category": "admin_alert",
+   "title": "Escalation on ELV-EQ-4007",
+   "body": "Client has a December start date and has not yet been contacted.",
+   "link": "c_2007",
+   "at": "2026-11-06 10:16",
+   "read": false
+  },
+  {
+   "id": "ntf_u_tunde_2026-11-05 19:30",
+   "userId": "u_tunde",
+   "category": "case_update",
+   "title": "Reply from Daniel Johnson",
+   "body": "Thank you. Has the agency been able to share the warranty yet? My relative is ready to inspect next week.",
+   "link": "c_2010",
+   "at": "2026-11-05 19:30",
+   "read": false
+  },
+  {
+   "id": "ntf_u_nneka_2026-11-05 18:20",
+   "userId": "u_nneka",
+   "category": "case_update",
+   "title": "Reply from Amina Yusuf",
+   "body": "Small pets are fine. Inspection can be on Tuesday 11 or Thursday 13 November after 2pm.",
+   "link": "c_2015",
+   "at": "2026-11-05 18:20",
+   "read": false
+  },
+  {
+   "id": "ntf_u_nneka_2026-11-05 13:40",
+   "userId": "u_nneka",
+   "category": "admin_alert",
+   "title": "Transfer awaiting confirmation",
+   "body": "Kemi Williams reported a transfer of ₦11,500,000 for ELV-PY-3008.",
+   "link": "/app/staff/payments?focus=pay_3008",
+   "at": "2026-11-05 13:40",
+   "read": false
+  },
+  {
+   "id": "ntf_u_adaeze_2026-11-05 09:20",
+   "userId": "u_adaeze",
+   "category": "property_submission",
+   "title": "Listing submitted for review",
+   "body": "Segun Ajayi submitted ELV-PR-1023 — Commercial Retail Plaza (Commercial Property).",
+   "link": "p_1023",
+   "at": "2026-11-05 09:20",
+   "read": true
+  },
+  {
+   "id": "ntf_u_tunde_2026-11-05 09:20",
+   "userId": "u_tunde",
+   "category": "property_submission",
+   "title": "Listing submitted for review",
+   "body": "Segun Ajayi submitted ELV-PR-1023 — Commercial Retail Plaza (Commercial Property).",
+   "link": "p_1023",
+   "at": "2026-11-05 09:20",
+   "read": false
+  },
+  {
+   "id": "ntf_u_nneka_2026-11-04 09:30",
+   "userId": "u_nneka",
+   "category": "property_submission",
+   "title": "Listing submitted for review",
+   "body": "Ibrahim Musa submitted ELV-PR-1004 — 5-Bedroom Executive Duplex (Detached Duplex).",
+   "link": "p_1004",
+   "at": "2026-11-04 09:30",
+   "read": true
+  },
+  {
+   "id": "ntf_u_adaeze_2026-11-04 09:30",
+   "userId": "u_adaeze",
+   "category": "property_submission",
+   "title": "Listing submitted for review",
+   "body": "Ibrahim Musa submitted ELV-PR-1004 — 5-Bedroom Executive Duplex (Detached Duplex).",
+   "link": "p_1004",
+   "at": "2026-11-04 09:30",
+   "read": true
+  },
+  {
+   "id": "ntf_u_tunde_2026-11-05 17:10",
+   "userId": "u_tunde",
+   "category": "enquiry_assignment",
+   "title": "Matter assigned to you",
+   "body": "ELV-EQ-4002 has been assigned to you.",
+   "link": "c_2002",
+   "at": "2026-11-05 17:10",
+   "read": true
+  },
+  {
+   "id": "ntf_u_adaeze_2026-11-02 21:14",
+   "userId": "u_adaeze",
+   "category": "payment_failure",
+   "title": "Payment attempt failed",
+   "body": "A payment attempt by Samuel Okoro on ELV-PY-3007 failed.",
+   "link": "/app/staff/payments?focus=pay_3007",
+   "at": "2026-11-02 21:14",
+   "read": true
+  },
+  {
+   "id": "ntf_u_mariam_2026-11-06 16:45",
+   "userId": "u_mariam",
+   "category": "new_enquiry",
+   "title": "New property enquiry",
+   "body": "ELV-EQ-4006 received for ELV-PR-1016.",
+   "link": "c_2006",
+   "at": "2026-11-06 16:45",
+   "read": false
+  },
+  {
+   "id": "ntf_u_mariam_2026-11-06 11:30",
+   "userId": "u_mariam",
+   "category": "new_enquiry",
+   "title": "New property enquiry",
+   "body": "ELV-EQ-4016 received for ELV-PR-1017.",
+   "link": "c_2016",
+   "at": "2026-11-06 11:30",
+   "read": false
+  },
+  {
+   "id": "ntf_u_mariam_2026-11-06 11:10",
+   "userId": "u_mariam",
+   "category": "property_submission",
+   "title": "Listing submitted for review",
+   "body": "Femi Balogun submitted ELV-PR-1025 — 2-Bedroom Apartment (Apartment).",
+   "link": "p_1025",
+   "at": "2026-11-06 11:10",
+   "read": true
+  },
+  {
+   "id": "ntf_u_mariam_2026-11-03 10:00",
+   "userId": "u_mariam",
+   "category": "account",
+   "title": "Account recovery request",
+   "body": "Yusuf Garba (yusuf.garba@mail.example) asked to recover access to their account.",
+   "link": "/app/staff/users/u_yusuf",
+   "at": "2026-11-03 10:00",
+   "read": true
+  },
+  {
+   "id": "ntf_u_obinna_2026-11-06 16:45",
+   "userId": "u_obinna",
+   "category": "new_enquiry",
+   "title": "New property enquiry",
+   "body": "ELV-EQ-4006 received for ELV-PR-1016.",
+   "link": "c_2006",
+   "at": "2026-11-06 16:45",
+   "read": false
+  },
+  {
+   "id": "ntf_u_obinna_2026-11-05 12:20",
+   "userId": "u_obinna",
+   "category": "help_desk",
+   "title": "New Help Desk ticket",
+   "body": "New Help Desk ticket ELV-HD-5002: Listing a property in Nsukka",
+   "link": "/app/staff/helpdesk/t_5002",
+   "at": "2026-11-05 12:20",
+   "read": false
+  },
+  {
+   "id": "ntf_u_chinedu_2026-11-05 11:20",
+   "userId": "u_chinedu",
+   "category": "case_update",
+   "title": "New message from the legal team",
+   "body": "Good morning Mr Nwosu. We have a qualified buyer for ELV-PR-1001. Kindly confirm inspection availability this week…",
+   "link": "c_2001",
+   "at": "2026-11-05 11:20",
+   "read": true
+  },
+  {
+   "id": "ntf_u_chinedu_2026-11-06 09:15",
+   "userId": "u_chinedu",
+   "category": "case_update",
+   "title": "Case update",
+   "body": "ELV-CS-2001 is now In Progress.",
+   "link": "c_2001",
+   "at": "2026-11-06 09:15",
+   "read": false
+  },
+  {
+   "id": "ntf_u_chinedu_2026-10-23 16:45",
+   "userId": "u_chinedu",
+   "category": "changes_requested",
+   "title": "Changes requested on your listing",
+   "body": "ELV-PR-1005: Please review the property’s location description and provide clearer photographs.",
+   "link": "p_1005",
+   "at": "2026-10-23 16:45",
+   "read": false
+  },
+  {
+   "id": "ntf_u_chinedu_2026-11-05 08:20",
+   "userId": "u_chinedu",
+   "category": "new_enquiry",
+   "title": "New enquiry on your listing",
+   "body": "An enquiry was received for Contemporary 4-Bedroom Detached Duplex. The ELVICTORIA legal team will contact you with next steps.",
+   "link": "c_2020",
+   "at": "2026-11-05 08:20",
+   "read": true
+  },
+  {
+   "id": "ntf_u_femi_2026-10-02 12:20",
+   "userId": "u_femi",
+   "category": "property_rejection",
+   "title": "Listing not approved",
+   "body": "ELV-PR-1006 was not approved: the submitted photographs show a different development to the one described.",
+   "link": "p_1006",
+   "at": "2026-10-02 12:20",
+   "read": true
+  },
+  {
+   "id": "ntf_u_femi_2026-11-04 20:10",
+   "userId": "u_femi",
+   "category": "new_enquiry",
+   "title": "New enquiry on your listing",
+   "body": "An enquiry was received for Serviced 3-Bedroom Apartment. The ELVICTORIA legal team will contact you with next steps.",
+   "link": "c_2007",
+   "at": "2026-11-04 20:10",
+   "read": false
+  },
+  {
+   "id": "ntf_u_femi_2026-11-02 10:00",
+   "userId": "u_femi",
+   "category": "case_update",
+   "title": "Case update",
+   "body": "ELV-CS-2015 is now Payment Pending.",
+   "link": "c_2018",
+   "at": "2026-11-02 10:00",
+   "read": true
+  },
+  {
+   "id": "ntf_u_victoria_2026-11-02 15:00",
+   "userId": "u_victoria",
+   "category": "case_update",
+   "title": "New message from the legal team",
+   "body": "Survey verification is complete. Please confirm a date for the physical review of the original title documents at our office.",
+   "link": "c_2009",
+   "at": "2026-11-02 15:00",
+   "read": false
+  },
+  {
+   "id": "ntf_u_victoria_2026-11-04 10:20",
+   "userId": "u_victoria",
+   "category": "case_update",
+   "title": "Case update",
+   "body": "ELV-CS-2003 is now Payment Pending.",
+   "link": "c_2003",
+   "at": "2026-11-04 10:20",
+   "read": true
+  },
+  {
+   "id": "ntf_u_ibrahim_2026-11-04 09:30",
+   "userId": "u_ibrahim",
+   "category": "property_submission",
+   "title": "Listing received",
+   "body": "ELV-PR-1004 has been received and is awaiting review by our legal team.",
+   "link": "p_1004",
+   "at": "2026-11-04 09:30",
+   "read": true
+  },
+  {
+   "id": "ntf_u_ngozi_2026-10-02 16:00",
+   "userId": "u_ngozi",
+   "category": "property_approval",
+   "title": "Your listing has been approved",
+   "body": "ELV-PR-1020 — 3-Bedroom Apartment is approved and now visible in the public catalogue.",
+   "link": "p_1020",
+   "at": "2026-10-02 16:00",
+   "read": true
+  },
+  {
+   "id": "ntf_u_amina_2026-11-04 11:00",
+   "userId": "u_amina",
+   "category": "case_update",
+   "title": "New message from the legal team",
+   "body": "The prospective tenant has asked whether small pets are permitted in the building, and would like to inspect next week.",
+   "link": "c_2015",
+   "at": "2026-11-04 11:00",
+   "read": true
+  },
+  {
+   "id": "ntf_u_daniel_2026-11-06 13:10",
+   "userId": "u_daniel",
+   "category": "payment_success",
+   "title": "Payment successful",
+   "body": "Your payment of ₦18,500,000 (ELV-PY-3011) was successful.",
+   "link": "/app/client/payments",
+   "at": "2026-11-06 13:10",
+   "read": false
+  },
+  {
+   "id": "ntf_u_daniel_2026-11-06 09:18",
+   "userId": "u_daniel",
+   "category": "case_update",
+   "title": "New message from the legal team",
+   "body": "Dear Daniel, the developer has confirmed an inspection on Saturday 8 November from 11am…",
+   "link": "c_2001",
+   "at": "2026-11-06 09:18",
+   "read": true
+  },
+  {
+   "id": "ntf_u_daniel_2026-11-04 10:05",
+   "userId": "u_daniel",
+   "category": "enquiry_assignment",
+   "title": "A lawyer is handling your enquiry",
+   "body": "Adaeze Okonkwo is now handling ELV-CS-2001.",
+   "link": "c_2001",
+   "at": "2026-11-04 10:05",
+   "read": true
+  },
+  {
+   "id": "ntf_u_grace_2026-11-04 10:20",
+   "userId": "u_grace",
+   "category": "payment_request",
+   "title": "Payment requested",
+   "body": "₦4,500,000 is due for ELV-CS-2003 — First year’s rent.",
+   "link": "/app/client/payments",
+   "at": "2026-11-04 10:20",
+   "read": false
+  },
+  {
+   "id": "ntf_u_grace_2026-11-04 10:22",
+   "userId": "u_grace",
+   "category": "payment_request",
+   "title": "Payment requested",
+   "body": "₦450,000 is due for ELV-CS-2003 — Refundable caution deposit.",
+   "link": "/app/client/payments",
+   "at": "2026-11-04 10:22",
+   "read": false
+  },
+  {
+   "id": "ntf_u_grace_2026-11-04 10:25",
+   "userId": "u_grace",
+   "category": "case_update",
+   "title": "New message from the legal team",
+   "body": "Grace, the landlord has accepted your terms. Two payment requests are now in your account…",
+   "link": "c_2003",
+   "at": "2026-11-04 10:25",
+   "read": false
+  },
+  {
+   "id": "ntf_u_samuel_2026-11-02 21:14",
+   "userId": "u_samuel",
+   "category": "payment_failure",
+   "title": "Payment unsuccessful",
+   "body": "Your payment for ELV-PY-3007 could not be completed. No funds were taken. You can try again.",
+   "link": "/app/client/payments",
+   "at": "2026-11-02 21:14",
+   "read": false
+  },
+  {
+   "id": "ntf_u_samuel_2026-11-05 14:45",
+   "userId": "u_samuel",
+   "category": "case_update",
+   "title": "Case update",
+   "body": "ELV-EQ-4002 is now Under Review. Gathering information from the agent.",
+   "link": "c_2002",
+   "at": "2026-11-05 14:45",
+   "read": true
+  },
+  {
+   "id": "ntf_u_blessing_2026-10-03 12:00",
+   "userId": "u_blessing",
+   "category": "case_update",
+   "title": "Case update",
+   "body": "ELV-CS-2004 is now Completed. Tenancy completed and keys handed over.",
+   "link": "c_2004",
+   "at": "2026-10-03 12:00",
+   "read": true
+  },
+  {
+   "id": "ntf_u_blessing_2026-11-04 13:00",
+   "userId": "u_blessing",
+   "category": "enquiry_assignment",
+   "title": "A lawyer is handling your enquiry",
+   "body": "Tunde Adebayo is now handling ELV-CS-2014.",
+   "link": "c_2017",
+   "at": "2026-11-04 13:00",
+   "read": false
+  },
+  {
+   "id": "ntf_u_kemi_2026-11-05 13:40",
+   "userId": "u_kemi",
+   "category": "case_update",
+   "title": "Case update",
+   "body": "Transfer for ₦11,500,000 reported. The legal team will confirm receipt.",
+   "link": "c_2012",
+   "at": "2026-11-05 13:40",
+   "read": false
+  },
+  {
+   "id": "ntf_u_emeka_2026-11-02 10:00",
+   "userId": "u_emeka",
+   "category": "payment_request",
+   "title": "Payment requested",
+   "body": "₦45,000,000 is due for ELV-CS-2015 — First year’s rent.",
+   "link": "/app/client/payments",
+   "at": "2026-11-02 10:00",
+   "read": false
+  },
+  {
+   "id": "ntf_u_halima_2026-11-04 20:10",
+   "userId": "u_halima",
+   "category": "case_update",
+   "title": "Enquiry received",
+   "body": "Your enquiry ELV-EQ-4007 has been received. A member of our legal team will review it shortly.",
+   "link": "c_2007",
+   "at": "2026-11-04 20:10",
+   "read": true
+  },
+  {
+   "id": "ntf_u_tobi_2026-11-06 16:45",
+   "userId": "u_tobi",
+   "category": "case_update",
+   "title": "Enquiry received",
+   "body": "Your enquiry ELV-EQ-4006 has been received. A member of our legal team will review it shortly.",
+   "link": "c_2006",
+   "at": "2026-11-06 16:45",
+   "read": false
+  },
+  {
+   "id": "ntf_u_funmi_2026-10-31 09:00",
+   "userId": "u_funmi",
+   "category": "case_update",
+   "title": "New message from the legal team",
+   "body": "Funmilayo, the developer offers a six-month instalment plan. I am reviewing the written terms…",
+   "link": "c_2019",
+   "at": "2026-10-31 09:00",
+   "read": true
+  }
+ ],
+ "savedProperties": [
+  {
+   "userId": "u_daniel",
+   "propertyId": "p_1002",
+   "savedAt": "2026-10-30 21:10"
+  },
+  {
+   "userId": "u_daniel",
+   "propertyId": "p_1010",
+   "savedAt": "2026-11-01 08:45"
+  },
+  {
+   "userId": "u_daniel",
+   "propertyId": "p_1016",
+   "savedAt": "2026-11-02 19:30"
+  },
+  {
+   "userId": "u_grace",
+   "propertyId": "p_1013",
+   "savedAt": "2026-10-08 12:00"
+  },
+  {
+   "userId": "u_grace",
+   "propertyId": "p_1007",
+   "savedAt": "2026-08-10 09:00"
+  },
+  {
+   "userId": "u_grace",
+   "propertyId": "p_1015",
+   "savedAt": "2026-10-12 18:20"
+  },
+  {
+   "userId": "u_kemi",
+   "propertyId": "p_1009",
+   "savedAt": "2026-08-19 20:00"
+  },
+  {
+   "userId": "u_kemi",
+   "propertyId": "p_1024",
+   "savedAt": "2026-10-28 07:40"
+  },
+  {
+   "userId": "u_samuel",
+   "propertyId": "p_1026",
+   "savedAt": "2026-09-02 22:15"
+  },
+  {
+   "userId": "u_halima",
+   "propertyId": "p_1010",
+   "savedAt": "2026-11-03 10:00"
+  },
+  {
+   "userId": "u_tobi",
+   "propertyId": "p_1019",
+   "savedAt": "2026-11-01 16:00"
+  }
+ ],
+ "tickets": [
+  {
+   "id": "t_5001",
+   "reference": "ELV-HD-5001",
+   "userId": "u_grace",
+   "name": "Grace Afolabi",
+   "email": "grace.afolabi@mail.example",
+   "category": "enquiries",
+   "subject": "Moving-in date for my Yaba apartment",
+   "status": "in_progress",
+   "n": 5001,
+   "messages": [
+    {
+     "at": "2026-11-05 09:30",
+     "authorId": "u_grace",
+     "fromStaff": false,
+     "body": "Hello, once I make the rent payment, how soon can I move in? I would like to plan for 1 December."
+    },
+    {
+     "at": "2026-11-05 11:05",
+     "authorId": "u_mariam",
+     "fromStaff": true,
+     "body": "Good morning Grace. Your lawyer, Nneka Eze, will confirm the move-in date with the landlord once both payments are received. I have flagged your preferred date on your case."
+    }
+   ]
+  },
+  {
+   "id": "t_5002",
+   "reference": "ELV-HD-5002",
+   "name": "Chiamaka Eze",
+   "email": "chiamaka.eze@mail.example",
+   "phone": "+2348030000101",
+   "category": "listings",
+   "subject": "Listing a property in Nsukka",
+   "status": "open",
+   "n": 5002,
+   "messages": [
+    {
+     "at": "2026-11-05 12:20",
+     "authorId": null,
+     "fromStaff": false,
+     "body": "Good afternoon. I own a four-bedroom duplex in Nsukka. Do you accept listings outside Enugu city, and what information will your lawyers need from me?"
+    }
+   ]
+  },
+  {
+   "id": "t_5003",
+   "reference": "ELV-HD-5003",
+   "userId": "u_samuel",
+   "name": "Samuel Okoro",
+   "email": "samuel.okoro@mail.example",
+   "category": "fraud",
+   "subject": "Caller claiming to be from ELVICTORIA",
+   "status": "open",
+   "n": 5003,
+   "messages": [
+    {
+     "at": "2026-11-06 15:40",
+     "authorId": "u_samuel",
+     "fromStaff": false,
+     "body": "I received a call from someone who said he was an ELVICTORIA agent and asked me to pay a \"booking fee\" for the Ikate terrace into a personal account. Is this genuine?"
+    }
+   ]
+  },
+  {
+   "id": "t_5004",
+   "reference": "ELV-HD-5004",
+   "name": "Bayo Ogunleye",
+   "email": "bayo.ogunleye@mail.example",
+   "category": "other",
+   "subject": "Corporate relocation enquiry",
+   "status": "resolved",
+   "n": 5004,
+   "messages": [
+    {
+     "at": "2026-11-02 09:45",
+     "authorId": null,
+     "fromStaff": false,
+     "body": "Our company is relocating six staff to Lagos in January. Can your team help us find serviced apartments on the Island and manage the tenancies?"
+    },
+    {
+     "at": "2026-11-02 14:00",
+     "authorId": "u_mariam",
+     "fromStaff": true,
+     "body": "Thank you for contacting ELVICTORIA. A member of our team called you this afternoon to discuss your requirements. Please register an account so each enquiry can be assigned to a lawyer."
+    }
+   ]
+  },
+  {
+   "id": "t_5005",
+   "reference": "ELV-HD-5005",
+   "userId": "u_femi",
+   "name": "Femi Balogun",
+   "email": "femi@balogunrealty.example",
+   "category": "technical",
+   "subject": "Photo upload on mobile",
+   "status": "resolved",
+   "n": 5005,
+   "messages": [
+    {
+     "at": "2026-10-20 10:10",
+     "authorId": "u_femi",
+     "fromStaff": false,
+     "body": "Photos taken on my phone were not uploading for a new listing."
+    },
+    {
+     "at": "2026-10-20 12:30",
+     "authorId": "u_obinna",
+     "fromStaff": true,
+     "body": "Thanks Femi. Images above 8 MB are not accepted. Please reduce the photo size or use the “Medium” camera setting and try again."
+    },
+    {
+     "at": "2026-10-20 13:05",
+     "authorId": "u_femi",
+     "fromStaff": false,
+     "body": "That worked, thank you."
+    }
+   ]
+  }
+ ],
+ "accessRequests": [
+  {
+   "id": "acr_1",
+   "email": "yusuf.garba@mail.example",
+   "at": "2026-11-03 10:00",
+   "userId": "u_yusuf"
+  }
+ ],
+ "settings": {
+  "officeAddress": "14B Ademola Adetokunbo Crescent, Victoria Island, Lagos",
+  "officePhone": "+234 201 330 4410",
+  "officeEmail": "hello@elvictoria.example",
+  "officeHours": "Monday – Friday, 8:30am – 5:30pm (WAT)",
+  "enquiryAcknowledgement": "A member of our legal team will review it shortly.",
+  "paymentDueDays": 7
+ },
+ "counters": {
+  "property": 0,
+  "ticket": 0,
+  "id": 0
+ }
+}

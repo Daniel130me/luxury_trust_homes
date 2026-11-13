@@ -1,0 +1,1 @@
+{id:We(e,"cas"),enquiryReference:ll(e,"enquiry"),propertyId:s.id,clientId:r.id,providerId:s.providerId,status:"new_enquiry",purpose:t.purpose,preferredContact:t.preferredContact,message:t.message.trim(),submittedAt:e.now,updatedAt:e.now,messages:[{id:We(e,"msg"),channel:"client",authorId:r.id,body:t.message.trim(),at:e.now}],activities:[],disclosures:[],escalations:[]}

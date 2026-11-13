@@ -1,0 +1,3682 @@
+string
+default
+Module
+link
+modulepreload
+childList
+LINK
+use-credentials
+include
+anonymous
+omit
+same-origin
+react.element
+react.portal
+react.fragment
+react.profiler
+react.provider
+react.context
+react.suspense
+react.memo
+react.lazy
+object
+function
+setState
+forceUpdate
+undefined
+boolean
+number
+),Xa(a,t,r,
++a.key).replace(Ld,
+Objects are not valid as a React child (found: 
++Object.keys(e).join(
+:t)+
+act(...) is not supported in production builds of React.
+React.Children.only expected to receive a single React element child.
+React.cloneElement(...): The argument must be a React element, but you passed 
+18.3.1
+Capture
+symbol
+data-
+aria-
+.split(
+acceptCharset
+accept-charset
+className
+class
+htmlFor
+httpEquiv
+http-equiv
+contentEditable
+draggable
+spellCheck
+value
+autoReverse
+externalResourcesRequired
+focusable
+preserveAlpha
+checked
+multiple
+muted
+selected
+capture
+download
+cols
+rows
+size
+span
+rowSpan
+start
+xlink:actuate xlink:arcrole xlink:role xlink:show xlink:title xlink:type
+http://www.w3.org/1999/xlink
+xml:base
+xml:lang
+xml:space
+http://www.w3.org/XML/1998/namespace
+tabIndex
+crossOrigin
+xlinkHref
+xlink:href
+href
+action
+formAction
+react.offscreen
+props
+ at new 
+ at 
+Lazy
+Suspense
+SuspenseList
+Fragment
+Portal
+Profiler
+StrictMode
+Context
+.Consumer
+.Provider
+ForwardRef(
+ForwardRef
+Memo
+Cache
+DehydratedFragment
+Root
+Text
+Mode
+Offscreen
+Scope
+TracingMarker
+input
+checkbox
+radio
+true
+false
+submit
+reset
+defaultValue
+:return
+math
+http://www.w3.org/1998/Math/MathML
+http://www.w3.org/1999/xhtml
+http://www.w3.org/2000/svg
+foreignObject
+innerHTML
++t.valueOf().toString()+
+Webkit
++t).trim():t+
+float
+cssFloat
+annotation-xml
+color-profile
+font-face
+font-face-src
+font-face-uri
+font-face-format
+font-face-name
+missing-glyph
+onClick
+onClickCapture
+onDoubleClick
+onDoubleClickCapture
+onMouseDown
+onMouseDownCapture
+onMouseMove
+onMouseMoveCapture
+onMouseUp
+onMouseUpCapture
+onMouseEnter
+button
+select
+textarea
+passive
+test
+focusin
+focusout
+dragenter
+dragleave
+mouseover
+mouseout
+pointerover
+pointerout
+gotpointercapture
+lostpointercapture
+cancel
+click
+close
+contextmenu
+copy
+:case
+drag
+dragexit
+dragover
+mousemove
+pointermove
+scroll
+toggle
+touchmove
+wheel
+mouseenter
+mouseleave
+pointerenter
+pointerleave
+message
+charCode
+unknown
+movementX
+movementY
+clipboardData
+Escape
+,Left:
+,Up:
+,Right:
+,Down:
+,Del:
+,Win:
+,Menu:
+,Apps:
+,Scroll:
+,MozPrintableKey:
+Backspace
+,12:
+,13:
+,16:
+,17:
+,18:
+,19:
+,20:
+,27:
+,32:
+,33:
+,34:
+,35:
+,36:
+,37:
+,38:
+,39:
+,40:
+,45:
+,46:
+,112:
+,113:
+,114:
+,115:
+,116:
+,117:
+,118:
+,119:
+,120:
+,121:
+,122:
+,123:
+,144:
+,145:
+,224:
+altKey
+ctrlKey
+metaKey
+shiftKey
+Unidentified
+keypress
+Enter
+keydown
+keyup
+deltaX
+wheelDeltaX
+deltaY
+wheelDeltaY
+wheelDelta
+CompositionEvent
+documentMode
+TextEvent
+mousedown
+data
+compositionend
+textInput
+paste
+datetime-local
+onChange
+change
+oninput
+onpropertychange
+selectionchange
+contains
+text
+search
+password
+selectionStart
+onSelect
+webkit
+Animation
+AnimationEnd
+AnimationIteration
+AnimationStart
+Transition
+TransitionEnd
+).style,
+TransitionEvent
+animationend
+animationiteration
+animationstart
+transitionend
+onAnimationEnd
+onAnimationIteration
+onAnimationStart
+dblclick
+onFocus
+onBlur
+onTransitionEnd
+onMouseLeave
+onPointerEnter
+onPointerLeave
+change click focusin focusout input keydown keyup selectionchange
+focusout contextmenu dragend focusin keydown keyup mousedown mouseup selectionchange
+onBeforeInput
+onCompositionEnd
+compositionend focusout keydown keypress keyup mousedown
+onCompositionStart
+compositionstart focusout keydown keypress keyup mousedown
+onCompositionUpdate
+compositionupdate focusout keydown keypress keyup mousedown
+cancel close invalid load scroll toggle
+unknown-event
+touchstart
+focus
+blur
+beforeblur
+afterblur
+auxclick
+mouseup
+dragend
+dragstart
+drop
+touchcancel
+touchend
+pointercancel
+pointerdown
+pointerup
+mouse
+pointer
+leave
+enter
+file
+compositionstart
+compositionupdate
+beforeinput
+noscript
+Unknown
+DELETED
+head
+body
++Object.keys(t).join(
++r.toString(32)+
+hidden
+visible
+forwards
+backwards
+together
+style
+dangerouslySetInnerHTML
+children
+suppressContentEditableWarning
+suppressHydrationWarning
+autoFocus
+onScroll
+collapsed
+dialog
+iframe
+embed
+load
+video
+audio
+source
+error
+:ge(
+,s),ge(
+details
+invalid
+option
+script
+,e),ge(
+display
+none
+important
+ react-mount-point-unstable 
++JSON.stringify(
+react-dom
+18.3.1-next-f1338f8080-20240426
+PUSH
+REPLACE
+relative pathnames are not supported in memory history: 
+http://localhost
+,hash:
+deferred
+redirect
+)&&(Pe(c.relativePath.startsWith(s),'Absolute route path 
+ nested under path '+('
+ is not valid. An absolute child route path ')+
+Index routes must not have child routes. Please remove 
+'+u+'
+).replace(/%2F/g,
+),'Route path 
+ will be treated as if it were '+('
++('please change the route path to 
+)).join(
+'+e+'
+encoding (
+).split(
+Cannot include a '
+' character in a manually specified 
++JSON.stringify(s)+
+),Ul(
+pathname
+hash
+&&l.endsWith(
+)&&r.endsWith(
+:e.startsWith(
+post
+patch
+delete
+path
+).slice(j.length).join(
+,search:
+,state:null,key:
+0.5rem
+rgba(200,200,200, 0.5)
+,null,
+),v.createElement(
+italic
+idle
+React Router caught the following error during render
+route-fallback
+useBlocker
+useRevalidator
+useNavigate
+useLoaderData
+useActionData
+useRouteError
+useNavigation
+useRouteLoaderData
+useMatches
+useRouteId
+startTransition
+relative
+reloadDocument
+replace
+state
+target
+preventScrollReset
+viewTransition
+aria-current
+caseSensitive
+page
+&&g.endsWith(
+active
+pending
+transitioning
+useScrollRestoration
+useSubmit
+useSubmitFetcher
+useFetcher
+useViewTransitionState
+useFetchers
+2718b1cc4053e6c65de52847ef2d6d188361decc36e221dac73423de5536d91b
+,name:
+,email:
+,phone:
+,role:
+,organisation:
+,city:
+,registeredAt:Q(
+,providerKind:
+,clientKind:
+),status:
+selling
+Lagos
+Island
+Enugu
+Mainland
+buying
+sale
+renting
+rent
+Kosofe
+browsing
+2026-11-06 17:00
+Eti-Osa
+Lekki Phase 1
+Ikoyi
+Old Ikoyi
+Banana Island
+Victoria Island
+Oniru
+Ikate
+Chevron
+Ajah
+Badore
+Sangotedo
+Ibeju-Lekki
+Eleko
+Awoyaya
+Abijo
+Lagos Island
+Obalende
+Ikeja
+Ikeja GRA
+Alausa
+Opebi
+Allen
+Lagos Mainland
+Yaba
+Alagomeji
+Sabo
+Ebute Metta
+Gbagada Phase 1
+Gbagada Phase 2
+Magodo Phase 2
+Magodo GRA Phase 2
+Ogudu
+Surulere
+Adeniran Ogunsanya
+Enugu North
+Independence Layout
+New Haven
+Ogui
+Enugu East
+Trans-Ekulu
+Abakpa Nike
+Emene
+Enugu South
+Achara Layout
+Uwani
+Maryland
+Awkunanaw
+,tunde:
+,nneka:
+exterior
+Front elevation
+Evening view
+living
+Living room
+kitchen
+Kitchen
+bedroom
+Master bedroom
+Bedroom
+Street view
+Living area
+Front view
+Sitting room
+Building
+plot
+Plot overview
+Neighbourhood
+Building frontage
+Evening frontage
+Interior space
+),kind:
+,title:
+,category:
+,listingType:
+,price:185e6,state:
+,lga:
+,area:
+,address:
+,beds:4,baths:5,toilets:5,sqm:520,parking:4,furnishing:
+,description:
+Ensuite bedrooms
+Fitted kitchen
+Walk-in closet
+24-hour security
+Gated estate
+Standby generator
+Borehole water
+Interlocked compound
+approved
+available
+2026-08-04 10:12
+2026-08-04 10:20
+submitted
+2026-08-06 14:05
+adaeze
+,price:12e7,state:
+,beds:3,baths:4,toilets:4,sqm:210,parking:2,furnishing:
+Swimming pool
+Elevator
+Treated water
+CCTV
+2026-08-10 09:00
+2026-08-10 09:15
+2026-08-12 11:30
+tunde
+,price:45e5,state:
+unfurnished
+Solar inverter
+Fibre internet
+,created:
+2026-08-18 15:40
+2026-08-20 10:00
+nneka
+,price:18e7,state:
+,beds:5,baths:6,toilets:7,sqm:780,parking:6,furnishing:
+Garden
+Smart home
+Ample parking
+,availability:
+2026-11-04 09:30
+,price:38e6,state:
+,sqm:600,description:
+Dry land
+Perimeter fencing
+Good road network
+2026-10-21 11:20
+2026-10-23 16:45
+,price:72e6,state:
+,beds:3,baths:3,toilets:4,sqm:190,parking:1,description:
+rejected
+2026-09-29 10:00
+2026-09-29 10:05
+2026-10-02 12:20
+,price:32e5,state:
+unavailable
+2026-08-02 09:00
+2026-08-02 09:10
+2026-08-03 15:00
+,price:145e6,state:
+,beds:4,baths:4,toilets:5,sqm:330,parking:3,description:
+draft
+2026-11-02 19:30
+,price:21e7,state:
+,beds:5,baths:6,toilets:6,sqm:600,parking:5,furnishing:
+2026-08-14 12:00
+2026-08-14 12:05
+2026-08-15 10:45
+,price:15e6,state:
+furnished
+Serviced estate
+2026-09-01 10:00
+2026-09-01 10:10
+2026-09-02 09:20
+,price:135e6,state:
+,beds:4,baths:4,toilets:5,sqm:290,parking:2,furnishing:
+2026-08-25 14:00
+2026-08-25 14:10
+2026-08-27 11:00
+,price:95e6,state:
+,beds:3,baths:3,toilets:4,sqm:260,parking:3,description:
+2026-08-08 10:10
+2026-08-10 13:15
+,price:18e5,state:
+,cautionDeposit:18e4,beds:1,baths:1,toilets:1,sqm:48,parking:1,description:
+2026-09-04 08:30
+2026-09-04 08:35
+2026-09-05 10:00
+,price:115e6,state:
+,beds:4,baths:4,toilets:5,sqm:310,parking:2,description:
+2026-09-07 10:05
+2026-09-08 15:30
+,price:35e5,state:
+2026-09-10 11:00
+2026-09-10 11:10
+2026-09-11 09:50
+,beds:4,baths:5,toilets:5,sqm:450,parking:4,description:
+2026-09-15 10:00
+2026-09-15 10:20
+2026-09-17 12:00
+,price:28e6,state:
+,sqm:1e3,description:
+2026-09-20 10:00
+2026-09-20 10:15
+2026-09-22 11:40
+,price:45e6,state:
+,serviceCharge:9e6,baths:4,toilets:6,sqm:420,parking:10,description:
+2026-09-24 10:00
+2026-09-24 10:05
+2026-09-25 14:15
+,price:85e6,state:
+,beds:4,baths:5,toilets:5,sqm:480,parking:4,description:
+2026-09-26 10:00
+2026-09-26 10:10
+2026-09-28 10:30
+2026-10-01 10:00
+2026-10-01 10:05
+2026-10-02 16:00
+,price:48e6,state:
+,beds:4,baths:3,toilets:4,sqm:300,parking:3,description:
+2026-08-12 10:00
+2026-08-12 10:10
+2026-08-13 12:00
+,price:12e5,state:
+,cautionDeposit:15e4,beds:3,baths:2,toilets:3,sqm:120,parking:2,description:
+2026-10-14 10:00
+2026-10-14 10:05
+2026-10-15 11:30
+,price:22e7,state:
+,toilets:8,sqm:1400,parking:24,description:
+2026-11-05 09:20
+,price:68e6,state:
+,beds:3,baths:3,toilets:4,sqm:220,parking:2,description:
+2026-09-30 10:00
+2026-09-30 10:10
+2026-10-01 15:20
+,price:75e5,state:
+2026-11-06 11:10
+,price:65e7,state:
+,beds:4,baths:5,toilets:5,sqm:450,parking:3,furnishing:
+Balcony
+2026-08-20 10:05
+2026-08-22 12:00
+2026-10-12 10:30
+),at:r,actorId:e.provider,action:
+,eq:4001,cs:2001,property:
+,client:
+,provider:
+,purpose:
+,contact:
+,message:
+,submitted:
+,opened:
+2026-11-03 09:12
+Enquiry submitted by client.
+participants
+Enquiry submitted.
+2026-11-03 09:40
+Enquiry received by the legal team.
+2026-11-04 10:05
+Adaeze Okonkwo assigned to the case.
+Adaeze Okonkwo is handling this matter.
+Transaction case ELV-CS-2001 opened.
+2026-11-04 15:30
+Initial case review completed.
+Initial review of your enquiry completed.
+2026-11-04 15:32
+Internal note added by Adaeze Okonkwo.
+internal
+2026-11-05 11:20
+Update sent to the property provider by Adaeze Okonkwo.
+2026-11-05 11:21
+Property provider contacted through the legal team.
+The property provider has been contacted by the legal team.
+2026-11-05 16:48
+Message received from the property provider.
+2026-11-06 09:15
+Status changed from Lawyer Assigned to In Progress.
+In progress. Inspection being arranged.
+2026-11-06 09:18
+Update sent to the client by Adaeze Okonkwo.
+2026-11-06 12:30
+Payment of ₦18,500,000 requested: 10% commitment deposit.
+2026-11-06 13:02
+Payment attempt on ELV-PY-3011 failed.
+A payment attempt was unsuccessful. You can try again.
+2026-11-06 13:10
+Payment ELV-PY-3011 of ₦18,500,000 received (card).
+Payment of ₦18,500,000 received. Thank you.
+2026-11-06 14:00
+client
+provider
+2026-11-06 10:02
+Thank you, Saturday works for me. I will come with my wife.
+2026-11-06 10:20
+Noted. I will meet you at the property gate at 10:50am on Saturday.
+2026-11-06 10:25
+2026-11-06 14:05
+Commitment deposit cleared. Prepare offer letter draft after inspection.
+,eq:4002,property:
+,lawyer:K,status:
+2026-11-05 14:22
+2026-11-05 14:40
+2026-11-05 14:45
+Status changed from New Enquiry to Under Review. Gathering information from the agent.
+Under review. Gathering information from the agent.
+2026-11-05 17:10
+Tunde Adebayo assigned to the case.
+Tunde Adebayo is handling this matter.
+,eq:4003,cs:2003,property:
+,lawyer:W,status:
+2026-10-20 08:30
+2026-10-20 09:05
+2026-10-20 12:10
+Nneka Eze assigned to the case.
+Nneka Eze is handling this matter.
+Transaction case ELV-CS-2003 opened.
+2026-10-22 10:00
+In progress.
+2026-10-25 11:00
+Negotiation / inspection. Inspection held on 25 October.
+2026-10-29 15:30
+2026-11-04 10:20
+2026-11-04 10:22
+Payment request ELV-PY-3010 for ₦450,000 raised by Nneka Eze: Refundable caution deposit.
+Payment of ₦450,000 requested: Refundable caution deposit.
+2026-11-04 10:25
+Update sent to the client by Nneka Eze.
+2026-10-22 10:05
+2026-10-22 13:40
+Confirmed, I will be there.
+2026-10-29 15:35
+Landlord accepted ₦4.5m/yr with a ₦450k caution deposit. Tenancy to commence 1 December.
+,eq:4004,cs:2004,property:
+completed
+phone
+,closed:
+,closingNote:
+2026-08-12 10:15
+2026-08-12 11:00
+2026-08-12 15:00
+Transaction case ELV-CS-2004 opened.
+2026-08-16 11:00
+Status changed from Lawyer Assigned to Negotiation / Inspection. Inspection completed.
+Negotiation / inspection. Inspection completed.
+2026-09-20 10:02
+Payment of ₦500,000 requested: Refundable caution deposit.
+2026-09-22 09:30
+Payment ELV-PY-3001 of ₦3,200,000 received (card).
+Payment of ₦3,200,000 received. Thank you.
+2026-09-22 09:36
+Payment ELV-PY-3002 of ₦500,000 received (card).
+Payment of ₦500,000 received. Thank you.
+2026-09-25 14:00
+The legal team shared the property provider's phone number for this matter.
+2026-10-03 12:00
+Status changed from Payment Pending to Completed. Tenancy completed and keys handed over.
+Completed. Tenancy completed and keys handed over.
+2026-09-25 14:05
+2026-10-03 11:50
+Keys received. Thank you for handling everything.
+Handover of keys and meter readings directly with the landlord.
+,eq:4005,cs:2005,property:
+2026-08-20 18:40
+2026-08-21 09:00
+2026-08-21 10:00
+Transaction case ELV-CS-2005 opened.
+2026-08-27 12:00
+Status changed from Lawyer Assigned to Negotiation / Inspection.
+Negotiation / inspection.
+Payment of ₦21,000,000 requested: 10% commitment deposit.
+2026-09-06 19:20
+Payment attempt on ELV-PY-3003 failed.
+2026-09-18 16:00
+Status changed from Payment Pending to Cancelled. Client withdrew after inspection.
+Cancelled. Client withdrew after inspection.
+I am interested in the Magodo duplex. Please arrange an inspection for me and my husband.
+2026-09-17 09:10
+2026-09-18 15:58
+,eq:4006,property:
+,status:
+2026-11-06 16:45
+system
+,eq:4007,property:
+2026-11-04 20:10
+2026-11-06 10:15
+Support observation recorded by Mariam Bello.
+2026-11-06 10:16
+Client called the office line this morning asking for an update. No lawyer assigned yet.
+Client has a December start date and has not yet been contacted.
+,eq:4008,cs:2006,property:
+2026-11-02 12:00
+2026-11-02 12:30
+2026-11-03 09:20
+Transaction case ELV-CS-2006 opened.
+,eq:4009,cs:2007,property:
+2026-09-28 09:00
+2026-09-28 09:30
+2026-09-28 14:00
+Transaction case ELV-CS-2007 opened.
+Negotiation / inspection. Offer of ₦90,000,000 presented to the owner.
+2026-10-03 16:20
+2026-10-04 09:40
+Internal note added by Tunde Adebayo.
+2026-10-06 11:00
+Price agreed at ₦92,500,000.
+2026-10-08 10:00
+Payment of ₦9,250,000 requested: 10% commitment deposit.
+2026-10-09 12:15
+Payment ELV-PY-3005 of ₦9,250,000 received (card).
+Payment of ₦9,250,000 received. Thank you.
+2026-10-10 09:00
+2026-11-02 15:00
+Update sent to the property provider by Tunde Adebayo.
+I can accept ₦92.5 million if the buyer can complete within 60 days.
+2026-10-06 11:05
+,eq:4010,cs:2008,property:
+2026-10-15 13:00
+2026-10-15 14:00
+2026-10-16 10:00
+Transaction case ELV-CS-2008 opened.
+2026-10-20 11:00
+2026-10-21 10:00
+Update sent to the client by Tunde Adebayo.
+2026-11-05 19:30
+Message received from the client.
+,eq:4011,cs:2009,property:
+2026-10-05 10:00
+2026-10-05 10:30
+2026-10-05 16:00
+Transaction case ELV-CS-2009 opened.
+2026-10-09 10:00
+2026-10-18 12:00
+Negotiation / inspection. Unit 4 inspected and reserved.
+2026-11-01 10:00
+2026-11-02 21:14
+Payment attempt on ELV-PY-3007 failed.
+2026-11-03 08:15
+,eq:4012,cs:2010,property:
+2026-09-25 11:00
+2026-09-25 11:30
+2026-09-25 15:00
+Transaction case ELV-CS-2010 opened.
+2026-10-02 10:00
+2026-10-20 10:00
+Price agreed at ₦115,000,000.
+2026-11-03 09:00
+Payment request ELV-PY-3008 for ₦11,500,000 raised by Nneka Eze: 10% commitment deposit.
+Payment of ₦11,500,000 requested: 10% commitment deposit.
+2026-11-05 13:40
+Transfer for ₦11,500,000 reported. The legal team will confirm receipt.
+,eq:4013,cs:2011,property:
+purchase
+2026-08-15 09:00
+2026-08-15 09:45
+2026-08-15 14:00
+Transaction case ELV-CS-2011 opened.
+2026-08-22 10:00
+Payment request ELV-PY-3004 for ₦9,600,000 raised by Adaeze Okonkwo: 20% deposit.
+Payment of ₦9,600,000 requested: 20% deposit.
+2026-09-02 11:00
+Payment ELV-PY-3004 of ₦9,600,000 received (card).
+Payment of ₦9,600,000 received. Thank you.
+2026-09-12 10:00
+Payment of ₦38,400,000 requested: Balance of purchase price.
+2026-10-16 09:00
+Transfer for ₦38,400,000 reported. The legal team will confirm receipt.
+2026-10-17 12:00
+Adaeze Okonkwo confirmed receipt of ₦38,400,000 for ELV-PY-3006.
+Payment of ₦38,400,000 confirmed.
+2026-10-28 15:00
+Completed. Sale completed. Physical documents handed over at the ELVICTORIA office.
+2026-09-12 10:05
+2026-09-12 10:06
+email
+Joint site visit with surveyor and handover planning.
+,eq:4014,cs:2012,property:
+2026-10-10 10:00
+2026-10-10 11:00
+2026-10-11 09:00
+Transaction case ELV-CS-2012 opened.
+Cancelled. Client chose a different property (ELV-CS-2003).
+2026-10-20 18:00
+,eq:4015,cs:2013,property:
+2026-10-26 09:00
+2026-10-26 10:00
+2026-10-26 15:00
+Transaction case ELV-CS-2013 opened.
+2026-10-28 10:00
+2026-11-04 11:00
+Update sent to the property provider by Nneka Eze.
+2026-11-05 18:20
+Small pets are fine. Inspection can be on Tuesday 11 or Thursday 13 November after 2pm.
+,eq:4016,property:
+2026-11-06 11:30
+,eq:4017,cs:2014,property:
+2026-11-04 08:00
+2026-11-04 09:00
+2026-11-04 13:00
+Transaction case ELV-CS-2014 opened.
+,eq:4018,cs:2015,property:
+2026-10-08 10:30
+2026-10-08 15:00
+Transaction case ELV-CS-2015 opened.
+Negotiation / inspection. Inspection held with the agent.
+2026-10-24 11:00
+The legal team shared the property provider's email address for this matter.
+2026-10-30 10:00
+Two-year lease terms agreed at ₦45,000,000 per annum.
+2026-11-02 10:00
+2026-10-24 11:05
+,eq:4019,cs:2016,property:
+2026-10-18 10:00
+2026-10-18 11:00
+2026-10-18 16:00
+Transaction case ELV-CS-2016 opened.
+2026-10-21 10:10
+Internal note added by Nneka Eze.
+2026-10-30 14:00
+Support observation recorded by Obinna Chukwu.
+2026-10-31 09:00
+,eq:4020,property:
+2026-11-05 08:20
+2026-11-05 09:00
+2026-11-05 09:10
+Status changed from New Enquiry to Under Review.
+Under review.
+observation
+note
+,payer:
+,due:
+card
+successful
+Approved by issuer.
+Refundable caution deposit
+2026-09-27 10:00
+,by:K,amount:21e6,description:
+failed
+Declined by issuer: insufficient funds or authorisation failed.
+20% deposit
+2026-09-08 10:00
+,by:K,amount:925e4,description:
+Balance of purchase price
+Transfer notification received. Awaiting confirmation of funds.
+Funds confirmed by Adaeze Okonkwo.
+,by:W,amount:115e5,description:
+,by:W,amount:45e5,description:
+,by:W,amount:45e4,description:
+10% commitment deposit
+2026-11-13 12:30
+New property enquiry
+,Je(
+Payment received
+Daniel Johnson paid ₦18,500,000 on ELV-CS-2001.
+Payment attempt failed
+A payment attempt by Daniel Johnson on ELV-PY-3011 failed.
+Listing submitted for review
+,Sn(
+Escalation on ELV-EQ-4007
+Reply from Daniel Johnson
+Reply from Amina Yusuf
+Transfer awaiting confirmation
+Kemi Williams reported a transfer of ₦11,500,000 for ELV-PY-3008.
+Matter assigned to you
+ELV-EQ-4002 has been assigned to you.
+A payment attempt by Samuel Okoro on ELV-PY-3007 failed.
+ELV-EQ-4006 received for ELV-PR-1016.
+ELV-EQ-4016 received for ELV-PR-1017.
+account
+Account recovery request
+2026-11-03 10:00
+New Help Desk ticket
+New Help Desk ticket ELV-HD-5002: Listing a property in Nsukka
+2026-11-05 12:20
+New message from the legal team
+Case update
+ELV-CS-2001 is now In Progress.
+Changes requested on your listing
+,Ga(
+New enquiry on your listing
+Listing not approved
+ELV-CS-2015 is now Payment Pending.
+ELV-CS-2003 is now Payment Pending.
+Listing received
+ELV-PR-1004 has been received and is awaiting review by our legal team.
+Your listing has been approved
+Payment successful
+Your payment of ₦18,500,000 (ELV-PY-3011) was successful.
+/app/client/payments
+,Gt(
+A lawyer is handling your enquiry
+Adaeze Okonkwo is now handling ELV-CS-2001.
+Payment requested
+Payment unsuccessful
+ELV-EQ-4002 is now Under Review. Gathering information from the agent.
+ELV-CS-2004 is now Completed. Tenancy completed and keys handed over.
+Tunde Adebayo is now handling ELV-CS-2014.
+Enquiry received
+,subject:
+2026-11-05 09:30
+2026-11-05 11:05
+Chiamaka Eze
+2026-11-06 15:40
+booking fee
+Bayo Ogunleye
+2026-11-02 09:45
+2026-11-02 14:00
+2026-10-20 10:10
+Photos taken on my phone were not uploading for a new listing.
+2026-10-20 12:30
+2026-10-20 13:05
+That worked, thank you.
+2026-10-30 21:10
+2026-11-01 08:45
+2026-10-08 12:00
+2026-10-12 18:20
+2026-08-19 20:00
+2026-10-28 07:40
+2026-09-02 22:15
+2026-11-01 16:00
+,at:Q(
+),userId:
+14B Ademola Adetokunbo Crescent, Victoria Island, Lagos
++234 201 330 4410
+,officeHours:
+,enquiryAcknowledgement:
+elvictoria.db
+elvictoria.session
+QuotaExceededError
+quota
+workspace.staff
+listing.moderate
+listing.viewAll
+case.viewAll
+case.manage
+case.observe
+contact.disclose
+user.viewAll
+user.manage
+payment.manage
+reports.view
+settings.manage
+helpdesk.manage
+staff
+DomainError
+Please sign in to continue.
+This account is deactivated.
+You do not have permission to perform this action.
+ELV-PR
+ELV-EQ
+ELV-CS
+ELV-PY
+lawyer
+support
+The email or password you entered is incorrect.
+This account has been deactivated. Please contact ELVICTORIA support.
+elvictoria.route
+0 0 24 24
+currentColor
+stroke-width
+stroke-linecap
+round
+stroke-linejoin
+lucide
+color
+stroke
+width
+height
+viewBox
+aria-hidden
+attributes
+vector-effect
+non-scaling-stroke
+strokeWidth
+strokeLinecap
+strokeLinejoin
+vectorEffect
+role
+title
+arrow-down
+M12 5v14
+s699le
+m19 12-7 7-7-7
+1idqje
+arrow-right-left
+m16 3 4 4-4 4
+1x1c3m
+M20 7H4
+zbl0bi
+m8 21-4-4 4-4
+h9nckh
+M4 17h16
+g4d7ey
+arrow-right
+M5 12h14
+1ays0h
+m12 5 7 7-7 7
+xquz4c
+arrow-up
+m5 12 7-7 7 7
+hav0vg
+M12 19V5
+x0mq9r
+bath
+M10 4 8 6
+1rru8s
+M17 19v2
+ts1sot
+M2 12h20
+9i4pu4
+M7 19v2
+12npes
+M9 5 7.621 3.621A2.121 2.121 0 0 0 4 5v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-5
+14ym8i
+bed-double
+M2 20v-8a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v8
+1k78r4
+M4 10V6a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v4
+fb3tl2
+M12 4v6
+1dcgq2
+M2 18h20
+ajqnye
+bell-off
+M10.268 21a2 2 0 0 0 3.464 0
+vwvbt9
+M17 17H4a1 1 0 0 1-.74-1.673C4.59 13.956 6 12.499 6 8a6 6 0 0 1 .258-1.742
+178tsu
+m2 2 20 20
+1ooewy
+M8.668 3.01A6 6 0 0 1 18 8c0 2.687.77 4.653 1.707 6.05
+1hqiys
+bell
+,key:
+briefcase
+M16 20V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16
+jecpp
+rect
+,height:
+,rx:
+building-complex
+M10 12h4
+a56b0p
+M10 8h4
+1sr2af
+M14 21v-3a2 2 0 0 0-4 0v3
+1rgiei
+M6 10H4a2 2 0 0 0-2 2v7a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-2
+secmi2
+M6 21V5a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v16
+16ra0t
+building-2
+building
+M12 10h.01
+1nrarc
+M12 14h.01
+1etili
+M12 6h.01
+1vi96p
+M16 10h.01
+1m94wz
+M16 14h.01
+1gbofw
+M16 6h.01
+1x0f13
+M8 10h.01
+19clt8
+M8 14h.01
+6423bh
+M8 6h.01
+1dz90k
+M9 22v-3a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v3
+cabbwy
+,width:
+camera
+circle
+,cy:
+M9 17h6
+r8uit2
+chart-column
+M3 3v16a2 2 0 0 0 2 2h16
+c24i48
+M18 17V9
+2bz60n
+M13 17V5
+1frdt8
+M8 17v-3
+17ska0
+bar-chart-3
+check-check
+M18 6 7 17l-5-5
+116fxf
+m22 10-7.5 7.5L13 16
+ke71qq
+check
+M20 6 9 17l-5-5
+1gmf2c
+chevron-down
+m6 9 6 6 6-6
+qrunsl
+chevron-left
+m15 18-6-6 6-6
+1wnfg3
+chevron-right
+m9 18 6-6-6-6
+mthhwq
+circle-check
+m16 9-5.5 5.5L8 12
+xofnsj
+check-circle-2
+circle-exclamation-point
+line
+,x2:
+,y1:
+,y2:
+alert-circle
+circle-alert
+circle-plus
+M8 12h8
+1wcyev
+M12 8v8
+napkw2
+plus-circle
+circle-x
+m15 9-6 6
+1uzhvr
+m9 9 6 6
+z0biqf
+x-circle
+clock
+M12 6v6l4 2
+mmk7yg
+compass
+credit-card
+M6 14h2
+mk7k0u
+external-link
+M15 3h6v6
+1q9fwt
+M10 14 21 3
+gplh6r
+M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6
+a6xqqp
+eye-off
+M14.084 14.158a3 3 0 0 1-4.242-4.242
+151rxh
+file-check-corner
+M14 2v5a1 1 0 0 0 1 1h5
+wfsgrz
+m14 20 2 2 4-4
+15kota
+file-check-2
+file-clock
+M8 14v2.2l1.6 1
+6m4bie
+file-search
+11.5
+14.5
+M13.3 16.3 15 18
+2quom7
+flag
+globe
+M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20
+13o1zl
+handshake
+m11 17 2 2a1 1 0 1 0 3-3
+efffak
+m21 3 1 11h-2
+1tisrp
+M3 3 2 14l6.5 6.5a1 1 0 1 0 3-3
+1uvwmv
+M3 4h8
+1ep09j
+headphones
+heart
+house
+M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8
+5wwlr5
+home
+image-plus
+M16 5h6
+1vod17
+M19 2v6
+4bpg5p
+M21 11.5V19a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h7.5
+1ue2ih
+m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21
+1xmnt7
+images
+m22 11-1.296-1.296a2.4 2.4 0 0 0-3.408 0L11 16
+9kzy35
+M4 8a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2
+1t0f0t
+,fill:
+inbox
+polyline
+22 12 16 12 14 15 10 15 8 12 2 12
+o97t9d
+info
+M12 16v-4
+1dtifu
+M12 8h.01
+e9boi3
+key-round
+16.5
+landmark
+M10 18v-7
+wt116b
+M11.119 2.205a2 2 0 0 1 1.762 0l7.84 3.846A.5.5 0 0 1 20.5 7h-17a.5.5 0 0 1-.22-.949z
+yxxwt6
+M14 18v-7
+vav6t3
+M18 18v-7
+aexdmj
+M3 22h18
+8prr45
+M6 18v-7
+1ivflk
+layout-dashboard
+layout-grid
+life-buoy
+m4.93 4.93 4.24 4.24
+1ymg45
+m14.83 9.17 4.24-4.24
+1cb5xl
+m14.83 14.83 4.24 4.24
+q42g0n
+m9.17 14.83-4.24 4.24
+bqpfvv
+list
+M3 5h.01
+18ugdj
+M3 12h.01
+nlz23k
+M3 19h.01
+noohij
+M8 5h13
+1pao27
+M8 12h13
+1za7za
+M8 19h13
+m83p4d
+loader-circle
+M21 12a9 9 0 1 1-6.219-8.56
+13zald
+loader-2
+lock
+,ry:
+M7 11V7a5 5 0 0 1 10 0v4
+fwvmzm
+log-out
+m16 17 5-5-5-5
+1bji2h
+M21 12H9
+dn1m92
+M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4
+1uf3rs
+mail
+m22 7-8.991 5.727a2 2 0 0 1-2.009 0L2 7
+132q7q
+map-pin
+maximize-2
+m21 3-7 7
+1l2asr
+m3 21 7-7
+tjx5ai
+M9 21H3v-6
+wtvkvv
+menu
+M4 5h16
+1tepv9
+M4 12h16
+1lakjw
+M4 19h16
+1djgab
+message-square-exclamation-point
+M12 15h.01
+q59x07
+M12 7v4
+xawao1
+message-square-warning
+message-square-alert
+message-square
+messages-square
+octagon-exclamation-point
+M12 16h.01
+1drbdi
+M12 8v4
+1got3b
+alert-octagon
+octagon-alert
+pencil
+m15 5 4 4
+1mk7zo
+plus
+rotate-ccw
+M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8
+1357e3
+M3 3v5h5
+1xhq8a
+scale
+M12 3v18
+108xh3
+m19 8 3 8a5 5 0 0 1-6 0zV7
+zcdpyk
+M3 7h1a17 17 0 0 0 8-2 17 17 0 0 0 8 2h1
+1yorad
+m5 8 3 8a5 5 0 0 1-6 0zV7
+eua70x
+M7 21h10
+1b0cd5
+m21 21-4.34-4.34
+14j7rj
+send
+m21.854 2.147-10.94 10.939
+12cjpa
+settings
+shield-check
+m9 12 2 2 4-4
+dzmm74
+shield-exclamation-point
+shield-alert
+sliders-horizontal
+M10 5H3
+1qgfaw
+M12 19H3
+yhmn1j
+M14 3v4
+1sua03
+M16 17v4
+1q0r14
+M21 12h-9
+1o4lsq
+M21 19h-5
+1rlt1p
+M21 5h-7
+1oszz2
+M8 10v4
+tgpxqk
+M8 12H3
+a7s4jb
+star
+trash
+M10 11v6
+nco0om
+M14 11v6
+outv1u
+M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6
+miytrc
+M3 6h18
+d0wm0j
+M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2
+e791ji
+trash-2
+trees
+M10 10v.2A3 3 0 0 1 8.9 16H5a3 3 0 0 1-1-5.8V10a3 3 0 0 1 6 0Z
+1l6gj6
+M7 16v6
+1a82de
+M13 19v3
+13sx9i
+triangle-exclamation-point
+m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3
+wmoenq
+M12 9v4
+juzpu7
+M12 17h.01
+p32p05
+alert-triangle
+triangle-alert
+undo-2
+M9 14 4 9l5-5
+102s5s
+M4 9h10.5a5.5 5.5 0 0 1 5.5 5.5a5.5 5.5 0 0 1-5.5 5.5H11
+f3b9sd
+user-check
+m16 11 2 2 4-4
+9rsbq5
+M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2
+1yyitq
+user-round
+M20 21a8 8 0 0 0-16 0
+rfgkzh
+user-2
+user-x
+users
+M16 3.128a4 4 0 0 1 0 7.744
+16gr8j
+M22 21v-2a4 4 0 0 0-3-3.87
+kshegd
+wallet
+M3 5v14a2 2 0 0 0 2 2h15a1 1 0 0 0 1-1v-4
+xoc0q4
+warehouse
+M18 21V10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1v11
+pb2vm6
+M6 13h12
+yf64js
+M6 17h12
+1jwigz
+M18 6 6 18
+1bl5f8
+m6 6 12 12
+d8bk6v
+Lawyer / Administrator
+Support
+Property Provider
+Buyer / Renter
+Property Owner
+Estate Agent
+Estate Agency
+Property Developer
+Landlord
+Buyer
+Renter
+Detached Duplex
+Semi-Detached Duplex
+Apartment
+Terrace House
+Bungalow
+Residential Land
+Commercial Property
+apartment
+terrace
+bungalow
+Draft
+neutral
+Pending Review
+warning
+Approved
+success
+Changes Requested
+gold
+Rejected
+danger
+Unavailable
+Available
+Under Offer
+New Enquiry
+Enquiry submitted
+Under Review
+Under review
+Lawyer Assigned
+brand
+Lawyer handling your enquiry
+In Progress
+In progress
+Negotiation / Inspection
+Negotiation / inspection
+Payment Pending
+Completed
+Cancelled
+negotiation
+cancelled
+Awaiting Payment
+Pending Confirmation
+Successful
+Failed
+Debit card
+Bank transfer
+Interested in purchasing
+Interested in renting
+Request an inspection
+Request more information
+Phone call
+Email
+ELVICTORIA account messages only
+Account
+Property submission
+Property approved
+Changes requested
+Property rejected
+New enquiry
+Assignment
+Payment request
+Payment failed
+Administrative alert
+New listing alert
+Saved property update
+Help Desk
+Explore Buying
+Find a home or land to buy
+Explore Rentals
+Find a place to rent
+Explore Selling
+List a property you own or manage
+Just Browsing
+Look around before deciding
+Account issues
+Property listings
+Property enquiries
+Verification
+Suspected fraud
+Technical problems
+Complaints
+Other
+Open
+Resolved
+mb-6
+mb-3 inline-flex items-center gap-1 text-sm text-ink-muted hover:text-brand-800
+h-4 w-4
+flex flex-wrap items-end justify-between gap-4
+min-w-0
+mb-1.5
+text-2xl font-semibold tracking-tight sm:text-3xl
+mt-1.5 max-w-2xl text-base text-ink-soft
+flex flex-wrap gap-2
+bg-brand-50 text-brand-700
+bg-gold-50 text-gold-600
+bg-emerald-50 text-emerald-700
+bg-amber-50 text-amber-700
+bg-red-50 text-red-700
+flex items-start justify-between gap-3
+text-sm text-ink-muted
+mt-1.5 text-2xl font-semibold tracking-tight text-ink-strong
+mt-1 text-xs text-ink-muted
+rounded-lg p-2
+block rounded-xl border border-brand-100/80 bg-white p-4 shadow-card transition
+hover:border-brand-200 hover:shadow-lift
+flex flex-col items-center justify-center px-6 py-14 text-center
+mb-4 rounded-full bg-brand-50 p-3 text-brand-500
+h-6 w-6
+font-semibold text-ink-strong
+mt-1 max-w-sm text-sm text-ink-muted
+mt-5
+scrollbar-thin -mx-1 flex gap-1 overflow-x-auto px-1
+tablist
+aria-selected
+bg-brand-800 text-white
+text-ink-soft hover:bg-brand-50
+rounded-full px-1.5 text-xs
+bg-white/20
+bg-brand-50 text-ink-muted
+flex items-center justify-between gap-3 px-1 py-3 text-sm text-ink-muted
+Showing 
+ of 
+flex gap-1
+aria-label
+Previous page
+rounded-md border border-brand-100 bg-white p-1.5 disabled:opacity-40
+px-2 py-1.5 text-ink
+Next page
+No records
+desc
+hidden overflow-x-auto md:block
+table
+w-full text-left text-sm
+thead
+border-b border-brand-100 text-xs uppercase tracking-wide text-ink-muted
+whitespace-nowrap px-4 py-3 font-medium
+aria-sort
+ascending
+descending
+inline-flex items-center gap-1 hover:text-brand-800
+h-3 w-3
+tbody
+border-b border-brand-50 last:border-0
+cursor-pointer hover:bg-brand-50/50
+px-4 py-3 align-middle
+divide-y divide-brand-50 md:hidden
+space-y-1.5 px-4 py-3.5
+active:bg-brand-50
+font-medium text-ink-strong
+flex items-start justify-between gap-3 text-sm
+shrink-0 text-ink-muted
+min-w-0 text-right
+px-3
+No activity yet.
+py-6 text-center text-sm text-ink-muted
+relative space-y-5 pl-6
+bg-gold-400 ring-gold-200
+bg-slate-300 ring-slate-200
+bg-brand-600 ring-brand-200
+text-sm text-ink
+mt-0.5 text-xs text-ink-muted
+space-y-3
+mb-1 flex justify-between text-sm
+text-ink-soft
+font-medium tabular-nums text-ink
+h-2 overflow-hidden rounded-full bg-brand-50
+h-full rounded-full transition-all
+block hover:opacity-80
+flex h-48 items-end gap-2 sm:gap-3
+flex h-full min-w-0 flex-1 flex-col items-center justify-end gap-2
+text-2xs font-medium tabular-nums text-ink-soft
+truncate text-xs text-ink-muted
+en-NG
+currency
+Africa/Lagos
+en-GB
+numeric
+short
+2-digit
+Just now
+bg-brand-800 text-white hover:bg-brand-700 shadow-sm
+bg-white text-brand-800 border border-brand-200 hover:bg-brand-50
+text-brand-700 hover:bg-brand-50
+bg-red-600 text-white hover:bg-red-700 shadow-sm
+bg-gold-400 text-brand-950 hover:bg-gold-300 shadow-sm
+bg-emerald-600 text-white hover:bg-emerald-700 shadow-sm
+h-9 px-3 text-sm gap-1.5
+h-10 px-4 text-sm gap-2
+h-12 px-6 text-base gap-2
+primary
+h-4 w-4 animate-spin
+bg-slate-100 text-slate-700 ring-slate-200
+bg-sky-50 text-sky-800 ring-sky-200
+bg-emerald-50 text-emerald-800 ring-emerald-200
+bg-amber-50 text-amber-800 ring-amber-200
+bg-red-50 text-red-700 ring-red-200
+bg-brand-50 text-brand-800 ring-brand-200
+bg-gold-50 text-gold-700 ring-gold-200
+bg-slate-400
+bg-sky-500
+bg-emerald-500
+bg-amber-500
+bg-red-500
+bg-brand-500
+bg-gold-500
+h-1.5 w-1.5 rounded-full
+rounded-xl border border-brand-100/80 bg-white shadow-card
+flex flex-wrap items-start justify-between gap-3 border-b border-brand-50 px-5 py-4
+text-base font-semibold text-ink-strong
+mt-0.5 text-sm text-ink-muted
+label
+ml-0.5 text-red-600
+mt-1.5 text-sm text-red-600
+alert
+mt-1.5 text-xs text-ink-muted
+aria-invalid
+aria-describedby
+input-error
+,t&&
+flex cursor-pointer items-start gap-3
+mt-0.5 h-4 w-4 rounded border-brand-300 text-brand-800 focus:ring-brand-300
+text-sm
+font-medium text-ink
+block text-ink-muted
+bg-brand-700
+bg-gold-600
+bg-emerald-700
+bg-sky-700
+bg-rose-700
+bg-violet-700
+h-7 w-7 text-2xs
+h-12 w-12 text-base
+h-9 w-9 text-xs
+inline-flex shrink-0 items-center justify-center rounded-full font-semibold text-white
+flex items-start justify-between gap-4 py-2.5 text-sm
+min-w-0 text-right font-medium text-ink
+/app/staff
+/app/provider
+/app/client
+Your account does not have access to this page.
+rounded-xl border border-brand-100 bg-white
+Access restricted
+secondary
+Go to my dashboard
+View error
+mx-auto max-w-lg rounded-xl border border-red-100 bg-white p-8 text-center shadow-card
+mx-auto h-8 w-8 text-red-500
+mt-3 text-lg font-semibold
+This page could not be displayed
+mt-1 text-sm text-ink-muted
+Your data is safe. Try again, or return to your dashboard.
+mt-5 rounded-lg bg-brand-800 px-4 py-2 text-sm font-medium text-white
+Try again
+max-w-md
+max-w-2xl
+max-w-lg
+fixed inset-0 z-50 flex items-end justify-center p-0 sm:items-center sm:p-4
+aria-modal
+aria-labelledby
+flex items-start justify-between gap-4 border-b border-brand-50 px-6 py-4
+text-lg font-semibold
+data-close
+rounded-md p-1 text-ink-muted hover:bg-brand-50
+Close
+h-5 w-5
+overflow-y-auto px-6 py-5
+flex flex-wrap justify-end gap-2 border-t border-brand-50 px-6 py-4
+Confirm
+Cancel
+aria-live
+polite
+bg-white text-red-800 ring-red-200
+bg-brand-900 text-white ring-brand-800
+mt-0.5 h-4 w-4 shrink-0
+text-emerald-400
+text-gold-300
+right
+right-0
+left-0
+bg-brand-50 text-brand-800 ring-brand-100
+bg-amber-50 text-amber-900 ring-amber-200
+bg-red-50 text-red-800 ring-red-200
+bg-emerald-50 text-emerald-900 ring-emerald-200
+flex gap-3 rounded-xl p-4 text-sm ring-1 ring-inset
+min-w-0 flex-1
+font-semibold
+mt-1
+opacity-90
+Lawyers handle every enquiry
+Your details stay confidential
+Every listing is reviewed
+Safer payments
+Lawyer-managed transactions
+Confidential by default
+Reviewed listings, fewer scams
+Your number is passed between agents and strangers.
+Your details stay private until your lawyer authorises sharing them.
+Listings of unknown origin, sometimes fake.
+Every listing is reviewed by a lawyer before it is published.
+,elvictoria:
+You negotiate alone, without legal guidance.
+Your lawyer coordinates inspections, negotiation and completion.
+,className:P(
+,t),
+ELVICTORIA home
+0 0 40 40
+h-9 w-9 shrink-0
+M11 29 L11 13 L20 8 L29 13 L29 29
+,strokeWidth:
+,strokeLinejoin:
+M15.5 29 V18 h9 M15.5 23.5 h7 M15.5 29 h9
+,strokeLinecap:
+font-display text-2xl leading-none tracking-wide
+text-white
+text-ink-strong
+,n.jsx(
+text-gold-500
+ICTORIA
+ELVICTORIA
+Former user
+Unassigned
+Escalated by support
+Client awaiting reply
+Provider awaiting reply
+Transfer to confirm
+Include at least one letter and one number.
+Enter a valid email address.
+An account with this email already exists. Sign in instead.
+Please accept the Terms and Conditions to continue.
+Account type does not match the selected interest.
+buyer
+owner
+),userId:r.id,category:
+,body:s,link:
+Welcome to ELVICTORIA
+New account registered
+property provider
+buyer/renter
+User
+That email is already used by another account.
+Your current password is incorrect.
+Password changed
+Your password was changed. If this was not you, contact ELVICTORIA support immediately.
+/app/profile
+/app/staff/users
+You cannot change the status of your own account.
+deactivated
+At least one lawyer account must remain active.
+Listing property requires a provider account.
+Provider accounts are set up for listing property.
+Enter a maximum price greater than zero, or leave it empty.
+renter
+Saving properties is available on buyer, renter and provider accounts.
+Property
+Enter a valid office email.
+Payment due period must be between 1 and 60 days.
+Something went wrong. Please try again.
+Switch Account
+Continue as another account. Records you have created are kept.
+ghost
+Restore initial data
+relative mb-4
+pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-ink-muted
+switch-q
+Search accounts
+pl-9
+space-y-5
+eyebrow mb-2
+grid gap-2 sm:grid-cols-2
+flex items-center gap-3 rounded-lg border p-3 text-left transition
+border-gold-300 bg-gold-50
+border-brand-100 hover:border-brand-300 hover:bg-brand-50/50
+block truncate text-sm font-medium text-ink-strong
+ml-1 text-xs text-gold-700
+(current)
+block truncate text-xs text-ink-muted
+Restore data
+Initial data restored.
+relative rounded-lg p-2 text-ink-soft hover:bg-brand-50
+flex items-center justify-between border-b border-brand-50 px-4 py-3
+Notifications
+inline-flex items-center gap-1 text-xs font-medium text-brand-600 hover:underline
+h-3.5 w-3.5
+Mark all as read
+px-4 py-8 text-center text-sm text-ink-muted
+flex w-full gap-3 px-4 py-3 text-left hover:bg-brand-50/60
+bg-gold-50/40
+mt-1.5 h-2 w-2 shrink-0 rounded-full
+bg-transparent
+block text-sm font-medium text-ink-strong
+line-clamp-2 block text-sm text-ink-soft
+mt-1 block text-xs text-ink-muted
+/app/notifications
+,children:
+flex w-full items-center gap-2.5 px-4 py-2.5 text-left text-sm text-ink hover:bg-brand-50
+w-64 py-1
+flex items-center gap-2 rounded-lg p-1 pr-2 hover:bg-brand-50
+Account menu
+hidden text-left sm:block
+block text-sm font-medium leading-tight text-ink-strong
+block text-xs text-ink-muted
+h-4 w-4 text-ink-muted
+border-b border-brand-50 px-4 py-3
+text-sm font-semibold text-ink-strong
+My workspace
+Account & profile
+Public website
+my-1 border-t border-brand-50
+text-red-700
+Sign out
+,label:
+/sell
+Sell
+/properties
+Explore
+/help
+/about
+About Us
+/contact
+Contact
+type
+rounded-md px-3 py-2 text-base font-medium transition
+text-brand-800
+text-ink-soft hover:text-ink-strong
+flex min-h-screen flex-col
+header
+sticky top-0 z-30 border-b border-brand-100/70 bg-white/90 backdrop-blur
+container-page flex h-16 items-center justify-between gap-4
+hidden items-center gap-1 md:flex
+Main
+flex items-center gap-1.5
+/app/saved
+hidden rounded-lg p-2 text-ink-soft hover:bg-brand-50 md:block
+Saved properties
+hidden items-center gap-2 md:flex
+/login
+Login
+/register
+Register
+rounded-lg p-2 md:hidden
+Toggle menu
+aria-expanded
+border-t border-brand-50 bg-white md:hidden
+container-page flex flex-col py-3
+Mobile
+rounded-lg px-3 py-3 text-base font-medium
+bg-brand-50 text-ink-strong
+mt-3 grid grid-cols-2 gap-2 border-t border-brand-50 pt-3
+main
+flex-1 pb-16 md:pb-0
+Saved
+Sign in
+Quick navigation
+flex flex-col items-center gap-0.5 py-2 text-2xs font-medium
+text-brand-700
+text-ink-muted
+fill-brand-50
+footer
+bg-brand-950 text-brand-200
+container-page grid gap-10 py-14 md:grid-cols-4
+md:col-span-2
+mt-4 font-display text-xl text-white
+mt-2 max-w-md text-sm leading-relaxed text-brand-200
+mb-3 text-sm font-semibold text-white
+space-y-2 text-sm
+,className:
+hover:text-white
+How ELVICTORIA works
+List a property
+/terms
+Terms and Conditions
+/privacy
+Privacy Policy
+Office
+space-y-2.5 text-sm
+flex gap-2
+mt-0.5 h-4 w-4 shrink-0 text-gold-400
+border-t border-brand-900
+,new Date().getFullYear(),
+open
+Dashboard
+/app/staff/listings
+Listings
+/app/staff/enquiries
+Enquiries
+/app/staff/cases
+Cases
+/app/staff/payments
+Payments
+Users
+/app/staff/reports
+Reports
+/app/staff/helpdesk
+/app/staff/settings
+Settings
+Overview
+/app/provider/properties
+My Properties
+/app/provider/properties/new
+Add Property
+/app/provider/cases
+Enquiries & Cases
+Saved Properties
+/app/help
+initiated
+/app/client/enquiries
+My Enquiries
+Explore Properties
+flex flex-col gap-0.5
+Workspace
+flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition
+bg-white/10 text-white
+text-brand-200 hover:bg-white/5 hover:text-white
+flex-1
+rounded-full bg-gold-400 px-1.5 text-2xs font-semibold text-brand-950
+min-h-screen lg:pl-64
+aside
+fixed inset-y-0 left-0 z-30 hidden w-64 flex-col bg-brand-900 px-4 py-5 lg:flex
+mb-8 px-2
+mt-auto rounded-lg bg-white/5 px-3 py-3 text-xs text-brand-300
+Internal notes and participant contact details are visible to ELVICTORIA staff only.
+All communication about a property is handled by the ELVICTORIA legal team.
+fixed inset-0 z-40 lg:hidden
+animate-fade absolute inset-0 bg-brand-950/50
+absolute inset-y-0 left-0 flex w-72 flex-col bg-brand-900 px-4 py-5
+mb-6 flex items-center justify-between px-2
+rounded-md p-1 text-brand-200
+Close menu
+flex items-center gap-2
+rounded-lg p-2 lg:hidden
+Open menu
+lg:hidden
+flex items-center gap-1
+mx-auto max-w-7xl px-4 py-6 sm:px-6 sm:py-8
+INPUT
+form
+,wall2:
+,accent:
+,trim:
+,glass:
+,roof:
+,ground:
+,foliage:
+defs
+linearGradient
+stop
+,stopColor:
+0.55
+,opacity:
+ellipse
+M0 0 C 4 -60, -6 -120, 6 -180
+M6 -180 q 40 -10 70 20
+M140 280 L260 200 L540 200 L660 280 Z
+,stroke:
+,strokeDasharray:
+,y1:Ie-54,x2:Dt,y2:Ie-54,stroke:
+translate(640 300)
+,fontSize:
+,textAnchor:
+,fontFamily:
+,fontWeight:
+,stroke:e.accent,strokeWidth:
+M140 200 L190 150 L230 185 L260 160 L285 200Z
+translate(700 330)
+M55 300 L65 270 L75 300Z
+commercial
+land
+photo-1613490493576-7fde63acd811
+photo-1600585154340-be6161a56a0c
+photo-1600596542815-ffad4c1539a9
+photo-1600566753190-17f0baa2a6c3
+photo-1643297551340-19d8ad4f20ad
+photo-1564013799919-ab600027ffc6
+photo-1570129477492-45c003edd2be
+photo-1764722870631-877f5c694b76
+photo-1545324418-cc1a3fa10c00
+photo-1758448511487-15f69dd6107b
+photo-1781512436292-f2687f67f605
+photo-1792978218474-fd8d26885707
+photo-1704230093402-c903d87735b4
+photo-1500382017468-9049fed747ef
+photo-1778961419928-2968ddd57c05
+photo-1486406146926-c627a92ad1ab
+photo-1600607687939-ce8a6c25118c
+photo-1600210492486-724fe5c67fb0
+photo-1600566753086-00f18fb6b3ea
+photo-1560448204-e02f11c3d0e2
+photo-1600210491892-03d54c0aaf87
+photo-1771371854543-bb274762389e
+photo-1556911220-bff31c812dba
+photo-1760072513457-651955c7074d
+photo-1773579223066-4b54a17ec8cc
+photo-1779314687592-7d64bea77e8a
+photo-1770063817031-f3b98dff347f
+photo-1505693416388-ac5ce068fe85
+photo-1616594039964-ae9021a400a0
+photo-1760072513376-67a46aab0fd1
+photo-1758448755969-8791367cf5c5
+photo-1778731525509-14e8fba26a2d
+photo-1741678095296-2b5cd407cc90
+photo-1497366811353-6870744d04b2
+photo-1497366754035-f200968a6e72
+photo-1497366216548-37526070297c
+photo-1497366858526-0766cadbe8fa
+Property photograph
+object-cover
+absolute
+eager
+lazy
+async
+upload
+flex items-center justify-center bg-brand-50 text-brand-300
+h-8 w-8
+flex flex-wrap gap-x-4 gap-y-1 text-sm text-ink-soft
+inline-flex items-center gap-1.5
+h-4 w-4 text-brand-400
+icon
+Removed from saved properties.
+Saved. Find it under Saved Properties.
+Remove from saved properties
+Save property
+aria-pressed
+inline-flex h-10 items-center gap-2 rounded-lg border px-4 text-sm font-medium transition
+border-brand-200 bg-brand-50 text-brand-800
+border-brand-200 bg-white text-brand-800 hover:bg-brand-50
+fill-brand-700 text-brand-700
+Save Property
+rounded-full bg-white/95 p-2 shadow-sm ring-1 ring-black/5 transition hover:scale-105
+grid
+flex-col sm:flex-row
+flex-col
+relative overflow-hidden bg-brand-50
+absolute left-3 top-3 rounded-md px-2 py-1 text-xs font-semibold shadow-sm
+bg-brand-900 text-white
+bg-gold-400 text-brand-950
+For Sale
+For Rent
+absolute right-3 top-3
+absolute bottom-3 left-3
+flex flex-1 flex-col gap-2 p-4
+text-xs font-medium uppercase tracking-wide text-gold-600
+line-clamp-2 font-semibold text-ink-strong group-hover:text-brand-700
+flex items-center gap-1 text-sm text-ink-muted
+mt-auto flex items-end justify-between pt-2
+text-lg font-semibold text-ink-strong
+text-sm font-normal text-ink-muted
+ per annum
+text-xs text-ink-muted
+relative overflow-hidden rounded-xl bg-brand-50
+Previous photo
+Next photo
+absolute bottom-3 right-3 rounded-md bg-brand-950/70 px-2 py-1 text-xs text-white
+,t+1,
+scrollbar-thin mt-3 flex gap-2 overflow-x-auto pb-1
+h-16 w-24 shrink-0 overflow-hidden rounded-lg ring-2 transition
+ring-gold-400
+ring-transparent opacity-70 hover:opacity-100
+h-full w-full
+0-50000000
+Under ₦50M
+50000000-100000000
+100000000-200000000
+200000000-
+Above ₦200M
+0-3000000
+Under ₦3M / year
+3000000-8000000
+8000000-20000000
+20000000-
+Above ₦20M / year
+sort
+,state:zh.includes(e.get(
+,region:Dh.includes(e.get(
+region
+,lga:e.get(
+,category:e.get(
+,price:e.get(
+,beds:Number(e.get(
+newest
+,type:
+,state:
+,region:
+,price:
+,beds:0,sort:
+,e.q),e.type&&t.set(
+,e.type),e.state&&t.set(
+,e.state),e.region&&t.set(
+,e.region),e.lga&&t.set(
+,e.lga),e.category&&t.set(
+,e.category),e.price&&t.set(
+,e.price),e.beds&&t.set(
+light
+flex flex-wrap gap-x-6 gap-y-2
+Why ELVICTORIA
+inline-flex items-center gap-2 text-sm font-medium
+dark
+text-white/90
+grid gap-4 sm:grid-cols-2 lg:grid-cols-4
+rounded-2xl p-6
+border border-white/10 bg-white/5
+border border-brand-100 bg-white shadow-card
+flex h-11 w-11 items-center justify-center rounded-xl
+bg-gold-400/15 text-gold-300
+mt-4 text-lg font-semibold
+mt-1.5 text-sm leading-relaxed
+text-white/75
+overflow-hidden rounded-2xl border border-brand-100 bg-white shadow-card
+hidden grid-cols-2 border-b border-brand-100 text-sm font-semibold sm:grid
+bg-slate-50 px-5 py-4 text-ink-muted
+The usual property search
+bg-brand-800 px-5 py-4 text-white
+With ELVICTORIA
+grid border-b border-brand-50 last:border-0 sm:grid-cols-2
+flex gap-2.5 px-5 py-4 text-sm text-ink-muted
+mt-0.5 h-4 w-4 shrink-0 text-red-500
+flex gap-2.5 bg-brand-50/40 px-5 py-4 text-sm font-medium text-ink-strong
+mt-0.5 h-4 w-4 shrink-0 text-emerald-600
+rounded-xl bg-brand-50/70 p-4
+flex items-center gap-2 font-semibold text-brand-900
+h-5 w-5 text-brand-700
+mt-2 space-y-1.5 text-sm text-ink-soft
+mt-1 h-3.5 w-3.5 shrink-0 text-emerald-600
+flex gap-2 text-xs text-ink-muted
+h-4 w-4 shrink-0 text-brand-600
+State
+All states
+Island / Mainland
+Island or Mainland
+Island & Mainland
+Local Government Area
+All LGAs
+area
+Area / neighbourhood
+Area
+All areas
+section
+relative isolate overflow-hidden bg-brand-950
+,scene:
+,palette:1,label:
+absolute inset-0 -z-10 bg-gradient-to-r from-brand-950 via-brand-950/80 to-brand-950/20
+container-page py-20 sm:py-28 lg:py-32
+eyebrow text-gold-300
+Property in Lagos and Enugu, handled with care
+mt-5 max-w-xl text-lg text-white/85
+mt-10 max-w-4xl rounded-2xl bg-white p-3 shadow-lift sm:p-4
+Property search
+mb-3 inline-flex rounded-lg bg-brand-50 p-1
+rounded-md px-5 py-1.5 text-sm font-semibold transition
+bg-brand-800 text-white shadow
+Rent
+grid gap-3
+grid-cols-2
+grid-cols-1
+hero
+sr-only
+hero-type
+Property type
+Search
+mt-6
+container-page pt-16 sm:pt-20
+mb-8 max-w-2xl
+eyebrow
+mt-1.5 font-display text-3xl sm:text-4xl
+mt-3 text-base text-ink-soft
+Recommended for you
+Rentals
+Homes for sale
+Properties
+inline-flex items-center gap-1 text-sm font-semibold text-brand-700 hover:underline
+See all
+grid gap-6 sm:grid-cols-2 lg:grid-cols-3
+container-page py-16 sm:py-20
+Featured
+Selected properties
+View all properties
+container-page pb-16
+Where we operate
+Browse Lagos and Enugu
+grid gap-4 sm:grid-cols-3
+Lekki, Ikoyi, Victoria Island, Ajah
+Ikeja, Yaba, Gbagada, Magodo
+GRA, Independence Layout, Trans-Ekulu
+group relative overflow-hidden rounded-2xl
+absolute inset-0 bg-gradient-to-t from-brand-950/90 via-brand-950/30 to-transparent
+absolute bottom-0 p-5 text-white
+font-display text-2xl
+text-sm text-white/80
+mt-1 text-xs text-gold-200
+ listings
+border-y border-brand-100/70 bg-white py-16
+container-page
+Browse
+Browse by property type
+grid grid-cols-2 gap-3 sm:grid-cols-4 lg:grid-cols-7
+h-6 w-6 text-brand-600 group-hover:text-gold-600
+mt-3 text-sm font-semibold text-ink-strong
+ listing
+New on ELVICTORIA
+Recently listed
+bg-brand-900 py-16 text-white sm:py-20
+mt-2 max-w-2xl font-display text-3xl text-white sm:text-4xl
+A property platform with legal oversight built in.
+mt-10 grid gap-6 md:grid-cols-4
+Listings are reviewed
+You find a property
+Browse approved homes, apartments, land and commercial spaces across Nigeria.
+Your enquiry goes to our lawyers
+A lawyer handles your enquiry and speaks with the property provider on your behalf.
+The transaction is managed
+Inspections, negotiation, payments and completion are tracked in your account.
+rounded-xl border border-white/10 bg-white/5 p-5
+flex items-center gap-3
+flex h-9 w-9 items-center justify-center rounded-lg bg-gold-400/15 text-gold-300
+text-sm text-brand-300
+Step 
+mt-4 font-semibold
+mt-1.5 text-sm leading-relaxed text-brand-200
+Peace of mind
+Fewer risks. No strangers. Full confidentiality.
+container-page pb-20
+grid gap-4 md:grid-cols-2
+rounded-2xl bg-gold-50 p-8 ring-1 ring-gold-200
+mt-2 text-sm text-ink-soft
+Browse reviewed listings and submit an enquiry. Our legal team will take it from there.
+Browse properties
+rounded-2xl bg-brand-900 p-8 text-white
+font-display text-2xl text-white
+mt-2 text-sm text-brand-200
+,variant:
+mb-8 flex flex-wrap items-end justify-between gap-3
+mt-1.5 font-display text-3xl
+grid gap-3 sm:grid-cols-2 lg:grid-cols-4
+Buy or rent
+For sale
+For rent
+,depth:
+Price range
+optgroup
+Sale price
+Annual rent
+Bedrooms
+Any bedrooms
++ bedrooms
+container-page py-10
+Properties for sale
+Properties for rent
+Properties for sale and rent
+mt-2 text-ink-soft
+mt-4
+rounded-xl border border-brand-100 bg-white p-4 shadow-card
+relative flex-1
+Search properties
+Search by area, city, title or reference
+hidden sm:inline
+Filters
+rounded-full bg-brand-800 px-1.5 text-xs text-white
+mt-3
+block
+hidden lg:block
+mt-6 flex flex-wrap items-center justify-between gap-3
+text-sm text-ink-soft
+property
+properties
+ found
+ml-3 inline-flex items-center gap-1 font-medium text-brand-700 hover:underline
+Clear filters
+Sort
+h-9 w-auto py-1.5 text-sm
+Newest first
+hidden rounded-lg border border-brand-100 bg-white p-0.5 sm:flex
+rounded-md p-1.5
+mt-6 rounded-xl border border-brand-100 bg-white
+No properties match your search
+mt-5 grid gap-6
+sm:grid-cols-2 lg:grid-cols-3
+mt-10 text-center
+Load more properties (
+ remaining)
+Enquiries are submitted from a buyer or renter account.
+This property is not currently open to enquiries.
+Tell us a little more (at least 20 characters).
+),enquiryReference:ll(e,
+),propertyId:s.id,clientId:r.id,providerId:s.providerId,status:
+),channel:
+Case
+This case is closed. No further changes can be made.
+case
+Lawyer
+Cases can only be assigned to an active lawyer.
+Assign a lawyer before progressing this matter.
+Resolve outstanding payment requests before completing the case.
+You cannot post to this conversation.
+Write a message first.
+This matter already has an open escalation.
+Escalation
+Assign a lawyer before releasing contact details.
+Select at least one contact detail to release.
+Record why disclosure is necessary.
+phone number
+email address
+ and 
+Furnished
+Semi-furnished
+Unfurnished
+container-page py-20
+This property is not available
+container-page pb-24 pt-8 lg:pb-8
+mb-4 inline-flex items-center gap-1 text-sm text-ink-muted hover:text-brand-800
+All properties
+mb-5
+Not publicly visible
+This listing is visible to you because you manage it. Current status: 
+mt-6 flex flex-wrap items-start justify-between gap-4
+flex flex-wrap items-center gap-2
+text-xs font-semibold uppercase tracking-wide text-gold-600
+mt-2 font-display text-3xl sm:text-4xl
+mt-2 flex items-center gap-1.5 text-ink-soft
+text-right
+text-3xl font-semibold text-ink-strong
+Ref. 
+mt-3 flex justify-end
+mt-5 rounded-xl border border-brand-100 bg-white p-4
+mt-3 grid gap-3 sm:grid-cols-3
+Service charge (per annum)
+Caution deposit (refundable)
+mt-8
+About this property
+mt-3 whitespace-pre-line leading-relaxed text-ink-soft
+Features
+mt-3 grid gap-2 sm:grid-cols-2
+flex items-center gap-2 text-sm text-ink-soft
+h-4 w-4 text-emerald-600
+Property details
+sm:border-r sm:border-brand-50 sm:pr-4
+Reference
+Type
+Listing
+For rent (per annum)
+Availability
+Bathrooms
+sm:pl-4
+Toilets
+Size
+ sqm
+Furnishing
+Listed
+enquire
+scroll-mt-20 lg:sticky lg:top-24 lg:self-start
+smooth
+Enquire
+mt-16
+mb-5 font-display text-2xl
+Similar properties
+platform
+Asking price
+text-2xl font-semibold text-ink-strong
+Enquiries open once this listing is approved and available.
+text-center
+mx-auto h-10 w-10 text-emerald-600
+mt-3 font-semibold text-ink-strong
+mt-1 text-sm text-ink-soft
+Reference 
+mt-5 w-full
+Track this enquiry
+Enquire About This Property
+mt-3 text-center text-sm text-ink-muted
+Sign in or 
+font-medium text-brand-700 hover:underline
+create a free account
+ to submit your enquiry.
+w-full
+Open listing record
+This is your listing.
+Enquiries are submitted from buyer and renter accounts.
+Manage this listing
+You have an active enquiry
+ is being handled by our legal team.
+View enquiry
+Tell us a little more about what you are looking for (at least 20 characters).
+Your enquiry has been submitted.
+space-y-4
+Welcome back, 
+. Complete your enquiry below.
+Purpose of enquiry
+enq-purpose
+Message
+enq-message
+Share your timing, budget or questions for the legal team.
+,htmlFor:
+enq-contact
+flex gap-2 rounded-lg bg-brand-50 p-3 text-xs text-brand-800
+h-4 w-4 shrink-0
+rounded-xl border border-brand-100 bg-white px-4 py-3
+Add a short subject.
+Please tell us a little more.
+fraud
+Ticket
+You cannot reply to this ticket.
+Write a reply first.
+resolved
+other
+,category:e,subject:
+,body:
+Enter your full name.
+Please tell us a little more (at least 15 characters).
+h-6 w-6 text-emerald-600
+Our support team will reply in your Help Desk inbox during office hours.
+Our support team will respond by email or phone during office hours.
+View request
+New request
+grid gap-4 sm:grid-cols-2
+Full name
+tk-name
+name
+tk-email
+Phone (optional)
+tk-phone
+Topic
+tk-cat
+sm:col-span-2
+Never pay into a personal account
+Subject
+tk-subject
+subject
+tk-body
+Submit request
+topic
+container-page py-12
+mt-2 max-w-2xl text-ink-soft
+Choose a topic and send us a request. 
+Track replies in 
+your Help Desk inbox
+Sign in to track your requests in your account.
+mt-6 flex flex-wrap gap-2
+inline-flex items-center gap-1.5 rounded-full border px-3.5 py-1.5 text-sm transition
+border-brand-700 bg-brand-800 text-white
+border-brand-100 bg-white text-ink-soft hover:border-brand-300
+h-6 w-6 text-gold-600
+Speak to support
+mt-3 space-y-2.5 text-sm text-ink-soft
+h-6 w-6 text-red-600
+Stay safe
+Your support requests and replies from the ELVICTORIA team.
+updated
+No support requests
+Contact the Help Desk
+status
+Status
+Last update
+This request could not be found on your account.
+Reply sent.
+Ticket status
+Status updated.
+w-44
+space-y-4 p-5
+flex gap-3
+flex-row-reverse
+bg-brand-50
+mb-0.5 text-xs font-semibold
+text-brand-100
+font-normal opacity-80
+whitespace-pre-line
+mt-1 text-2xs
+text-brand-200
+border-t border-brand-50 p-5
+Record a note of your response
+Reply to the user
+Add a reply
+h-fit
+Details
+divide-y divide-brand-50 px-5 py-2
+From
+text-brand-700 hover:underline
+Phone
+Opened
+tk-reply
+mt-2 flex justify-end
+Send
+Support requests from users and website visitors.
+space-y-3 border-b border-brand-50 p-4
+Search tickets
+Search reference, subject or name
+No tickets in this view
+from
+ml-1 text-xs text-ink-muted
+(guest)
+Updated
+whitespace-nowrap text-ink-muted
+,palette:3,label:
+absolute inset-0 -z-10 bg-gradient-to-r from-brand-950 to-brand-950/40
+container-page py-20 sm:py-24
+About ELVICTORIA
+mt-3 max-w-3xl font-display text-4xl text-white sm:text-5xl
+Real estate, with a legal team on every enquiry.
+mt-5 max-w-2xl text-lg text-brand-100
+container-page grid gap-12 py-16 lg:grid-cols-2
+font-display text-3xl
+Why we built ELVICTORIA
+mt-5 space-y-4 leading-relaxed text-ink-soft
+Reviewed listings
+Each submission is checked by a lawyer before it appears in the catalogue.
+Lawyer-managed enquiries
+Every enquiry is assigned to a lawyer who manages it to completion.
+Controlled communication
+Clear progress
+Clients and providers can follow each stage of a transaction in their account.
+bg-brand-950 py-16
+Our promise
+mt-2 font-display text-3xl text-white sm:text-4xl
+border-t border-brand-100 bg-white py-16
+container-page grid gap-6 md:grid-cols-2
+flex gap-4
+h-8 w-8 shrink-0 text-brand-600
+For buyers and renters
+mt-3 inline-block text-sm font-semibold text-brand-700 hover:underline
+For owners, agents and developers
+Speak with ELVICTORIA
+h-fit p-6
+Our office
+mt-4 space-y-4 text-sm text-ink-soft
+h-5 w-5 shrink-0 text-gold-600
+container-page py-24
+Page not found
+The page you are looking for does not exist or has moved.
+elvictoria:
+SHA-256
+mt-2 space-y-2 leading-relaxed text-ink-soft
+1. About ELVICTORIA
+2. Your account
+3. Listings
+4. Enquiries and communication
+5. Payments
+6. Reporting concerns
+What we collect
+How we use it
+Who can see it
+Your choices
+container-page max-w-3xl py-12
+Legal
+grid min-h-screen lg:grid-cols-2
+flex flex-col px-5 py-8 sm:px-10
+mx-auto flex w-full max-w-md flex-1 flex-col justify-center py-10
+h-4 w-4 shrink-0 text-brand-700
+relative hidden overflow-hidden bg-brand-950 lg:block
+,palette:4,label:
+absolute inset-0 bg-gradient-to-t from-brand-950 via-brand-950/30 to-transparent
+absolute bottom-0 p-12 text-white
+h-8 w-8 text-gold-300
+mt-4 max-w-md font-display text-3xl text-white
+mt-4 max-w-md space-y-2 text-white/85
+mt-1 h-4 w-4 shrink-0 text-gold-300
+pr-10
+absolute right-2 top-1/2 -translate-y-1/2 rounded p-1 text-ink-muted
+Hide password
+Show password
+next
+Enter your password.
+/properties/
+Welcome back
+font-semibold text-brand-700 hover:underline
+Create an account
+Sign in to submit your enquiry. You will return to the property afterwards.
+Email address
+login-email
+Password
+login-password
+current-password
+flex justify-end
+/forgot-password
+text-sm font-medium text-brand-700 hover:underline
+,loading:c,children:
+mt-8 border-t border-brand-50 pt-4 text-center text-xs text-ink-muted
+Choose a reviewer account
+interest
+location
+,password:
+,confirm:
+Enter your first and last name.
+An account with this email already exists.
+Enter a Nigerian mobile number, e.g. 0803 123 4567.
+Passwords do not match.
+Choose what you are interested in.
+agency
+developer
+Enter your company name.
+Choose a state.
+Create your account
+We use this to personalise your properties and notifications. You can change it later.
+Choose the state where your properties are located.
+Choose the state you are interested in. We currently cover Lagos and Enugu.
+mb-6 flex gap-2
+Sign-up progress
+h-1.5 flex-1 rounded-full
+bg-brand-100
+ (current)
+reg-name
+reg-email
+Phone number
+reg-phone
+,value:g.phone,onChange:T(
+,placeholder:
+reg-pw
+At least 8 characters, with a letter and a number.
+new-password
+Confirm password
+reg-cpw
+grid grid-cols-2 gap-3
+radiogroup
+Interest
+aria-checked
+rounded-xl border p-4 text-left transition
+border-brand-700 bg-brand-50 ring-1 ring-brand-700
+border-brand-100 hover:border-brand-300
+mt-2 text-sm font-semibold text-ink-strong
+text-sm text-red-600
+I am a
+reg-pk
+Company name
+reg-org
+Optional for individual owners
+organisation
+organization
+Back
+,onClick:It,children:
+reg-loc
+reg-alerts
+Notify me about new listings in this area
+You can refine alerts by price and property type in your profile.
+rounded-xl bg-brand-50/60 p-4
+reg-terms
+I have read and agree to the 
+terms
+text-brand-700 underline
+ and acknowledge the 
+privacy
+mt-2 text-sm text-red-600
+,loading:N,children:
+Recover your account
+Enter the email address on your account and our support team will help you regain access.
+Request received
+If an account exists for 
+Back to sign in
+fp-email
+text-center text-sm
+Enter a valid Nigerian phone number.
+Profile updated.
+Manage your personal details and password.
+Personal details
+Contact details are private to you and ELVICTORIA staff.
+grid gap-4 p-5 sm:grid-cols-2
+pf-name
+pf-email
+pf-phone
+City
+pf-city
+city
+Company / agency
+Title
+pf-org
+Save changes
+space-y-6
+mt-4 divide-y divide-brand-50
+Member since
+Active
+Choose your preferred state.
+Preferences saved.
+Interests and notifications
+Personalises the properties we recommend and the alerts you receive.
+space-y-6 p-5
+grid gap-2 sm:grid-cols-3
+rounded-lg border px-3 py-2.5 text-left text-sm
+border-brand-700 bg-brand-50 font-semibold text-ink-strong
+border-brand-100 text-ink-soft
+Preferred location
+grid gap-3 sm:grid-cols-2
+pref
+rounded-xl border border-brand-100 p-4
+pref-alerts
+New listing alerts
+Get notified when a matching property is published.
+mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-3
+Maximum price
+Maximum price (₦), optional
+Save preferences
+,next:
+Enter your current password.
+Password changed.
+Use a strong password you do not use elsewhere.
+Change password
+Update password
+Current password
+cp-cur
+New password
+cp-new
+Confirm new password
+cp-con
+unread
+Updates about your account, listings, enquiries and payments.
+All notifications marked as read.
+border-b border-brand-50 p-3
+Unread
+No unread notifications
+No notifications yet
+New activity on your records will appear here.
+divide-y divide-brand-50
+flex flex-col gap-3 px-5 py-4 sm:flex-row sm:items-start
+mt-1.5 hidden h-2 w-2 shrink-0 rounded-full sm:block
+min-w-0 flex-1 text-left
+flex shrink-0 gap-1
+Email copy
+Mark unread
+Mark as read
+rounded-lg border border-brand-100
+border-b border-brand-50 px-4 py-2 text-sm
+,t.email,n.jsx(
+Subject:
+font-medium
+whitespace-pre-wrap px-4 py-3 font-sans text-sm text-ink-soft
+,completed:
+,cancelled:
+,negotiation:
+ needs
+s need
+grid grid-cols-2 gap-3 md:grid-cols-3 xl:grid-cols-5
+Total listings
+Excludes provider drafts
+Pending approvals
+,tone:
+Active public listings
+Registered users
+Total enquiries
+Open cases
+Requiring attention
+Completed cases
+Pending payments
+Successful payments
+mt-6 grid gap-6 xl:grid-cols-3
+xl:col-span-2
+Enquiries requiring attention
+Unassigned, escalated, awaiting a reply or awaiting payment confirmation.
+Nothing needs attention
+All open matters are assigned and up to date.
+,header:
+line-clamp-1
+Client
+flex flex-wrap justify-end gap-1 md:justify-start
+Matters by status
+mt-6 grid gap-6 xl:grid-cols-2
+Recent property submissions
+Review queue is clear
+New submissions will appear here.
+flex items-center justify-between gap-3 px-5 py-3 hover:bg-brand-50/50
+truncate font-medium text-ink-strong
+shrink-0 text-right
+Recently updated cases
+All cases
+,n.jsxs(
+font-normal text-ink-muted
+Recent payment activity
+Your notifications
+View all
+No notifications
+flex gap-3 px-5 py-3 hover:bg-brand-50/50
+text-sm font-medium text-ink-strong
+ml-auto shrink-0 text-xs text-ink-muted
+Monitor enquiries, record observations and escalate matters that need a lawyer.
+grid grid-cols-2 gap-3 lg:grid-cols-4
+Unassigned enquiries
+Open escalations
+Listings awaiting review
+Open Help Desk tickets
+Matters to monitor
+Unassigned or escalated. Lawyers make assignment and transaction decisions.
+All matters are assigned
+Submitted
+Escalated
+Recent registrations
+flex items-center justify-between px-5 py-3 hover:bg-brand-50/50
+Provider
+Operational snapshot
+grid gap-6 p-5 sm:grid-cols-3
+Open matters
+text-xl font-semibold text-ink-strong
+Public listings
+Give the property a descriptive title (at least 8 characters).
+Enter a price greater than zero.
+Complete the state, LGA and area.
+Choose an LGA within the selected state.
+Describe the location so the legal team can identify it.
+Write a description of at least 60 characters.
+Add at least one photograph.
+Only property providers can create listings.
+This listing cannot be edited in its current status.
+Changes to a published listing must be submitted for review.
+resubmitted
+Saved property being updated
+edited
+),reference:ll(e,
+created
+)throw new M(
+Submission withdrawn by provider.
+You cannot change this listing.
+,title:r,body:s,link:
+ and now visible in the public catalogue
+Saved property is available again
+Explain what needs to change (at least 10 characters).
+Provide a reason for the rejection (at least 10 characters).
+Only approved listings can be withdrawn.
+This listing is not withdrawn.
+relisted
+Listing withdrawn from public view
+Listing restored to public view
+Saved property withdrawn
+Saved property available again
+Only approved listings can be featured.
+Review submissions and manage the public catalogue.
+flex flex-col gap-2 sm:flex-row
+Search listings
+Search reference, title, area or provider
+Category
+sm:w-56
+The review queue is clear
+No listings found
+Try a different search or category.
+h-11 w-16 shrink-0 rounded-md
+line-clamp-1 font-medium text-ink-strong
+Location
+,p.lga,
+price
+Price
+whitespace-nowrap
+availability
+Listing created
+Submitted for review
+Resubmitted for review
+Withdrawn from public view
+Restored to public view
+Listing edited
+This listing could not be found.
+View public page
+min-w-0 space-y-6
+Submitted information
+space-y-5 p-5
+flex flex-wrap items-end justify-between gap-3
+grid gap-x-8 divide-y divide-brand-50 sm:grid-cols-2 sm:divide-y-0
+Service charge
+Caution deposit
+text-sm font-medium text-ink
+Location description
+Description
+mt-1 whitespace-pre-line text-sm leading-relaxed text-ink-soft
+mt-2 flex flex-wrap gap-1.5
+None listed
+Enquiries on this listing
+No enquiries yet
+Moderation
+space-y-3 p-5
+Feedback sent to provider
+&&n.jsxs(
+grid gap-2
+approve
+Approve listing
+changes
+Request changes
+text-red-700 hover:bg-red-50
+reject
+Reject listing
+Removed from featured.
+Listing featured on the homepage.
+Remove from featured
+Feature on homepage
+withdraw
+Withdraw from public view
+relist
+Restore to public view
+No moderation action is available until the provider submits this listing for review.
+Approval, rejection and change requests are made by ELVICTORIA lawyers.
+Name
+Company
+px-5 pb-4 text-xs text-ink-muted
+Private. Not shown to buyers or renters.
+Moderation history
+block text-ink-soft
+,m.note,
+Approve
+Listing approved.
+Explain what the provider should correct. They will see this message on the listing.
+Changes requested. The provider has been notified.
+Send request
+Feedback for the provider
+mod-feedback
+Listing rejected.
+Reason for rejection
+mod-reason
+The listing will be hidden from the catalogue. Existing enquiries continue.
+The listing will return to the public catalogue if it is available.
+Listing withdrawn.
+Listing restored.
+Withdraw
+Restore
+Note to provider (optional)
+mod-note
+Payment requests cannot be raised on a closed case.
+Open the transaction case (assign a lawyer) before requesting payment.
+Enter an amount greater than zero.
+Describe what the payment is for.
+Payment
+This payment request is not addressed to you.
+This payment has already been completed.
+A transfer for this request is awaiting confirmation.
+transfer
+Only pending transfers can be confirmed.
+),at:e.now,method:
+Your transfer could not be confirmed. Please contact the legal team through this case.
+scrollbar-thin overflow-x-auto
+relative flex flex-1 flex-col items-center text-center
+absolute right-1/2 top-3.5 h-0.5 w-full -translate-y-1/2
+bg-brand-600
+border-brand-700 bg-brand-700 text-white
+border-gold-500 bg-gold-50 text-gold-700
+border-brand-100 bg-white text-ink-muted
+mt-2 px-1 text-2xs leading-tight
+flex flex-col items-center text-center
+mt-2 text-2xs font-semibold text-red-700
+ml-1.5 rounded bg-slate-100 px-1.5 py-0.5 text-2xs font-medium uppercase text-slate-600
+Internal
+Internal notes
+Property provider
+Note saved.
+Message sent.
+rounded-lg bg-brand-50/60 px-4 py-6 text-center text-sm text-ink-muted
+No messages yet.
+bg-amber-50 ring-1 ring-amber-100
+ml-1 font-normal text-amber-700
+mt-4 rounded-xl border border-brand-100 bg-white p-2
+Message to 
+flex items-center justify-between gap-2 px-1 pt-1
+mr-1 inline h-3 w-3
+Visible to ELVICTORIA staff only
+Save note
+h-16 w-24 shrink-0 rounded-lg
+flex items-center gap-1 text-xs text-ink-muted
+mt-1 text-sm font-semibold text-ink-strong
+block rounded-lg p-1 hover:bg-brand-50
+flex gap-3 rounded-lg bg-brand-50/70 p-3 text-sm
+mt-0.5 h-4 w-4 shrink-0 text-brand-500
+rounded-lg border border-emerald-200 bg-emerald-50/60 p-3 text-sm
+mb-2 font-medium text-emerald-900
+ details shared by your lawyer
+mt-1 flex items-center gap-2 text-ink-soft
+mt-2 text-xs text-ink-muted
+Shared for this matter only.
+, ELVICTORIA
+ml-auto
+Handling lawyer
+A lawyer will be assigned shortly.
+view
+cases
+mine
+closed
+attention
+unassigned
+escalated
+,attention:
+,unassigned:
+,escalated:
+,open:
+Transaction cases
+Matters with an opened transaction case, from assignment to close.
+Every enquiry submitted by buyers and renters, managed by the legal team.
+Search reference, property or client
+Assigned lawyer
+Assigned to me
+activity
+No matters found
+Adjust the filters to see more records.
+Enquiry
+No case yet
+flex flex-wrap items-center justify-end gap-1 md:justify-start
+h-4 w-4 text-amber-500
+Needs attention
+text-amber-700
+Last activity
+enquiries
+This matter could not be found.
+Enquiry 
+Submitted 
+ by 
+Update status
+payment
+Request payment
+Escalation resolved.
+Mark resolved
+mb-6 p-5
+Communication
+mb-4
+No internal notes.
+No messages in this thread yet.
+mt-3 text-xs text-ink-muted
+Participant messages are sent by lawyers.
+Activity history
+Entries marked internal are not shown to participants.
+Participants
+border-t border-brand-50 p-4
+disclose
+Authorise contact disclosure
+Only lawyers can authorise the release of contact details.
+p-5 text-sm text-ink-muted
+No payment requests on this matter.
+Payment records are managed by lawyers.
+Escalate this matter to notify the handling lawyer (or all lawyers if unassigned).
+mt-4 w-full
+escalate
+Escalation open
+Escalate to lawyers
+Original enquiry
+p-5 text-sm text-ink-soft
+mt-3 border-t border-brand-50 pt-3
+Closing note:
+px-5 py-3 text-sm
+text-xs uppercase tracking-wide text-ink-muted
+font-medium text-ink-strong hover:underline
+mt-1.5
+Released: 
+Restricted
+flex items-center gap-2 text-sm
+h-4 w-4 text-brand-500
+Not yet assigned
+Assign lawyer
+Case reassigned.
+Lawyer assigned.
+Reassign
+Assign
+Assignment designates the handler. All lawyers retain full access to this matter.
+),c(
+Update case status
+New status
+st-next
+Note for participants (optional)
+st-note
+Shown on the buyer and provider timelines.
+Reason for cancellation
+e.g. Inspection scheduled for Saturday.
+Cancel case
+Complete case
+Enter an amount in Naira.
+Payment request sent to the client.
+Amount (₦)
+pr-amount
+e.g. 4,500,000
+pr-desc
+Due in
+pr-due
+ days
+Assign a lawyer to open the transaction case before requesting payment.
+Select at least one detail.
+Record why disclosure is necessary (at least 10 characters).
+Contact details released for this case.
+Continue
+dc-subject
+Property provider (
+Client (
+space-y-2
+Details to release
+dc-phone
+dc-email
+Reason
+dc-reason
+e.g. Tenant to coordinate key handover directly with the landlord.
+Authorise disclosure
+Confirm disclosure
+Describe why this needs a lawyer (at least 10 characters).
+Escalated to the legal team.
+Escalate
+esc-reason
+Buyers, renters, property providers and ELVICTORIA staff.
+Search users
+Search name, email or company
+Account status
+sm:w-48
+Deactivated
+registered
+No users found
+Account type
+Registered
+Activity
+This user could not be found.
+Edit details
+Deactivate
+Reactivate
+Account recovery requested
+Profile
+Last active
+No listings
+No enquiries or cases
+Deactivate account
+Reactivate account
+They will be signed out and unable to sign in. Their records are kept.
+They will be able to sign in again.
+Account deactivated.
+Account reactivated.
+Edit user details
+Email addresses are changed by the account holder.
+User updated.
+Save
+au-name
+au-phone
+Company / title
+au-org
+au-city
+outstanding
+Outstanding
+mb-6 grid grid-cols-2 gap-3 lg:grid-cols-4
+Received
+green
+Awaiting payment
+Transfers to confirm
+amber
+Search payments
+Search reference, payer or description
+date
+No payments found
+payer
+Payer
+amount
+Amount
+,size:
+Not received
+Confirm funds received
+grid divide-y divide-brand-50 sm:grid-cols-2 sm:gap-x-8 sm:divide-y-0
+Requested by
+Requested
+Paid
+mb-3 text-sm font-semibold text-ink-strong
+Processing activity
+The payer has not started this payment.
+text-emerald-700
+Pending
+Confirm receipt
+Mark as not received
+The payment will be recorded as successful and the client notified.
+The payment will be marked failed. The client can try again.
+Payment confirmed.
+Transfer marked as not received.
+Progressed to case
+Operational figures calculated from current platform records.
+grid gap-6 lg:grid-cols-2
+Properties by status
+Public listings by category
+Enquiries by status
+Cases by status
+lg:col-span-2
+Successful payments by month
+Recent operational activity
+flex items-start justify-between gap-4 px-5 py-3 hover:bg-brand-50/50
+shrink-0 text-xs text-ink-muted
+Settings saved.
+Office details shown on the public website and defaults used in client communication.
+Office details
+Shown in the website footer and Contact page.
+Office address
+st-addr
+officeAddress
+Office phone
+st-phone
+officePhone
+Office email
+st-email
+officeEmail
+Office hours
+st-hours
+officeHours
+Client communication
+grid gap-4 p-5
+Enquiry acknowledgement
+st-ack
+Added to the confirmation buyers receive after submitting an enquiry.
+enquiryAcknowledgement
+Default payment due period (days)
+st-due
+paymentDueDays
+sm:w-40
+Email delivery
+Save settings
+image/jpeg
+image/png
+image/webp
+canvas
+).drawImage(r,0,0,a.width,a.height),a.toDataURL(
+The image appears to be damaged.
+,price:0,state:
+,addressDescription:
+You can only edit your own listings.
+features
+Submitted for review. Our legal team will review it shortly.
+Draft saved.
+Back to listing
+My properties
+Edit listing
+Add a property
+Changes requested by the legal team
+This listing is live
+Please complete the following before submitting
+mt-1 list-disc pl-4
+Basic information
+Property title
+pf-title
+e.g. Contemporary 4-Bedroom Detached Duplex
+pf-cat
+category
+Listing for
+pf-type
+grid grid-cols-2 gap-2
+listingType
+rounded-lg border px-3 py-2.5 text-sm font-medium
+border-brand-700 bg-brand-50 text-ink-strong
+Sale
+Annual rent (₦)
+Sale price (₦)
+pf-price
+e.g. 185,000,000
+pf-avail
+Service charge per annum (₦)
+pf-sc
+Leave empty if not applicable.
+serviceCharge
+Caution deposit (₦)
+pf-cd
+Refundable deposit, if any.
+cautionDeposit
+The exact address is shared with our legal team only.
+grid gap-4 p-5 sm:grid-cols-2 lg:grid-cols-4
+),area:G(
+Address or location description
+pf-addr
+sm:col-span-2 lg:col-span-4
+addressDescription
+Street, estate name and nearby landmarks
+Specifications
+grid grid-cols-2 gap-4 p-5 sm:grid-cols-3 lg:grid-cols-6
+pf-beds
+bedrooms
+pf-baths
+bathrooms
+pf-toilets
+toilets
+Size (sqm)
+pf-size
+sizeSqm
+Parking spaces
+pf-park
+parkingSpaces
+pf-furn
+furnishing
+Description and features
+pf-desc
+description
+Features and amenities
+rounded-full border px-3 py-1.5 text-sm transition
+mt-3 flex max-w-md gap-2
+Add another feature
+Photographs
+grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5
+group relative overflow-hidden rounded-lg border border-brand-100
+flex items-center justify-between gap-1 bg-white px-2 py-1.5
+flex shrink-0
+rounded p-1 text-ink-muted hover:bg-brand-50
+Use as cover
+rounded p-1 text-red-600 hover:bg-red-50
+photograph
+border-red-300
+border-brand-200
+Add photographs
+image/jpeg,image/png,image/webp
+mt-4 flex gap-2 text-xs text-ink-muted
+Save as draft
+Resubmit for review
+Submit for review
+Resubmit
+My enquiries
+Enquiries & cases
+participant
+tenant
+,to:
+Pay now
+mt-4 border-t border-brand-50 pt-4 text-sm text-ink-soft
+Latest update:
+,c.text,
+Messages with the ELVICTORIA legal team
+Respond to requests from the legal team about this enquiry.
+,emptyText:
+Progress
+Your lawyer
+Prospective client
+All payments
+flex items-center justify-between gap-3 px-5 py-3
+Closed
+border-t border-brand-50 p-5 text-sm text-ink-soft
+mb-1 font-medium text-ink
+Your enquiry
+flex gap-2 px-1 text-xs text-ink-muted
+Approved by the legal team
+Not approved
+Manage your listings and follow enquiries handled by the ELVICTORIA legal team.
+Add property
+Review feedback
+grid grid-cols-2 gap-3 lg:grid-cols-6
+Total properties
+Active listings
+Pending review
+mt-6 grid gap-6 lg:grid-cols-2
+Recent activity
+No activity yet
+flex items-start justify-between gap-3 px-5 py-3 hover:bg-brand-50/50
+Open enquiries on your listings
+No open enquiries
+Enquiries are routed to you by the legal team.
+Your portfolio of listings and their review status.
+Search my properties
+Search title, reference or area
+No listings in this view
+You have not added any properties yet
+Add your first property and submit it for review.
+Listing status
+You can only view your own listings.
+Withdraw to edit
+Edit and resubmit
+Continue editing
+&&n.jsx(
+This listing was not approved
+ You can add a new listing if the issues can be resolved.
+Our legal team is reviewing this listing. You will be notified of the outcome.
+This listing has not been submitted. Complete it and submit it for review when ready.
+The legal team has withdrawn this listing from the catalogue.
+Listing details
+whitespace-pre-line text-sm leading-relaxed text-ink-soft
+No description yet.
+flex flex-wrap gap-1.5
+Update when the property is under offer or no longer available.
+Availability updated.
+Unavailable listings are hidden from the public catalogue.
+No enquiries yet.
+Review history
+Approved by legal team
+Edited
+,d.note,
+Created
+Last updated
+First published
+,confirmLabel:
+Listing returned to draft.
+No closed cases
+Being assigned
+update
+Latest update
+Date
+This case is not linked to your listings.
+,palette:5,label:
+absolute inset-0 -z-10 bg-gradient-to-r from-brand-950 via-brand-950/80 to-brand-950/30
+mt-3 max-w-2xl font-display text-4xl text-white sm:text-5xl
+List your property with ELVICTORIA.
+mt-4 max-w-xl text-lg text-white/85
+mt-6 max-w-xl space-y-2 text-white/85
+mt-8 flex flex-wrap gap-3
+container-page py-16
+How listing works
+mt-8 grid gap-4 md:grid-cols-4
+Add property details
+Location, price, description, features and clear photographs.
+Legal review
+Our lawyers review your listing and may request changes before publishing.
+Managed enquiries
+Enquiries reach you through the legal team, who coordinate inspections and transactions.
+mt-8 flex gap-3 rounded-xl bg-brand-50/70 p-5 text-sm text-ink-soft
+h-5 w-5 shrink-0 text-brand-700
+Under offer
+Another party has an offer in progress. You can still enquire.
+Let / no longer available
+Sold / no longer available
+This property is no longer on the market.
+Being updated
+Withdrawn
+This listing has been withdrawn from the catalogue.
+Explore properties
+No saved properties yet
+Tap the heart on any property to keep it here for later.
+grid gap-4
+flex flex-col overflow-hidden sm:flex-row
+relative sm:w-64 sm:shrink-0
+opacity-60 grayscale
+flex flex-1 flex-col gap-2 p-5
+Saved 
+mt-auto flex flex-wrap items-center justify-between gap-3 pt-2
+View enquiry 
+inline-flex h-9 items-center px-2 text-sm font-medium text-brand-700 hover:underline
+View property
+Follow your enquiries and transactions, managed by the ELVICTORIA legal team.
+Active enquiries
+Ongoing transactions
+Recent updates
+Find a property you like and submit an enquiry. Our legal team will handle it from there.
+h-12 w-16 shrink-0 rounded-md
+truncate text-sm font-medium text-ink-strong
+truncate text-xs text-ink-soft
+Every enquiry you submit is handled by a lawyer from the ELVICTORIA legal team.
+No active enquiries
+No closed enquiries
+When you enquire about a property, you can follow its progress here.
+Find a property
+h-10 w-14 shrink-0 rounded-md
+inline-flex items-center gap-1 text-sm font-medium text-brand-700
+View
+This enquiry is not linked to your account.
+history
+Payment requests from your lawyer and your payment history.
+No payments due
+No payments yet
+Payment requests from your lawyer will appear here.
+Make payment
+View payment
+review
+,expiry:
+,cvv:
+This payment is not addressed to your account.
+Enter a valid 16-digit card number.
+Use MM/YY.
+3 digits.
+Enter the name on the card.
+processing
+result
+mx-auto max-w-3xl
+Make a payment
+flex items-center justify-between
+Your transfer has been reported. Your lawyer will confirm once the funds are received.
+Payment activity
+Unsuccessful
+Awaiting confirmation
+Your last attempt was unsuccessful
+ No funds were taken. You can try again.
+Amount due
+fieldset
+legend
+Payment method
+Pay instantly
+,Yf,
+Confirmed by your lawyer
+flex items-center gap-3 rounded-xl border p-4 text-left
+border-brand-100
+block text-sm font-semibold text-ink-strong
+Card number
+ck-num
+Test card: 4084 0840 8408 4081
+0000 0000 0000 0000
+Expiry
+ck-exp
+MM/YY
+ck-cvv
+Name on card
+ck-name
+rounded-xl border border-brand-100 p-4 text-sm text-ink-soft
+Use 
+ as the transfer narration. Your lawyer will confirm receipt and update this payment.
+I have made the transfer
+flex flex-col items-center py-14 text-center
+h-10 w-10 animate-spin text-brand-600
+mt-4 font-semibold text-ink-strong
+Please do not close this page.
+py-6 text-center
+mx-auto h-12 w-12 text-emerald-600
+mx-auto h-12 w-12 text-amber-500
+mx-auto h-12 w-12 text-red-600
+mt-4 text-xl font-semibold text-ink-strong
+Transfer reported
+mx-auto mt-2 max-w-sm text-sm text-ink-soft
+your case
+Your lawyer will confirm once the funds are received.
+mt-6 flex justify-center gap-2
+Back to payments
+View case
+Summary
+mb-4 flex gap-3
+text-base
+rounded-lg border border-amber-200 bg-amber-50/70 px-3 py-2.5 text-xs text-amber-900
+flex items-center gap-1.5 font-semibold
+mt-2 flex flex-wrap items-center gap-2
+Processor response:
+rounded-md px-2 py-1 font-medium
+bg-amber-900 text-white
+bg-white ring-1 ring-amber-200
+Decline
+properties/:reference
+about
+contact
+sell
+help
+login
+register
+forgot-password
+profile
+notifications
+staff/listings
+staff/listings/:id
+staff/enquiries
+staff/cases
+staff/matters/:id
+staff/users
+staff/users/:id
+staff/payments
+staff/reports
+staff/settings
+staff/helpdesk
+staff/helpdesk/:id
+saved
+help/:id
+provider/properties
+provider/properties/new
+provider/properties/:id
+provider/properties/:id/edit
+provider/cases
+provider/cases/:id
+client/enquiries
+client/enquiries/:id
+client/payments
+client/payments/:id
+root

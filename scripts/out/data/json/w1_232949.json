@@ -1,0 +1,506 @@
+[
+ [
+  "u_adaeze",
+  "new_enquiry",
+  "New property enquiry",
+  "Tobi Adeyemi enquired about ELV-PR-1016 — 4-Bedroom Detached Duplex.",
+  "c_2006",
+  "2026-11-06 16:45",
+  false
+ ],
+ [
+  "u_tunde",
+  "new_enquiry",
+  "New property enquiry",
+  "Tobi Adeyemi enquired about ELV-PR-1016 — 4-Bedroom Detached Duplex.",
+  "c_2006",
+  "2026-11-06 16:45",
+  false
+ ],
+ [
+  "u_nneka",
+  "new_enquiry",
+  "New property enquiry",
+  "Tobi Adeyemi enquired about ELV-PR-1016 — 4-Bedroom Detached Duplex.",
+  "c_2006",
+  "2026-11-06 16:45",
+  false
+ ],
+ [
+  "u_adaeze",
+  "payment_success",
+  "Payment received",
+  "Daniel Johnson paid ₦18,500,000 on ELV-CS-2001.",
+  "/app/staff/payments?focus=pay_3011",
+  "2026-11-06 13:10",
+  true
+ ],
+ [
+  "u_adaeze",
+  "payment_failure",
+  "Payment attempt failed",
+  "A payment attempt by Daniel Johnson on ELV-PY-3011 failed.",
+  "/app/staff/payments?focus=pay_3011",
+  "2026-11-06 13:02",
+  true
+ ],
+ [
+  "u_adaeze",
+  "new_enquiry",
+  "New property enquiry",
+  "Samuel Okoro enquired about ELV-PR-1017 — Residential Plot, 1,000 sqm.",
+  "c_2016",
+  "2026-11-06 11:30",
+  false
+ ],
+ [
+  "u_tunde",
+  "new_enquiry",
+  "New property enquiry",
+  "Samuel Okoro enquired about ELV-PR-1017 — Residential Plot, 1,000 sqm.",
+  "c_2016",
+  "2026-11-06 11:30",
+  false
+ ],
+ [
+  "u_nneka",
+  "new_enquiry",
+  "New property enquiry",
+  "Samuel Okoro enquired about ELV-PR-1017 — Residential Plot, 1,000 sqm.",
+  "c_2016",
+  "2026-11-06 11:30",
+  true
+ ],
+ [
+  "u_adaeze",
+  "property_submission",
+  "Listing submitted for review",
+  "Femi Balogun submitted ELV-PR-1025 — 2-Bedroom Apartment (Apartment).",
+  "p_1025",
+  "2026-11-06 11:10",
+  false
+ ],
+ [
+  "u_tunde",
+  "property_submission",
+  "Listing submitted for review",
+  "Femi Balogun submitted ELV-PR-1025 — 2-Bedroom Apartment (Apartment).",
+  "p_1025",
+  "2026-11-06 11:10",
+  false
+ ],
+ [
+  "u_nneka",
+  "property_submission",
+  "Listing submitted for review",
+  "Femi Balogun submitted ELV-PR-1025 — 2-Bedroom Apartment (Apartment).",
+  "p_1025",
+  "2026-11-06 11:10",
+  false
+ ],
+ [
+  "u_adaeze",
+  "admin_alert",
+  "Escalation on ELV-EQ-4007",
+  "Client has a December start date and has not yet been contacted.",
+  "c_2007",
+  "2026-11-06 10:16",
+  false
+ ],
+ [
+  "u_tunde",
+  "admin_alert",
+  "Escalation on ELV-EQ-4007",
+  "Client has a December start date and has not yet been contacted.",
+  "c_2007",
+  "2026-11-06 10:16",
+  false
+ ],
+ [
+  "u_nneka",
+  "admin_alert",
+  "Escalation on ELV-EQ-4007",
+  "Client has a December start date and has not yet been contacted.",
+  "c_2007",
+  "2026-11-06 10:16",
+  false
+ ],
+ [
+  "u_tunde",
+  "case_update",
+  "Reply from Daniel Johnson",
+  "Thank you. Has the agency been able to share the warranty yet? My relative is ready to inspect next week.",
+  "c_2010",
+  "2026-11-05 19:30",
+  false
+ ],
+ [
+  "u_nneka",
+  "case_update",
+  "Reply from Amina Yusuf",
+  "Small pets are fine. Inspection can be on Tuesday 11 or Thursday 13 November after 2pm.",
+  "c_2015",
+  "2026-11-05 18:20",
+  false
+ ],
+ [
+  "u_nneka",
+  "admin_alert",
+  "Transfer awaiting confirmation",
+  "Kemi Williams reported a transfer of ₦11,500,000 for ELV-PY-3008.",
+  "/app/staff/payments?focus=pay_3008",
+  "2026-11-05 13:40",
+  false
+ ],
+ [
+  "u_adaeze",
+  "property_submission",
+  "Listing submitted for review",
+  "Segun Ajayi submitted ELV-PR-1023 — Commercial Retail Plaza (Commercial Property).",
+  "p_1023",
+  "2026-11-05 09:20",
+  true
+ ],
+ [
+  "u_tunde",
+  "property_submission",
+  "Listing submitted for review",
+  "Segun Ajayi submitted ELV-PR-1023 — Commercial Retail Plaza (Commercial Property).",
+  "p_1023",
+  "2026-11-05 09:20",
+  false
+ ],
+ [
+  "u_nneka",
+  "property_submission",
+  "Listing submitted for review",
+  "Ibrahim Musa submitted ELV-PR-1004 — 5-Bedroom Executive Duplex (Detached Duplex).",
+  "p_1004",
+  "2026-11-04 09:30",
+  true
+ ],
+ [
+  "u_adaeze",
+  "property_submission",
+  "Listing submitted for review",
+  "Ibrahim Musa submitted ELV-PR-1004 — 5-Bedroom Executive Duplex (Detached Duplex).",
+  "p_1004",
+  "2026-11-04 09:30",
+  true
+ ],
+ [
+  "u_tunde",
+  "enquiry_assignment",
+  "Matter assigned to you",
+  "ELV-EQ-4002 has been assigned to you.",
+  "c_2002",
+  "2026-11-05 17:10",
+  true
+ ],
+ [
+  "u_adaeze",
+  "payment_failure",
+  "Payment attempt failed",
+  "A payment attempt by Samuel Okoro on ELV-PY-3007 failed.",
+  "/app/staff/payments?focus=pay_3007",
+  "2026-11-02 21:14",
+  true
+ ],
+ [
+  "u_mariam",
+  "new_enquiry",
+  "New property enquiry",
+  "ELV-EQ-4006 received for ELV-PR-1016.",
+  "c_2006",
+  "2026-11-06 16:45",
+  false
+ ],
+ [
+  "u_mariam",
+  "new_enquiry",
+  "New property enquiry",
+  "ELV-EQ-4016 received for ELV-PR-1017.",
+  "c_2016",
+  "2026-11-06 11:30",
+  false
+ ],
+ [
+  "u_mariam",
+  "property_submission",
+  "Listing submitted for review",
+  "Femi Balogun submitted ELV-PR-1025 — 2-Bedroom Apartment (Apartment).",
+  "p_1025",
+  "2026-11-06 11:10",
+  true
+ ],
+ [
+  "u_mariam",
+  "account",
+  "Account recovery request",
+  "Yusuf Garba (yusuf.garba@mail.example) asked to recover access to their account.",
+  "/app/staff/users/u_yusuf",
+  "2026-11-03 10:00",
+  true
+ ],
+ [
+  "u_obinna",
+  "new_enquiry",
+  "New property enquiry",
+  "ELV-EQ-4006 received for ELV-PR-1016.",
+  "c_2006",
+  "2026-11-06 16:45",
+  false
+ ],
+ [
+  "u_obinna",
+  "help_desk",
+  "New Help Desk ticket",
+  "New Help Desk ticket ELV-HD-5002: Listing a property in Nsukka",
+  "/app/staff/helpdesk/t_5002",
+  "2026-11-05 12:20",
+  false
+ ],
+ [
+  "u_chinedu",
+  "case_update",
+  "New message from the legal team",
+  "Good morning Mr Nwosu. We have a qualified buyer for ELV-PR-1001. Kindly confirm inspection availability this week…",
+  "c_2001",
+  "2026-11-05 11:20",
+  true
+ ],
+ [
+  "u_chinedu",
+  "case_update",
+  "Case update",
+  "ELV-CS-2001 is now In Progress.",
+  "c_2001",
+  "2026-11-06 09:15",
+  false
+ ],
+ [
+  "u_chinedu",
+  "changes_requested",
+  "Changes requested on your listing",
+  "ELV-PR-1005: Please review the property’s location description and provide clearer photographs.",
+  "p_1005",
+  "2026-10-23 16:45",
+  false
+ ],
+ [
+  "u_chinedu",
+  "new_enquiry",
+  "New enquiry on your listing",
+  "An enquiry was received for Contemporary 4-Bedroom Detached Duplex. The ELVICTORIA legal team will contact you with next steps.",
+  "c_2020",
+  "2026-11-05 08:20",
+  true
+ ],
+ [
+  "u_femi",
+  "property_rejection",
+  "Listing not approved",
+  "ELV-PR-1006 was not approved: the submitted photographs show a different development to the one described.",
+  "p_1006",
+  "2026-10-02 12:20",
+  true
+ ],
+ [
+  "u_femi",
+  "new_enquiry",
+  "New enquiry on your listing",
+  "An enquiry was received for Serviced 3-Bedroom Apartment. The ELVICTORIA legal team will contact you with next steps.",
+  "c_2007",
+  "2026-11-04 20:10",
+  false
+ ],
+ [
+  "u_femi",
+  "case_update",
+  "Case update",
+  "ELV-CS-2015 is now Payment Pending.",
+  "c_2018",
+  "2026-11-02 10:00",
+  true
+ ],
+ [
+  "u_victoria",
+  "case_update",
+  "New message from the legal team",
+  "Survey verification is complete. Please confirm a date for the physical review of the original title documents at our office.",
+  "c_2009",
+  "2026-11-02 15:00",
+  false
+ ],
+ [
+  "u_victoria",
+  "case_update",
+  "Case update",
+  "ELV-CS-2003 is now Payment Pending.",
+  "c_2003",
+  "2026-11-04 10:20",
+  true
+ ],
+ [
+  "u_ibrahim",
+  "property_submission",
+  "Listing received",
+  "ELV-PR-1004 has been received and is awaiting review by our legal team.",
+  "p_1004",
+  "2026-11-04 09:30",
+  true
+ ],
+ [
+  "u_ngozi",
+  "property_approval",
+  "Your listing has been approved",
+  "ELV-PR-1020 — 3-Bedroom Apartment is approved and now visible in the public catalogue.",
+  "p_1020",
+  "2026-10-02 16:00",
+  true
+ ],
+ [
+  "u_amina",
+  "case_update",
+  "New message from the legal team",
+  "The prospective tenant has asked whether small pets are permitted in the building, and would like to inspect next week.",
+  "c_2015",
+  "2026-11-04 11:00",
+  true
+ ],
+ [
+  "u_daniel",
+  "payment_success",
+  "Payment successful",
+  "Your payment of ₦18,500,000 (ELV-PY-3011) was successful.",
+  "/app/client/payments",
+  "2026-11-06 13:10",
+  false
+ ],
+ [
+  "u_daniel",
+  "case_update",
+  "New message from the legal team",
+  "Dear Daniel, the developer has confirmed an inspection on Saturday 8 November from 11am…",
+  "c_2001",
+  "2026-11-06 09:18",
+  true
+ ],
+ [
+  "u_daniel",
+  "enquiry_assignment",
+  "A lawyer is handling your enquiry",
+  "Adaeze Okonkwo is now handling ELV-CS-2001.",
+  "c_2001",
+  "2026-11-04 10:05",
+  true
+ ],
+ [
+  "u_grace",
+  "payment_request",
+  "Payment requested",
+  "₦4,500,000 is due for ELV-CS-2003 — First year’s rent.",
+  "/app/client/payments",
+  "2026-11-04 10:20",
+  false
+ ],
+ [
+  "u_grace",
+  "payment_request",
+  "Payment requested",
+  "₦450,000 is due for ELV-CS-2003 — Refundable caution deposit.",
+  "/app/client/payments",
+  "2026-11-04 10:22",
+  false
+ ],
+ [
+  "u_grace",
+  "case_update",
+  "New message from the legal team",
+  "Grace, the landlord has accepted your terms. Two payment requests are now in your account…",
+  "c_2003",
+  "2026-11-04 10:25",
+  false
+ ],
+ [
+  "u_samuel",
+  "payment_failure",
+  "Payment unsuccessful",
+  "Your payment for ELV-PY-3007 could not be completed. No funds were taken. You can try again.",
+  "/app/client/payments",
+  "2026-11-02 21:14",
+  false
+ ],
+ [
+  "u_samuel",
+  "case_update",
+  "Case update",
+  "ELV-EQ-4002 is now Under Review. Gathering information from the agent.",
+  "c_2002",
+  "2026-11-05 14:45",
+  true
+ ],
+ [
+  "u_blessing",
+  "case_update",
+  "Case update",
+  "ELV-CS-2004 is now Completed. Tenancy completed and keys handed over.",
+  "c_2004",
+  "2026-10-03 12:00",
+  true
+ ],
+ [
+  "u_blessing",
+  "enquiry_assignment",
+  "A lawyer is handling your enquiry",
+  "Tunde Adebayo is now handling ELV-CS-2014.",
+  "c_2017",
+  "2026-11-04 13:00",
+  false
+ ],
+ [
+  "u_kemi",
+  "case_update",
+  "Case update",
+  "Transfer for ₦11,500,000 reported. The legal team will confirm receipt.",
+  "c_2012",
+  "2026-11-05 13:40",
+  false
+ ],
+ [
+  "u_emeka",
+  "payment_request",
+  "Payment requested",
+  "₦45,000,000 is due for ELV-CS-2015 — First year’s rent.",
+  "/app/client/payments",
+  "2026-11-02 10:00",
+  false
+ ],
+ [
+  "u_halima",
+  "case_update",
+  "Enquiry received",
+  "Your enquiry ELV-EQ-4007 has been received. A member of our legal team will review it shortly.",
+  "c_2007",
+  "2026-11-04 20:10",
+  true
+ ],
+ [
+  "u_tobi",
+  "case_update",
+  "Enquiry received",
+  "Your enquiry ELV-EQ-4006 has been received. A member of our legal team will review it shortly.",
+  "c_2006",
+  "2026-11-06 16:45",
+  false
+ ],
+ [
+  "u_funmi",
+  "case_update",
+  "New message from the legal team",
+  "Funmilayo, the developer offers a six-month instalment plan. I am reviewing the written terms…",
+  "c_2019",
+  "2026-10-31 09:00",
+  true
+ ]
+]

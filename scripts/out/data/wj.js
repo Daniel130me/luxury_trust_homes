@@ -1,0 +1,1 @@
+{created:"Listing created",submitted:"Submitted for review",resubmitted:"Resubmitted for review",approved:"Approved",changes_requested:"Changes requested",rejected:"Rejected",marked_unavailable:"Withdrawn from public view",relisted:"Restored to public view",edited:"Listing edited"}

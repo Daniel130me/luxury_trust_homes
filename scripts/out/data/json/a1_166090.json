@@ -1,0 +1,227 @@
+[
+ {
+  "id": "u_adaeze",
+  "name": "Adaeze Okonkwo",
+  "email": "adaeze.okonkwo@elvictoria.example",
+  "phone": "+2348031100201",
+  "role": "lawyer",
+  "organisation": "Partner, Property & Conveyancing",
+  "city": "Lagos",
+  "registeredAt": "2025-01-06 09:00"
+ },
+ {
+  "id": "u_tunde",
+  "name": "Tunde Adebayo",
+  "email": "tunde.adebayo@elvictoria.example",
+  "phone": "+2348031100202",
+  "role": "lawyer",
+  "organisation": "Partner, Real Estate Transactions",
+  "city": "Lagos",
+  "registeredAt": "2025-01-06 09:05"
+ },
+ {
+  "id": "u_nneka",
+  "name": "Nneka Eze",
+  "email": "nneka.eze@elvictoria.example",
+  "phone": "+2348031100203",
+  "role": "lawyer",
+  "organisation": "Partner, Tenancy & Advisory",
+  "city": "Enugu",
+  "registeredAt": "2025-01-06 09:10"
+ },
+ {
+  "id": "u_mariam",
+  "name": "Mariam Bello",
+  "email": "mariam.bello@elvictoria.example",
+  "phone": "+2348031100301",
+  "role": "support",
+  "organisation": "Client Support Officer",
+  "city": "Lagos",
+  "registeredAt": "2025-03-03 10:00"
+ },
+ {
+  "id": "u_obinna",
+  "name": "Obinna Chukwu",
+  "email": "obinna.chukwu@elvictoria.example",
+  "phone": "+2348031100302",
+  "role": "support",
+  "organisation": "Operations Support Officer",
+  "city": "Lagos",
+  "registeredAt": "2025-06-16 10:00"
+ },
+ {
+  "id": "u_chinedu",
+  "name": "Chinedu Nwosu",
+  "email": "chinedu@crestfieldhomes.example",
+  "phone": "+2348052245110",
+  "role": "provider",
+  "providerKind": "developer",
+  "organisation": "Crestfield Homes Ltd",
+  "city": "Lagos",
+  "registeredAt": "2025-04-11 14:20"
+ },
+ {
+  "id": "u_amina",
+  "name": "Amina Yusuf",
+  "email": "amina.yusuf@mail.example",
+  "phone": "+2348063321904",
+  "role": "provider",
+  "providerKind": "owner",
+  "city": "Enugu",
+  "registeredAt": "2025-05-02 11:45"
+ },
+ {
+  "id": "u_femi",
+  "name": "Femi Balogun",
+  "email": "femi@balogunrealty.example",
+  "phone": "+2348025567712",
+  "role": "provider",
+  "providerKind": "agent",
+  "organisation": "Balogun & Partners Realty",
+  "city": "Lagos",
+  "registeredAt": "2025-03-21 09:30"
+ },
+ {
+  "id": "u_victoria",
+  "name": "Victoria Adeola",
+  "email": "victoria.adeola@mail.example",
+  "phone": "+2348090013458",
+  "role": "provider",
+  "providerKind": "owner",
+  "city": "Lagos",
+  "registeredAt": "2025-07-08 16:10"
+ },
+ {
+  "id": "u_ibrahim",
+  "name": "Ibrahim Musa",
+  "email": "ibrahim@sahelcourt.example",
+  "phone": "+2348037789021",
+  "role": "provider",
+  "providerKind": "developer",
+  "organisation": "Sahel Court Developments",
+  "city": "Enugu",
+  "registeredAt": "2025-08-19 12:00"
+ },
+ {
+  "id": "u_ngozi",
+  "name": "Ngozi Obi",
+  "email": "ngozi@coalcityrealtors.example",
+  "phone": "+2348067734502",
+  "role": "provider",
+  "providerKind": "agency",
+  "organisation": "Coal City Realtors",
+  "city": "Enugu",
+  "registeredAt": "2025-09-04 10:25"
+ },
+ {
+  "id": "u_segun",
+  "name": "Segun Ajayi",
+  "email": "segun.ajayi@mail.example",
+  "phone": "+2348058812266",
+  "role": "provider",
+  "providerKind": "landlord",
+  "city": "Enugu",
+  "registeredAt": "2025-10-13 15:40"
+ },
+ {
+  "id": "u_daniel",
+  "name": "Daniel Johnson",
+  "email": "daniel.johnson@mail.example",
+  "phone": "+2348021234561",
+  "role": "client",
+  "clientKind": "buyer",
+  "city": "Lagos",
+  "registeredAt": "2026-02-14 18:05"
+ },
+ {
+  "id": "u_grace",
+  "name": "Grace Afolabi",
+  "email": "grace.afolabi@mail.example",
+  "phone": "+2348021234562",
+  "role": "client",
+  "clientKind": "renter",
+  "city": "Lagos",
+  "registeredAt": "2026-03-09 08:40"
+ },
+ {
+  "id": "u_samuel",
+  "name": "Samuel Okoro",
+  "email": "samuel.okoro@mail.example",
+  "phone": "+2348021234563",
+  "role": "client",
+  "clientKind": "buyer",
+  "city": "Lagos",
+  "registeredAt": "2026-04-22 20:15"
+ },
+ {
+  "id": "u_blessing",
+  "name": "Blessing Eze",
+  "email": "blessing.eze@mail.example",
+  "phone": "+2348021234564",
+  "role": "client",
+  "clientKind": "renter",
+  "city": "Lagos",
+  "registeredAt": "2026-05-30 12:00"
+ },
+ {
+  "id": "u_kemi",
+  "name": "Kemi Williams",
+  "email": "kemi.williams@mail.example",
+  "phone": "+2348021234565",
+  "role": "client",
+  "clientKind": "buyer",
+  "city": "Lagos",
+  "registeredAt": "2026-06-11 10:30"
+ },
+ {
+  "id": "u_emeka",
+  "name": "Emeka Obi",
+  "email": "emeka.obi@mail.example",
+  "phone": "+2348021234566",
+  "role": "client",
+  "clientKind": "buyer",
+  "city": "Lagos",
+  "registeredAt": "2026-06-28 17:50"
+ },
+ {
+  "id": "u_halima",
+  "name": "Halima Sani",
+  "email": "halima.sani@mail.example",
+  "phone": "+2348021234567",
+  "role": "client",
+  "clientKind": "renter",
+  "city": "Enugu",
+  "registeredAt": "2026-07-15 09:10"
+ },
+ {
+  "id": "u_tobi",
+  "name": "Tobi Adeyemi",
+  "email": "tobi.adeyemi@mail.example",
+  "phone": "+2348021234568",
+  "role": "client",
+  "clientKind": "buyer",
+  "city": "Lagos",
+  "registeredAt": "2026-08-03 13:25"
+ },
+ {
+  "id": "u_funmi",
+  "name": "Funmilayo Ojo",
+  "email": "funmilayo.ojo@mail.example",
+  "phone": "+2348021234569",
+  "role": "client",
+  "clientKind": "renter",
+  "city": "Enugu",
+  "registeredAt": "2026-08-27 19:00"
+ },
+ {
+  "id": "u_yusuf",
+  "name": "Yusuf Garba",
+  "email": "yusuf.garba@mail.example",
+  "phone": "+2348021234570",
+  "role": "client",
+  "clientKind": "buyer",
+  "city": "Kano",
+  "registeredAt": "2026-09-18 11:35",
+  "status": "deactivated"
+ }
+]

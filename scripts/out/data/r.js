@@ -1,0 +1,1 @@
+[e.bedrooms?{icon:K1,text:`${e.bedrooms} bed${e.bedrooms>1?"s":""}`}:null,e.bathrooms?{icon:G1,text:`${e.bathrooms} bath${e.bathrooms>1?"s":""}`}:null,e.sizeSqm?{icon:u2,text:`${e.sizeSqm.toLocaleString()} sqm`}:null,!t&&e.parkingSpaces?{icon:Z1,text:`${e.parkingSpaces} parking`}:null]

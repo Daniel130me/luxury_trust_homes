@@ -1,0 +1,1044 @@
+[
+ {
+  "ref": 1001,
+  "provider": "u_chinedu",
+  "title": "Contemporary 4-Bedroom Detached Duplex",
+  "category": "detached_duplex",
+  "listingType": "sale",
+  "price": 185000000,
+  "state": "Lagos",
+  "lga": "Eti-Osa",
+  "area": "Lekki Phase 1",
+  "address": "Off Admiralty Way, within a gated close near the Lekki Phase 1 roundabout.",
+  "beds": 4,
+  "baths": 5,
+  "toilets": 5,
+  "sqm": 520,
+  "parking": 4,
+  "furnishing": "unfurnished",
+  "description": "A newly completed four-bedroom detached duplex with a one-room boys’ quarters, set in a quiet gated close in Lekki Phase 1. The ground floor opens into a double-height living room, a separate family lounge and a fully fitted kitchen with a pantry and store. All bedrooms are ensuite, and the master suite has a walk-in closet and private balcony. The compound is interlocked with parking for four cars.",
+  "features": [
+   "Ensuite bedrooms",
+   "Boys’ quarters",
+   "Fitted kitchen",
+   "Walk-in closet",
+   "24-hour security",
+   "Gated estate",
+   "Standby generator",
+   "Borehole water",
+   "Interlocked compound"
+  ],
+  "status": "approved",
+  "availability": "available",
+  "featured": true,
+  "created": "2026-08-04 10:12",
+  "history": [
+   [
+    "2026-08-04 10:20",
+    "submitted",
+    null
+   ],
+   [
+    "2026-08-06 14:05",
+    "approved",
+    "adaeze"
+   ]
+  ]
+ },
+ {
+  "ref": 1002,
+  "provider": "u_femi",
+  "title": "Luxury 3-Bedroom Apartment",
+  "category": "apartment",
+  "listingType": "sale",
+  "price": 120000000,
+  "state": "Lagos",
+  "lga": "Eti-Osa",
+  "area": "Old Ikoyi",
+  "address": "Bourdillon Road axis, in a serviced residential block with 12 units.",
+  "beds": 3,
+  "baths": 4,
+  "toilets": 4,
+  "sqm": 210,
+  "parking": 2,
+  "furnishing": "semi_furnished",
+  "description": "A refined three-bedroom apartment on the fourth floor of a serviced block off Bourdillon Road. The apartment has generous floor-to-ceiling windows, a guest toilet, a fitted kitchen with laundry area and a maid’s room. Residents share a pool, gym and a 24-hour power arrangement managed by the facility team.",
+  "features": [
+   "Swimming pool",
+   "Gym",
+   "Elevator",
+   "Fitted kitchen",
+   "24-hour security",
+   "Standby generator",
+   "Treated water",
+   "CCTV"
+  ],
+  "status": "approved",
+  "availability": "available",
+  "featured": true,
+  "created": "2026-08-10 09:00",
+  "history": [
+   [
+    "2026-08-10 09:15",
+    "submitted",
+    null
+   ],
+   [
+    "2026-08-12 11:30",
+    "approved",
+    "tunde"
+   ]
+  ]
+ },
+ {
+  "ref": 1003,
+  "provider": "u_victoria",
+  "title": "Modern 2-Bedroom Apartment",
+  "category": "apartment",
+  "listingType": "rent",
+  "price": 4500000,
+  "state": "Lagos",
+  "lga": "Lagos Mainland",
+  "area": "Alagomeji",
+  "address": "Off Herbert Macaulay Way, a short walk from the Yaba tech corridor.",
+  "serviceCharge": 350000,
+  "cautionDeposit": 450000,
+  "beds": 2,
+  "baths": 2,
+  "toilets": 3,
+  "sqm": 105,
+  "parking": 1,
+  "furnishing": "unfurnished",
+  "description": "A bright two-bedroom apartment in a compact, well-maintained building in Alagomeji, Yaba. Both rooms are ensuite with fitted wardrobes, and the open-plan kitchen and living area receives good natural light. Convenient for Yaba, Ebute Metta and the Third Mainland Bridge.",
+  "features": [
+   "Ensuite bedrooms",
+   "Fitted kitchen",
+   "Solar inverter",
+   "Borehole water",
+   "Fibre internet",
+   "CCTV"
+  ],
+  "status": "approved",
+  "availability": "under_offer",
+  "created": "2026-08-18 15:30",
+  "history": [
+   [
+    "2026-08-18 15:40",
+    "submitted",
+    null
+   ],
+   [
+    "2026-08-20 10:00",
+    "approved",
+    "nneka"
+   ]
+  ]
+ },
+ {
+  "ref": 1004,
+  "provider": "u_ibrahim",
+  "title": "5-Bedroom Executive Duplex",
+  "category": "detached_duplex",
+  "listingType": "sale",
+  "price": 180000000,
+  "state": "Enugu",
+  "lga": "Enugu North",
+  "area": "GRA",
+  "address": "Quiet close within Enugu GRA, on a 1,200 sqm plot.",
+  "beds": 5,
+  "baths": 6,
+  "toilets": 7,
+  "sqm": 780,
+  "parking": 6,
+  "furnishing": "unfurnished",
+  "description": "An executive five-bedroom detached duplex on a generous plot in a quiet close within Enugu GRA. The home has formal and family living rooms, a study, a cinema room, a two-room boys’ quarters and a landscaped garden with space for a pool. Finishes include imported tiles, a hardwood staircase and a fitted kitchen with island.",
+  "features": [
+   "Ensuite bedrooms",
+   "Boys’ quarters",
+   "Fitted kitchen",
+   "Garden",
+   "Smart home",
+   "CCTV",
+   "Standby generator",
+   "Ample parking"
+  ],
+  "status": "pending_review",
+  "availability": "available",
+  "created": "2026-11-03 13:10",
+  "history": [
+   [
+    "2026-11-04 09:30",
+    "submitted",
+    null
+   ]
+  ]
+ },
+ {
+  "ref": 1005,
+  "provider": "u_chinedu",
+  "title": "Residential Land, 600 sqm",
+  "category": "land",
+  "listingType": "sale",
+  "price": 38000000,
+  "state": "Lagos",
+  "lga": "Ibeju-Lekki",
+  "area": "Eleko",
+  "address": "Eleko junction axis, Lekki–Epe Expressway.",
+  "sqm": 600,
+  "description": "A dry 600 sqm residential plot within a developing estate at Eleko, Ibeju-Lekki. The estate has a perimeter fence, a gatehouse and graded internal roads. Suitable for a detached home or a pair of semi-detached units.",
+  "features": [
+   "Dry land",
+   "Perimeter fencing",
+   "Gated estate",
+   "Good road network"
+  ],
+  "status": "changes_requested",
+  "availability": "available",
+  "created": "2026-10-21 11:00",
+  "history": [
+   [
+    "2026-10-21 11:20",
+    "submitted",
+    null
+   ],
+   [
+    "2026-10-23 16:45",
+    "changes_requested",
+    "adaeze",
+    "Please review the property’s location description and provide clearer photographs. Indicate the distance from the Eleko junction and the estate name."
+   ]
+  ],
+  "feedback": "Please review the property’s location description and provide clearer photographs. Indicate the distance from the Eleko junction and the estate name."
+ },
+ {
+  "ref": 1006,
+  "provider": "u_femi",
+  "title": "3-Bedroom Terrace",
+  "category": "terrace",
+  "listingType": "sale",
+  "price": 72000000,
+  "state": "Lagos",
+  "lga": "Eti-Osa",
+  "area": "Badore",
+  "address": "Badore Road, Ajah.",
+  "beds": 3,
+  "baths": 3,
+  "toilets": 4,
+  "sqm": 190,
+  "parking": 1,
+  "description": "A three-bedroom terrace house in a row of six units on Badore Road. Each unit has a living room, kitchen and three ensuite bedrooms over two floors.",
+  "features": [
+   "Ensuite bedrooms",
+   "Fitted kitchen",
+   "Gated estate"
+  ],
+  "status": "rejected",
+  "availability": "available",
+  "created": "2026-09-29 10:00",
+  "history": [
+   [
+    "2026-09-29 10:05",
+    "submitted",
+    null
+   ],
+   [
+    "2026-10-02 12:20",
+    "rejected",
+    "tunde",
+    "The submitted photographs show a different development to the one described, and the provider was unable to confirm the seller’s authority to market the property."
+   ]
+  ],
+  "feedback": "The submitted photographs show a different development to the one described, and the provider was unable to confirm the seller’s authority to market the property."
+ },
+ {
+  "ref": 1007,
+  "provider": "u_victoria",
+  "title": "2-Bedroom Flat",
+  "category": "apartment",
+  "listingType": "rent",
+  "price": 3200000,
+  "state": "Lagos",
+  "lga": "Kosofe",
+  "area": "Gbagada Phase 1",
+  "address": "Off Diya Street, Gbagada Phase 1.",
+  "serviceCharge": 250000,
+  "cautionDeposit": 500000,
+  "beds": 2,
+  "baths": 2,
+  "toilets": 3,
+  "sqm": 95,
+  "parking": 1,
+  "furnishing": "unfurnished",
+  "description": "A well-kept two-bedroom flat in a block of four in Gbagada Phase 1, with a spacious living room, a guest toilet and a tiled compound.",
+  "features": [
+   "Ensuite bedrooms",
+   "Borehole water",
+   "Interlocked compound",
+   "Standby generator"
+  ],
+  "status": "approved",
+  "availability": "unavailable",
+  "created": "2026-08-02 09:00",
+  "history": [
+   [
+    "2026-08-02 09:10",
+    "submitted",
+    null
+   ],
+   [
+    "2026-08-03 15:00",
+    "approved",
+    "adaeze"
+   ]
+  ]
+ },
+ {
+  "ref": 1008,
+  "provider": "u_victoria",
+  "title": "4-Bedroom Semi-Detached Duplex",
+  "category": "semi_detached_duplex",
+  "listingType": "sale",
+  "price": 145000000,
+  "state": "Lagos",
+  "lga": "Kosofe",
+  "area": "Magodo Phase 2",
+  "address": "Shangisha, Magodo Phase 2 (draft — to be confirmed).",
+  "beds": 4,
+  "baths": 4,
+  "toilets": 5,
+  "sqm": 330,
+  "parking": 3,
+  "description": "Four-bedroom semi-detached duplex with BQ in Magodo Phase 2. Description in progress.",
+  "features": [
+   "Boys’ quarters",
+   "Gated estate"
+  ],
+  "status": "draft",
+  "availability": "available",
+  "created": "2026-11-02 19:30",
+  "history": []
+ },
+ {
+  "ref": 1009,
+  "provider": "u_femi",
+  "title": "5-Bedroom Detached Duplex with BQ",
+  "category": "detached_duplex",
+  "listingType": "sale",
+  "price": 210000000,
+  "state": "Lagos",
+  "lga": "Kosofe",
+  "area": "Magodo GRA Phase 2",
+  "address": "CMD Road end of Magodo GRA Phase 2, Shangisha.",
+  "beds": 5,
+  "baths": 6,
+  "toilets": 6,
+  "sqm": 600,
+  "parking": 5,
+  "furnishing": "unfurnished",
+  "description": "A spacious five-bedroom detached duplex in the secure Magodo GRA Phase 2 estate. The home includes a family lounge upstairs, a study, a two-room boys’ quarters and a large paved forecourt. The estate has controlled access and good internal roads.",
+  "features": [
+   "Ensuite bedrooms",
+   "Boys’ quarters",
+   "Gated estate",
+   "24-hour security",
+   "Fitted kitchen",
+   "Ample parking",
+   "Borehole water"
+  ],
+  "status": "approved",
+  "availability": "available",
+  "created": "2026-08-14 12:00",
+  "history": [
+   [
+    "2026-08-14 12:05",
+    "submitted",
+    null
+   ],
+   [
+    "2026-08-15 10:45",
+    "approved",
+    "tunde"
+   ]
+  ]
+ },
+ {
+  "ref": 1010,
+  "provider": "u_femi",
+  "title": "Serviced 3-Bedroom Apartment",
+  "category": "apartment",
+  "listingType": "rent",
+  "price": 15000000,
+  "state": "Lagos",
+  "lga": "Eti-Osa",
+  "area": "Oniru",
+  "address": "Oniru Estate, off Ligali Ayorinde Street.",
+  "serviceCharge": 3500000,
+  "cautionDeposit": 1500000,
+  "beds": 3,
+  "baths": 3,
+  "toilets": 4,
+  "sqm": 180,
+  "parking": 2,
+  "furnishing": "furnished",
+  "description": "A fully serviced and furnished three-bedroom apartment in Oniru, Victoria Island, ideal for executives. Service charge covers power, water, cleaning of common areas, and security. Includes a rooftop lounge and gym.",
+  "features": [
+   "Gym",
+   "Elevator",
+   "Swimming pool",
+   "24-hour security",
+   "Standby generator",
+   "Fibre internet",
+   "Serviced estate"
+  ],
+  "status": "approved",
+  "availability": "available",
+  "featured": true,
+  "created": "2026-09-01 10:00",
+  "history": [
+   [
+    "2026-09-01 10:10",
+    "submitted",
+    null
+   ],
+   [
+    "2026-09-02 09:20",
+    "approved",
+    "adaeze"
+   ]
+  ]
+ },
+ {
+  "ref": 1011,
+  "provider": "u_chinedu",
+  "title": "4-Bedroom Terrace Duplex",
+  "category": "terrace",
+  "listingType": "sale",
+  "price": 135000000,
+  "state": "Lagos",
+  "lga": "Eti-Osa",
+  "area": "Ikate",
+  "address": "Ikate Elegushi, off the Lekki–Epe Expressway.",
+  "beds": 4,
+  "baths": 4,
+  "toilets": 5,
+  "sqm": 290,
+  "parking": 2,
+  "furnishing": "unfurnished",
+  "description": "A four-bedroom terrace duplex in a new development of eight units at Ikate. Each unit has a rooftop terrace, a fitted kitchen and a room for domestic staff. Delivered with solar backup and treated water.",
+  "features": [
+   "Ensuite bedrooms",
+   "Fitted kitchen",
+   "Solar inverter",
+   "Treated water",
+   "Gated estate",
+   "CCTV"
+  ],
+  "status": "approved",
+  "availability": "available",
+  "created": "2026-08-25 14:00",
+  "history": [
+   [
+    "2026-08-25 14:10",
+    "submitted",
+    null
+   ],
+   [
+    "2026-08-27 11:00",
+    "approved",
+    "nneka"
+   ]
+  ]
+ },
+ {
+  "ref": 1012,
+  "provider": "u_victoria",
+  "title": "3-Bedroom Bungalow",
+  "category": "bungalow",
+  "listingType": "sale",
+  "price": 95000000,
+  "state": "Lagos",
+  "lga": "Ikeja",
+  "area": "Ikeja GRA",
+  "address": "Off Isaac John Street, Ikeja GRA.",
+  "beds": 3,
+  "baths": 3,
+  "toilets": 4,
+  "sqm": 260,
+  "parking": 3,
+  "description": "A charming three-bedroom bungalow on a mature plot in Ikeja GRA, with a garden, a covered car port and a one-room boys’ quarters. A good option for buyers who want single-level living close to the airport.",
+  "features": [
+   "Garden",
+   "Boys’ quarters",
+   "Ample parking",
+   "Borehole water"
+  ],
+  "status": "approved",
+  "availability": "under_offer",
+  "created": "2026-08-08 10:00",
+  "history": [
+   [
+    "2026-08-08 10:10",
+    "submitted",
+    null
+   ],
+   [
+    "2026-08-10 13:15",
+    "approved",
+    "tunde"
+   ]
+  ]
+ },
+ {
+  "ref": 1013,
+  "provider": "u_victoria",
+  "title": "1-Bedroom Mini Flat",
+  "category": "apartment",
+  "listingType": "rent",
+  "price": 1800000,
+  "state": "Lagos",
+  "lga": "Lagos Mainland",
+  "area": "Sabo",
+  "address": "Off Commercial Avenue, Sabo, Yaba.",
+  "cautionDeposit": 180000,
+  "beds": 1,
+  "baths": 1,
+  "toilets": 1,
+  "sqm": 48,
+  "parking": 1,
+  "description": "A neat one-bedroom mini flat in Sabo, Yaba, with a fitted kitchenette and prepaid meter. Close to the university and the Yaba bus terminal.",
+  "features": [
+   "Fitted kitchen",
+   "Borehole water",
+   "Fibre internet"
+  ],
+  "status": "approved",
+  "availability": "available",
+  "created": "2026-09-04 08:30",
+  "history": [
+   [
+    "2026-09-04 08:35",
+    "submitted",
+    null
+   ],
+   [
+    "2026-09-05 10:00",
+    "approved",
+    "nneka"
+   ]
+  ]
+ },
+ {
+  "ref": 1014,
+  "provider": "u_femi",
+  "title": "4-Bedroom Semi-Detached Duplex",
+  "category": "semi_detached_duplex",
+  "listingType": "sale",
+  "price": 115000000,
+  "state": "Lagos",
+  "lga": "Kosofe",
+  "area": "Gbagada Phase 2",
+  "address": "Off Olabode George Street, Gbagada Phase 2.",
+  "beds": 4,
+  "baths": 4,
+  "toilets": 5,
+  "sqm": 310,
+  "parking": 2,
+  "description": "A semi-detached four-bedroom duplex in Gbagada Phase 2 with a boys’ quarters, a spacious living and dining area and a quiet, well-lit street. Easy access to the Third Mainland Bridge and Ikorodu Road.",
+  "features": [
+   "Boys’ quarters",
+   "Ensuite bedrooms",
+   "Fitted kitchen",
+   "Standby generator",
+   "Interlocked compound"
+  ],
+  "status": "approved",
+  "availability": "under_offer",
+  "created": "2026-09-07 10:00",
+  "history": [
+   [
+    "2026-09-07 10:05",
+    "submitted",
+    null
+   ],
+   [
+    "2026-09-08 15:30",
+    "approved",
+    "adaeze"
+   ]
+  ]
+ },
+ {
+  "ref": 1015,
+  "provider": "u_amina",
+  "title": "3-Bedroom Apartment",
+  "category": "apartment",
+  "listingType": "rent",
+  "price": 3500000,
+  "state": "Enugu",
+  "lga": "Enugu North",
+  "area": "Independence Layout",
+  "address": "Independence Layout, close to the Enugu–Abakaliki Road junction.",
+  "serviceCharge": 300000,
+  "cautionDeposit": 350000,
+  "beds": 3,
+  "baths": 3,
+  "toilets": 4,
+  "sqm": 160,
+  "parking": 2,
+  "furnishing": "semi_furnished",
+  "description": "A spacious three-bedroom apartment in a secure, managed building in Independence Layout. Includes fitted wardrobes, air conditioning in all rooms and dedicated parking.",
+  "features": [
+   "Ensuite bedrooms",
+   "24-hour security",
+   "Standby generator",
+   "Treated water",
+   "Elevator"
+  ],
+  "status": "approved",
+  "availability": "available",
+  "created": "2026-09-10 11:00",
+  "history": [
+   [
+    "2026-09-10 11:10",
+    "submitted",
+    null
+   ],
+   [
+    "2026-09-11 09:50",
+    "approved",
+    "nneka"
+   ]
+  ]
+ },
+ {
+  "ref": 1016,
+  "provider": "u_ibrahim",
+  "title": "4-Bedroom Detached Duplex",
+  "category": "detached_duplex",
+  "listingType": "sale",
+  "price": 120000000,
+  "state": "Enugu",
+  "lga": "Enugu North",
+  "area": "Independence Layout",
+  "address": "Independence Layout, on a paved residential street.",
+  "beds": 4,
+  "baths": 5,
+  "toilets": 5,
+  "sqm": 450,
+  "parking": 4,
+  "description": "A modern four-bedroom detached duplex in Independence Layout, completed in 2026. Features a contemporary façade, a family lounge, a fitted kitchen and a boys’ quarters, with quick access to the city centre.",
+  "features": [
+   "Ensuite bedrooms",
+   "Boys’ quarters",
+   "Fitted kitchen",
+   "Smart home",
+   "CCTV",
+   "Solar inverter"
+  ],
+  "status": "approved",
+  "availability": "available",
+  "featured": true,
+  "created": "2026-09-15 10:00",
+  "history": [
+   [
+    "2026-09-15 10:20",
+    "submitted",
+    null
+   ],
+   [
+    "2026-09-17 12:00",
+    "approved",
+    "nneka"
+   ]
+  ]
+ },
+ {
+  "ref": 1017,
+  "provider": "u_amina",
+  "title": "Residential Plot, 1,000 sqm",
+  "category": "land",
+  "listingType": "sale",
+  "price": 28000000,
+  "state": "Enugu",
+  "lga": "Enugu South",
+  "area": "Achara Layout",
+  "address": "Achara Layout, off a tarred access road.",
+  "sqm": 1000,
+  "description": "A 1,000 sqm residential plot in an established part of Achara Layout. The area has tarred access roads and electricity connections nearby.",
+  "features": [
+   "Dry land",
+   "Good road network"
+  ],
+  "status": "approved",
+  "availability": "available",
+  "created": "2026-09-20 10:00",
+  "history": [
+   [
+    "2026-09-20 10:15",
+    "submitted",
+    null
+   ],
+   [
+    "2026-09-22 11:40",
+    "approved",
+    "tunde"
+   ]
+  ]
+ },
+ {
+  "ref": 1018,
+  "provider": "u_femi",
+  "title": "Grade A Office Floor, 420 sqm",
+  "category": "commercial",
+  "listingType": "rent",
+  "price": 45000000,
+  "state": "Lagos",
+  "lga": "Eti-Osa",
+  "area": "Victoria Island",
+  "address": "Adeola Odeku Street, Victoria Island.",
+  "serviceCharge": 9000000,
+  "baths": 4,
+  "toilets": 6,
+  "sqm": 420,
+  "parking": 10,
+  "description": "An open-plan office floor in a Grade A building on Adeola Odeku Street, with raised floors, central air conditioning, a reception area and dedicated parking. Suitable for a professional services firm or regional headquarters.",
+  "features": [
+   "Elevator",
+   "Standby generator",
+   "Ample parking",
+   "24-hour security",
+   "Fibre internet",
+   "CCTV"
+  ],
+  "status": "approved",
+  "availability": "available",
+  "created": "2026-09-24 10:00",
+  "history": [
+   [
+    "2026-09-24 10:05",
+    "submitted",
+    null
+   ],
+   [
+    "2026-09-25 14:15",
+    "approved",
+    "adaeze"
+   ]
+  ]
+ },
+ {
+  "ref": 1019,
+  "provider": "u_ngozi",
+  "title": "4-Bedroom Detached Duplex",
+  "category": "detached_duplex",
+  "listingType": "sale",
+  "price": 85000000,
+  "state": "Enugu",
+  "lga": "Enugu North",
+  "area": "New Haven",
+  "address": "New Haven, Enugu, within a fenced residential street.",
+  "beds": 4,
+  "baths": 5,
+  "toilets": 5,
+  "sqm": 480,
+  "parking": 4,
+  "description": "A family home in New Haven with a spacious compound, a two-room boys’ quarters and a large living room. Recently renovated with new roofing and a borehole.",
+  "features": [
+   "Boys’ quarters",
+   "Garden",
+   "Borehole water",
+   "Ample parking",
+   "Perimeter fencing"
+  ],
+  "status": "approved",
+  "availability": "available",
+  "created": "2026-09-26 10:00",
+  "history": [
+   [
+    "2026-09-26 10:10",
+    "submitted",
+    null
+   ],
+   [
+    "2026-09-28 10:30",
+    "approved",
+    "tunde"
+   ]
+  ]
+ },
+ {
+  "ref": 1020,
+  "provider": "u_ngozi",
+  "title": "3-Bedroom Apartment",
+  "category": "apartment",
+  "listingType": "rent",
+  "price": 1800000,
+  "state": "Enugu",
+  "lga": "Enugu South",
+  "area": "Uwani",
+  "address": "Uwani, Enugu, close to the main market road.",
+  "serviceCharge": 120000,
+  "cautionDeposit": 200000,
+  "beds": 3,
+  "baths": 3,
+  "toilets": 4,
+  "sqm": 140,
+  "parking": 2,
+  "description": "A three-bedroom apartment in Uwani with a guest toilet, a fitted kitchen and a shared generator. Located close to schools and the city centre.",
+  "features": [
+   "Fitted kitchen",
+   "Standby generator",
+   "24-hour security",
+   "Treated water"
+  ],
+  "status": "approved",
+  "availability": "available",
+  "created": "2026-10-01 10:00",
+  "history": [
+   [
+    "2026-10-01 10:05",
+    "submitted",
+    null
+   ],
+   [
+    "2026-10-02 16:00",
+    "approved",
+    "nneka"
+   ]
+  ]
+ },
+ {
+  "ref": 1021,
+  "provider": "u_segun",
+  "title": "4-Bedroom Bungalow",
+  "category": "bungalow",
+  "listingType": "sale",
+  "price": 48000000,
+  "state": "Enugu",
+  "lga": "Enugu East",
+  "area": "Trans-Ekulu",
+  "address": "Trans-Ekulu, Enugu, on a fenced corner plot.",
+  "beds": 4,
+  "baths": 3,
+  "toilets": 4,
+  "sqm": 300,
+  "parking": 3,
+  "description": "A well-built four-bedroom bungalow in Trans-Ekulu on a fenced plot with fruit trees and a covered parking area.",
+  "features": [
+   "Garden",
+   "Perimeter fencing",
+   "Borehole water",
+   "Ample parking"
+  ],
+  "status": "approved",
+  "availability": "unavailable",
+  "created": "2026-08-12 10:00",
+  "history": [
+   [
+    "2026-08-12 10:10",
+    "submitted",
+    null
+   ],
+   [
+    "2026-08-13 12:00",
+    "approved",
+    "adaeze"
+   ]
+  ]
+ },
+ {
+  "ref": 1022,
+  "provider": "u_segun",
+  "title": "3-Bedroom Flat",
+  "category": "apartment",
+  "listingType": "rent",
+  "price": 1200000,
+  "state": "Enugu",
+  "lga": "Enugu East",
+  "area": "Abakpa Nike",
+  "address": "Abakpa Nike, Enugu.",
+  "cautionDeposit": 150000,
+  "beds": 3,
+  "baths": 2,
+  "toilets": 3,
+  "sqm": 120,
+  "parking": 2,
+  "description": "A three-bedroom flat in a quiet compound in Abakpa Nike with spacious rooms, a large kitchen and steady water supply.",
+  "features": [
+   "Borehole water",
+   "Perimeter fencing",
+   "Ample parking"
+  ],
+  "status": "approved",
+  "availability": "available",
+  "created": "2026-10-14 10:00",
+  "history": [
+   [
+    "2026-10-14 10:05",
+    "submitted",
+    null
+   ],
+   [
+    "2026-10-15 11:30",
+    "approved",
+    "tunde"
+   ]
+  ]
+ },
+ {
+  "ref": 1023,
+  "provider": "u_segun",
+  "title": "Commercial Retail Plaza",
+  "category": "commercial",
+  "listingType": "sale",
+  "price": 220000000,
+  "state": "Enugu",
+  "lga": "Enugu North",
+  "area": "Ogui",
+  "address": "Ogui Road, Enugu, on a busy commercial stretch.",
+  "toilets": 8,
+  "sqm": 1400,
+  "parking": 24,
+  "description": "A two-storey retail plaza with 14 shop units, a banking hall and on-site parking along the busy Ogui Road corridor. Currently 80% let.",
+  "features": [
+   "Ample parking",
+   "Standby generator",
+   "Perimeter fencing",
+   "CCTV"
+  ],
+  "status": "pending_review",
+  "availability": "available",
+  "created": "2026-11-05 09:00",
+  "history": [
+   [
+    "2026-11-05 09:20",
+    "submitted",
+    null
+   ]
+  ]
+ },
+ {
+  "ref": 1024,
+  "provider": "u_chinedu",
+  "title": "3-Bedroom Semi-Detached Duplex",
+  "category": "semi_detached_duplex",
+  "listingType": "sale",
+  "price": 68000000,
+  "state": "Lagos",
+  "lga": "Eti-Osa",
+  "area": "Sangotedo",
+  "address": "Abraham Adesanya Estate road, Sangotedo, Ajah.",
+  "beds": 3,
+  "baths": 3,
+  "toilets": 4,
+  "sqm": 220,
+  "parking": 2,
+  "description": "A three-bedroom semi-detached duplex in a serviced estate in Sangotedo. Delivered with a fitted kitchen, POP ceilings and an interlocked forecourt.",
+  "features": [
+   "Fitted kitchen",
+   "Gated estate",
+   "Serviced estate",
+   "Interlocked compound",
+   "24-hour security"
+  ],
+  "status": "approved",
+  "availability": "available",
+  "created": "2026-09-30 10:00",
+  "history": [
+   [
+    "2026-09-30 10:10",
+    "submitted",
+    null
+   ],
+   [
+    "2026-10-01 15:20",
+    "approved",
+    "nneka"
+   ]
+  ]
+ },
+ {
+  "ref": 1025,
+  "provider": "u_femi",
+  "title": "2-Bedroom Apartment",
+  "category": "apartment",
+  "listingType": "rent",
+  "price": 7500000,
+  "state": "Lagos",
+  "lga": "Eti-Osa",
+  "area": "Lekki Phase 1",
+  "address": "Off Freedom Way, Lekki Phase 1.",
+  "serviceCharge": 900000,
+  "cautionDeposit": 750000,
+  "beds": 2,
+  "baths": 2,
+  "toilets": 3,
+  "sqm": 120,
+  "parking": 1,
+  "furnishing": "semi_furnished",
+  "description": "A two-bedroom apartment off Freedom Way in a building with an elevator, gym and 24-hour power support. Both rooms are ensuite.",
+  "features": [
+   "Elevator",
+   "Gym",
+   "Ensuite bedrooms",
+   "Standby generator"
+  ],
+  "status": "pending_review",
+  "availability": "available",
+  "created": "2026-11-06 11:00",
+  "history": [
+   [
+    "2026-11-06 11:10",
+    "submitted",
+    null
+   ]
+  ]
+ },
+ {
+  "ref": 1026,
+  "provider": "u_femi",
+  "title": "4-Bedroom Penthouse Apartment",
+  "category": "apartment",
+  "listingType": "sale",
+  "price": 650000000,
+  "state": "Lagos",
+  "lga": "Eti-Osa",
+  "area": "Banana Island",
+  "address": "Banana Island, Ikoyi.",
+  "beds": 4,
+  "baths": 5,
+  "toilets": 5,
+  "sqm": 450,
+  "parking": 3,
+  "furnishing": "furnished",
+  "description": "A furnished four-bedroom penthouse with lagoon views, a private terrace and a plunge pool.",
+  "features": [
+   "Swimming pool",
+   "Elevator",
+   "Smart home",
+   "Balcony",
+   "24-hour security"
+  ],
+  "status": "unavailable",
+  "availability": "available",
+  "created": "2026-08-20 10:00",
+  "history": [
+   [
+    "2026-08-20 10:05",
+    "submitted",
+    null
+   ],
+   [
+    "2026-08-22 12:00",
+    "approved",
+    "tunde"
+   ],
+   [
+    "2026-10-12 10:30",
+    "marked_unavailable",
+    "tunde",
+    "Withdrawn from public view at the owner’s request while ownership arrangements are confirmed offline."
+   ]
+  ]
+ }
+]

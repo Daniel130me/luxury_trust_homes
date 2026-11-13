@@ -1,0 +1,529 @@
+// ELVICTORIA — PostgreSQL schema (Neon).
+//
+// Modelled 1:1 on the reviewed prototype (see scripts/out/ANALYSIS.md):
+// users, properties (+images/history), enquiries -> transaction cases
+// (timeline, per-thread messages), payment requests (+attempts), saved
+// properties, helpdesk tickets, notifications, settings and audit logs.
+//
+// Money is stored in whole naira (kobo-free, as in the prototype). Integer
+// caps a single amount at ~2.1 billion naira, which comfortably covers
+// residential property prices in the seed data and realistic listings.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")        // pooled — runtime queries
+  directUrl = env("DATABASE_DIRECT_URL") // direct — migrations / DDL
+}
+
+// ---------------------------------------------------------------- users
+
+enum Role {
+  LAWYER
+  SUPPORT
+  PROVIDER
+  CLIENT
+}
+
+enum UserStatus {
+  ACTIVE
+  DEACTIVATED
+}
+
+enum ProviderKind {
+  OWNER
+  DEVELOPER
+  AGENT
+}
+
+enum ClientKind {
+  BUYER
+  RENTER
+  BROWSING
+}
+
+enum Interest {
+  BUYING
+  RENTING
+  SELLING
+  BROWSING
+}
+
+model User {
+  id                String       @id @default(cuid())
+  name              String
+  email             String       @unique
+  phone             String?
+  passwordHash      String
+  role              Role
+  status            UserStatus   @default(ACTIVE)
+  providerKind      ProviderKind?
+  clientKind        ClientKind?
+  interest          Interest?
+  organisation      String?
+  city              String?
+  preferredState    String?
+  preferredRegion   String?
+  alertsEnabled     Boolean      @default(false)
+  termsAcceptedAt   DateTime?
+  registeredAt      DateTime     @default(now())
+  lastActiveAt      DateTime?
+
+  sessions          Session[]
+  passwordResets    PasswordReset[]
+  properties        Property[]            @relation("PropertyProvider")
+  savedProperties   SavedProperty[]
+  clientEnquiries   Enquiry[]             @relation("EnquiryClient")
+  lawyerEnquiries   Enquiry[]             @relation("EnquiryClientLawyer")
+  clientCases       Case[]                @relation("CaseClient")
+  providerCases     Case[]                @relation("CaseProvider")
+  assignedCases     Case[]                @relation("CaseLawyer")
+  requestedPayments Payment[]             @relation("PaymentRequester")
+  paidPayments      Payment[]             @relation("PaymentPayer")
+  timelineEntries   CaseTimelineEntry[]
+  caseMessages      CaseMessage[]
+  notifications     Notification[]
+  tickets           Ticket[]
+  ticketMessages    TicketMessage[]
+  propertyHistory   PropertyHistory[]     @relation("PropertyHistory")
+  escalations       EnquiryEscalation[]   @relation("Escalations")
+  auditLogs         AuditLog[]
+  disclosures       ContactDisclosure[]   @relation("DisclosedBy")
+}
+
+// Opaque refresh tokens — hashed at rest, revocable (session expiry).
+model Session {
+  id          String    @id @default(cuid())
+  userId      String
+  tokenHash   String    @unique
+  expiresAt   DateTime
+  revokedAt   DateTime?
+  ip          String?
+  userAgent   String?
+  createdAt   DateTime  @default(now())
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+}
+
+model PasswordReset {
+  id        String    @id @default(cuid())
+  userId    String
+  tokenHash String    @unique
+  expiresAt DateTime
+  usedAt    DateTime?
+  createdAt DateTime  @default(now())
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+}
+
+// ------------------------------------------------------------ properties
+
+enum ListingType {
+  SALE
+  RENT
+}
+
+enum PropertyCategory {
+  DETACHED_DUPLEX
+  SEMI_DETACHED_DUPLEX
+  APARTMENT
+  TERRACE
+  BUNGALOW
+  LAND
+  COMMERCIAL
+}
+
+enum PropertyStatus {
+  DRAFT
+  PENDING_REVIEW
+  APPROVED
+  CHANGES_REQUESTED
+  REJECTED
+  UNAVAILABLE
+}
+
+enum Availability {
+  AVAILABLE
+  UNDER_OFFER
+  UNAVAILABLE
+}
+
+model Property {
+  id             String            @id @default(cuid())
+  reference      String            @unique // ELV-PR-1001
+  providerId     String
+  title          String
+  category       PropertyCategory
+  listingType    ListingType
+  price          Int // whole naira
+  state          String
+  region         String? // Island / Mainland
+  lga            String
+  area           String
+  address        String
+  beds           Int?
+  baths          Int?
+  toilets        Int?
+  sqm            Int?
+  parking        Int?
+  furnishing     String?
+  description    String
+  features       String[]          @default([])
+  status         PropertyStatus    @default(DRAFT)
+  availability   Availability      @default(AVAILABLE)
+  featured       Boolean           @default(false)
+  cautionDeposit Int?
+  serviceCharge  Int?
+  feedback       String? // staff feedback when requesting changes / rejecting
+  createdAt      DateTime          @default(now())
+  updatedAt      DateTime          @updatedAt
+
+  provider       User              @relation("PropertyProvider", fields: [providerId], references: [id])
+  images         PropertyImage[]
+  history        PropertyHistory[]
+  savedBy        SavedProperty[]
+  enquiries      Enquiry[]
+  cases          Case[]                @relation("CaseProperty")
+
+  @@index([status, availability])
+  @@index([listingType, state])
+  @@index([providerId])
+  @@index([featured, createdAt])
+  @@index([price])
+}
+
+model PropertyImage {
+  id         String   @id @default(cuid())
+  propertyId String
+  objectKey  String   @unique // R2 object key
+  url        String // public delivery URL
+  label      String // e.g. "Front elevation"
+  sortOrder  Int      @default(0)
+  isCover    Boolean  @default(false)
+  bytes      Int?
+  mimeType   String?
+  createdAt  DateTime @default(now())
+  property   Property @relation(fields: [propertyId], references: [id], onDelete: Cascade)
+
+  @@index([propertyId, sortOrder])
+}
+
+model PropertyHistory {
+  id         String          @id @default(cuid())
+  propertyId String
+  at         DateTime        @default(now())
+  action     String // submitted / approved / changes_requested / rejected / updated
+  actorId    String?
+  note       String?
+  property   Property        @relation(fields: [propertyId], references: [id], onDelete: Cascade)
+  actor      User?           @relation("PropertyHistory", fields: [actorId], references: [id])
+
+  @@index([propertyId, at])
+}
+
+model SavedProperty {
+  userId     String
+  propertyId String
+  savedAt    DateTime @default(now())
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  property   Property @relation(fields: [propertyId], references: [id], onDelete: Cascade)
+
+  @@id([userId, propertyId])
+}
+
+// ------------------------------------------------- enquiries & cases
+
+enum EnquiryStatus {
+  NEW_ENQUIRY
+  UNDER_REVIEW
+  LAWYER_ASSIGNED
+  IN_PROGRESS
+  NEGOTIATION
+  PAYMENT_PENDING
+  COMPLETED
+  CANCELLED
+}
+
+enum Purpose {
+  PURCHASE
+  RENT
+  INSPECTION
+  MORE_INFORMATION
+}
+
+enum ContactMethod {
+  PHONE
+  EMAIL
+  PLATFORM
+}
+
+enum Visibility {
+  PARTICIPANTS
+  INTERNAL
+}
+
+enum Thread {
+  CLIENT
+  PROVIDER
+  INTERNAL
+}
+
+// One enquiry per property per client; it becomes a Case when a lawyer opens it.
+model Enquiry {
+  id            String           @id @default(cuid())
+  reference     String           @unique // ELV-EQ-4001
+  propertyId    String
+  clientId      String
+  lawyerId      String?
+  status        EnquiryStatus    @default(NEW_ENQUIRY)
+  purpose       Purpose
+  contactMethod ContactMethod
+  message       String
+  submittedAt   DateTime         @default(now())
+  openedAt      DateTime?
+
+  property      Property         @relation(fields: [propertyId], references: [id])
+  client        User             @relation("EnquiryClient", fields: [clientId], references: [id])
+  lawyer        User?            @relation("EnquiryClientLawyer", fields: [lawyerId], references: [id])
+  case          Case?
+  escalations   EnquiryEscalation[]
+  @@index([status, submittedAt])
+  @@index([clientId])
+  @@index([propertyId])
+}
+
+model EnquiryEscalation {
+  id        String   @id @default(cuid())
+  enquiryId String
+  at        DateTime @default(now())
+  byId      String
+  note      String
+  enquiry   Enquiry  @relation(fields: [enquiryId], references: [id], onDelete: Cascade)
+  by        User     @relation("Escalations", fields: [byId], references: [id])
+
+  @@index([enquiryId])
+}
+
+model Case {
+  id             String            @id @default(cuid())
+  reference      String            @unique // ELV-CS-2001
+  enquiryId      String            @unique
+  propertyId     String
+  clientId       String
+  providerId     String
+  lawyerId       String?
+  status         EnquiryStatus
+  openedAt       DateTime?
+  closedAt       DateTime?
+  closingNote    String?
+
+  enquiry        Enquiry           @relation(fields: [enquiryId], references: [id])
+  property       Property          @relation("CaseProperty", fields: [propertyId], references: [id])
+  client         User              @relation("CaseClient", fields: [clientId], references: [id])
+  provider       User              @relation("CaseProvider", fields: [providerId], references: [id])
+  lawyer         User?             @relation("CaseLawyer", fields: [lawyerId], references: [id])
+  timeline       CaseTimelineEntry[]
+  messages       CaseMessage[]
+  payments       Payment[]
+  disclosures    ContactDisclosure[]
+
+  @@index([status])
+  @@index([lawyerId])
+  @@index([clientId])
+  @@index([providerId])
+}
+
+model CaseTimelineEntry {
+  id         String     @id @default(cuid())
+  caseId     String
+  at         DateTime   @default(now())
+  actorId    String?
+  label      String // what staff/participants see in the activity list
+  visibility Visibility @default(PARTICIPANTS)
+  note       String? // optional client-facing detail
+  case       Case       @relation(fields: [caseId], references: [id], onDelete: Cascade)
+  actor      User?      @relation(fields: [actorId], references: [id])
+
+  @@index([caseId, at])
+}
+
+model CaseMessage {
+  id       String   @id @default(cuid())
+  caseId   String
+  thread   Thread
+  authorId String
+  body     String
+  at       DateTime @default(now())
+  case     Case     @relation(fields: [caseId], references: [id], onDelete: Cascade)
+  author   User     @relation(fields: [authorId], references: [id])
+
+  @@index([caseId, thread, at])
+}
+
+// Record of every time the lawyer authorises contact details to a party.
+model ContactDisclosure {
+  id           String   @id @default(cuid())
+  caseId       String
+  disclosedTo  String // user id of the party receiving the details
+  party        String // which party's details were disclosed: client | provider
+  disclosedBy  String
+  at           DateTime @default(now())
+  case         Case     @relation(fields: [caseId], references: [id], onDelete: Cascade)
+  disclosedByU User     @relation("DisclosedBy", fields: [disclosedBy], references: [id])
+
+  @@index([caseId])
+}
+
+// ----------------------------------------------------------- payments
+
+enum PaymentStatus {
+  OUTSTANDING
+  AWAITING_PAYMENT // card session opened at Flutterwave, not yet verified
+  PENDING_CONFIRMATION // bank transfer reported, awaiting lawyer confirmation
+  SUCCESSFUL
+  FAILED
+}
+
+enum AttemptMethod {
+  CARD
+  TRANSFER
+}
+
+enum AttemptOutcome {
+  INITIATED
+  SUCCESSFUL
+  FAILED
+}
+
+model Payment {
+  id            String          @id @default(cuid())
+  reference     String          @unique // ELV-PY-3001
+  caseId        String
+  payerId       String
+  requestedById String
+  amount        Int // whole naira
+  description   String
+  status        PaymentStatus   @default(OUTSTANDING)
+  dueDate       DateTime
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime        @updatedAt
+  paidAt        DateTime?
+
+  case          Case            @relation(fields: [caseId], references: [id])
+  payer         User            @relation("PaymentPayer", fields: [payerId], references: [id])
+  requestedBy   User            @relation("PaymentRequester", fields: [requestedById], references: [id])
+  attempts      PaymentAttempt[]
+
+  @@index([status, updatedAt])
+  @@index([caseId])
+  @@index([payerId])
+}
+
+// One row per processing attempt (Flutterwave session, transfer report...).
+model PaymentAttempt {
+  id                 String         @id @default(cuid())
+  paymentId          String
+  at                 DateTime       @default(now())
+  method             AttemptMethod
+  outcome            AttemptOutcome
+  message            String?
+  processorReference String? // e.g. TXN-style tx_ref sent to Flutterwave
+  processorTxId      String? // Flutterwave transaction id (after verify)
+  meta               Json?
+  payment            Payment        @relation(fields: [paymentId], references: [id], onDelete: Cascade)
+
+  @@index([paymentId, at])
+}
+
+// ------------------------------------------------------ notifications
+
+model Notification {
+  id        String    @id @default(cuid())
+  userId    String
+  category  String // new_enquiry | payment_success | payment_failure | property_submission | admin_alert | case_update | account
+  title     String
+  body      String
+  link      String?
+  readAt    DateTime?
+  createdAt DateTime  @default(now())
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, readAt])
+  @@index([userId, createdAt])
+}
+
+// -------------------------------------------------------- helpdesk
+
+enum TicketStatus {
+  OPEN
+  RESOLVED
+}
+
+model Ticket {
+  id        String         @id @default(cuid())
+  reference String         @unique // ELV-HD-5001
+  // Nullable: the public help desk also accepts anonymous tickets
+  // (contact details are stored denormalised in name/email/phone).
+  userId    String?
+  name      String
+  email     String
+  phone     String?
+  category  String // enquiries | payments | listings | account | fraud | other
+  subject   String
+  status    TicketStatus   @default(OPEN)
+  createdAt DateTime       @default(now())
+  updatedAt DateTime       @updatedAt
+  user      User?          @relation(fields: [userId], references: [id])
+  messages  TicketMessage[]
+
+  @@index([status, updatedAt])
+}
+
+model TicketMessage {
+  id        String   @id @default(cuid())
+  ticketId  String
+  at        DateTime @default(now())
+  authorId  String?
+  fromStaff Boolean  @default(false)
+  body      String
+  ticket    Ticket   @relation(fields: [ticketId], references: [id], onDelete: Cascade)
+  author    User?    @relation(fields: [authorId], references: [id])
+
+  @@index([ticketId, at])
+}
+
+// --------------------------------------------------- settings & audit
+
+model Setting {
+  key       String   @id
+  value     String
+  updatedAt DateTime @updatedAt
+}
+
+// Audit trail for important administrative / financial actions.
+model AuditLog {
+  id         String   @id @default(cuid())
+  actorId    String?
+  action     String // e.g. property.approve, payment.confirm_transfer
+  entityType String
+  entityId   String?
+  meta       Json?
+  ip         String?
+  createdAt  DateTime @default(now())
+  actor      User?    @relation(fields: [actorId], references: [id])
+
+  @@index([entityType, entityId])
+  @@index([actorId])
+}
+
+// Sequential reference counters (property, enquiry, case, payment, ticket).
+// Allocated inside the same transaction as record creation.
+model ReferenceCounter {
+  name  String @id
+  value Int
+}

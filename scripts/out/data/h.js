@@ -1,0 +1,1 @@
+{name:!r&&a.name.trim().length<3?"Enter your full name.":void 0,email:!r&&!Nn.test(a.email)?"Enter a valid email address.":void 0,subject:a.subject.trim().length<3?"Add a short subject.":void 0,body:a.body.trim().length<15?"Please tell us a little more (at least 15 characters).":void 0}

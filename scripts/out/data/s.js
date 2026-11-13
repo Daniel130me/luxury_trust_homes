@@ -1,0 +1,1 @@
+{id:We(e,"tkt"),reference:`ELV-HD-${e.db.counters.ticket}`,userId:r?.id,name:r?.name??t.name.trim(),email:r?.email??t.email.trim().toLowerCase(),phone:t.phone?.trim()||void 0,category:t.category,subject:t.subject.trim(),status:"open",createdAt:e.now,updatedAt:e.now,messages:[{id:We(e,"tkm"),authorId:r?.id,fromStaff:!1,body:t.body.trim(),at:e.now}]}
