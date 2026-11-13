@@ -61,6 +61,7 @@ type RequestOptions = {
   body?: unknown;
   query?: Record<string, string | number | boolean | undefined>;
   signal?: AbortSignal;
+  _retried?: boolean; // internal: marks a request already retried after refresh
 };
 
 async function rawRequest<T>(path: string, options: RequestOptions = {}): Promise<T> {

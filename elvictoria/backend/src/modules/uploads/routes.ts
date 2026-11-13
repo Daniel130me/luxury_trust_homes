@@ -57,7 +57,7 @@ router.post(
       throw ApiError.badRequest("A listing can have at most 10 photographs.");
     }
 
-    const created = [];
+    const created: Array<{ id: string; url: string; label: string }> = [];
     for (let i = 0; i < files.length; i++) {
       const file = files[i];
       const extension = IMAGE_MIME_TYPES[file.mimetype];

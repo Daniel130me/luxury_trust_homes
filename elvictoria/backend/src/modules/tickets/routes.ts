@@ -146,9 +146,11 @@ router.post(
       data: { ticketId: ticket.id, authorId: req.user!.id, fromStaff: true, body: req.body.body.trim() },
     });
     await prisma.ticket.update({ where: { id: ticket.id }, data: { updatedAt: new Date() } });
-    await notifyMany([
-      { userId: ticket.userId, category: "case_update", title: `Reply on ${ticket.reference}`, body: req.body.body.slice(0, 140), link: `/app/help/${ticket.id}` },
-    ]);
+    if (ticket.userId) {
+      await notifyMany([
+        { userId: ticket.userId, category: "case_update", title: `Reply on ${ticket.reference}`, body: req.body.body.slice(0, 140), link: `/app/help/${ticket.id}` },
+      ]);
+    }
     await audit({ actorId: req.user!.id, action: "helpdesk.reply", entityType: "Ticket", entityId: ticket.id, ip: req.ip });
     ok(res, { message }, 201);
   },
@@ -162,9 +164,11 @@ router.post(
       where: { id: String(req.params.id) },
       data: { status: "RESOLVED" },
     });
-    await notifyMany([
-      { userId: ticket.userId, category: "case_update", title: `Ticket ${ticket.reference} resolved`, body: "Your support ticket has been resolved. If you still need help, please open a new ticket.", link: `/app/help/${ticket.id}` },
-    ]);
+    if (ticket.userId) {
+      await notifyMany([
+        { userId: ticket.userId, category: "case_update", title: `Ticket ${ticket.reference} resolved`, body: "Your support ticket has been resolved. If you still need help, please open a new ticket.", link: `/app/help/${ticket.id}` },
+      ]);
+    }
     await audit({ actorId: req.user!.id, action: "helpdesk.resolve", entityType: "Ticket", entityId: ticket.id, ip: req.ip });
     ok(res, { ticket });
   },

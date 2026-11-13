@@ -396,8 +396,7 @@ async function main() {
         amount: Number(p.amount),
         description: p.description as string,
         status: (PAYMENT_STATUS_MAP[p.status as string] ??
-          (p.status === "pending" ? "AWAITING_PAYMENT" : "OUTSTANDING") ??
-          "OUTSTANDING") as never,
+          (p.status === "pending" ? "AWAITING_PAYMENT" : "OUTSTANDING")) as never,
         createdAt,
         updatedAt: attempts.at(-1)?.at ?? createdAt,
         dueDate: parseLagosDate(p.due as string),

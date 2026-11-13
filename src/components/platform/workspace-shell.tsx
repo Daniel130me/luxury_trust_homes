@@ -77,7 +77,7 @@ export function WorkspaceShell({
     );
   }
 
-  const nav = buildNav(user.role, { unread });
+  const nav = buildNav(user.role as string, { unread });
 
   const footnote = staff
     ? "Internal notes and participant contact details are visible to ELVICTORIA staff only."
@@ -206,7 +206,6 @@ function iconFor(href: string): React.ReactNode {
 
 function buildNav(role: string, opts: { unread: number }): NavItem[] {
   const items: NavItem[] = [];
-  const home = workspaceHome(role);
 
   if (role === "LAWYER" || role === "SUPPORT") {
     items.push(
@@ -241,6 +240,5 @@ function buildNav(role: string, opts: { unread: number }): NavItem[] {
       { href: "/app/help", label: "Help Desk", icon: iconFor("/help") },
     );
   }
-  void home;
   return items;
 }
