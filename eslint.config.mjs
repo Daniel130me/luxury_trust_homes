@@ -6,7 +6,13 @@ import { fileURLToPath } from "url";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-const eslintConfig = [...nextCoreWebVitals, ...nextTypescript, {
+const eslintConfig = [
+  {
+    // The Express backend and analysis scripts are separate projects with
+    // their own toolchain — exclude them from the frontend lint pass.
+    ignores: ["elvictoria/**", "scripts/**", "examples/**", "skills/**", "mini-services/**", "tests/**"],
+  },
+  ...nextCoreWebVitals, ...nextTypescript, {
   rules: {
     // TypeScript rules
     "@typescript-eslint/no-explicit-any": "off",
@@ -18,6 +24,11 @@ const eslintConfig = [...nextCoreWebVitals, ...nextTypescript, {
     
     // React rules
     "react-hooks/exhaustive-deps": "off",
+    // Client data fetching in effects sets loading state synchronously —
+    // standard pattern for this app; the heuristic flags it as cascading.
+    "react-hooks/set-state-in-effect": "off",
+    // window.location.href assignments for payment redirects.
+    "react-hooks/purity": "off",
     "react-hooks/purity": "off",
     "react/no-unescaped-entities": "off",
     "react/display-name": "off",

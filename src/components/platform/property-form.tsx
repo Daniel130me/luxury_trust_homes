@@ -123,7 +123,7 @@ export function PropertyForm({
           id: propertyId,
           title: (p.title as string) ?? "",
           category: (p.category as string) ?? "APARTMENT",
-          listingType: (p.listingType as string) ?? "SALE",
+          listingType: ((p.listingType as string) === "RENT" ? "RENT" : "SALE") as "SALE" | "RENT",
           price: String(p.price ?? ""),
           availability: (p.availability as string) ?? "AVAILABLE",
           state: (p.state as string) ?? "",
@@ -520,7 +520,7 @@ export function PropertyForm({
                 <div className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-4">
                   {images.map((image, index) => (
                     <div key={image.id} className="group relative">
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      { }
                       <img src={image.url} alt={image.label} className="aspect-[4/3] w-full rounded-lg object-cover" />
                       {index === 0 && (
                         <span className="absolute left-2 top-2 rounded-full bg-brand-700 px-2 py-0.5 text-[10px] font-bold text-white">

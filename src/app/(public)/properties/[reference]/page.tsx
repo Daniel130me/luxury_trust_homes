@@ -153,7 +153,7 @@ export default function PropertyDetailPage() {
         <div>
           <div className="relative aspect-[4/3] overflow-hidden rounded-xl bg-zinc-100">
             {photos[photoIndex] ? (
-              // eslint-disable-next-line @next/next/no-img-element
+               
               <img
                 src={photos[photoIndex].url}
                 alt={photos[photoIndex].label}
@@ -195,7 +195,7 @@ export default function PropertyDetailPage() {
                     index === photoIndex ? "border-brand-700" : "border-transparent hover:border-brand-200"
                   }`}
                 >
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  { }
                   <img src={photo.url} alt={photo.label} className="h-full w-full object-cover" loading="lazy" />
                 </button>
               ))}

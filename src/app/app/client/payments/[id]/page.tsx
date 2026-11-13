@@ -88,7 +88,7 @@ export default function PaymentDetailPage() {
         window.history.replaceState({}, "", `/app/client/payments/${payment.id}`);
       }
     })();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+     
   }, [payment?.id]);
 
   if (missing) {
@@ -246,7 +246,7 @@ export default function PaymentDetailPage() {
         <Card className="p-5">
           <h2 className="text-lg font-semibold text-ink-strong">Summary</h2>
           {payment.case?.property?.images?.[0] && (
-            // eslint-disable-next-line @next/next/no-img-element
+             
             <img
               src={payment.case.property.images[0].url}
               alt={payment.case.property.images[0].label}

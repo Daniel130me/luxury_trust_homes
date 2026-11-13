@@ -101,7 +101,7 @@ export default function ClientEnquiriesPage() {
                     <td className="px-4 py-3">
                       <div className="flex items-center gap-3">
                         {enquiry.property.images?.[0] && (
-                          // eslint-disable-next-line @next/next/no-img-element
+                           
                           <img src={enquiry.property.images[0].url} alt="" className="h-10 w-14 rounded-md object-cover" loading="lazy" />
                         )}
                         <span className="font-medium text-ink-strong">{enquiry.property.title}</span>

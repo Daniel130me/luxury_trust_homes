@@ -80,7 +80,7 @@ export default function ClientDashboardPage() {
                   className="flex items-center gap-4 px-4 py-4 transition-colors hover:bg-brand-50/40"
                 >
                   {update.case.property.images?.[0] && (
-                    // eslint-disable-next-line @next/next/no-img-element
+                     
                     <img
                       src={update.case.property.images[0].url}
                       alt={update.case.property.images[0].label}

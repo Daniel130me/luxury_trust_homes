@@ -76,7 +76,7 @@ export function PropertyCard({
     >
       <div className="relative aspect-[4/3] overflow-hidden bg-zinc-100">
         {cover ? (
-          // eslint-disable-next-line @next/next/no-img-element
+           
           <img
             src={cover.url}
             alt={cover.label || property.title}

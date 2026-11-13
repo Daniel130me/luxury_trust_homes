@@ -85,7 +85,7 @@ export default function ProviderPropertyDetailPage() {
         <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-4">
           {property.images.map((image, index) => (
             <div key={image.id} className="relative">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
+              { }
               <img src={image.url} alt={image.label} className="aspect-[4/3] w-full rounded-lg object-cover" loading="lazy" />
               {index === 0 && (
                 <span className="absolute left-2 top-2 rounded-full bg-brand-700 px-2 py-0.5 text-[10px] font-bold text-white">Cover</span>

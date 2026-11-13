@@ -59,7 +59,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       setUser(null);
       if (err instanceof ApiRequestError && err.status !== 401 && err.status !== 403) {
         // Backend unreachable — report in console, keep the UI usable.
-        // eslint-disable-next-line no-console
         console.warn("Auth bootstrap failed:", err.message);
       }
       return null;

@@ -2,7 +2,7 @@
 
 /** Notifications page — paginated list, unread highlighting, mark-all. */
 import { useCallback, useEffect, useState } from "react";
-import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { apiFetch } from "@/lib/api";
 import { formatRelative } from "@/lib/format";
 import { Button, Card, EmptyState, PageLoader, SectionHeader } from "@/components/platform/ui-bits";
@@ -18,6 +18,7 @@ type Notification = {
 };
 
 export default function NotificationsPage() {
+  const router = useRouter();
   const [notifications, setNotifications] = useState<Notification[] | null>(null);
   const [unread, setUnread] = useState(0);
   const [page, setPage] = useState(1);
@@ -52,8 +53,8 @@ export default function NotificationsPage() {
       apiFetch("/notifications/mark-read", { method: "POST", body: { ids: [notification.id] } }).catch(() => undefined);
     }
     if (notification.link) {
-      // Internal links route inside the SPA; strip the gateway-safe origin.
-      window.location.href = notification.link;
+      // All notification links are internal app routes.
+      router.push(notification.link);
     } else {
       void load(page);
     }

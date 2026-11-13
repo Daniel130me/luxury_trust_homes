@@ -99,7 +99,7 @@ export default function ProviderPropertiesPage() {
               <Link href={`/app/provider/properties/${property.id}`} className="block">
                 <div className="relative aspect-[4/3] bg-zinc-100">
                   {property.images?.[0] ? (
-                    // eslint-disable-next-line @next/next/no-img-element
+                     
                     <img src={property.images[0].url} alt={property.images[0].label} className="h-full w-full object-cover" loading="lazy" />
                   ) : (
                     <div className="grid h-full place-items-center text-sm text-ink-muted">No photograph yet</div>
