@@ -1,0 +1,9 @@
+{
+  "name": "elvictoria-api",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Launcher for the ELVICTORIA Express backend (source of truth: elvictoria/backend)",
+  "scripts": {
+    "dev": "cd ../../elvictoria/backend && npm run dev"
+  }
+}

@@ -1,5 +1,4 @@
 import express from "express";
-import cors from "cors";
 import helmet from "helmet";
 import cookieParser from "cookie-parser";
 import { env, corsOrigins } from "./config/env.js";
@@ -31,16 +30,50 @@ export function createApp() {
     }),
   );
 
-  app.use(
-    cors({
-      origin: (origin, callback) => {
-        if (!origin) return callback(null, true); // same-origin / curl / webhook
-        if (corsOrigins.includes(origin)) return callback(null, true);
-        callback(new Error("Not allowed by CORS"));
-      },
-      credentials: true, // cookies ride along on cross-origin API calls
-    }),
-  );
+  // CORS with an explicit allow-list.
+  //
+  // Two legitimate combinations exist:
+  //  1. Same origin — the sandbox gateway serves the SPA and proxies /api to
+  //     this backend, so the browser's Origin equals the request Host.
+  //  2. Cross origin — a deployed SPA origin listed in CORS_ORIGINS.
+  // Reflecting arbitrary origins with credentials would let any site make
+  // cookie-authenticated calls, so unknown origins are rejected.
+  app.use((req, res, next) => {
+    const origin = req.headers.origin;
+    if (origin) {
+      const host = req.headers.host ?? "";
+      // The sandbox gateway forwards Host without the port, so compare
+      // hostnames (and full host when a port is present).
+      let sameOrigin = false;
+      try {
+        const originHost = new URL(origin);
+        sameOrigin =
+          originHost.host === host ||
+          originHost.hostname === host.split(":")[0];
+      } catch {
+        sameOrigin = false;
+      }
+      if (sameOrigin || corsOrigins.includes(origin)) {
+        res.setHeader("Access-Control-Allow-Origin", origin);
+        res.setHeader("Access-Control-Allow-Credentials", "true");
+        res.setHeader("Vary", "Origin");
+      }
+    }
+    if (req.method === "OPTIONS") {
+      res.setHeader(
+        "Access-Control-Allow-Methods",
+        "GET,POST,PATCH,PUT,DELETE,OPTIONS",
+      );
+      res.setHeader(
+        "Access-Control-Allow-Headers",
+        "Content-Type,X-CSRF-Token,Authorization",
+      );
+      res.setHeader("Access-Control-Max-Age", "600");
+      res.status(204).end();
+      return;
+    }
+    next();
+  });
 
   app.use(express.json({ limit: "1mb" })); // uploads use multipart, not JSON
   app.use(cookieParser());

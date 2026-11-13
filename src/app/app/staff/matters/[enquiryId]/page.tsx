@@ -19,19 +19,21 @@ import {
 } from "@/components/platform/ui-bits";
 import { CaseStepper } from "@/components/platform/case-stepper";
 
+/**
+ * The staff matters API returns the ENQUIRY object (the enquiry exists from
+ * submission; the transaction case is attached once opened).
+ */
 type Matter = {
-  enquiry: {
-    id: string;
-    reference: string;
-    status: string;
-    purpose: string;
-    contactMethod: string;
-    message: string;
-    submittedAt: string;
-    lawyer?: { id: string; name: string } | null;
-    client: { id: string; name: string; email: string; phone?: string | null };
-    escalations: Array<{ id: string; at: string; note: string; by?: { name?: string } | null }>;
-  };
+  id: string;
+  reference: string;
+  status: string;
+  purpose: string;
+  contactMethod: string;
+  message: string;
+  submittedAt: string;
+  lawyer?: { id: string; name: string } | null;
+  client: { id: string; name: string; email: string; phone?: string | null };
+  escalations: Array<{ id: string; at: string; note: string; by?: { name?: string } | null }>;
   case?: {
     id: string;
     reference: string;
@@ -252,8 +254,8 @@ export default function MatterDetailPage() {
 
   const kase = matter.case;
   const threadMessages = (threads?.messages ?? []).filter((m) => m.thread === activeThread);
-  const isAssigned = Boolean(matter.enquiry.lawyer);
-  const closed = ["COMPLETED", "CANCELLED"].includes(matter.enquiry.status);
+  const isAssigned = Boolean(matter.lawyer);
+  const closed = ["COMPLETED", "CANCELLED"].includes(matter.status);
 
   return (
     <div className="mx-auto max-w-5xl">
@@ -263,15 +265,15 @@ export default function MatterDetailPage() {
       </Link>
 
       <div className="mt-3 flex flex-wrap items-center gap-3">
-        <StatusBadge status={matter.enquiry.status} label={CASE_STATUS_LABELS[matter.enquiry.status]} />
-        <p className="text-sm text-ink-muted">Enquiry {matter.enquiry.reference}</p>
+        <StatusBadge status={matter.status} label={CASE_STATUS_LABELS[matter.status]} />
+        <p className="text-sm text-ink-muted">Enquiry {matter.reference}</p>
         {kase && <Badge>{kase.reference}</Badge>}
       </div>
       <h1 className="mt-1 font-serif text-3xl text-ink-strong">{matter.property.title}</h1>
       <p className="mt-1 text-sm text-ink-muted">
-        Submitted {formatDateTime(matter.enquiry.submittedAt)} · {PURPOSE_LABELS[matter.enquiry.purpose] ?? matter.enquiry.purpose} ·{" "}
-        {matter.enquiry.client.name} ({matter.enquiry.client.email}
-        {matter.enquiry.client.phone ? `, ${matter.enquiry.client.phone}` : ""})
+        Submitted {formatDateTime(matter.submittedAt)} · {PURPOSE_LABELS[matter.purpose] ?? matter.purpose} ·{" "}
+        {matter.client.name} ({matter.client.email}
+        {matter.client.phone ? `, ${matter.client.phone}` : ""})
       </p>
 
       {notice && <div className="mt-4"><Alert tone="success">{notice}</Alert></div>}
@@ -306,15 +308,15 @@ export default function MatterDetailPage() {
 
       {/* ----------------------------------------------- status stepper */}
       <div className="mt-5">
-        <CaseStepper status={matter.enquiry.status} />
+        <CaseStepper status={matter.status} />
       </div>
 
       {/* ------------------------------------------------- escalations */}
-      {matter.enquiry.escalations.length > 0 && (
+      {matter.escalations.length > 0 && (
         <Card className="mt-5 border-amber-200 bg-amber-50/70 p-4">
           <p className="text-sm font-semibold text-amber-800">Escalations</p>
           <ul className="mt-2 space-y-1.5 text-sm text-amber-800">
-            {matter.enquiry.escalations.map((escalation) => (
+            {matter.escalations.map((escalation) => (
               <li key={escalation.id}>
                 {escalation.note} — {escalation.by?.name ?? "staff"}, {formatDateTime(escalation.at)}
               </li>
