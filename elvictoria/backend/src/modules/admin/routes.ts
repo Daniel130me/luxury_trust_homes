@@ -199,6 +199,19 @@ const SETTINGS_KEYS = [
   "paymentDueDays",
 ] as const;
 
+/**
+ * Public contact settings (footer / contact page). Only the safe,
+ * non-sensitive fields are exposed — no auth required.
+ */
+router.get("/settings/public", async (_req, res) => {
+  const rows = await prisma.setting.findMany({
+    where: { key: { in: ["officeAddress", "officePhone", "officeEmail", "officeHours"] } },
+  });
+  const settings: Record<string, string> = {};
+  for (const row of rows) settings[row.key] = row.value;
+  ok(res, { settings });
+});
+
 router.get("/settings", requirePermission("workspace.staff"), async (_req, res) => {
   const rows = await prisma.setting.findMany({ where: { key: { in: SETTINGS_KEYS as unknown as string[] } } });
   const settings: Record<string, string> = {};
