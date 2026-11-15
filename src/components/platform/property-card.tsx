@@ -11,7 +11,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { apiFetch } from "@/lib/api";
-import { CATEGORY_LABELS, AVAILABILITY_LABELS, formatNaira } from "@/lib/format";
+import { categoryLabel, AVAILABILITY_LABELS, formatNaira } from "@/lib/format";
 import { BedIcon, BathIcon, AreaIcon, HeartIcon } from "./ui-bits";
 import { useToast } from "@/hooks/use-toast";
 
@@ -110,7 +110,7 @@ export function PropertyCard({
 
       <div className="flex flex-1 flex-col gap-2 p-4">
         <p className="text-xs font-medium uppercase tracking-wide text-gold-600">
-          {CATEGORY_LABELS[property.category] ?? property.category}
+          {categoryLabel(property.category)}
           {property.region ? (
             <span className="text-ink-muted"> · {property.state} {property.region}</span>
           ) : null}

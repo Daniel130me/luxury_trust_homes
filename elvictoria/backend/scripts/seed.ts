@@ -17,7 +17,7 @@
  *   client  daniel.johnson@mail.example
  *   password for all: Elvictoria123
  */
-import { PrismaClient, PropertyCategory, PropertyStatus, Availability } from "@prisma/client";
+import { PrismaClient, PropertyStatus, Availability } from "@prisma/client";
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import bcrypt from "bcryptjs";
@@ -54,14 +54,26 @@ const PROVIDER_KIND_MAP: Record<string, string> = {
   landlord: "OWNER",
 };
 
-const CATEGORY_MAP: Record<string, PropertyCategory> = {
-  detached_duplex: "DETACHED_DUPLEX",
-  semi_detached_duplex: "SEMI_DETACHED_DUPLEX",
-  apartment: "APARTMENT",
-  terrace: "TERRACE",
-  bungalow: "BUNGALOW",
-  land: "LAND",
-  commercial: "COMMERCIAL",
+// Human-readable property type names — the values stored on listings and
+// offered in forms/filters (admin can add more types from the UI).
+const PROPERTY_TYPES = [
+  "Detached Duplex",
+  "Semi-Detached Duplex",
+  "Apartment",
+  "Terrace House",
+  "Bungalow",
+  "Residential Land",
+  "Commercial Property",
+] as const;
+
+const CATEGORY_MAP: Record<string, string> = {
+  detached_duplex: "Detached Duplex",
+  semi_detached_duplex: "Semi-Detached Duplex",
+  apartment: "Apartment",
+  terrace: "Terrace House",
+  bungalow: "Bungalow",
+  land: "Residential Land",
+  commercial: "Commercial Property",
 };
 
 const STATUS_MAP: Record<string, PropertyStatus> = {
@@ -153,6 +165,7 @@ async function main() {
     prisma.propertyImage.deleteMany(),
     prisma.propertyHistory.deleteMany(),
     prisma.property.deleteMany(),
+    prisma.propertyType.deleteMany(),
     prisma.passwordReset.deleteMany(),
     prisma.session.deleteMany(),
     prisma.auditLog.deleteMany(),
@@ -164,6 +177,13 @@ async function main() {
   // ------------------------------------------------------------- users
   const passwordHash = await bcrypt.hash(DEMO_PASSWORD, 10);
   const userIds = new Map<string, string>();
+
+  // ------------------------------------------- property types (taxonomy)
+  // Admin-managed from the UI; seeded here so a fresh database has the
+  // standard Nigerian property types to list and filter against.
+  await prisma.propertyType.createMany({
+    data: PROPERTY_TYPES.map((name, index) => ({ name, sortOrder: index + 1 })),
+  });
 
   for (const u of db.users as Array<Record<string, string | null>>) {
     const role = (u.role as string).toUpperCase() as "LAWYER" | "SUPPORT" | "PROVIDER" | "CLIENT";
@@ -201,7 +221,7 @@ async function main() {
     const providerId = userIds.get(p.provider as string)!;
     const state = p.state as string;
     const lga = p.lga as string;
-    const category = CATEGORY_MAP[p.category as string] ?? "APARTMENT";
+    const category = CATEGORY_MAP[p.category as string] ?? "Apartment";
     const status = STATUS_MAP[p.status as string] ?? "PENDING_REVIEW";
     const createdAt = parseLagosDate(p.created as string);
 

@@ -3,7 +3,7 @@
 /** Staff reports — listing mix, case pipeline, payment outcomes, trend. */
 import { useEffect, useState } from "react";
 import { apiFetch } from "@/lib/api";
-import { CASE_STATUS_LABELS, CATEGORY_LABELS, PAYMENT_STATUS_LABELS, formatNaira } from "@/lib/format";
+import { CASE_STATUS_LABELS, categoryLabel, PAYMENT_STATUS_LABELS, formatNaira } from "@/lib/format";
 import { Card, PageLoader, SectionHeader } from "@/components/platform/ui-bits";
 
 type Reports = {
@@ -48,7 +48,7 @@ export default function StaffReportsPage() {
             {reports.listingsByCategory.map((row) => (
               <li key={row.category} className="text-sm">
                 <div className="flex items-center justify-between">
-                  <span className="text-ink-soft">{CATEGORY_LABELS[row.category] ?? row.category}</span>
+                  <span className="text-ink-soft">{categoryLabel(row.category)}</span>
                   <span className="font-semibold text-ink-strong">{row.count}</span>
                 </div>
                 <div className="mt-1 h-2 rounded-full bg-slate-100">

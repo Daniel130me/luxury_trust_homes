@@ -8,7 +8,8 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import { apiFetch, ApiRequestError, apiUpload } from "@/lib/api";
-import { CATEGORY_LABELS, formatNaira } from "@/lib/format";
+import { formatNaira } from "@/lib/format";
+import { usePropertyTypes } from "@/lib/property-types";
 import {
   Alert, Button, Card, Field, Input, PageLoader, Select, Textarea, ChevronLeftIcon,
 } from "@/components/platform/ui-bits";
@@ -41,7 +42,7 @@ export type PropertyFormValues = {
 
 export const EMPTY_FORM: PropertyFormValues = {
   title: "",
-  category: "DETACHED_DUPLEX",
+  category: "",
   listingType: "SALE",
   price: "",
   availability: "AVAILABLE",
@@ -113,6 +114,14 @@ export function PropertyForm({
   const [saving, setSaving] = useState<"draft" | "submit" | null>(null);
   const [notice, setNotice] = useState<string | null>(null);
   const [uploading, setUploading] = useState(false);
+  // Admin-managed property types; the first active type is the default.
+  const propertyTypes = usePropertyTypes();
+
+  useEffect(() => {
+    if (propertyTypes && propertyTypes.length > 0) {
+      setValues((v) => (v.category ? v : { ...v, category: propertyTypes[0].name }));
+    }
+  }, [propertyTypes]);
 
   const load = useCallback(async () => {
     if (mode === "edit" && propertyId) {
@@ -122,7 +131,7 @@ export function PropertyForm({
         setValues({
           id: propertyId,
           title: (p.title as string) ?? "",
-          category: (p.category as string) ?? "APARTMENT",
+          category: (p.category as string) ?? "",
           listingType: ((p.listingType as string) === "RENT" ? "RENT" : "SALE") as "SALE" | "RENT",
           price: String(p.price ?? ""),
           availability: (p.availability as string) ?? "AVAILABLE",
@@ -314,8 +323,8 @@ export function PropertyForm({
             <div className="grid gap-4 sm:grid-cols-2">
               <Field label="Property type" required>
                 <Select value={values.category} onChange={(e) => set("category", e.target.value)} aria-label="Property type">
-                  {Object.entries(CATEGORY_LABELS).map(([value, label]) => (
-                    <option key={value} value={value}>{label}</option>
+                  {(propertyTypes ?? []).map((type) => (
+                    <option key={type.id} value={type.name}>{type.name}</option>
                   ))}
                 </Select>
               </Field>

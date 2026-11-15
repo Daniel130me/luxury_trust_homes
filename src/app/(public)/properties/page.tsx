@@ -8,7 +8,8 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { apiFetch } from "@/lib/api";
-import { formatNaira, CATEGORY_LABELS } from "@/lib/format";
+import { formatNaira } from "@/lib/format";
+import { usePropertyTypes } from "@/lib/property-types";
 import { PropertyCard, type PropertyCardData } from "@/components/platform/property-card";
 import {
   Button, Card, Input, Select, EmptyState, PageLoader, SearchIcon,
@@ -39,6 +40,7 @@ export default function PropertiesPage() {
   const [region, setRegion] = useState(params.get("region") ?? "");
   const [lga, setLga] = useState(params.get("lga") ?? "");
   const [category, setCategory] = useState(params.get("category") ?? "");
+  const propertyTypes = usePropertyTypes();
   const [priceBand, setPriceBand] = useState("");
   const [beds, setBeds] = useState("");
   const [sort, setSort] = useState(params.get("sort") ?? "newest");
@@ -158,8 +160,8 @@ export default function PropertiesPage() {
           </Select>
           <Select value={category} onChange={(e) => setCategory(e.target.value)} aria-label="Property type">
             <option value="">All property types</option>
-            {Object.entries(CATEGORY_LABELS).map(([value, label]) => (
-              <option key={value} value={value}>{label}</option>
+            {(propertyTypes ?? []).map((type) => (
+              <option key={type.id} value={type.name}>{type.name}</option>
             ))}
           </Select>
           <Select value={priceBand} onChange={(e) => setPriceBand(e.target.value)} aria-label="Price range">

@@ -7,7 +7,7 @@ import { useParams } from "next/navigation";
 import { apiFetch, ApiRequestError } from "@/lib/api";
 import { useAuth } from "@/lib/auth";
 import {
-  AVAILABILITY_LABELS, CATEGORY_LABELS, PROPERTY_STATUS_LABELS, formatDateTime, formatNaira,
+  AVAILABILITY_LABELS, categoryLabel, PROPERTY_STATUS_LABELS, formatDateTime, formatNaira,
 } from "@/lib/format";
 import {
   Alert, Button, Card, PageLoader, StatusBadge, Textarea, ChevronLeftIcon,
@@ -135,7 +135,7 @@ export default function StaffListingDetailPage() {
           <h2 className="text-lg font-semibold text-ink-strong">About this property</h2>
           <p className="mt-2 whitespace-pre-line leading-relaxed text-ink-soft">{listing.description}</p>
           <dl className="mt-5 grid grid-cols-2 gap-x-6 gap-y-2 text-sm sm:grid-cols-3">
-            <Detail term="Type" value={CATEGORY_LABELS[listing.category] ?? listing.category} />
+            <Detail term="Type" value={categoryLabel(listing.category)} />
             <Detail term="Listing" value={listing.listingType === "SALE" ? "For sale" : "For rent"} />
             <Detail term="Availability" value={AVAILABILITY_LABELS[listing.availability]} />
             <Detail term="Location" value={`${listing.area}, ${listing.lga}, ${listing.state}${listing.region ? ` (${listing.region})` : ""}`} />

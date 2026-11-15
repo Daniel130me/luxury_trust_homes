@@ -11,6 +11,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { apiFetch } from "@/lib/api";
+import { usePropertyTypes } from "@/lib/property-types";
 import { PropertyCard, type PropertyCardData } from "@/components/platform/property-card";
 import { Button, Select, ShieldIcon, CheckIcon, ScaleIcon, SearchIcon, CreditCardIcon } from "@/components/platform/ui-bits";
 
@@ -22,6 +23,7 @@ export default function HomePage() {
   const [deal, setDeal] = useState<"sale" | "rent">("sale");
   const [state, setState] = useState("");
   const [category, setCategory] = useState("");
+  const propertyTypes = usePropertyTypes();
 
   useEffect(() => {
     apiFetch<FeaturedResponse>("/properties/featured")
@@ -87,13 +89,9 @@ export default function HomePage() {
               </Select>
               <Select value={category} onChange={(e) => setCategory(e.target.value)} aria-label="Property type">
                 <option value="">All property types</option>
-                <option value="DETACHED_DUPLEX">Detached Duplex</option>
-                <option value="SEMI_DETACHED_DUPLEX">Semi-Detached Duplex</option>
-                <option value="APARTMENT">Apartment</option>
-                <option value="TERRACE">Terrace House</option>
-                <option value="BUNGALOW">Bungalow</option>
-                <option value="LAND">Residential Land</option>
-                <option value="COMMERCIAL">Commercial Property</option>
+                {(propertyTypes ?? []).map((type) => (
+                  <option key={type.id} value={type.name}>{type.name}</option>
+                ))}
               </Select>
               <Button type="submit" size="lg">
                 <SearchIcon className="h-4 w-4" />

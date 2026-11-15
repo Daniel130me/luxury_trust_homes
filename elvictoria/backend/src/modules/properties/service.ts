@@ -1,4 +1,4 @@
-import { Prisma, Availability, PropertyCategory, PropertyStatus } from "@prisma/client";
+import { Prisma, Availability, PropertyStatus } from "@prisma/client";
 import { prisma } from "../../lib/prisma.js";
 import { ApiError } from "../../lib/errors.js";
 import { can, type AuthUser } from "../../lib/permissions.js";
@@ -47,7 +47,8 @@ function publicWhere(filters: ListFilters): Prisma.PropertyWhereInput {
   if (filters.region) where.region = filters.region;
   if (filters.lga) where.lga = filters.lga;
   if (filters.category) {
-    where.category = filters.category as PropertyCategory;
+    // Types are admin-managed text values now; filter matches the stored name.
+    where.category = filters.category;
   }
   if (filters.beds) where.beds = { gte: filters.beds };
   if (filters.priceMin || filters.priceMax) {
@@ -155,7 +156,7 @@ export async function getByReference(reference: string, user: AuthUser | null) {
 
 export type UpsertInput = {
   title: string;
-  category: PropertyCategory;
+  category: string;
   listingType: "SALE" | "RENT";
   price: number;
   state: string;
@@ -177,12 +178,23 @@ export type UpsertInput = {
   submitForReview?: boolean;
 };
 
-const VALID_CATEGORIES = new Set(Object.values(PropertyCategory));
+/**
+ * Property types are admin-managed; a submitted category must match an
+ * ACTIVE type name exactly. Returns an error message or null when valid.
+ */
+export async function validatePropertyCategory(category: string): Promise<string | null> {
+  const type = await prisma.propertyType.findFirst({
+    where: { name: category, active: true },
+    select: { id: true },
+  });
+  return type ? null : "Choose a valid property type.";
+}
 
-function validateInput(input: UpsertInput) {
+async function validateInput(input: UpsertInput) {
   const errors: Record<string, string> = {};
   if (input.title.trim().length < 8) errors.title = "Give the property a descriptive title (at least 8 characters).";
-  if (!VALID_CATEGORIES.has(input.category)) errors.category = "Choose a property type.";
+  const categoryError = await validatePropertyCategory(input.category);
+  if (categoryError) errors.category = categoryError;
   if (!(input.price > 0)) errors.price = "Enter a price greater than zero.";
   if (!input.state) errors.state = "Complete the state, LGA and area.";
   if (!input.lga) errors.lga = "Choose an LGA within the selected state.";
@@ -197,7 +209,7 @@ async function allocateReference(tx: Prisma.TransactionClient): Promise<string> 
 }
 
 export async function createByProvider(providerId: string, input: UpsertInput) {
-  validateInput(input);
+  await validateInput(input);
   const submit = input.submitForReview ?? true;
 
   const property = await prisma.$transaction(async (tx) => {
@@ -257,7 +269,7 @@ export async function updateByProvider(
   providerId: string,
   input: UpsertInput,
 ) {
-  validateInput(input);
+  await validateInput(input);
   const property = await prisma.property.findUnique({ where: { id: propertyId } });
   if (!property) throw ApiError.notFound("Property not found.");
   if (property.providerId !== providerId) throw ApiError.forbidden();

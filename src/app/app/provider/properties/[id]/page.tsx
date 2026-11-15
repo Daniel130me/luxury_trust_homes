@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { apiFetch } from "@/lib/api";
-import { CATEGORY_LABELS, PROPERTY_STATUS_LABELS, AVAILABILITY_LABELS, formatDateTime, formatNaira } from "@/lib/format";
+import { categoryLabel, PROPERTY_STATUS_LABELS, AVAILABILITY_LABELS, formatDateTime, formatNaira } from "@/lib/format";
 import { Button, Card, EmptyState, PageLoader, StatusBadge, ChevronLeftIcon } from "@/components/platform/ui-bits";
 
 type PropertyDetail = {
@@ -71,7 +71,7 @@ export default function ProviderPropertyDetailPage() {
       </div>
       <h1 className="mt-1 text-2xl font-semibold tracking-tight sm:text-3xl">{property.title}</h1>
       <p className="mt-1 text-sm text-ink-muted">
-        {CATEGORY_LABELS[property.category]} · {property.area}, {property.lga}, {property.state}
+        {categoryLabel(property.category)} · {property.area}, {property.lga}, {property.state}
       </p>
 
       {property.feedback && property.status !== "APPROVED" && (

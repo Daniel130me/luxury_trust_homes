@@ -128,14 +128,16 @@ enum ListingType {
   RENT
 }
 
-enum PropertyCategory {
-  DETACHED_DUPLEX
-  SEMI_DETACHED_DUPLEX
-  APARTMENT
-  TERRACE
-  BUNGALOW
-  LAND
-  COMMERCIAL
+// Admin-managed property taxonomy. Replaces the old PropertyCategory enum
+// so the legal team can add new types from the admin end without a deploy.
+model PropertyType {
+  id        String   @id @default(cuid())
+  name      String   @unique // human-readable, e.g. "Apartment"
+  active    Boolean  @default(true) // inactive types stay on existing listings but vanish from pickers
+  sortOrder Int      @default(0)
+  createdAt DateTime @default(now())
+
+  @@index([active, sortOrder])
 }
 
 enum PropertyStatus {
@@ -158,7 +160,7 @@ model Property {
   reference      String            @unique // ELV-PR-1001
   providerId     String
   title          String
-  category       PropertyCategory
+  category       String // human-readable PropertyType name, e.g. "Apartment"
   listingType    ListingType
   price          Int // whole naira
   state          String

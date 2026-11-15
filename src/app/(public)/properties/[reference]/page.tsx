@@ -11,7 +11,7 @@ import { useParams, useRouter, useSearchParams } from "next/navigation";
 import { apiFetch, ApiRequestError } from "@/lib/api";
 import { useAuth } from "@/lib/auth";
 import {
-  AVAILABILITY_LABELS, CATEGORY_LABELS, PURPOSE_LABELS, formatDateTime, formatNaira,
+  AVAILABILITY_LABELS, categoryLabel, PURPOSE_LABELS, formatDateTime, formatNaira,
 } from "@/lib/format";
 import {
   Alert, Button, Card, EmptyState, Field, Input, PageLoader, Select, Textarea,
@@ -225,7 +225,7 @@ export default function PropertyDetailPage() {
             <h2 className="text-lg font-semibold text-ink-strong">Property details</h2>
             <dl className="mt-3 grid grid-cols-2 gap-x-6 gap-y-3 rounded-xl border border-brand-100/80 bg-white p-5 sm:grid-cols-3">
               <Detail term="Reference" value={property.reference} />
-              <Detail term="Type" value={CATEGORY_LABELS[property.category] ?? property.category} />
+              <Detail term="Type" value={categoryLabel(property.category)} />
               <Detail term="Listing" value={property.listingType === "SALE" ? "For sale" : "For rent"} />
               <Detail term="Availability" value={AVAILABILITY_LABELS[property.availability] ?? property.availability} />
               {property.beds != null && <Detail term="Bedrooms" value={String(property.beds)} />}

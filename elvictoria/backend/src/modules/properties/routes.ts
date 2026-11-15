@@ -5,6 +5,7 @@ import { validate, pageSchema, pageSizeSchema } from "../../middleware/validate.
 import { requireAuth, requirePermission } from "../../middleware/auth.js";
 import { prisma } from "../../lib/prisma.js";
 import { isStaff } from "../../lib/permissions.js";
+import { audit } from "../../lib/notify.js";
 import * as svc from "./service.js";
 
 /**
@@ -21,14 +22,11 @@ import * as svc from "./service.js";
  */
 const router = Router();
 
-const categoryEnum = z.enum([
-  "DETACHED_DUPLEX", "SEMI_DETACHED_DUPLEX", "APARTMENT", "TERRACE",
-  "BUNGALOW", "LAND", "COMMERCIAL",
-]);
-
 const upsertSchema = z.object({
   title: z.string().trim().min(8).max(140),
-  category: categoryEnum,
+  // Property types are admin-managed (see /properties/types); the exact
+  // name is validated against active types in the service layer.
+  category: z.string().trim().min(1).max(60),
   listingType: z.enum(["SALE", "RENT"]),
   price: z.coerce.number().int().min(1).max(2_000_000_000),
   state: z.string().trim().min(1).max(40),
@@ -58,7 +56,7 @@ const listQuerySchema = z.object({
   state: z.string().trim().max(40).optional(),
   region: z.string().trim().max(30).optional(),
   lga: z.string().trim().max(60).optional(),
-  category: categoryEnum.optional(),
+  category: z.string().trim().max(60).optional(),
   priceMin: z.coerce.number().int().min(0).optional(),
   priceMax: z.coerce.number().int().min(0).optional(),
   beds: z.coerce.number().int().min(0).max(10).optional(),
@@ -91,6 +89,77 @@ router.get("/properties", validate({ query: listQuerySchema }), async (req, res)
 router.get("/properties/featured", async (_req, res) => {
   ok(res, { properties: await svc.listFeatured() });
 });
+
+// ------------------------------------------------------- property types
+// Admin-managed taxonomy (replaces the old hardcoded enum). Registered
+// before "/properties/:reference" so "types" is not read as a reference.
+
+// Public: active types for the listing form and search filters.
+router.get("/properties/types", async (_req, res) => {
+  const types = await prisma.propertyType.findMany({
+    where: { active: true },
+    orderBy: [{ sortOrder: "asc" }, { name: "asc" }],
+  });
+  ok(res, { types });
+});
+
+// Staff: full list including deactivated types (taxonomy management UI).
+router.get("/properties/types/all", requirePermission("settings.manage"), async (_req, res) => {
+  const types = await prisma.propertyType.findMany({
+    orderBy: [{ active: "desc" }, { sortOrder: "asc" }, { name: "asc" }],
+  });
+  ok(res, { types });
+});
+
+router.post(
+  "/properties/types",
+  requirePermission("settings.manage"),
+  validate({
+    body: z.object({
+      name: z.string().trim().min(2).max(60),
+      sortOrder: z.coerce.number().int().min(0).max(999).optional(),
+    }),
+  }),
+  async (req, res) => {
+    const name = req.body.name as string;
+    const exists = await prisma.propertyType.findUnique({ where: { name } });
+    if (exists) throw ApiError.badRequest("That property type already exists.", { name: "Already in use." });
+    const max = await prisma.propertyType.aggregate({ _max: { sortOrder: true } });
+    const type = await prisma.propertyType.create({
+      data: { name, sortOrder: (req.body.sortOrder as number | undefined) ?? (max._max.sortOrder ?? 0) + 1 },
+    });
+    await audit({ actorId: req.user!.id, action: "property_type.create", entityType: "PropertyType", entityId: type.id, ip: req.ip, meta: { name } });
+    ok(res, { type }, 201);
+  },
+);
+
+router.patch(
+  "/properties/types/:id",
+  requirePermission("settings.manage"),
+  validate({
+    body: z.object({
+      name: z.string().trim().min(2).max(60).optional(),
+      active: z.boolean().optional(),
+      sortOrder: z.coerce.number().int().min(0).max(999).optional(),
+    }),
+  }),
+  async (req, res) => {
+    const id = String(req.params.id);
+    const type = await prisma.propertyType.findUnique({ where: { id } });
+    if (!type) throw ApiError.notFound("Property type not found.");
+
+    const patch = req.body as { name?: string; active?: boolean; sortOrder?: number };
+    if (patch.name && patch.name !== type.name) {
+      const taken = await prisma.propertyType.findUnique({ where: { name: patch.name } });
+      if (taken) throw ApiError.badRequest("That property type already exists.", { name: "Already in use." });
+    }
+    const updated = await prisma.propertyType.update({ where: { id }, data: patch });
+    // Deactivating a type hides it from pickers but existing listings keep
+    // their value, so no property data needs to change.
+    await audit({ actorId: req.user!.id, action: "property_type.update", entityType: "PropertyType", entityId: id, ip: req.ip, meta: patch });
+    ok(res, { type: updated });
+  },
+);
 
 router.get("/properties/:reference", async (req, res) => {
   ok(res, { property: await svc.getByReference(String(req.params.reference), req.user) });

@@ -65,7 +65,9 @@ export function formatRelative(value: string | Date): string {
 
 // ------------------------------------------------------ display labels
 
-export const CATEGORY_LABELS: Record<string, string> = {
+// Legacy enum keys, kept only as a fallback for old data. Categories are
+// admin-managed text values now ("Apartment", ...) which display as-is.
+const LEGACY_CATEGORY_LABELS: Record<string, string> = {
   DETACHED_DUPLEX: "Detached Duplex",
   SEMI_DETACHED_DUPLEX: "Semi-Detached Duplex",
   APARTMENT: "Apartment",
@@ -74,6 +76,11 @@ export const CATEGORY_LABELS: Record<string, string> = {
   LAND: "Residential Land",
   COMMERCIAL: "Commercial Property",
 };
+
+/** Display label for a property category (legacy enum or admin-managed name). */
+export function categoryLabel(category: string): string {
+  return LEGACY_CATEGORY_LABELS[category] ?? category;
+}
 
 export const AVAILABILITY_LABELS: Record<string, string> = {
   AVAILABLE: "Available",
