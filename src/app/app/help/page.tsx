@@ -5,6 +5,7 @@ import { useCallback, useEffect, useState } from "react";
 import { apiFetch, ApiRequestError } from "@/lib/api";
 import { useAuth } from "@/lib/auth";
 import { formatDateTime } from "@/lib/format";
+import { priorityBadge, statusBadge, ticketAcceptsReplies } from "@/lib/tickets";
 import {
   Alert, Badge, Button, Card, EmptyState, Field, Input, PageLoader, SectionHeader, Select, Textarea,
 } from "@/components/platform/ui-bits";
@@ -16,6 +17,7 @@ type Ticket = {
   category: string;
   subject: string;
   status: string;
+  priority: string;
   updatedAt: string;
   messages: TicketMessage[];
 };
@@ -41,6 +43,7 @@ export default function HelpDeskPage() {
   const [formErrors, setFormErrors] = useState<Record<string, string>>({});
   const [submitting, setSubmitting] = useState(false);
   const [notice, setNotice] = useState<string | null>(null);
+  const [createdId, setCreatedId] = useState<string | null>(null);
 
   const load = useCallback(async () => {
     const data = await apiFetch<{ tickets: Ticket[] }>("/tickets/mine").catch(() => null);
@@ -61,9 +64,17 @@ export default function HelpDeskPage() {
 
     setSubmitting(true);
     try {
-      await apiFetch("/tickets", { method: "POST", body: { ...form, phone: form.phone || undefined } });
+      const data = await apiFetch<{ ticket: Ticket }>("/tickets", {
+        method: "POST",
+        body: { ...form, phone: form.phone || undefined },
+      });
       setForm({ category: "enquiries", subject: "", body: "", phone: "" });
-      setNotice("Your ticket has been created. Our support team will respond shortly.");
+      // Standard support-desk confirmation: the reference number is what
+      // the user quotes in any correspondence, so show it prominently.
+      setNotice(
+        `Your ticket has been created. Your reference number is ${data.ticket.reference} — quote it in any correspondence with our support team.`,
+      );
+      setCreatedId(data.ticket.id);
       await load();
     } catch (err) {
       setFormErrors(err instanceof ApiRequestError ? (err.fields ?? { form: err.message }) : { form: "Could not create the ticket." });
@@ -145,9 +156,12 @@ export default function HelpDeskPage() {
                       {ticket.category} · updated {formatDateTime(ticket.updatedAt)}
                     </p>
                   </div>
-                  <Badge tone={ticket.status === "RESOLVED" ? "bg-emerald-50 text-emerald-700" : "bg-brand-50 text-brand-700"}>
-                    {ticket.status === "RESOLVED" ? "Resolved" : "Open"}
-                  </Badge>
+                  <div className="flex shrink-0 flex-col items-end gap-1.5">
+                    <Badge tone={statusBadge(ticket.status).tone}>{statusBadge(ticket.status).label}</Badge>
+                    <span className={`rounded-full px-2 py-0.5 text-[10px] font-medium ${priorityBadge(ticket.priority).tone}`}>
+                      {priorityBadge(ticket.priority).label}
+                    </span>
+                  </div>
                 </button>
                 {openTicket === ticket.id && (
                   <div className="border-t border-brand-50 bg-brand-50/60 px-4 py-4">
@@ -168,7 +182,7 @@ export default function HelpDeskPage() {
                         </div>
                       ))}
                     </div>
-                    {ticket.status !== "RESOLVED" && (
+                    {ticketAcceptsReplies(ticket.status) && (
                       <div className="mt-3 flex gap-2">
                         <Input
                           value={reply}

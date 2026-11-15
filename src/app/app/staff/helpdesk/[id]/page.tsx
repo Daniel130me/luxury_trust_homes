@@ -1,13 +1,14 @@
 "use client";
 
-/** Staff helpdesk ticket detail — conversation, reply, resolve. */
+/** Staff helpdesk ticket detail — conversation, reply, status & priority. */
 import { useCallback, useEffect, useState } from "react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { apiFetch, ApiRequestError } from "@/lib/api";
 import { formatDateTime } from "@/lib/format";
+import { priorityBadge, statusBadge, ticketAcceptsReplies, type TicketPriorityKey, type TicketStatusKey } from "@/lib/tickets";
 import {
-  Alert, Badge, Button, Card, PageLoader, Textarea, ChevronLeftIcon, AlertTriangleIcon,
+  Alert, Badge, Button, Card, PageLoader, Select, Textarea, ChevronLeftIcon, AlertTriangleIcon,
 } from "@/components/platform/ui-bits";
 
 type TicketMessage = { id: string; at: string; fromStaff: boolean; body: string; author?: { name?: string } | null };
@@ -17,6 +18,7 @@ type Ticket = {
   category: string;
   subject: string;
   status: string;
+  priority: string;
   createdAt: string;
   user?: { id: string; name: string; email: string; phone?: string | null } | null;
   name: string;
@@ -24,6 +26,9 @@ type Ticket = {
   phone?: string | null;
   messages: TicketMessage[];
 };
+
+const STATUS_OPTIONS: TicketStatusKey[] = ["OPEN", "IN_PROGRESS", "RESOLVED", "CLOSED"];
+const PRIORITY_OPTIONS: TicketPriorityKey[] = ["LOW", "MEDIUM", "HIGH", "URGENT"];
 
 export default function StaffTicketDetailPage() {
   const { id } = useParams<{ id: string }>();
@@ -62,15 +67,18 @@ export default function StaffTicketDetailPage() {
     }
   }
 
-  async function resolve() {
+  // One endpoint handles status and priority; the backend notifies the
+  // ticket owner on the transitions they care about and audits the change.
+  async function updateTicket(patch: { status?: string; priority?: string }) {
     setBusy(true);
     setError(null);
+    setNotice(null);
     try {
-      await apiFetch(`/tickets/staff/${id}/resolve`, { method: "POST" });
+      await apiFetch(`/tickets/staff/${id}`, { method: "PATCH", body: patch });
       await load();
-      setNotice("Ticket resolved — the user has been notified.");
+      setNotice("Ticket updated — the owner is notified where needed.");
     } catch (err) {
-      setError(err instanceof ApiRequestError ? err.message : "Could not resolve the ticket.");
+      setError(err instanceof ApiRequestError ? err.message : "Could not update the ticket.");
     } finally {
       setBusy(false);
     }
@@ -91,9 +99,10 @@ export default function StaffTicketDetailPage() {
       </Link>
 
       <div className="mt-3 flex flex-wrap items-center gap-3">
-        <Badge tone={ticket.status === "RESOLVED" ? "bg-emerald-50 text-emerald-700" : "bg-brand-50 text-brand-700"}>
-          {ticket.status === "RESOLVED" ? "Resolved" : "Open"}
-        </Badge>
+        <Badge tone={statusBadge(ticket.status).tone}>{statusBadge(ticket.status).label}</Badge>
+        <span className={`rounded-full px-2 py-0.5 text-[10px] font-medium ${priorityBadge(ticket.priority).tone}`}>
+          {priorityBadge(ticket.priority).label}
+        </span>
         {isFraud && (
           <span className="inline-flex items-center gap-1 rounded-full bg-red-600 px-2.5 py-1 text-[10px] font-bold text-white">
             <AlertTriangleIcon className="h-3 w-3" />
@@ -125,22 +134,81 @@ export default function StaffTicketDetailPage() {
         ))}
       </Card>
 
-      {ticket.status !== "RESOLVED" && (
+      {ticketAcceptsReplies(ticket.status) ? (
         <Card className="mt-4 p-5">
+          {/* Status and priority sit with the reply so one screen manages the ticket. */}
+          <div className="flex flex-wrap gap-3">
+            <label className="text-xs font-medium text-ink-muted">
+              Status
+              <Select
+                value={ticket.status}
+                onChange={(e) => void updateTicket({ status: e.target.value })}
+                disabled={busy}
+                aria-label="Ticket status"
+                className="mt-1 w-44"
+              >
+                {STATUS_OPTIONS.map((option) => (
+                  <option key={option} value={option}>{statusBadge(option).label}</option>
+                ))}
+              </Select>
+            </label>
+            <label className="text-xs font-medium text-ink-muted">
+              Priority
+              <Select
+                value={ticket.priority}
+                onChange={(e) => void updateTicket({ priority: e.target.value })}
+                disabled={busy}
+                aria-label="Ticket priority"
+                className="mt-1 w-44"
+              >
+                {PRIORITY_OPTIONS.map((option) => (
+                  <option key={option} value={option}>{priorityBadge(option).label}</option>
+                ))}
+              </Select>
+            </label>
+          </div>
           <Textarea
+            className="mt-4"
             rows={3}
             value={reply}
             onChange={(e) => setReply(e.target.value)}
             placeholder="Write your reply to the user…"
             aria-label="Reply"
           />
-          <div className="mt-3 flex justify-end gap-3">
-            <Button variant="outline" onClick={() => void resolve()} loading={busy}>
-              Resolve ticket
-            </Button>
+          <div className="mt-3 flex justify-end">
             <Button onClick={() => void sendReply()} loading={busy} disabled={!reply.trim()}>
               Send reply
             </Button>
+          </div>
+        </Card>
+      ) : (
+        <Card className="mt-4 flex flex-wrap items-center justify-between gap-3 p-5">
+          <p className="text-sm text-ink-muted">
+            This ticket is {statusBadge(ticket.status).label.toLowerCase()}. You can still reopen it or adjust the priority.
+          </p>
+          <div className="flex gap-3">
+            <Select
+              value={ticket.status}
+              onChange={(e) => void updateTicket({ status: e.target.value })}
+              disabled={busy}
+              aria-label="Ticket status"
+              className="w-44"
+            >
+              {STATUS_OPTIONS.map((option) => (
+                <option key={option} value={option}>{statusBadge(option).label}</option>
+              ))}
+            </Select>
+            <Select
+              value={ticket.priority}
+              onChange={(e) => void updateTicket({ priority: e.target.value })}
+              disabled={busy}
+              aria-label="Ticket priority"
+              className="w-44"
+            >
+              {PRIORITY_OPTIONS.map((option) => (
+                <option key={option} value={option}>{priorityBadge(option).label}</option>
+              ))}
+            </Select>
           </div>
         </Card>
       )}

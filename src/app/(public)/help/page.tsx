@@ -1,9 +1,13 @@
 "use client";
 
-/** Public help page — answers plus a route into the signed-in Help Desk. */
+/** Public help page — answers, ticket tracking by reference, and a route into the signed-in Help Desk. */
 import Link from "next/link";
-import { useAuth, workspaceHome } from "@/lib/auth";
-import { Button, Card } from "@/components/platform/ui-bits";
+import { useState } from "react";
+import { apiFetch, ApiRequestError } from "@/lib/api";
+import { useAuth } from "@/lib/auth";
+import { formatDateTime } from "@/lib/format";
+import { priorityBadge, statusBadge } from "@/lib/tickets";
+import { Alert, Badge, Button, Card, Field, Input } from "@/components/platform/ui-bits";
 
 const FAQS = [
   {
@@ -27,6 +31,102 @@ const FAQS = [
     a: "Register as a provider, add your listing with photos and location details, and submit it for review. Once approved it appears in the public catalogue and enquiries arrive through the legal team.",
   },
 ];
+
+type TrackedMessage = { id: string; at: string; fromStaff: boolean; body: string; author?: { name?: string } | null };
+type TrackedTicket = {
+  id: string;
+  reference: string;
+  category: string;
+  subject: string;
+  status: string;
+  priority: string;
+  createdAt: string;
+  updatedAt: string;
+  messages: TrackedMessage[];
+};
+
+/** Track a ticket by its reference number + the email used on it — no login needed. */
+function TrackTicketCard() {
+  const [reference, setReference] = useState("");
+  const [email, setEmail] = useState("");
+  const [ticket, setTicket] = useState<TrackedTicket | null>(null);
+  const [error, setError] = useState<string | null>(null);
+  const [busy, setBusy] = useState(false);
+
+  async function track(event: React.FormEvent) {
+    event.preventDefault();
+    if (!reference.trim() || !email.trim()) return;
+    setBusy(true);
+    setError(null);
+    setTicket(null);
+    try {
+      const data = await apiFetch<{ ticket: TrackedTicket }>("/tickets/track", {
+        query: { reference: reference.trim(), email: email.trim() },
+      });
+      setTicket(data.ticket);
+    } catch (err) {
+      setError(err instanceof ApiRequestError ? err.message : "No ticket found for that reference and email.");
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  return (
+    <Card className="mt-8 p-5 sm:p-6">
+      <p className="font-semibold text-ink-strong">Track an existing ticket</p>
+      <p className="mt-1 text-sm text-ink-muted">
+        Enter the reference number we issued (it looks like ELV-HD-0001) together with the email address on the ticket.
+      </p>
+      <form onSubmit={track} className="mt-4 grid gap-4 sm:grid-cols-[1fr_1fr_auto] sm:items-end" noValidate>
+        <Field label="Reference number">
+          <Input value={reference} onChange={(e) => setReference(e.target.value)} placeholder="ELV-HD-0001" aria-label="Ticket reference" />
+        </Field>
+        <Field label="Email address">
+          <Input type="email" value={email} onChange={(e) => setEmail(e.target.value)} aria-label="Email on the ticket" />
+        </Field>
+        <Button type="submit" loading={busy} disabled={!reference.trim() || !email.trim()}>
+          Track ticket
+        </Button>
+      </form>
+
+      {error && <div className="mt-4"><Alert tone="error">{error}</Alert></div>}
+
+      {ticket && (
+        <div className="mt-5 rounded-xl border border-brand-100 bg-brand-50/40 p-4">
+          <div className="flex flex-wrap items-center justify-between gap-2">
+            <p className="text-sm font-semibold text-ink-strong">
+              <span className="text-ink-muted">{ticket.reference}</span> — {ticket.subject}
+            </p>
+            <div className="flex gap-1.5">
+              <Badge tone={statusBadge(ticket.status).tone}>{statusBadge(ticket.status).label}</Badge>
+              <span className={`rounded-full px-2 py-0.5 text-[10px] font-medium ${priorityBadge(ticket.priority).tone}`}>
+                {priorityBadge(ticket.priority).label}
+              </span>
+            </div>
+          </div>
+          <div className="mt-3 space-y-3">
+            {ticket.messages.map((message) => (
+              <div
+                key={message.id}
+                className={`max-w-[85%] rounded-xl px-4 py-2.5 text-sm ${
+                  message.fromStaff
+                    ? "bg-white text-ink-strong border border-brand-100"
+                    : "ml-auto bg-brand-800 text-white"
+                }`}
+              >
+                <p>{message.body}</p>
+                <p className={`mt-1 text-[10px] ${message.fromStaff ? "text-ink-muted" : "text-white/70"}`}>
+                  {message.fromStaff ? "ELVICTORIA Support" : "You"} · {formatDateTime(message.at)}
+                </p>
+              </div>
+            ))}
+          </div>
+          <p className="mt-3 text-xs text-ink-muted">Last updated {formatDateTime(ticket.updatedAt)}.</p>
+        </div>
+      )}
+    </Card>
+  );
+}
 
 export default function HelpPage() {
   const { user } = useAuth();
@@ -53,6 +153,8 @@ export default function HelpPage() {
           </details>
         ))}
       </div>
+
+      <TrackTicketCard />
 
       <Card className="mt-8 flex flex-wrap items-center justify-between gap-4 p-5">
         <div>

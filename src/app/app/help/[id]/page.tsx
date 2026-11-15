@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import { apiFetch } from "@/lib/api";
 import { formatDateTime } from "@/lib/format";
+import { priorityBadge, statusBadge } from "@/lib/tickets";
 import { Badge, Card, PageLoader } from "@/components/platform/ui-bits";
 
 type TicketMessage = { id: string; at: string; fromStaff: boolean; body: string; author?: { name?: string } | null };
@@ -14,6 +15,7 @@ type Ticket = {
   category: string;
   subject: string;
   status: string;
+  priority: string;
   messages: TicketMessage[];
 };
 
@@ -44,9 +46,12 @@ export default function HelpTicketPage() {
           <p className="text-sm text-ink-muted">{ticket.reference} · {ticket.category}</p>
           <h1 className="text-2xl font-semibold tracking-tight">{ticket.subject}</h1>
         </div>
-        <Badge tone={ticket.status === "RESOLVED" ? "bg-emerald-50 text-emerald-700" : "bg-brand-50 text-brand-700"}>
-          {ticket.status === "RESOLVED" ? "Resolved" : "Open"}
-        </Badge>
+        <div className="flex flex-col items-end gap-1.5">
+          <Badge tone={statusBadge(ticket.status).tone}>{statusBadge(ticket.status).label}</Badge>
+          <span className={`rounded-full px-2 py-0.5 text-[10px] font-medium ${priorityBadge(ticket.priority).tone}`}>
+            {priorityBadge(ticket.priority).label}
+          </span>
+        </div>
       </div>
 
       <Card className="mt-6 divide-y divide-brand-50 p-0">

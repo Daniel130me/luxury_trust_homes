@@ -31,5 +31,7 @@ export async function nextReference(
   `) as Array<{ value: number | bigint }>;
 
   const value = Number(rows[0].value);
-  return `${PREFIXES[name]}-${value}`;
+  // Zero-pad to 4 digits so references read and sort as ELV-HD-0007;
+  // values above 9999 pass through unchanged.
+  return `${PREFIXES[name]}-${String(value).padStart(4, "0")}`;
 }

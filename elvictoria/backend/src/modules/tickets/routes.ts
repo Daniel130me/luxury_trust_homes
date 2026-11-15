@@ -6,16 +6,40 @@ import { requireAuth, requirePermission } from "../../middleware/auth.js";
 import { prisma } from "../../lib/prisma.js";
 import { notifyMany, notifyAllLawyers, audit } from "../../lib/notify.js";
 import { nextReference } from "../../lib/references.js";
+import { trackTicket, ticketAcceptsReplies, updateTicketAsStaff } from "./service.js";
+import type { Prisma } from "@prisma/client";
+import type { TicketPriority, TicketStatus } from "@prisma/client";
 
 /**
  * Helpdesk tickets.
  *
- * Clients create tickets and reply; staff (helpdesk.manage) view, reply and
- * resolve. The fraud category is flagged on the staff dashboard.
+ * Clients create tickets (and receive a reference number), reply and track;
+ * staff (helpdesk.manage) search, reply, set status/priority and close.
+ * The fraud category is flagged on the staff dashboard.
  */
 const router = Router();
 
 const CATEGORIES = ["enquiries", "payments", "listings", "account", "fraud", "other"] as const;
+const STATUSES = ["OPEN", "IN_PROGRESS", "RESOLVED", "CLOSED"] as const;
+const PRIORITIES = ["LOW", "MEDIUM", "HIGH", "URGENT"] as const;
+
+// Public tracking by reference number (no login required). The email on
+// the ticket must match, so knowing a reference alone reveals nothing.
+router.get(
+  "/track",
+  validate({
+    query: z.object({
+      reference: z.string().trim().min(6).max(24),
+      email: z.string().trim().email("Enter the email address you used on the ticket."),
+    }),
+  }),
+  async (req, res) => {
+    const q = req.validated!.query as never as { reference: string; email: string };
+    const ticket = await trackTicket(q.reference, q.email);
+    if (!ticket) throw ApiError.notFound("No ticket found for that reference and email.");
+    ok(res, { ticket });
+  },
+);
 
 router.post(
   "/",
@@ -85,8 +109,8 @@ router.post(
   async (req, res) => {
     const ticket = await prisma.ticket.findUnique({ where: { id: String(req.params.id) } });
     if (!ticket || ticket.userId !== req.user!.id) throw ApiError.notFound("Ticket not found.");
-    if (ticket.status === "RESOLVED") {
-      throw ApiError.badRequest("This ticket is resolved. Please open a new ticket for further questions.");
+    if (!ticketAcceptsReplies(ticket.status)) {
+      throw ApiError.badRequest("This ticket is closed. Please open a new ticket for further questions.");
     }
     const message = await prisma.ticketMessage.create({
       data: { ticketId: ticket.id, authorId: req.user!.id, fromStaff: false, body: req.body.body.trim() },
@@ -104,11 +128,37 @@ router.post(
 router.get(
   "/staff",
   requirePermission("helpdesk.manage"),
-  validate({ query: z.object({ page: pageSchema.optional(), pageSize: pageSizeSchema.optional(), status: z.string().trim().max(12).optional() }) }),
+  validate({
+    query: z.object({
+      page: pageSchema.optional(),
+      pageSize: pageSizeSchema.optional(),
+      status: z.enum(STATUSES).optional(),
+      priority: z.enum(PRIORITIES).optional(),
+      q: z.string().trim().max(80).optional(),
+    }),
+  }),
   async (req, res) => {
-    const q = req.validated!.query as never as { page?: number; pageSize?: number; status?: string };
-    const where: { status?: "OPEN" | "RESOLVED" } =
-      q.status === "OPEN" || q.status === "RESOLVED" ? { status: q.status } : {};
+    const q = req.validated!.query as never as {
+      page?: number;
+      pageSize?: number;
+      status?: TicketStatus;
+      priority?: TicketPriority;
+      q?: string;
+    };
+    // undefined filter values mean "no filter" in Prisma.
+    const where: Prisma.TicketWhereInput = {
+      status: q.status,
+      priority: q.priority,
+      ...(q.q
+        ? {
+            OR: [
+              { reference: { contains: q.q, mode: "insensitive" } },
+              { subject: { contains: q.q, mode: "insensitive" } },
+              { email: { contains: q.q, mode: "insensitive" } },
+            ],
+          }
+        : {}),
+    };
     const [total, tickets] = await Promise.all([
       prisma.ticket.count({ where }),
       prisma.ticket.findMany({
@@ -145,7 +195,12 @@ router.post(
     const message = await prisma.ticketMessage.create({
       data: { ticketId: ticket.id, authorId: req.user!.id, fromStaff: true, body: req.body.body.trim() },
     });
-    await prisma.ticket.update({ where: { id: ticket.id }, data: { updatedAt: new Date() } });
+    // First staff response moves an OPEN ticket to IN_PROGRESS — the
+    // standard helpdesk behaviour so the client sees it is being worked on.
+    await prisma.ticket.update({
+      where: { id: ticket.id },
+      data: { updatedAt: new Date(), ...(ticket.status === "OPEN" ? { status: "IN_PROGRESS" as const } : {}) },
+    });
     if (ticket.userId) {
       await notifyMany([
         { userId: ticket.userId, category: "case_update", title: `Reply on ${ticket.reference}`, body: req.body.body.slice(0, 140), link: `/app/help/${ticket.id}` },
@@ -156,20 +211,26 @@ router.post(
   },
 );
 
-router.post(
-  "/staff/:id/resolve",
+// Staff status/priority update — the standard "manage ticket" endpoint.
+// Replaces the old resolve-only action; any lifecycle transition and the
+// priority are set here, with owner notification and an audit record.
+router.patch(
+  "/staff/:id",
   requirePermission("helpdesk.manage"),
+  validate({
+    body: z
+      .object({
+        status: z.enum(STATUSES).optional(),
+        priority: z.enum(PRIORITIES).optional(),
+      })
+      .refine((data) => data.status !== undefined || data.priority !== undefined, {
+        message: "Provide a status or a priority to update.",
+      }),
+  }),
   async (req, res) => {
-    const ticket = await prisma.ticket.update({
-      where: { id: String(req.params.id) },
-      data: { status: "RESOLVED" },
-    });
-    if (ticket.userId) {
-      await notifyMany([
-        { userId: ticket.userId, category: "case_update", title: `Ticket ${ticket.reference} resolved`, body: "Your support ticket has been resolved. If you still need help, please open a new ticket.", link: `/app/help/${ticket.id}` },
-      ]);
-    }
-    await audit({ actorId: req.user!.id, action: "helpdesk.resolve", entityType: "Ticket", entityId: ticket.id, ip: req.ip });
+    const body = req.validated!.body as never as { status?: TicketStatus; priority?: TicketPriority };
+    const ticket = await updateTicketAsStaff(String(req.params.id), body, req.user!.id, req.ip);
+    if (!ticket) throw ApiError.notFound("Ticket not found.");
     ok(res, { ticket });
   },
 );

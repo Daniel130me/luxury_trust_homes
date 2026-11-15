@@ -461,7 +461,16 @@ model Notification {
 
 enum TicketStatus {
   OPEN
+  IN_PROGRESS
   RESOLVED
+  CLOSED
+}
+
+enum TicketPriority {
+  LOW
+  MEDIUM
+  HIGH
+  URGENT
 }
 
 model Ticket {
@@ -476,6 +485,9 @@ model Ticket {
   category  String // enquiries | payments | listings | account | fraud | other
   subject   String
   status    TicketStatus   @default(OPEN)
+  // Staff-set; LOW/MEDIUM for routine questions, HIGH/URGENT for
+  // payments and fraud issues that need immediate attention.
+  priority  TicketPriority @default(MEDIUM)
   createdAt DateTime       @default(now())
   updatedAt DateTime       @updatedAt
   user      User?          @relation(fields: [userId], references: [id])
