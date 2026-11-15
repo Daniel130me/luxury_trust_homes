@@ -129,7 +129,7 @@ export default function HelpDeskPage() {
         ) : tickets.length === 0 ? (
           <EmptyState title="No tickets yet" description="When you contact support, the conversation appears here." />
         ) : (
-          <Card className="divide-y divide-zinc-100">
+          <Card className="divide-y divide-brand-50">
             {tickets.map((ticket) => (
               <div key={ticket.id}>
                 <button
@@ -150,15 +150,15 @@ export default function HelpDeskPage() {
                   </Badge>
                 </button>
                 {openTicket === ticket.id && (
-                  <div className="border-t border-zinc-100 bg-zinc-50/60 px-4 py-4">
+                  <div className="border-t border-brand-50 bg-brand-50/60 px-4 py-4">
                     <div className="space-y-3">
                       {ticket.messages.map((message) => (
                         <div
                           key={message.id}
                           className={`max-w-[85%] rounded-xl px-4 py-2.5 text-sm ${
                             message.fromStaff
-                              ? "bg-white text-ink-strong border border-zinc-200"
-                              : "ml-auto bg-brand-700 text-white"
+                              ? "bg-white text-ink-strong border border-brand-100"
+                              : "ml-auto bg-brand-800 text-white"
                           }`}
                         >
                           <p>{message.body}</p>

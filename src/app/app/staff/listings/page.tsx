@@ -83,7 +83,7 @@ export default function StaffListingsPage() {
 
   return (
     <div className="mx-auto max-w-7xl">
-      <h1 className="font-serif text-3xl text-ink-strong">Listings</h1>
+      <h1 className="text-2xl font-semibold tracking-tight sm:text-3xl">Listings</h1>
       <p className="mt-1.5 text-ink-muted">
         {canModerate
           ? "Review provider submissions before they go live."
@@ -98,7 +98,7 @@ export default function StaffListingsPage() {
             aria-selected={status === tab.value}
             onClick={() => setStatus(tab.value)}
             className={`rounded-full px-4 py-1.5 text-sm font-semibold transition-colors ${
-              status === tab.value ? "bg-brand-700 text-white" : "bg-white text-ink-soft ring-1 ring-zinc-200 hover:bg-brand-50"
+              status === tab.value ? "bg-brand-800 text-white" : "bg-white text-ink-soft ring-1 ring-brand-200 hover:bg-brand-50"
             }`}
           >
             {tab.label}
@@ -128,7 +128,7 @@ export default function StaffListingsPage() {
           <div className="overflow-x-auto">
             <table className="w-full min-w-[880px] text-sm">
               <thead>
-                <tr className="border-b border-zinc-200 bg-zinc-50 text-left text-xs uppercase tracking-wide text-ink-muted">
+                <tr className="border-b border-brand-100 bg-brand-50 text-left text-xs uppercase tracking-wide text-ink-muted">
                   <th className="px-4 py-3 font-semibold">Listing</th>
                   <th className="px-4 py-3 font-semibold">Provider</th>
                   <th className="px-4 py-3 font-semibold">Price</th>
@@ -136,7 +136,7 @@ export default function StaffListingsPage() {
                   <th className="px-4 py-3 font-semibold">Status</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-zinc-100">
+              <tbody className="divide-y divide-brand-50">
                 {listings.map((listing) => (
                   <tr
                     key={listing.id}

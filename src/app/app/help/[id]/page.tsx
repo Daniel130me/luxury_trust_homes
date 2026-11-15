@@ -42,14 +42,14 @@ export default function HelpTicketPage() {
       <div className="flex items-center justify-between gap-3">
         <div>
           <p className="text-sm text-ink-muted">{ticket.reference} · {ticket.category}</p>
-          <h1 className="font-serif text-2xl text-ink-strong">{ticket.subject}</h1>
+          <h1 className="text-2xl font-semibold tracking-tight">{ticket.subject}</h1>
         </div>
         <Badge tone={ticket.status === "RESOLVED" ? "bg-emerald-50 text-emerald-700" : "bg-brand-50 text-brand-700"}>
           {ticket.status === "RESOLVED" ? "Resolved" : "Open"}
         </Badge>
       </div>
 
-      <Card className="mt-6 divide-y divide-zinc-100 p-0">
+      <Card className="mt-6 divide-y divide-brand-50 p-0">
         {ticket.messages.map((message) => (
           <div key={message.id} className="px-5 py-4">
             <div className="flex items-center justify-between text-xs text-ink-muted">

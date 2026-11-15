@@ -34,8 +34,11 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en">
-      <body className={`${dmSans.variable} ${dmSerif.variable} antialiased`}>
+    // Font variables live on <html> (not <body>) because Tailwind's
+    // preflight sets font-family at the html level — otherwise the var()
+    // chain resolves empty and everything falls back to ui-sans-serif.
+    <html lang="en" className={`${dmSans.variable} ${dmSerif.variable}`}>
+      <body className="antialiased">
         <AuthProvider>{children}</AuthProvider>
         <Toaster />
       </body>

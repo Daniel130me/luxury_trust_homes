@@ -95,7 +95,7 @@ export default function StaffPaymentsPage() {
 
   return (
     <div className="mx-auto max-w-7xl">
-      <h1 className="font-serif text-3xl text-ink-strong">Payments</h1>
+      <h1 className="text-2xl font-semibold tracking-tight sm:text-3xl">Payments</h1>
       <p className="mt-1.5 text-ink-muted">
         Payment requests raised against cases and their processing outcomes. Card payments are
         processed through Flutterwave (test mode).
@@ -106,7 +106,7 @@ export default function StaffPaymentsPage() {
           <SummaryCard label="Received" value={formatNairaCompact(summary.received.amount)} hint={`${summary.received.count} payments`} tone="text-emerald-700" />
           <SummaryCard label="Awaiting payment" value={formatNairaCompact(summary.awaiting.amount)} hint={`${summary.awaiting.count} requests`} tone="text-brand-700" />
           <SummaryCard label="Transfers to confirm" value={String(summary.transfersToConfirm.count)} hint={formatNairaCompact(summary.transfersToConfirm.amount)} tone="text-amber-700" />
-          <SummaryCard label="Failed" value={String(summary.failed.count)} hint={formatNairaCompact(summary.failed.amount)} tone="text-rose-700" />
+          <SummaryCard label="Failed" value={String(summary.failed.count)} hint={formatNairaCompact(summary.failed.amount)} tone="text-red-700" />
         </div>
       )}
 
@@ -118,7 +118,7 @@ export default function StaffPaymentsPage() {
             aria-selected={status === tab.value}
             onClick={() => setStatus(tab.value)}
             className={`rounded-full px-4 py-1.5 text-sm font-semibold transition-colors ${
-              status === tab.value ? "bg-brand-700 text-white" : "bg-white text-ink-soft ring-1 ring-zinc-200 hover:bg-brand-50"
+              status === tab.value ? "bg-brand-800 text-white" : "bg-white text-ink-soft ring-1 ring-brand-200 hover:bg-brand-50"
             }`}
           >
             {tab.label}
@@ -148,7 +148,7 @@ export default function StaffPaymentsPage() {
           <div className="overflow-x-auto">
             <table className="w-full min-w-[860px] text-sm">
               <thead>
-                <tr className="border-b border-zinc-200 bg-zinc-50 text-left text-xs uppercase tracking-wide text-ink-muted">
+                <tr className="border-b border-brand-100 bg-brand-50 text-left text-xs uppercase tracking-wide text-ink-muted">
                   <th className="px-4 py-3 font-semibold">Reference</th>
                   <th className="px-4 py-3 font-semibold">Case</th>
                   <th className="px-4 py-3 font-semibold">Payer</th>
@@ -157,7 +157,7 @@ export default function StaffPaymentsPage() {
                   <th className="px-4 py-3 font-semibold">Updated</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-zinc-100">
+              <tbody className="divide-y divide-brand-50">
                 {payments.map((payment) => (
                   <tr
                     key={payment.id}

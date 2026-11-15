@@ -38,7 +38,7 @@ export default function ProviderDashboardPage() {
 
   return (
     <div className="mx-auto max-w-7xl">
-      <h1 className="font-serif text-3xl text-ink-strong">Welcome, {firstName}</h1>
+      <h1 className="text-2xl font-semibold tracking-tight sm:text-3xl">Welcome, {firstName}</h1>
       {user.organisation && <p className="mt-1 text-ink-muted">{user.organisation}</p>}
 
       <div className="mt-5 flex flex-wrap items-center gap-3">
@@ -78,7 +78,7 @@ export default function ProviderDashboardPage() {
             No activity yet. Once enquiries arrive on your listings, updates appear here.
           </Card>
         ) : (
-          <Card className="divide-y divide-zinc-100">
+          <Card className="divide-y divide-brand-50">
             {summary.recentActivity.map((activity) => (
               <Link
                 key={activity.id}

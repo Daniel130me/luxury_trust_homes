@@ -95,14 +95,14 @@ export default function StaffTicketDetailPage() {
           {ticket.status === "RESOLVED" ? "Resolved" : "Open"}
         </Badge>
         {isFraud && (
-          <span className="inline-flex items-center gap-1 rounded-full bg-rose-600 px-2.5 py-1 text-[10px] font-bold text-white">
+          <span className="inline-flex items-center gap-1 rounded-full bg-red-600 px-2.5 py-1 text-[10px] font-bold text-white">
             <AlertTriangleIcon className="h-3 w-3" />
             SUSPECTED FRAUD
           </span>
         )}
         <p className="text-sm text-ink-muted">{ticket.reference} · {ticket.category}</p>
       </div>
-      <h1 className="mt-1 font-serif text-3xl text-ink-strong">{ticket.subject}</h1>
+      <h1 className="mt-1 text-2xl font-semibold tracking-tight sm:text-3xl">{ticket.subject}</h1>
       <p className="mt-1 text-sm text-ink-muted">
         {ticket.user?.name ?? ticket.name} ({ticket.user?.email ?? ticket.email})
         {ticket.phone ? ` · ${ticket.phone}` : ""} · opened {formatDateTime(ticket.createdAt)}
@@ -111,7 +111,7 @@ export default function StaffTicketDetailPage() {
       {notice && <div className="mt-4"><Alert tone="success">{notice}</Alert></div>}
       {error && <div className="mt-4"><Alert tone="error">{error}</Alert></div>}
 
-      <Card className="mt-6 divide-y divide-zinc-100 p-0">
+      <Card className="mt-6 divide-y divide-brand-50 p-0">
         {ticket.messages.map((message) => (
           <div key={message.id} className="px-5 py-4">
             <div className="flex items-center justify-between text-xs text-ink-muted">

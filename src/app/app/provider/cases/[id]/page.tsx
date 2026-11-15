@@ -105,7 +105,7 @@ export default function ProviderCaseDetailPage() {
           {kase.reference} · Enquiry {kase.enquiry.reference}
         </p>
       </div>
-      <h1 className="mt-1 font-serif text-3xl text-ink-strong">{kase.property.title}</h1>
+      <h1 className="mt-1 text-2xl font-semibold tracking-tight sm:text-3xl">{kase.property.title}</h1>
       <p className="mt-1 text-sm text-ink-muted">
         {kase.enquiry.submittedAt && `Submitted ${formatDateTime(kase.enquiry.submittedAt)} · `}
         {PURPOSE_LABELS[kase.enquiry.purpose] ?? kase.enquiry.purpose}
@@ -118,7 +118,7 @@ export default function ProviderCaseDetailPage() {
 
       {kase.payments.length > 0 && (
         <Card className="mt-6 p-5">
-          <h2 className="text-lg font-semibold text-ink-strong">Payments</h2>
+          <h2 className="text-base font-semibold text-ink-strong">Payments</h2>
           <ul className="mt-3 space-y-2 text-sm">
             {kase.payments.map((payment) => (
               <li key={payment.id} className="flex flex-wrap items-center justify-between gap-2">
@@ -133,7 +133,7 @@ export default function ProviderCaseDetailPage() {
       )}
 
       <Card className="mt-6 p-5 sm:p-6">
-        <h2 className="text-lg font-semibold text-ink-strong">Messages with the ELVICTORIA legal team</h2>
+        <h2 className="text-base font-semibold text-ink-strong">Messages with the ELVICTORIA legal team</h2>
         <p className="mt-0.5 text-sm text-ink-muted">
           Your lawyer coordinates with the buyer or renter for you — you never exchange details directly.
         </p>
@@ -141,21 +141,22 @@ export default function ProviderCaseDetailPage() {
           {messages.map((message) => {
             const fromLawyer = message.author.role === "LAWYER" || message.author.role === "SUPPORT";
             return (
-              <div
-                key={message.id}
-                className={`max-w-[85%] rounded-xl px-4 py-2.5 text-sm ${
-                  fromLawyer
-                    ? "bg-white text-ink-strong border border-zinc-200"
-                    : "ml-auto bg-brand-700 text-white"
-                }`}
-              >
-                <p className="whitespace-pre-line">{message.body}</p>
-                <p className={`mt-1 text-[10px] ${fromLawyer ? "text-ink-muted" : "text-white/70"}`}>
-                  {message.author.name}
-                  {fromLawyer ? " · ELVICTORIA Legal" : ""} · {formatDateTime(message.at)}
-                </p>
-              </div>
-            );
+              <div key={message.id} className={`flex gap-3 ${!fromLawyer ? "flex-row-reverse" : ""}`}>
+                  <span aria-hidden className="inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-brand-700 text-2xs font-semibold text-white">
+                    {message.author.name.split(" ").map((n) => n[0]).slice(0, 2).join("")}
+                  </span>
+                  <div className={`max-w-[85%] rounded-xl px-4 py-2.5 text-sm ${!fromLawyer ? "bg-brand-800 text-white" : "bg-brand-50"}`}>
+                    <p className={`mb-0.5 text-xs font-semibold ${!fromLawyer ? "text-brand-100" : "text-brand-700"}`}>
+                      {message.author.name}
+                      {fromLawyer && <span className="font-normal opacity-80"> · ELVICTORIA Legal</span>}
+                    </p>
+                    <p className="whitespace-pre-line">{message.body}</p>
+                    <p className={`mt-1 text-2xs ${!fromLawyer ? "text-brand-200" : "text-ink-muted"}`}>
+                      {formatDateTime(message.at)}
+                    </p>
+                  </div>
+                </div>
+              );
           })}
         </div>
         {!closed && (
@@ -176,12 +177,12 @@ export default function ProviderCaseDetailPage() {
       </Card>
 
       <Card className="mt-6 p-5 sm:p-6">
-        <h2 className="text-lg font-semibold text-ink-strong">Progress</h2>
+        <h2 className="text-base font-semibold text-ink-strong">Progress</h2>
         <ol className="mt-3 space-y-0">
           {timeline.map((entry, index) => (
             <li key={entry.id} className="relative flex gap-4 pb-4 last:pb-0">
               {index < timeline.length - 1 && (
-                <span className="absolute left-[7px] top-4 h-full w-px bg-zinc-200" aria-hidden />
+                <span className="absolute left-[7px] top-4 h-full w-px bg-brand-100" aria-hidden />
               )}
               <span className="mt-1.5 h-3.5 w-3.5 shrink-0 rounded-full border-2 border-brand-500 bg-white" aria-hidden />
               <div className="min-w-0">

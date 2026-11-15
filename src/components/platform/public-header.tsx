@@ -1,8 +1,10 @@
 "use client";
 
 /**
- * Public site header — navigation, saved shortcut and account menu,
- * matching the prototype (Buy/Rent/Sell/Explore/Help Desk).
+ * Public site header — navigation, saved shortcut and account menu.
+ * Classes lifted from the prototype header: blurred white bar on
+ * brand-100/70 hairline, container-page gutters, ink nav links,
+ * ghost Login + wine Register buttons.
  */
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
@@ -55,8 +57,8 @@ export function PublicHeader() {
     : "";
 
   return (
-    <header className="sticky top-0 z-40 border-b border-zinc-200/70 bg-white/95 backdrop-blur">
-      <div className="mx-auto flex h-16 max-w-7xl items-center justify-between gap-4 px-4 sm:px-6">
+    <header className="sticky top-0 z-30 border-b border-brand-100/70 bg-white/90 backdrop-blur">
+      <div className="container-page flex h-16 items-center justify-between gap-4">
         <Logo />
 
         <nav aria-label="Main" className="hidden items-center gap-1 md:flex">
@@ -64,24 +66,24 @@ export function PublicHeader() {
             <Link
               key={link.label}
               href={link.href}
-              className="rounded-lg px-3 py-2 text-sm font-medium text-ink-soft transition-colors hover:bg-brand-50 hover:text-brand-700"
+              className="rounded-md px-3 py-2 text-base font-medium transition text-ink-soft hover:text-ink-strong"
             >
               {link.label}
             </Link>
           ))}
         </nav>
 
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-1.5">
           {user ? (
             <>
               <Link
                 href="/app/notifications"
-                className="relative grid h-10 w-10 place-items-center rounded-lg text-ink-soft transition-colors hover:bg-brand-50 hover:text-brand-700"
+                className="relative rounded-lg p-2 text-ink-soft hover:bg-brand-50"
                 aria-label={unread > 0 ? `Notifications, ${unread} unread` : "Notifications"}
               >
                 <BellIcon className="h-5 w-5" />
                 {unread > 0 && (
-                  <span className="absolute right-1.5 top-1.5 grid h-4 min-w-4 place-items-center rounded-full bg-rose-600 px-1 text-[10px] font-bold text-white">
+                  <span className="absolute right-1 top-1 flex h-4 min-w-4 items-center justify-center rounded-full bg-red-600 px-1 text-2xs font-semibold text-white">
                     {unread}
                   </span>
                 )}
@@ -89,16 +91,16 @@ export function PublicHeader() {
               <div className="relative" ref={menuRef}>
                 <button
                   onClick={() => setMenuOpen((v) => !v)}
-                  className="flex items-center gap-2.5 rounded-lg px-2 py-1.5 transition-colors hover:bg-brand-50"
+                  className="flex items-center gap-2 rounded-lg p-1 pr-2 hover:bg-brand-50"
                   aria-expanded={menuOpen}
                   aria-haspopup="menu"
                 >
-                  <span className="grid h-8 w-8 place-items-center rounded-full bg-brand-700 text-xs font-bold text-white">
+                  <span aria-hidden className="inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-brand-700 text-2xs font-semibold text-white">
                     {initials}
                   </span>
                   <span className="hidden text-left sm:block">
-                    <span className="block text-sm font-semibold leading-tight text-ink-strong">{user.name}</span>
-                    <span className="block text-xs leading-tight text-ink-muted">
+                    <span className="block text-sm font-medium leading-tight text-ink-strong">{user.name}</span>
+                    <span className="block text-2xs leading-tight text-ink-muted">
                       {roleLabel(user.role, user.providerKind)}
                     </span>
                   </span>
@@ -107,7 +109,7 @@ export function PublicHeader() {
                 {menuOpen && (
                   <div
                     role="menu"
-                    className="absolute right-0 mt-2 w-56 overflow-hidden rounded-xl border border-zinc-200 bg-white shadow-lg"
+                    className="animate-fade absolute right-0 top-full mt-1 w-44 overflow-hidden rounded-lg border border-brand-100 bg-white shadow-lift"
                   >
                     <MenuItem icon={<LayoutIcon className="h-4 w-4" />} onClick={() => { setMenuOpen(false); router.push(workspaceHome(user.role)); }}>
                       My workspace
@@ -118,7 +120,7 @@ export function PublicHeader() {
                     <MenuItem icon={<HeartIcon className="h-4 w-4" />} onClick={() => { setMenuOpen(false); router.push("/app/saved"); }}>
                       Saved properties
                     </MenuItem>
-                    <div className="my-1 border-t border-zinc-100" />
+                    <div className="my-1 border-t border-brand-50" />
                     <MenuItem
                       icon={<LogoutIcon className="h-4 w-4" />}
                       onClick={async () => {
@@ -137,43 +139,78 @@ export function PublicHeader() {
             <>
               <Link
                 href="/app/saved"
-                className="grid h-10 w-10 place-items-center rounded-lg text-ink-soft transition-colors hover:bg-brand-50 hover:text-brand-700"
+                className="hidden rounded-lg p-2 text-ink-soft hover:bg-brand-50 md:block"
                 aria-label="Saved properties"
+                title="Saved properties"
               >
                 <HeartIcon className="h-5 w-5" />
               </Link>
-              {!loading && (
-                <>
-                  <Link href="/login" className="px-3 py-2 text-sm font-semibold text-brand-700 hover:text-brand-800">
-                    Login
-                  </Link>
-                  <Link
-                    href="/register"
-                    className="rounded-lg bg-brand-700 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-brand-800"
-                  >
-                    Register
-                  </Link>
-                </>
-              )}
+              <div className="hidden items-center gap-2 md:flex">
+                {!loading && (
+                  <>
+                    {/* Ghost and primary buttons — prototype header pair. */}
+                    <Link
+                      href="/login"
+                      className="inline-flex select-none items-center justify-center whitespace-nowrap rounded-lg font-medium transition text-brand-700 hover:bg-brand-50 h-10 px-4 text-sm gap-2"
+                    >
+                      Login
+                    </Link>
+                    <Link
+                      href="/register"
+                      className="inline-flex select-none items-center justify-center whitespace-nowrap rounded-lg font-medium transition bg-brand-800 text-white hover:bg-brand-700 shadow-sm h-10 px-4 text-sm gap-2"
+                    >
+                      Register
+                    </Link>
+                  </>
+                )}
+              </div>
+              <button
+                className="rounded-lg p-2 md:hidden"
+                aria-label="Toggle menu"
+                aria-expanded={menuOpen}
+                onClick={() => setMenuOpen((v) => !v)}
+              >
+                <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+                  <path d="M4 5h16M4 12h16M4 19h16" />
+                </svg>
+              </button>
             </>
           )}
         </div>
       </div>
 
-      {/* Mobile nav */}
-      <nav aria-label="Main" className="border-t border-zinc-100 md:hidden">
-        <div className="mx-auto flex max-w-7xl items-center gap-1 overflow-x-auto px-4 py-1.5">
-          {NAV_LINKS.map((link) => (
-            <Link
-              key={link.label}
-              href={link.href}
-              className="whitespace-nowrap rounded-lg px-3 py-1.5 text-sm font-medium text-ink-soft hover:bg-brand-50 hover:text-brand-700"
-            >
-              {link.label}
-            </Link>
-          ))}
-        </div>
-      </nav>
+      {/* Mobile nav — anonymous visitors only; signed-in users have the
+          workspace shell with its own drawer. */}
+      {!user && menuOpen && (
+        <nav aria-label="Main" className="border-t border-brand-50 bg-white md:hidden">
+          <div className="container-page flex flex-col py-2">
+            {NAV_LINKS.map((link) => (
+              <Link
+                key={link.label}
+                href={link.href}
+                onClick={() => setMenuOpen(false)}
+                className="rounded-md px-3 py-2 text-base font-medium text-ink-soft hover:bg-brand-50 hover:text-ink-strong"
+              >
+                {link.label}
+              </Link>
+            ))}
+            <div className="mt-2 flex gap-2 border-t border-brand-50 pt-3">
+              <Link
+                href="/login"
+                className="inline-flex flex-1 select-none items-center justify-center whitespace-nowrap rounded-lg font-medium transition text-brand-700 hover:bg-brand-50 h-10 px-4 text-sm gap-2"
+              >
+                Login
+              </Link>
+              <Link
+                href="/register"
+                className="inline-flex flex-1 select-none items-center justify-center whitespace-nowrap rounded-lg font-medium transition bg-brand-800 text-white hover:bg-brand-700 shadow-sm h-10 px-4 text-sm gap-2"
+              >
+                Register
+              </Link>
+            </div>
+          </div>
+        </nav>
+      )}
     </header>
   );
 }

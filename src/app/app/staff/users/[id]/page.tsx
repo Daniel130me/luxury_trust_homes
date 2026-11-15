@@ -89,10 +89,10 @@ export default function StaffUserDetailPage() {
           {user.name.split(" ").map((n) => n[0]).slice(0, 2).join("")}
         </span>
         <div>
-          <h1 className="font-serif text-3xl text-ink-strong">{user.name}</h1>
+          <h1 className="text-2xl font-semibold tracking-tight sm:text-3xl">{user.name}</h1>
           <p className="text-sm text-ink-muted">{ROLE_LABELS[user.role]} · {user.email}</p>
         </div>
-        <Badge tone={user.status === "ACTIVE" ? "bg-emerald-50 text-emerald-700" : "bg-rose-50 text-rose-700"}>
+        <Badge tone={user.status === "ACTIVE" ? "bg-emerald-50 text-emerald-700" : "bg-red-50 text-red-700"}>
           {user.status === "ACTIVE" ? "Active" : "Deactivated"}
         </Badge>
       </div>

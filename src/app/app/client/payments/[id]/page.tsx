@@ -153,7 +153,7 @@ export default function PaymentDetailPage() {
         <StatusBadge status={payment.status} label={PAYMENT_STATUS_LABELS[payment.status]} />
         <p className="text-sm text-ink-muted">{payment.reference}</p>
       </div>
-      <h1 className="mt-1 font-serif text-3xl text-ink-strong">Make a payment</h1>
+      <h1 className="mt-1 text-2xl font-semibold tracking-tight sm:text-3xl">Make a payment</h1>
 
       {notice && <div className="mt-4"><Alert tone="success">{notice}</Alert></div>}
       {error && <div className="mt-4"><Alert tone="error">{error}</Alert></div>}
@@ -179,7 +179,7 @@ export default function PaymentDetailPage() {
                     onClick={() => setMethod("card")}
                     aria-pressed={method === "card"}
                     className={`rounded-xl border-2 p-4 text-left transition-colors ${
-                      method === "card" ? "border-brand-700 bg-brand-50" : "border-zinc-200 hover:border-brand-300"
+                      method === "card" ? "border-brand-700 bg-brand-50" : "border-brand-100 hover:border-brand-300"
                     }`}
                   >
                     <p className="font-semibold text-ink-strong">Debit card</p>
@@ -189,7 +189,7 @@ export default function PaymentDetailPage() {
                     onClick={() => setMethod("transfer")}
                     aria-pressed={method === "transfer"}
                     className={`rounded-xl border-2 p-4 text-left transition-colors ${
-                      method === "transfer" ? "border-brand-700 bg-brand-50" : "border-zinc-200 hover:border-brand-300"
+                      method === "transfer" ? "border-brand-700 bg-brand-50" : "border-brand-100 hover:border-brand-300"
                     }`}
                   >
                     <p className="font-semibold text-ink-strong">Bank transfer</p>
@@ -217,7 +217,7 @@ export default function PaymentDetailPage() {
                     onChange={(e) => setTransferNote(e.target.value)}
                     rows={2}
                     placeholder="Optional note (e.g. transfer date, bank, last 4 digits)"
-                    className="w-full rounded-lg border border-zinc-200 bg-white px-3.5 py-2.5 text-sm focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/20"
+                    className="w-full rounded-lg border border-brand-100 bg-white px-3.5 py-2.5 text-sm focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/20"
                     aria-label="Transfer note"
                   />
                   <Button onClick={() => void reportTransfer()} loading={busy} className="w-full sm:w-auto">
@@ -264,13 +264,13 @@ export default function PaymentDetailPage() {
             {payment.requestedBy && <SummaryRow term="Requested by" value={payment.requestedBy.name} />}
           </dl>
           {payment.attempts.length > 0 && (
-            <div className="mt-4 border-t border-zinc-100 pt-3">
+            <div className="mt-4 border-t border-brand-50 pt-3">
               <p className="text-xs font-semibold uppercase tracking-wide text-ink-muted">Attempts</p>
               <ul className="mt-2 space-y-1.5 text-xs text-ink-muted">
                 {payment.attempts.slice(0, 4).map((attempt) => (
                   <li key={attempt.id}>
                     {formatDateTime(attempt.at)} · {attempt.method === "CARD" ? "Card" : "Transfer"} ·{" "}
-                    <span className={attempt.outcome === "SUCCESSFUL" ? "text-emerald-700" : attempt.outcome === "FAILED" ? "text-rose-600" : "text-amber-600"}>
+                    <span className={attempt.outcome === "SUCCESSFUL" ? "text-emerald-700" : attempt.outcome === "FAILED" ? "text-red-600" : "text-amber-600"}>
                       {attempt.outcome}
                     </span>
                   </li>

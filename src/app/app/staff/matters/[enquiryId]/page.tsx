@@ -269,7 +269,7 @@ export default function MatterDetailPage() {
         <p className="text-sm text-ink-muted">Enquiry {matter.reference}</p>
         {kase && <Badge>{kase.reference}</Badge>}
       </div>
-      <h1 className="mt-1 font-serif text-3xl text-ink-strong">{matter.property.title}</h1>
+      <h1 className="mt-1 text-2xl font-semibold tracking-tight sm:text-3xl">{matter.property.title}</h1>
       <p className="mt-1 text-sm text-ink-muted">
         Submitted {formatDateTime(matter.submittedAt)} · {PURPOSE_LABELS[matter.purpose] ?? matter.purpose} ·{" "}
         {matter.client.name} ({matter.client.email}
@@ -328,10 +328,10 @@ export default function MatterDetailPage() {
       {/* ---------------------------------------------------- payments */}
       {kase && kase.payments.length > 0 && (
         <Card className="mt-5 p-5">
-          <h2 className="text-lg font-semibold text-ink-strong">Payment requests</h2>
+          <h2 className="text-base font-semibold text-ink-strong">Payment requests</h2>
           <ul className="mt-3 space-y-2.5">
             {kase.payments.map((payment) => (
-              <li key={payment.id} className="flex flex-wrap items-center justify-between gap-2 rounded-lg border border-zinc-100 px-3 py-2.5">
+              <li key={payment.id} className="flex flex-wrap items-center justify-between gap-2 rounded-lg border border-brand-50 px-3 py-2.5">
                 <div>
                   <p className="text-sm font-semibold text-ink-strong">
                     {formatNaira(payment.amount)} <span className="text-xs font-normal text-ink-muted">· {payment.description}</span>
@@ -361,7 +361,7 @@ export default function MatterDetailPage() {
       {/* ----------------------------------------------- communication */}
       {kase && threads && (
         <Card className="mt-5 p-5 sm:p-6">
-          <h2 className="text-lg font-semibold text-ink-strong">Communication</h2>
+          <h2 className="text-base font-semibold text-ink-strong">Communication</h2>
           <p className="mt-0.5 text-sm text-ink-muted">
             Participants only see their own thread with the legal team. Buyers and providers never message each other.
           </p>
@@ -377,7 +377,7 @@ export default function MatterDetailPage() {
                   aria-selected={activeThread === thread}
                   onClick={() => setActiveThread(thread)}
                   className={`rounded-full px-4 py-1.5 text-sm font-semibold transition-colors ${
-                    activeThread === thread ? "bg-brand-700 text-white" : "bg-white text-ink-soft ring-1 ring-zinc-200 hover:bg-brand-50"
+                    activeThread === thread ? "bg-brand-800 text-white" : "bg-white text-ink-soft ring-1 ring-brand-200 hover:bg-brand-50"
                   }`}
                 >
                   {label} · {count}
@@ -393,22 +393,22 @@ export default function MatterDetailPage() {
               threadMessages.map((message) => {
                 const fromStaff = message.author.role === "LAWYER" || message.author.role === "SUPPORT";
                 return (
-                  <div
-                    key={message.id}
-                    className={`max-w-[85%] rounded-xl px-4 py-2.5 text-sm ${
-                      fromStaff
-                        ? "bg-brand-700 text-white"
-                        : "bg-white text-ink-strong border border-zinc-200"
-                    }`}
-                  >
-                    <p className="whitespace-pre-line">{message.body}</p>
-                    <p className={`mt-1 text-[10px] ${fromStaff ? "text-white/70" : "text-ink-muted"}`}>
+                  <div key={message.id} className={`flex gap-3 ${fromStaff ? "flex-row-reverse" : ""}`}>
+                  <span aria-hidden className="inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-brand-700 text-2xs font-semibold text-white">
+                    {message.author.name.split(" ").map((n) => n[0]).slice(0, 2).join("")}
+                  </span>
+                  <div className={`max-w-[85%] rounded-xl px-4 py-2.5 text-sm ${fromStaff ? "bg-brand-800 text-white" : "bg-brand-50"}`}>
+                    <p className={`mb-0.5 text-xs font-semibold ${fromStaff ? "text-brand-100" : "text-brand-700"}`}>
                       {message.author.name}
-                      {fromStaff ? " · ELVICTORIA Legal" : ""}
-                      {activeThread === "INTERNAL" ? " · INTERNAL" : ""} · {formatDateTime(message.at)}
+                      {!fromStaff && <span className="font-normal opacity-80">{activeThread === "INTERNAL" ? " · Internal note" : " · ELVICTORIA Legal"}</span>}
+                    </p>
+                    <p className="whitespace-pre-line">{message.body}</p>
+                    <p className={`mt-1 text-2xs ${fromStaff ? "text-brand-200" : "text-ink-muted"}`}>
+                      {formatDateTime(message.at)}
                     </p>
                   </div>
-                );
+                </div>
+              );
               })
             )}
           </div>
@@ -435,7 +435,7 @@ export default function MatterDetailPage() {
           )}
 
           {canManage && (
-            <div className="mt-4 rounded-lg border border-zinc-100 bg-zinc-50/60 p-3">
+            <div className="mt-4 rounded-lg border border-brand-50 bg-brand-50/60 p-3">
               <p className="text-xs font-semibold uppercase tracking-wide text-ink-muted">
                 Contact disclosure (authorised by lawyers only)
               </p>
@@ -457,7 +457,7 @@ export default function MatterDetailPage() {
 
       {/* ---------------------------------------------- activity history */}
       <Card className="mt-5 p-5 sm:p-6">
-        <h2 className="text-lg font-semibold text-ink-strong">Activity history</h2>
+        <h2 className="text-base font-semibold text-ink-strong">Activity history</h2>
         <p className="mt-0.5 text-sm text-ink-muted">Entries marked internal are not shown to participants.</p>
         <ol className="mt-3 space-y-0">
           {timeline.length === 0 ? (
@@ -466,17 +466,17 @@ export default function MatterDetailPage() {
             timeline.map((entry, index) => (
               <li key={entry.id} className="relative flex gap-4 pb-4 last:pb-0">
                 {index < timeline.length - 1 && (
-                  <span className="absolute left-[7px] top-4 h-full w-px bg-zinc-200" aria-hidden />
+                  <span className="absolute left-[7px] top-4 h-full w-px bg-brand-100" aria-hidden />
                 )}
                 <span
-                  className={`mt-1.5 h-3.5 w-3.5 shrink-0 rounded-full border-2 ${entry.visibility === "INTERNAL" ? "border-zinc-400 bg-zinc-200" : "border-brand-500 bg-white"}`}
+                  className={`mt-1.5 h-3.5 w-3.5 shrink-0 rounded-full border-2 ${entry.visibility === "INTERNAL" ? "border-slate-400 bg-slate-100" : "border-brand-500 bg-white"}`}
                   aria-hidden
                 />
                 <div className="min-w-0">
                   <p className="text-sm text-ink-strong">
                     {entry.label}
                     {entry.visibility === "INTERNAL" && (
-                      <span className="ml-2 rounded bg-zinc-200 px-1.5 py-0.5 text-[10px] font-bold text-zinc-600">INTERNAL</span>
+                      <span className="ml-2 rounded bg-brand-100 px-1.5 py-0.5 text-[10px] font-bold text-slate-600">INTERNAL</span>
                     )}
                   </p>
                   {entry.note && <p className="text-sm text-ink-muted">{entry.note}</p>}
@@ -498,7 +498,7 @@ export default function MatterDetailPage() {
             <select
               value={nextStatus}
               onChange={(e) => setNextStatus(e.target.value)}
-              className="w-full rounded-lg border border-zinc-200 bg-white px-3.5 py-2.5 text-sm focus:border-brand-500 focus:outline-none"
+              className="w-full rounded-lg border border-brand-100 bg-white px-3.5 py-2.5 text-sm focus:border-brand-500 focus:outline-none"
               aria-label="New status"
             >
               {Object.entries(CASE_STATUS_LABELS).map(([value, label]) => (
@@ -570,7 +570,7 @@ function Modal({ title, onClose, children }: { title: string; onClose: () => voi
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4" role="dialog" aria-modal aria-label={title}>
       <Card className="w-full max-w-md p-6">
         <div className="flex items-start justify-between gap-3">
-          <h2 className="font-serif text-xl text-ink-strong">{title}</h2>
+          <h2 className="font-display text-xl text-ink-strong">{title}</h2>
           <button onClick={onClose} aria-label="Close" className="text-ink-muted hover:text-ink-strong">
             ✕
           </button>

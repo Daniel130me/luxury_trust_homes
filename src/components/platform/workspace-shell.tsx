@@ -2,8 +2,10 @@
 
 /**
  * Workspace shell — the sidebar layout used by client, provider and staff
- * dashboards. Nav items and footnotes come from the prototype; badges show
- * live unread/pending counts where relevant.
+ * dashboards. Structure, classes and footnote copy are lifted from the
+ * prototype: solid brand-900 sidebar (w-64, fixed, off-canvas on mobile),
+ * blurred white topbar with gold-accented account chip, and a centered
+ * max-w-7xl content column.
  */
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
@@ -11,9 +13,9 @@ import { useEffect, useState } from "react";
 import { useAuth, isStaffRole, roleLabel, workspaceHome } from "@/lib/auth";
 import { apiFetch } from "@/lib/api";
 import {
-  Logo, BellIcon, ChevronLeftIcon, LogoutIcon, LayoutIcon, BuildingIcon,
+  Logo, BellIcon, LogoutIcon, BuildingIcon,
   EnvelopeIcon, CreditCardIcon, UsersIcon, FileIcon, ScaleIcon, HelpCircleIcon,
-  SettingsIcon, HeartIcon, UserIcon,
+  SettingsIcon, HeartIcon, UserIcon, MenuIcon,
 } from "./ui-bits";
 import { PageLoader } from "./ui-bits";
 
@@ -69,7 +71,7 @@ export function WorkspaceShell({
         <p className="text-sm text-ink-muted">Your account does not have access to this page.</p>
         <Link
           href={workspaceHome(user.role)}
-          className="rounded-lg bg-brand-700 px-4 py-2 text-sm font-medium text-white hover:bg-brand-800"
+          className="rounded-lg bg-brand-800 px-4 py-2 text-sm font-medium text-white hover:bg-brand-700"
         >
           Go to my dashboard
         </Link>
@@ -83,125 +85,139 @@ export function WorkspaceShell({
     ? "Internal notes and participant contact details are visible to ELVICTORIA staff only."
     : "All communication about a property is handled by the ELVICTORIA legal team.";
 
-  return (
-    <div className="min-h-screen lg:flex">
-      {/* Sidebar */}
-      <aside
-        className={`fixed inset-y-0 left-0 z-50 w-64 overflow-y-auto bg-gradient-to-b from-brand-800 to-brand-900 text-white transition-transform lg:static lg:translate-x-0 scroll-slim ${
-          mobileNavOpen ? "translate-x-0" : "-translate-x-full"
-        }`}
-      >
-        <div className="flex h-16 items-center justify-between px-4">
-          <Logo light />
-          <button
-            className="grid h-9 w-9 place-items-center rounded-lg text-white/70 hover:bg-white/10 lg:hidden"
-            onClick={() => setMobileNavOpen(false)}
-            aria-label="Close navigation"
+  const navList = (
+    <nav aria-label="Workspace" className="flex flex-col gap-0.5">
+      {nav.map((item) => {
+        const active =
+          item.href === pathname ||
+          (item.href !== "/app/staff" &&
+            item.href !== "/app/client" &&
+            item.href !== "/app/provider" &&
+            pathname.startsWith(item.href));
+        // Item classes straight from the prototype sidebar.
+        return (
+          <Link
+            key={item.href}
+            href={item.href}
+            aria-current={active ? "page" : undefined}
+            className={`flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition ${
+              active ? "bg-white/10 text-white" : "text-brand-200 hover:bg-white/5 hover:text-white"
+            }`}
           >
-            <ChevronLeftIcon className="h-5 w-5" />
-          </button>
-        </div>
-        <nav aria-label="Workspace" className="px-3 pb-4">
-          {nav.map((item) => {
-            const active =
-              item.href === pathname ||
-              (item.href !== "/app/staff" &&
-                item.href !== "/app/client" &&
-                item.href !== "/app/provider" &&
-                pathname.startsWith(item.href));
-            return (
-              <Link
-                key={item.href}
-                href={item.href}
-                className={`mb-1 flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm transition-colors ${
-                  active ? "bg-white/15 font-semibold text-white" : "text-white/80 hover:bg-white/10 hover:text-white"
-                }`}
-              >
-                <span className="shrink-0">{item.icon}</span>
-                <span className="flex-1">{item.label}</span>
-                {item.badge ? (
-                  <span className="rounded-full bg-brand-600 px-2 py-0.5 text-xs font-bold text-gold-200">
-                    {item.badge}
-                  </span>
-                ) : null}
-              </Link>
-            );
-          })}
-        </nav>
-        <p className="mx-3 rounded-lg bg-white/10 p-3 text-xs leading-relaxed text-white/70">{footnote}</p>
-      </aside>
+            <span className="shrink-0">{item.icon}</span>
+            <span className="flex-1">{item.label}</span>
+            {item.badge ? (
+              <span className="rounded-full bg-gold-400 px-1.5 text-2xs font-semibold text-brand-950">
+                {item.badge}
+              </span>
+            ) : null}
+          </Link>
+        );
+      })}
+    </nav>
+  );
 
+  const sidebarBody = (
+    <>
+      <div className="mb-8 px-2">
+        <Logo light />
+      </div>
+      {navList}
+      <div className="mt-auto rounded-lg bg-white/5 px-3 py-3 text-xs text-brand-300">{footnote}</div>
+    </>
+  );
+
+  return (
+    <div className="min-h-screen lg:pl-64">
+      {/* Sidebar — fixed rail on desktop, off-canvas drawer on mobile. */}
+      <aside className="fixed inset-y-0 left-0 z-40 hidden w-64 flex-col bg-brand-900 px-4 py-5 lg:flex">
+        {sidebarBody}
+      </aside>
       {mobileNavOpen && (
-        <div
-          className="fixed inset-0 z-40 bg-black/40 lg:hidden"
-          onClick={() => setMobileNavOpen(false)}
-          aria-hidden
-        />
+        <>
+          <div
+            className="fixed inset-0 z-40 bg-brand-950/50 backdrop-blur-[2px] lg:hidden"
+            onClick={() => setMobileNavOpen(false)}
+            aria-hidden
+          />
+          <aside className="fixed inset-y-0 left-0 z-50 flex w-64 flex-col overflow-y-auto bg-brand-900 px-4 py-5 lg:hidden">
+            {sidebarBody}
+          </aside>
+        </>
       )}
 
       {/* Main column */}
-      <div className="flex min-h-screen min-w-0 flex-1 flex-col">
-        <header className="sticky top-0 z-30 flex h-16 items-center justify-between gap-3 border-b border-zinc-200/70 bg-white px-4 sm:px-6">
+      <header className="sticky top-0 z-20 flex h-16 items-center justify-between gap-3 border-b border-brand-100/70 bg-white/90 px-4 backdrop-blur sm:px-6">
+        <div className="flex items-center gap-2">
           <button
-            className="grid h-10 w-10 place-items-center rounded-lg text-ink-soft hover:bg-brand-50 lg:hidden"
+            className="rounded-lg p-2 lg:hidden"
             onClick={() => setMobileNavOpen(true)}
-            aria-label="Open navigation"
+            aria-label="Open menu"
           >
-            <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
-              <path d="M3 12h18M3 6h18M3 18h18" />
-            </svg>
+            <MenuIcon className="h-5 w-5 text-ink-soft" />
           </button>
-          <div className="flex-1" />
+          <div className="lg:hidden">
+            <Logo href={workspaceHome(user.role)} />
+          </div>
+        </div>
+        <div className="flex items-center gap-1">
           <Link
             href="/app/notifications"
-            className="relative grid h-10 w-10 place-items-center rounded-lg text-ink-soft transition-colors hover:bg-brand-50 hover:text-brand-700"
+            className="relative rounded-lg p-2 text-ink-soft hover:bg-brand-50"
             aria-label={unread > 0 ? `Notifications, ${unread} unread` : "Notifications"}
           >
             <BellIcon className="h-5 w-5" />
             {unread > 0 && (
-              <span className="absolute right-1.5 top-1.5 grid h-4 min-w-4 place-items-center rounded-full bg-rose-600 px-1 text-[10px] font-bold text-white">
+              <span className="absolute right-1 top-1 flex h-4 min-w-4 items-center justify-center rounded-full bg-red-600 px-1 text-2xs font-semibold text-white">
                 {unread}
               </span>
             )}
           </Link>
-          <div className="flex items-center gap-2.5">
-            <span className="grid h-9 w-9 place-items-center rounded-full bg-brand-700 text-xs font-bold text-white">
+          <button
+            onClick={async () => {
+              await signOut();
+              router.push("/");
+            }}
+            className="flex items-center gap-2 rounded-lg p-1 pr-2 hover:bg-brand-50"
+            aria-label="Account — sign out"
+          >
+            <span aria-hidden className="inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-brand-700 text-2xs font-semibold text-white">
               {user.name.split(" ").map((n) => n[0]).slice(0, 2).join("")}
             </span>
             <span className="hidden text-left sm:block">
-              <span className="block text-sm font-semibold leading-tight text-ink-strong">{user.name}</span>
+              <span className="block text-sm font-medium leading-tight text-ink-strong">{user.name}</span>
               <span className="block text-xs leading-tight text-ink-muted">{roleLabel(user.role, user.providerKind)}</span>
             </span>
-            <button
-              onClick={async () => {
-                await signOut();
-                router.push("/");
-              }}
-              className="grid h-10 w-10 place-items-center rounded-lg text-ink-soft transition-colors hover:bg-brand-50 hover:text-brand-700"
-              aria-label="Sign out"
-            >
-              <LogoutIcon className="h-5 w-5" />
-            </button>
-          </div>
-        </header>
-        <main className="flex-1 px-4 py-6 sm:px-6 lg:px-8">{children}</main>
-      </div>
+          </button>
+          <button
+            onClick={async () => {
+              await signOut();
+              router.push("/");
+            }}
+            className="rounded-lg p-2 text-ink-soft hover:bg-brand-50"
+            aria-label="Sign out"
+          >
+            <LogoutIcon className="h-5 w-5" />
+          </button>
+        </div>
+      </header>
+      <main className="mx-auto max-w-7xl px-4 py-6 sm:px-6 sm:py-8">{children}</main>
     </div>
   );
 }
 
 function iconFor(href: string): React.ReactNode {
-  if (href.includes("listing") || href.includes("propert")) return <BuildingIcon className="h-4.5 w-4.5" />;
-  if (href.includes("enquir") || href.includes("matter") || href.includes("case")) return <EnvelopeIcon className="h-4.5 w-4.5" />;
-  if (href.includes("payment")) return <CreditCardIcon className="h-4.5 w-4.5" />;
-  if (href.includes("user")) return <UsersIcon className="h-4.5 w-4.5" />;
-  if (href.includes("report")) return <FileIcon className="h-4.5 w-4.5" />;
-  if (href.includes("helpdesk") || href.includes("/help")) return <HelpCircleIcon className="h-4.5 w-4.5" />;
-  if (href.includes("settings")) return <SettingsIcon className="h-4.5 w-4.5" />;
-  if (href.includes("saved")) return <HeartIcon className="h-4.5 w-4.5" />;
-  if (href.includes("profile")) return <UserIcon className="h-4.5 w-4.5" />;
-  if (href.includes("notification")) return <BellIcon className="h-4.5 w-4.5" />;
-  return <ScaleIcon className="h-4.5 w-4.5" />;
+  if (href.includes("listing") || href.includes("propert")) return <BuildingIcon className="h-4 w-4" />;
+  if (href.includes("enquir") || href.includes("matter") || href.includes("case")) return <EnvelopeIcon className="h-4 w-4" />;
+  if (href.includes("payment")) return <CreditCardIcon className="h-4 w-4" />;
+  if (href.includes("user")) return <UsersIcon className="h-4 w-4" />;
+  if (href.includes("report")) return <FileIcon className="h-4 w-4" />;
+  if (href.includes("helpdesk") || href.includes("/help")) return <HelpCircleIcon className="h-4 w-4" />;
+  if (href.includes("settings")) return <SettingsIcon className="h-4 w-4" />;
+  if (href.includes("saved")) return <HeartIcon className="h-4 w-4" />;
+  if (href.includes("profile")) return <UserIcon className="h-4 w-4" />;
+  if (href.includes("notification")) return <BellIcon className="h-4 w-4" />;
+  return <ScaleIcon className="h-4 w-4" />;
 }
 
 function buildNav(role: string, opts: { unread: number }): NavItem[] {
@@ -222,7 +238,7 @@ function buildNav(role: string, opts: { unread: number }): NavItem[] {
     );
   } else if (role === "PROVIDER") {
     items.push(
-      { href: "/app/provider", label: "Dashboard", icon: iconFor("/app/provider") },
+      { href: "/app/provider", label: "Overview", icon: iconFor("/app/provider") },
       { href: "/app/provider/properties", label: "My Properties", icon: iconFor("propert") },
       { href: "/app/provider/properties/new", label: "Add Property", icon: iconFor("add") },
       { href: "/app/provider/cases", label: "Enquiries & Cases", icon: iconFor("cases") },

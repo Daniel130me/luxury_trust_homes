@@ -471,7 +471,7 @@ export function PropertyForm({
                     }
                     aria-pressed={active}
                     className={`rounded-full px-3 py-1.5 text-xs font-medium transition-colors ${
-                      active ? "bg-brand-700 text-white" : "bg-white text-ink-soft ring-1 ring-zinc-200 hover:bg-brand-50"
+                      active ? "bg-brand-700 text-white" : "bg-white text-ink-soft ring-1 ring-brand-200 hover:bg-brand-50"
                     }`}
                   >
                     {feature}
@@ -531,7 +531,7 @@ export function PropertyForm({
                         type="button"
                         onClick={() => void removeImage(image.id)}
                         aria-label={`Remove ${image.label}`}
-                        className="absolute right-2 top-2 grid h-7 w-7 place-items-center rounded-full bg-white/90 text-ink-soft shadow hover:text-rose-600"
+                        className="absolute right-2 top-2 grid h-7 w-7 place-items-center rounded-full bg-white/90 text-ink-soft shadow hover:text-red-600"
                       >
                         ✕
                       </button>
@@ -539,7 +539,7 @@ export function PropertyForm({
                   ))}
                 </div>
               )}
-              <label className="mt-4 flex cursor-pointer flex-col items-center justify-center gap-2 rounded-xl border-2 border-dashed border-zinc-300 px-6 py-8 text-center transition-colors hover:border-brand-400 hover:bg-brand-50/40">
+              <label className="mt-4 flex cursor-pointer flex-col items-center justify-center gap-2 rounded-xl border-2 border-dashed border-brand-200 px-6 py-8 text-center transition-colors hover:border-brand-400 hover:bg-brand-50/40">
                 <span className="text-sm font-medium text-ink-soft">
                   {uploading ? "Uploading…" : "Click to upload photographs"}
                 </span>

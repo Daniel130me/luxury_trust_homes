@@ -69,7 +69,7 @@ export default function ProviderPropertyDetailPage() {
         <StatusBadge status={property.status} label={PROPERTY_STATUS_LABELS[property.status]} />
         <p className="text-sm text-ink-muted">{property.reference}</p>
       </div>
-      <h1 className="mt-1 font-serif text-3xl text-ink-strong">{property.title}</h1>
+      <h1 className="mt-1 text-2xl font-semibold tracking-tight sm:text-3xl">{property.title}</h1>
       <p className="mt-1 text-sm text-ink-muted">
         {CATEGORY_LABELS[property.category]} · {property.area}, {property.lga}, {property.state}
       </p>

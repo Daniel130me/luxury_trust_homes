@@ -52,7 +52,7 @@ export default function ProviderPropertiesPage() {
     <div className="mx-auto max-w-7xl">
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div>
-          <h1 className="font-serif text-3xl text-ink-strong">My properties</h1>
+          <h1 className="text-2xl font-semibold tracking-tight sm:text-3xl">My properties</h1>
           <p className="mt-1.5 text-ink-muted">
             Listings are reviewed by our legal team before they appear publicly.
           </p>
@@ -70,7 +70,7 @@ export default function ProviderPropertiesPage() {
             aria-selected={status === tab.value}
             onClick={() => setStatus(tab.value)}
             className={`rounded-full px-4 py-1.5 text-sm font-semibold transition-colors ${
-              status === tab.value ? "bg-brand-700 text-white" : "bg-white text-ink-soft ring-1 ring-zinc-200 hover:bg-brand-50"
+              status === tab.value ? "bg-brand-800 text-white" : "bg-white text-ink-soft ring-1 ring-brand-200 hover:bg-brand-50"
             }`}
           >
             {tab.label}
@@ -97,7 +97,7 @@ export default function ProviderPropertiesPage() {
           {properties.map((property) => (
             <Card key={property.id} className="overflow-hidden">
               <Link href={`/app/provider/properties/${property.id}`} className="block">
-                <div className="relative aspect-[4/3] bg-zinc-100">
+                <div className="relative aspect-[4/3] bg-slate-100">
                   {property.images?.[0] ? (
                      
                     <img src={property.images[0].url} alt={property.images[0].label} className="h-full w-full object-cover" loading="lazy" />
@@ -113,7 +113,7 @@ export default function ProviderPropertiesPage() {
                 <p className="text-xs font-semibold uppercase tracking-wide text-ink-muted">
                   {property.area}, {property.lga}, {property.state}
                 </p>
-                <h2 className="mt-1 font-serif text-lg text-ink-strong">{property.title}</h2>
+                <h2 className="mt-1 font-semibold text-ink-strong">{property.title}</h2>
                 <p className="mt-1 text-sm font-bold text-brand-700">
                   {formatNaira(property.price)}
                   {property.listingType === "RENT" && <span className="text-xs font-medium text-ink-muted"> / year</span>}
@@ -124,7 +124,7 @@ export default function ProviderPropertiesPage() {
                 {property.feedback && property.status !== "APPROVED" && (
                   <p className="mt-2 rounded-lg bg-amber-50 px-3 py-2 text-xs text-amber-800">{property.feedback}</p>
                 )}
-                <div className="mt-3 flex gap-2 border-t border-zinc-100 pt-3">
+                <div className="mt-3 flex gap-2 border-t border-brand-50 pt-3">
                   <Link href={`/app/provider/properties/${property.id}`} className="flex-1">
                     <Button variant="outline" size="sm" className="w-full">View</Button>
                   </Link>

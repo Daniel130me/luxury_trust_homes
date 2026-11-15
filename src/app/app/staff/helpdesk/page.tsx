@@ -50,7 +50,7 @@ export default function StaffHelpdeskPage() {
 
   return (
     <div className="mx-auto max-w-6xl">
-      <h1 className="font-serif text-3xl text-ink-strong">Help Desk</h1>
+      <h1 className="text-2xl font-semibold tracking-tight sm:text-3xl">Help Desk</h1>
       <p className="mt-1.5 text-ink-muted">
         Support tickets from clients and providers. Suspected fraud is flagged for immediate attention.
       </p>
@@ -70,7 +70,7 @@ export default function StaffHelpdeskPage() {
           <EmptyState title="No tickets" description="Nothing in the queue — all clear." />
         </div>
       ) : (
-        <Card className="mt-6 divide-y divide-zinc-100 p-0">
+        <Card className="mt-6 divide-y divide-brand-50 p-0">
           {tickets.map((ticket) => {
             const isFraud = ticket.category === "fraud";
             return (
@@ -78,14 +78,14 @@ export default function StaffHelpdeskPage() {
                 key={ticket.id}
                 onClick={() => router.push(`/app/staff/helpdesk/${ticket.id}`)}
                 className={`flex w-full items-start justify-between gap-3 px-4 py-4 text-left transition-colors hover:bg-brand-50/40 ${
-                  isFraud ? "bg-rose-50/40" : ""
+                  isFraud ? "bg-red-50/40" : ""
                 }`}
               >
                 <div className="min-w-0">
                   <p className="text-sm font-semibold text-ink-strong">
                     <span className="text-ink-muted">{ticket.reference}</span> — {ticket.subject}
                     {isFraud && (
-                      <span className="ml-2 inline-flex items-center gap-1 rounded-full bg-rose-600 px-2 py-0.5 text-[10px] font-bold text-white">
+                      <span className="ml-2 inline-flex items-center gap-1 rounded-full bg-red-600 px-2 py-0.5 text-[10px] font-bold text-white">
                         <AlertTriangleIcon className="h-3 w-3" />
                         SUSPECTED FRAUD
                       </span>

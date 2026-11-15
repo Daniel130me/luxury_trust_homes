@@ -1,8 +1,10 @@
 "use client";
 
 /**
- * Case progress stepper — the 7-stage flow from the prototype
- * (New Enquiry → … → Completed). Cancelled renders as a separate state.
+ * Case progress stepper — the 7-stage flow from the prototype, rendered
+ * as its horizontal stage rail: done circles in brand-700 with a check,
+ * the current stage in gold, upcoming stages outlined, connected by a
+ * hairline that fills as the case progresses.
  */
 import { CASE_STEPS, CASE_STATUS_LABELS } from "@/lib/format";
 import { CheckIcon, AlertTriangleIcon } from "./ui-bits";
@@ -11,7 +13,7 @@ export function CaseStepper({ status, clientMode = false }: { status: string; cl
   if (status === "CANCELLED") {
     return (
       <ol className="flex flex-wrap items-center gap-2 text-sm">
-        <li className="flex items-center gap-2 rounded-full bg-rose-50 px-3 py-1.5 text-rose-700">
+        <li className="inline-flex items-center gap-2 rounded-full bg-red-50 px-3 py-1.5 text-red-800 ring-1 ring-inset ring-red-200">
           <AlertTriangleIcon className="h-4 w-4" />
           Cancelled
         </li>
@@ -28,38 +30,44 @@ export function CaseStepper({ status, clientMode = false }: { status: string; cl
   };
 
   return (
-    <ol className="grid grid-cols-2 gap-2 sm:grid-cols-4 lg:grid-cols-7">
-      {CASE_STEPS.map((step, index) => {
-        const done = index < current;
-        const active = index === current;
-        const label = clientMode ? (clientLabels[step] ?? CASE_STATUS_LABELS[step]) : CASE_STATUS_LABELS[step];
-        return (
-          <li
-            key={step}
-            aria-current={active ? "step" : undefined}
-            className={`flex items-center gap-2 rounded-lg border px-2.5 py-2 text-xs font-medium ${
-              done
-                ? "border-emerald-200 bg-emerald-50 text-emerald-700"
-                : active
-                  ? "border-brand-600 bg-brand-700 text-white"
-                  : "border-zinc-200 bg-white text-ink-muted"
-            }`}
-          >
-            {done ? (
-              <CheckIcon className="h-3.5 w-3.5 shrink-0" />
-            ) : (
+    <div className="scrollbar-thin overflow-x-auto">
+      <ol className="flex min-w-[640px] items-start">
+        {CASE_STEPS.map((step, index) => {
+          const done = index < current;
+          const active = index === current;
+          const label = clientMode ? (clientLabels[step] ?? CASE_STATUS_LABELS[step]) : CASE_STATUS_LABELS[step];
+          return (
+            <li
+              key={step}
+              aria-current={active ? "step" : undefined}
+              className="relative flex flex-1 flex-col items-center text-center"
+            >
+              {index > 0 && (
+                <span
+                  aria-hidden
+                  className={`absolute right-1/2 top-3.5 h-0.5 w-full -translate-y-1/2 ${
+                    done || active ? "bg-brand-600" : "bg-brand-100"
+                  }`}
+                />
+              )}
               <span
-                className={`grid h-5 w-5 shrink-0 place-items-center rounded-full text-[10px] font-bold ${
-                  active ? "bg-white/20" : "bg-zinc-100"
+                className={`relative z-10 flex h-7 w-7 items-center justify-center rounded-full border-2 text-xs font-semibold ${
+                  done
+                    ? "border-brand-700 bg-brand-700 text-white"
+                    : active
+                      ? "border-gold-500 bg-gold-50 text-gold-700"
+                      : "border-brand-100 bg-white text-ink-muted"
                 }`}
               >
-                {index + 1}
+                {done ? <CheckIcon className="h-3.5 w-3.5" /> : index + 1}
               </span>
-            )}
-            <span className="leading-tight">{label}</span>
-          </li>
-        );
-      })}
-    </ol>
+              <span className={`mt-2 px-1 text-2xs leading-tight ${active ? "font-semibold text-ink-strong" : "text-ink-muted"}`}>
+                {label}
+              </span>
+            </li>
+          );
+        })}
+      </ol>
+    </div>
   );
 }

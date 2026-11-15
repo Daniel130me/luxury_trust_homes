@@ -42,7 +42,7 @@ export default function HelpPage() {
 
       <div className="mt-8 space-y-3">
         {FAQS.map((faq) => (
-          <details key={faq.q} className="group rounded-xl border border-zinc-200 bg-white p-5 open:shadow-sm">
+          <details key={faq.q} className="group rounded-xl border border-brand-100 bg-white p-5 open:shadow-sm">
             <summary className="cursor-pointer list-none font-semibold text-ink-strong marker:hidden">
               <span className="flex items-center justify-between gap-3">
                 {faq.q}

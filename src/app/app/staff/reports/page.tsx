@@ -38,7 +38,7 @@ export default function StaffReportsPage() {
 
   return (
     <div className="mx-auto max-w-6xl">
-      <h1 className="font-serif text-3xl text-ink-strong">Reports</h1>
+      <h1 className="text-2xl font-semibold tracking-tight sm:text-3xl">Reports</h1>
       <p className="mt-1.5 text-ink-muted">Platform-wide operational overview.</p>
 
       <div className="mt-6 grid gap-6 lg:grid-cols-2">
@@ -51,7 +51,7 @@ export default function StaffReportsPage() {
                   <span className="text-ink-soft">{CATEGORY_LABELS[row.category] ?? row.category}</span>
                   <span className="font-semibold text-ink-strong">{row.count}</span>
                 </div>
-                <div className="mt-1 h-2 rounded-full bg-zinc-100">
+                <div className="mt-1 h-2 rounded-full bg-slate-100">
                   <div className="h-2 rounded-full bg-brand-600" style={{ width: `${(row.count / maxCategory) * 100}%` }} />
                 </div>
               </li>
@@ -68,7 +68,7 @@ export default function StaffReportsPage() {
                   <span className="text-ink-soft">{CASE_STATUS_LABELS[row.status] ?? row.status}</span>
                   <span className="font-semibold text-ink-strong">{row.count}</span>
                 </div>
-                <div className="mt-1 h-2 rounded-full bg-zinc-100">
+                <div className="mt-1 h-2 rounded-full bg-slate-100">
                   <div className="h-2 rounded-full bg-gold-500" style={{ width: `${(row.count / maxStatus) * 100}%` }} />
                 </div>
               </li>
@@ -86,7 +86,7 @@ export default function StaffReportsPage() {
                 <th className="pb-2 text-right font-semibold">Value</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-zinc-100">
+            <tbody className="divide-y divide-brand-50">
               {reports.paymentsByStatus.map((row) => (
                 <tr key={row.status}>
                   <td className="py-2 text-ink-soft">{PAYMENT_STATUS_LABELS[row.status] ?? row.status}</td>

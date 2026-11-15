@@ -43,7 +43,7 @@ export default function ClientDashboardPage() {
 
   return (
     <div className="mx-auto max-w-7xl">
-      <h1 className="font-serif text-3xl text-ink-strong">Welcome, {firstName}</h1>
+      <h1 className="text-2xl font-semibold tracking-tight sm:text-3xl">Welcome, {firstName}</h1>
       <p className="mt-1.5 text-ink-muted">
         Follow your enquiries and transactions, managed by the ELVICTORIA legal team.
       </p>
@@ -72,7 +72,7 @@ export default function ClientDashboardPage() {
               No updates yet. Submit an enquiry and your lawyer will keep you informed here.
             </Card>
           ) : (
-            <Card className="divide-y divide-zinc-100">
+            <Card className="divide-y divide-brand-50">
               {summary.recentUpdates.map((update) => (
                 <Link
                   key={update.id}

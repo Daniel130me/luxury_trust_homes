@@ -44,7 +44,7 @@ export default function ClientPaymentsPage() {
 
   return (
     <div className="mx-auto max-w-6xl">
-      <h1 className="font-serif text-3xl text-ink-strong">Payments</h1>
+      <h1 className="text-2xl font-semibold tracking-tight sm:text-3xl">Payments</h1>
       <p className="mt-1.5 text-ink-muted">
         Payment requests from your lawyer and your payment history.
       </p>
@@ -57,7 +57,7 @@ export default function ClientPaymentsPage() {
             aria-selected={tab === option}
             onClick={() => setTab(option)}
             className={`rounded-md px-4 py-2 text-sm font-semibold transition-colors ${
-              tab === option ? "bg-brand-700 text-white" : "text-brand-700 hover:bg-brand-100"
+              tab === option ? "bg-brand-800 text-white" : "text-brand-700 hover:bg-brand-100"
             }`}
           >
             {option === "requests" ? `Requests ${(payments ?? []).filter((p) => REQUEST_STATUSES.includes(p.status)).length}` : `All payments ${(payments ?? []).length}`}
@@ -79,7 +79,7 @@ export default function ClientPaymentsPage() {
           <div className="overflow-x-auto">
             <table className="w-full min-w-[760px] text-sm">
               <thead>
-                <tr className="border-b border-zinc-200 bg-zinc-50 text-left text-xs uppercase tracking-wide text-ink-muted">
+                <tr className="border-b border-brand-100 bg-brand-50 text-left text-xs uppercase tracking-wide text-ink-muted">
                   <th className="px-4 py-3 font-semibold">Amount</th>
                   <th className="px-4 py-3 font-semibold">Case</th>
                   <th className="px-4 py-3 font-semibold">Reference</th>
@@ -88,7 +88,7 @@ export default function ClientPaymentsPage() {
                   <th className="px-4 py-3 font-semibold"></th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-zinc-100">
+              <tbody className="divide-y divide-brand-50">
                 {rows.map((payment) => (
                   <tr key={payment.id} className="transition-colors hover:bg-brand-50/40">
                     <td className="px-4 py-3">

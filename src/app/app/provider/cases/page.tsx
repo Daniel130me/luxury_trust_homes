@@ -32,7 +32,7 @@ export default function ProviderCasesPage() {
 
   return (
     <div className="mx-auto max-w-6xl">
-      <h1 className="font-serif text-3xl text-ink-strong">Enquiries & cases</h1>
+      <h1 className="text-2xl font-semibold tracking-tight sm:text-3xl">Enquiries & cases</h1>
       <p className="mt-1.5 text-ink-muted">
         Every enquiry on your listings is handled by an ELVICTORIA lawyer.
       </p>
@@ -51,7 +51,7 @@ export default function ProviderCasesPage() {
           <div className="overflow-x-auto">
             <table className="w-full min-w-[760px] text-sm">
               <thead>
-                <tr className="border-b border-zinc-200 bg-zinc-50 text-left text-xs uppercase tracking-wide text-ink-muted">
+                <tr className="border-b border-brand-100 bg-brand-50 text-left text-xs uppercase tracking-wide text-ink-muted">
                   <th className="px-4 py-3 font-semibold">Case</th>
                   <th className="px-4 py-3 font-semibold">Property</th>
                   <th className="px-4 py-3 font-semibold">Buyer / Renter</th>
@@ -59,7 +59,7 @@ export default function ProviderCasesPage() {
                   <th className="px-4 py-3 font-semibold">Status</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-zinc-100">
+              <tbody className="divide-y divide-brand-50">
                 {cases.map((kase) => (
                   <tr
                     key={kase.id}

@@ -192,11 +192,11 @@ export default function PropertiesPage() {
             <option value="price_asc">Price: low to high</option>
             <option value="price_desc">Price: high to low</option>
           </Select>
-          <div className="flex overflow-hidden rounded-lg border border-zinc-200" role="group" aria-label="View">
+          <div className="flex overflow-hidden rounded-lg border border-brand-100" role="group" aria-label="View">
             <button
               onClick={() => setView("grid")}
               aria-pressed={view === "grid"}
-              className={`px-2.5 py-2 text-sm ${view === "grid" ? "bg-brand-700 text-white" : "bg-white text-ink-muted hover:bg-brand-50"}`}
+              className={`px-2.5 py-2 text-sm ${view === "grid" ? "bg-brand-800 text-white" : "bg-white text-ink-muted hover:bg-brand-50"}`}
               aria-label="Grid view"
             >
               <GridIcon />
@@ -204,7 +204,7 @@ export default function PropertiesPage() {
             <button
               onClick={() => setView("list")}
               aria-pressed={view === "list"}
-              className={`px-2.5 py-2 text-sm ${view === "list" ? "bg-brand-700 text-white" : "bg-white text-ink-muted hover:bg-brand-50"}`}
+              className={`px-2.5 py-2 text-sm ${view === "list" ? "bg-brand-800 text-white" : "bg-white text-ink-muted hover:bg-brand-50"}`}
               aria-label="List view"
             >
               <ListIcon />

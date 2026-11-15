@@ -120,7 +120,7 @@ export default function ProfilePage() {
       <SectionHeader title="Account & profile" description="Manage your personal details and password." />
 
       <Card className="p-5 sm:p-6">
-        <div className="flex items-center gap-4 border-b border-zinc-100 pb-4">
+        <div className="flex items-center gap-4 border-b border-brand-50 pb-4">
           <span className="grid h-12 w-12 place-items-center rounded-full bg-brand-700 text-sm font-bold text-white">
             {form.name.split(" ").map((n) => n[0]).slice(0, 2).join("")}
           </span>
@@ -173,7 +173,7 @@ export default function ProfilePage() {
                     type="checkbox"
                     checked={form.alertsEnabled}
                     onChange={(e) => setForm({ ...form, alertsEnabled: e.target.checked })}
-                    className="h-4 w-4 rounded border-zinc-300 text-brand-700"
+                    className="h-4 w-4 rounded border-brand-200 text-brand-700"
                   />
                   Alert me when new listings match my preferences
                 </label>

@@ -106,7 +106,7 @@ export default function StaffListingDetailPage() {
         <StatusBadge status={listing.status} label={PROPERTY_STATUS_LABELS[listing.status]} />
         <p className="text-sm text-ink-muted">{listing.reference}</p>
       </div>
-      <h1 className="mt-1 font-serif text-3xl text-ink-strong">{listing.title}</h1>
+      <h1 className="mt-1 text-2xl font-semibold tracking-tight sm:text-3xl">{listing.title}</h1>
       <p className="mt-1 text-sm text-ink-muted">
         {listing.provider.name}
         {listing.provider.organisation ? ` · ${listing.provider.organisation}` : ""} · {listing.provider.email}

@@ -1,15 +1,16 @@
 "use client";
 
 /**
- * Sign-in page — matches the prototype: email + password, show/hide toggle,
- * forgot-password link, and redirect back to the original target (?next=).
+ * Sign-in page — matches the prototype: full-screen split with the form
+ * on the left (logo top, centered max-w-md column) and the dark photo
+ * panel with trust bullets on the right. Redirects back to ?next=.
  */
 import { useState } from "react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { apiFetch, ApiRequestError } from "@/lib/api";
 import { useAuth, workspaceHome, type SessionUser } from "@/lib/auth";
-import { Button, Card, Field, Input, Alert, EyeIcon, EyeOffIcon } from "@/components/platform/ui-bits";
+import { AuthShell, Button, Field, Input, Alert, EyeIcon, EyeOffIcon } from "@/components/platform/ui-bits";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -59,91 +60,62 @@ export default function LoginPage() {
   }
 
   return (
-    <main className="mx-auto grid min-h-[calc(100vh-3rem)] max-w-6xl items-center gap-10 px-4 py-10 sm:px-6 lg:grid-cols-2">
-      <Card className="mx-auto w-full max-w-md p-6 sm:p-8">
-        <h1 className="font-serif text-3xl text-ink-strong">Welcome back</h1>
-        <p className="mt-1.5 text-sm text-ink-muted">
+    <AuthShell
+      heading="Welcome back"
+      intro={
+        <>
           New to ELVICTORIA?{" "}
-          <Link href="/register" className="font-semibold text-brand-700 hover:text-brand-800">
+          <Link href="/register" className="font-semibold text-brand-700 hover:underline">
             Create an account
           </Link>
-        </p>
-
-        <form onSubmit={submit} className="mt-6 space-y-4" noValidate>
-          <Field label="Email address" htmlFor="login-email" error={errors.email} required>
+        </>
+      }
+    >
+      <form onSubmit={submit} className="space-y-4" noValidate>
+        <Field label="Email address" htmlFor="login-email" error={errors.email} required>
+          <Input
+            id="login-email"
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            autoComplete="email"
+            required
+          />
+        </Field>
+        <Field label="Password" htmlFor="login-password" error={errors.password} required>
+          <div className="relative">
             <Input
-              id="login-email"
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              autoComplete="email"
+              id="login-password"
+              type={showPassword ? "text" : "password"}
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              autoComplete="current-password"
+              className="pr-10"
               required
             />
-          </Field>
-          <Field label="Password" htmlFor="login-password" error={errors.password} required>
-            <div className="relative">
-              <Input
-                id="login-password"
-                type={showPassword ? "text" : "password"}
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                autoComplete="current-password"
-                className="pr-11"
-                required
-              />
-              <button
-                type="button"
-                onClick={() => setShowPassword((v) => !v)}
-                aria-label={showPassword ? "Hide password" : "Show password"}
-                className="absolute right-2.5 top-1/2 -translate-y-1/2 p-1 text-ink-muted hover:text-ink-strong"
-              >
-                {showPassword ? <EyeOffIcon className="h-4.5 w-4.5" /> : <EyeIcon className="h-4.5 w-4.5" />}
-              </button>
-            </div>
-          </Field>
-
-          {errors.form && <Alert tone="error">{errors.form}</Alert>}
-
-          <div className="flex items-center justify-between text-sm">
-            <Link href="/forgot-password" className="font-medium text-brand-700 hover:text-brand-800">
-              Forgot password?
-            </Link>
+            <button
+              type="button"
+              onClick={() => setShowPassword((v) => !v)}
+              aria-label={showPassword ? "Hide password" : "Show password"}
+              className="absolute right-2 top-1/2 -translate-y-1/2 rounded p-1 text-ink-muted hover:text-ink-strong"
+            >
+              {showPassword ? <EyeOffIcon className="h-4 w-4" /> : <EyeIcon className="h-4 w-4" />}
+            </button>
           </div>
+        </Field>
 
-          <Button type="submit" loading={submitting} className="w-full">
-            Sign in
-          </Button>
-        </form>
-      </Card>
+        {errors.form && <Alert tone="error">{errors.form}</Alert>}
 
-      <aside className="hidden lg:block">
-        <div
-          className="overflow-hidden rounded-2xl"
-          style={{
-            backgroundImage:
-              "linear-gradient(160deg, rgba(43,10,17,0.9) 0%, rgba(79,21,32,0.75) 55%, rgba(122,35,51,0.45) 100%), url('https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1200&q=70&auto=format&fit=crop')",
-            backgroundSize: "cover",
-            backgroundPosition: "center",
-          }}
-        >
-          <div className="p-8 text-white">
-            <h2 className="font-serif text-2xl">Lawyers handle everything — not strangers.</h2>
-            <ul className="mt-4 space-y-2 text-sm text-white/85">
-              {[
-                "Lawyers handle every enquiry",
-                "Your details stay confidential",
-                "Every listing is reviewed",
-                "Safer payments",
-              ].map((item) => (
-                <li key={item} className="flex items-center gap-2">
-                  <span className="grid h-5 w-5 place-items-center rounded-full bg-white/15">✓</span>
-                  {item}
-                </li>
-              ))}
-            </ul>
-          </div>
+        <div className="flex justify-end">
+          <Link href="/forgot-password" className="text-sm font-medium text-brand-700 hover:underline">
+            Forgot password?
+          </Link>
         </div>
-      </aside>
-    </main>
+
+        <Button type="submit" loading={submitting} size="lg" className="w-full">
+          Sign in
+        </Button>
+      </form>
+    </AuthShell>
   );
 }

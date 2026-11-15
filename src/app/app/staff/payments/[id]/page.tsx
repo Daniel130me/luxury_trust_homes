@@ -105,7 +105,7 @@ export default function StaffPaymentDetailPage() {
         <StatusBadge status={payment.status} label={PAYMENT_STATUS_LABELS[payment.status]} />
         <p className="text-sm text-ink-muted">{payment.reference}</p>
       </div>
-      <h1 className="mt-1 font-serif text-3xl text-ink-strong">{formatNaira(payment.amount)}</h1>
+      <h1 className="mt-1 text-2xl font-semibold tracking-tight sm:text-3xl">{formatNaira(payment.amount)}</h1>
       <p className="mt-1 text-sm text-ink-muted">
         {payment.description} · {payment.case?.reference ?? "—"}
         {payment.case?.property ? ` · ${payment.case.property.title}` : ""}
@@ -122,7 +122,7 @@ export default function StaffPaymentDetailPage() {
           ) : (
             <ul className="mt-3 space-y-3">
               {payment.attempts.map((attempt) => (
-                <li key={attempt.id} className="rounded-lg border border-zinc-100 p-3">
+                <li key={attempt.id} className="rounded-lg border border-brand-50 p-3">
                   <div className="flex flex-wrap items-center justify-between gap-2 text-sm">
                     <span className="font-medium text-ink-strong">
                       {attempt.method === "CARD" ? "Card" : "Bank transfer"} ·{" "}
@@ -131,7 +131,7 @@ export default function StaffPaymentDetailPage() {
                           attempt.outcome === "SUCCESSFUL"
                             ? "text-emerald-700"
                             : attempt.outcome === "FAILED"
-                              ? "text-rose-600"
+                              ? "text-red-600"
                               : "text-amber-600"
                         }
                       >

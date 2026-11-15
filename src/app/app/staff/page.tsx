@@ -52,7 +52,7 @@ export default function StaffDashboardPage() {
 
   return (
     <div className="mx-auto max-w-7xl">
-      <h1 className="font-serif text-3xl text-ink-strong">Good day, {firstName}</h1>
+      <h1 className="text-2xl font-semibold tracking-tight sm:text-3xl">Good day, {firstName}</h1>
       <p className="mt-1.5 text-ink-muted">
         {summary.openCases} open case{summary.openCases === 1 ? "" : "s"}. {summary.requiringAttention} matter{summary.requiringAttention === 1 ? "" : "s"} need{summary.requiringAttention === 1 ? "s" : ""} attention across the platform.
       </p>
@@ -98,7 +98,7 @@ export default function StaffDashboardPage() {
           {summary.attentionList.length === 0 ? (
             <Card className="p-6 text-sm text-ink-muted">Nothing needs attention right now.</Card>
           ) : (
-            <Card className="divide-y divide-zinc-100">
+            <Card className="divide-y divide-brand-50">
               {summary.attentionList.map((enquiry) => (
                 <Link
                   key={enquiry.id}

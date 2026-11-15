@@ -2,16 +2,17 @@
 
 /**
  * Property card used on the home page, catalogue and saved list.
- * Visual structure matches the prototype card: cover photo, listing badge,
- * save button, category · region eyebrow, title, location, bed/bath/size
- * row, price and reference.
+ * Markup and classes are lifted 1:1 from the prototype's rendered card:
+ * 16/10 cover with brand-50 placeholder, wine listing chip, round save
+ * button, gold category eyebrow, semibold title, pin location row,
+ * bed/bath/size feature icons, price + reference footer.
  */
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { apiFetch } from "@/lib/api";
 import { CATEGORY_LABELS, AVAILABILITY_LABELS, formatNaira } from "@/lib/format";
-import { Badge, HeartIcon } from "./ui-bits";
+import { BedIcon, BathIcon, AreaIcon, HeartIcon } from "./ui-bits";
 import { useToast } from "@/hooks/use-toast";
 
 export type PropertyCardData = {
@@ -72,63 +73,77 @@ export function PropertyCard({
   return (
     <Link
       href={`/properties/${property.reference}`}
-      className="group block overflow-hidden rounded-xl border border-zinc-200/80 bg-white shadow-[0_1px_2px_rgba(22,24,29,0.04)] transition-shadow hover:shadow-lg"
+      className="group flex flex-col overflow-hidden rounded-xl border border-brand-100/80 bg-white shadow-card transition hover:-translate-y-0.5 hover:shadow-lift"
     >
-      <div className="relative aspect-[4/3] overflow-hidden bg-zinc-100">
+      <div className="relative aspect-[16/10] overflow-hidden bg-brand-50">
         {cover ? (
-           
           <img
             src={cover.url}
             alt={cover.label || property.title}
             loading="lazy"
-            className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-[1.03]"
+            decoding="async"
+            className="h-full w-full object-cover transition duration-500 group-hover:scale-[1.03]"
           />
         ) : (
           <div className="grid h-full place-items-center text-sm text-ink-muted">No photograph yet</div>
         )}
-        <span className="absolute left-3 top-3">
-          <Badge tone="bg-brand-700/90 text-white">
-            {property.listingType === "SALE" ? "For Sale" : "For Rent"}
-          </Badge>
+        <span className="absolute left-3 top-3 rounded-md px-2 py-1 text-xs font-semibold shadow-sm bg-brand-900 text-white">
+          {property.listingType === "SALE" ? "For Sale" : "For Rent"}
         </span>
         {property.availability === "UNDER_OFFER" && (
-          <span className="absolute left-3 top-11">
-            <Badge tone="bg-amber-500/90 text-white">{AVAILABILITY_LABELS.UNDER_OFFER}</Badge>
+          <span className="absolute left-3 top-11 rounded-md px-2 py-1 text-xs font-semibold shadow-sm bg-gold-400 text-brand-950">
+            {AVAILABILITY_LABELS.UNDER_OFFER}
           </span>
         )}
-        <button
-          onClick={toggleSave}
-          aria-label={saved ? "Remove from saved properties" : "Save property"}
-          aria-pressed={saved}
-          className="absolute right-3 top-3 grid h-9 w-9 place-items-center rounded-full bg-white/90 text-ink-soft shadow-sm transition-colors hover:text-brand-700"
-        >
-          <HeartIcon className="h-4.5 w-4.5" filled={saved} />
-        </button>
+        <span className="absolute right-3 top-3">
+          <button
+            onClick={toggleSave}
+            aria-label={saved ? "Remove from saved properties" : "Save property"}
+            aria-pressed={saved}
+            title={saved ? "Remove from saved properties" : "Save property"}
+            className="rounded-full bg-white/95 p-2 shadow-sm ring-1 ring-black/5 transition hover:scale-105"
+          >
+            <HeartIcon className={`h-4 w-4 ${saved ? "text-brand-700" : "text-ink-soft"}`} filled={saved} />
+          </button>
+        </span>
       </div>
 
-      <div className="p-4">
-        <p className="text-xs font-semibold uppercase tracking-wide text-ink-muted">
+      <div className="flex flex-1 flex-col gap-2 p-4">
+        <p className="text-xs font-medium uppercase tracking-wide text-gold-600">
           {CATEGORY_LABELS[property.category] ?? property.category}
-          {property.region ? ` · ${property.state} ${property.region}` : ""}
+          {property.region ? (
+            <span className="text-ink-muted"> · {property.state} {property.region}</span>
+          ) : null}
         </p>
-        <h3 className="mt-1 font-serif text-lg leading-snug text-ink-strong group-hover:text-brand-700">
-          {property.title}
-        </h3>
-        <p className="mt-0.5 text-sm text-ink-muted">
+        <h3 className="line-clamp-2 font-semibold text-ink-strong group-hover:text-brand-700">{property.title}</h3>
+        <p className="flex items-center gap-1 text-sm text-ink-muted">
           {property.area}, {property.lga}, {property.state}
         </p>
 
-        <div className="mt-2 flex flex-wrap gap-x-4 gap-y-1 text-xs text-ink-soft">
-          {property.beds != null && <span>{property.beds} beds</span>}
-          {property.baths != null && <span>{property.baths} baths</span>}
-          {property.sqm != null && <span>{property.sqm.toLocaleString("en-NG")} sqm</span>}
+        <div className="flex flex-wrap gap-x-4 gap-y-1 text-sm text-ink-soft">
+          {property.beds != null && (
+            <span className="inline-flex items-center gap-1.5">
+              <BedIcon className="h-4 w-4 text-brand-400" /> {property.beds} beds
+            </span>
+          )}
+          {property.baths != null && (
+            <span className="inline-flex items-center gap-1.5">
+              <BathIcon className="h-4 w-4 text-brand-400" /> {property.baths} baths
+            </span>
+          )}
+          {property.sqm != null && (
+            <span className="inline-flex items-center gap-1.5">
+              <AreaIcon className="h-4 w-4 text-brand-400" /> {property.sqm.toLocaleString("en-NG")} sqm
+            </span>
+          )}
         </div>
 
-        <div className="mt-3 flex items-center justify-between border-t border-zinc-100 pt-3">
-          <p className="text-base font-bold text-brand-700">{formatNaira(property.price)}
+        <div className="mt-auto flex items-end justify-between pt-2">
+          <p className="text-lg font-semibold text-ink-strong">
+            {formatNaira(property.price)}
             {property.listingType === "RENT" && <span className="text-xs font-medium text-ink-muted"> / year</span>}
           </p>
-          <p className="text-xs text-ink-muted">{property.reference}</p>
+          <span className="text-xs text-ink-muted">{property.reference}</span>
         </div>
       </div>
     </Link>

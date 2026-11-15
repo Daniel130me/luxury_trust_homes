@@ -3,11 +3,13 @@
 
 @custom-variant dark (&:is(.dark *));
 
+/* ------------------------------------------------------------------ */
+/* shadcn component variables — mapped to the ELVICTORIA prototype      */
+/* palette so every Button/Card/Input/Badge picks up the design.       */
+/* ------------------------------------------------------------------ */
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
@@ -44,87 +46,78 @@
 }
 
 :root {
-  --radius: 0.625rem;
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.145 0 0);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.145 0 0);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.145 0 0);
-  --primary: oklch(0.205 0 0);
-  --primary-foreground: oklch(0.985 0 0);
-  --secondary: oklch(0.97 0 0);
-  --secondary-foreground: oklch(0.205 0 0);
-  --muted: oklch(0.97 0 0);
-  --muted-foreground: oklch(0.556 0 0);
-  --accent: oklch(0.97 0 0);
-  --accent-foreground: oklch(0.205 0 0);
-  --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.922 0 0);
-  --input: oklch(0.922 0 0);
-  --ring: oklch(0.708 0 0);
-  --chart-1: oklch(0.646 0.222 41.116);
-  --chart-2: oklch(0.6 0.118 184.704);
-  --chart-3: oklch(0.398 0.07 227.392);
-  --chart-4: oklch(0.828 0.189 84.429);
-  --chart-5: oklch(0.769 0.188 70.08);
-  --sidebar: oklch(0.985 0 0);
-  --sidebar-foreground: oklch(0.145 0 0);
-  --sidebar-primary: oklch(0.205 0 0);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.97 0 0);
-  --sidebar-accent-foreground: oklch(0.205 0 0);
-  --sidebar-border: oklch(0.922 0 0);
-  --sidebar-ring: oklch(0.708 0 0);
+  /* Prototype radii: lg = .5rem (buttons/inputs), xl = .75rem (cards). */
+  --radius: 0.5rem;
+  --background: #faf8f7;
+  --foreground: #22252b;
+  --card: #ffffff;
+  --card-foreground: #22252b;
+  --popover: #ffffff;
+  --popover-foreground: #22252b;
+  /* Primary action = prototype's wine button (bg-brand-800). */
+  --primary: #6b1d2c;
+  --primary-foreground: #ffffff;
+  --secondary: #fbf4f5;
+  --secondary-foreground: #4f1520;
+  --muted: #fbf4f5;
+  --muted-foreground: #6e727b;
+  --accent: #fbf4f5;
+  --accent-foreground: #4f1520;
+  --destructive: #dc2626;
+  /* Inputs and hairlines use the prototype's brand-100 blush border. */
+  --border: #f5e3e6;
+  --input: #f5e3e6;
+  /* Global focus ring = prototype gold-400. */
+  --ring: #cfa04a;
+  --chart-1: #a33d50;
+  --chart-2: #b8863a;
+  --chart-3: #4b4f58;
+  --chart-4: #bf6474;
+  --chart-5: #9a6b2f;
+  --sidebar: #ffffff;
+  --sidebar-foreground: #22252b;
+  --sidebar-primary: #6b1d2c;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #fbf4f5;
+  --sidebar-accent-foreground: #4f1520;
+  --sidebar-border: #f5e3e6;
+  --sidebar-ring: #cfa04a;
 }
 
 .dark {
-  --background: oklch(0.145 0 0);
-  --foreground: oklch(0.985 0 0);
-  --card: oklch(0.205 0 0);
-  --card-foreground: oklch(0.985 0 0);
-  --popover: oklch(0.205 0 0);
-  --popover-foreground: oklch(0.985 0 0);
-  --primary: oklch(0.922 0 0);
-  --primary-foreground: oklch(0.205 0 0);
-  --secondary: oklch(0.269 0 0);
-  --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.269 0 0);
-  --muted-foreground: oklch(0.708 0 0);
-  --accent: oklch(0.269 0 0);
-  --accent-foreground: oklch(0.985 0 0);
-  --destructive: oklch(0.704 0.191 22.216);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.556 0 0);
-  --chart-1: oklch(0.488 0.243 264.376);
-  --chart-2: oklch(0.696 0.17 162.48);
-  --chart-3: oklch(0.769 0.188 70.08);
-  --chart-4: oklch(0.627 0.265 303.9);
-  --chart-5: oklch(0.645 0.246 16.439);
-  --sidebar: oklch(0.205 0 0);
-  --sidebar-foreground: oklch(0.985 0 0);
-  --sidebar-primary: oklch(0.488 0.243 264.376);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.269 0 0);
-  --sidebar-accent-foreground: oklch(0.985 0 0);
-  --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.556 0 0);
+  --background: #16181d;
+  --foreground: #faf8f7;
+  --card: #22252b;
+  --card-foreground: #faf8f7;
+  --popover: #22252b;
+  --popover-foreground: #faf8f7;
+  --primary: #d899a3;
+  --primary-foreground: #2e0c13;
+  --secondary: #2e0c13;
+  --secondary-foreground: #f5e3e6;
+  --muted: #4b4f58;
+  --muted-foreground: #d899a3;
+  --accent: #4f1520;
+  --accent-foreground: #f5e3e6;
+  --destructive: #ef4444;
+  --border: #4f1520;
+  --input: #4f1520;
+  --ring: #cfa04a;
+  --sidebar: #2e0c13;
+  --sidebar-foreground: #f5e3e6;
+  --sidebar-primary: #d899a3;
+  --sidebar-primary-foreground: #2e0c13;
+  --sidebar-accent: #4f1520;
+  --sidebar-accent-foreground: #f5e3e6;
+  --sidebar-border: #4f1520;
+  --sidebar-ring: #cfa04a;
 }
 
-@layer base {
-  * {
-    @apply border-border outline-ring/50;
-  }
-  body {
-    @apply bg-background text-foreground;
-  }
-}
-
-/* ------------------------------------------------------------------
-   ELVICTORIA design tokens — extracted from the reviewed prototype.
-   brand = burgundy family, gold = warm accents, ink = text greys.
-------------------------------------------------------------------- */
+/* ------------------------------------------------------------------ */
+/* ELVICTORIA design tokens — extracted verbatim from the reviewed      */
+/* prototype (elvictoria_with_photos.html compiled stylesheet).         */
+/* brand = burgundy family, gold = warm accents, ink = text greys.      */
+/* ------------------------------------------------------------------ */
 @theme {
   --color-brand-50: #fbf4f5;
   --color-brand-100: #f5e3e6;
@@ -136,6 +129,7 @@
   --color-brand-700: #7a2333;
   --color-brand-800: #6b1d2c;
   --color-brand-900: #4f1520;
+  --color-brand-950: #2e0c13;
 
   --color-gold-50: #fbf7ee;
   --color-gold-100: #f6ecd4;
@@ -144,21 +138,149 @@
   --color-gold-400: #cfa04a;
   --color-gold-500: #b8863a;
   --color-gold-600: #9a6b2f;
-  --color-gold-700: #7d5425;
+  --color-gold-700: #7b5228;
 
+  --color-ink: #22252b;
   --color-ink-strong: #16181d;
   --color-ink-soft: #4b4f58;
   --color-ink-muted: #6e727b;
   --color-paper: #faf8f7;
 
+  /* Typography: DM Serif Display for display headings, DM Sans body. */
+  --font-sans: var(--font-dm-sans), DM Sans, system-ui, sans-serif;
   --font-serif: var(--font-dm-serif), Georgia, serif;
-  --font-sans: var(--font-dm-sans), system-ui, sans-serif;
+  --font-display: var(--font-dm-serif), "DM Serif Display", Georgia, serif;
+
+  /* Prototype type scale (differs from Tailwind defaults — e.g. base is
+     17px and sm is 15px), including line-height pairs. */
+  --text-2xs: 0.75rem;
+  --text-2xs--line-height: 1.1rem;
+  --text-xs: 0.8125rem;
+  --text-xs--line-height: 1.25rem;
+  --text-sm: 0.9375rem;
+  --text-sm--line-height: 1.45rem;
+  --text-base: 1.0625rem;
+  --text-base--line-height: 1.7rem;
+  --text-lg: 1.1875rem;
+  --text-lg--line-height: 1.8rem;
+  --text-xl: 1.3125rem;
+  --text-xl--line-height: 1.9rem;
+  --text-2xl: 1.5rem;
+  --text-2xl--line-height: 2rem;
+  --text-3xl: 1.875rem;
+  --text-3xl--line-height: 2.35rem;
+  --text-4xl: 2.375rem;
+  --text-4xl--line-height: 2.8rem;
+  --text-5xl: 3rem;
+  --text-5xl--line-height: 1.1;
+  --text-6xl: 3.75rem;
+  --text-6xl--line-height: 1.08;
+
+  /* Prototype card/elevation shadows (wine-tinted, very subtle). */
+  --shadow-card: 0 1px 2px rgba(46, 12, 19, 0.04), 0 2px 8px rgba(46, 12, 19, 0.05);
+  --shadow-lift: 0 8px 30px rgba(46, 12, 19, 0.1);
 }
 
-/* Body baseline matches the prototype: warm paper background, ink text. */
-body {
-  background-color: var(--color-paper);
-  color: #22252b;
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  /* Headings in the prototype carry the strong ink colour. */
+  h1,
+  h2,
+  h3 {
+    color: #16181d;
+  }
+}
+
+@layer components {
+  /* Page container: max 80rem with the prototype's responsive gutters. */
+  .container-page {
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
+    max-width: 80rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+  @media (min-width: 640px) {
+    .container-page {
+      padding-left: 1.5rem;
+      padding-right: 1.5rem;
+    }
+  }
+  @media (min-width: 1024px) {
+    .container-page {
+      padding-left: 2rem;
+      padding-right: 2rem;
+    }
+  }
+
+  /* Small uppercase gold kicker above display headings. */
+  .eyebrow {
+    font-size: 0.8125rem;
+    line-height: 1.25rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: #9a6b2f;
+  }
+
+  /* Form label. */
+  .label {
+    margin-bottom: 0.375rem;
+    display: block;
+    font-size: 0.9375rem;
+    line-height: 1.45rem;
+    font-weight: 500;
+    color: #22252b;
+  }
+
+  /* Prototype form control: brand-100 border, brand-400 focus ring. */
+  .input {
+    display: block;
+    width: 100%;
+    border-radius: 0.5rem;
+    border-width: 1px;
+    border-color: #f5e3e6;
+    background-color: #ffffff;
+    padding: 0.625rem 0.875rem;
+    font-size: 1.0625rem;
+    line-height: 1.7rem;
+    color: #22252b;
+    transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 0.15s;
+  }
+  .input::placeholder {
+    color: rgba(110, 114, 123, 0.7);
+  }
+  .input:focus {
+    border-color: #bf6474;
+    outline: 2px solid transparent;
+    outline-offset: 2px;
+    box-shadow: 0 0 0 2px #f5e3e6;
+  }
+  .input:disabled {
+    background-color: #fbf4f5;
+    color: #6e727b;
+  }
+  .input-error {
+    border-color: #f87171;
+  }
+  .input-error:focus {
+    border-color: #ef4444;
+    box-shadow: 0 0 0 2px #fee2e2;
+  }
+
+  .scrollbar-thin {
+    scrollbar-width: thin;
+  }
 }
 
 /* Subtle scrollbars inside dashboard panels (long lists). */
@@ -172,4 +294,30 @@ body {
 }
 .scroll-slim::-webkit-scrollbar-track {
   background: transparent;
+}
+
+/* Prototype entrance animations. */
+@keyframes ev-fade-in {
+  0% {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+.animate-fade {
+  animation: ev-fade-in 0.15s ease-out;
+}
+@keyframes ev-toast-in {
+  0% {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.animate-toast {
+  animation: ev-toast-in 0.18s ease-out;
 }

@@ -9,17 +9,26 @@
  */
 import Link from "next/link";
 import { forwardRef, type InputHTMLAttributes, type SelectHTMLAttributes, type TextareaHTMLAttributes, type ButtonHTMLAttributes, type ReactNode } from "react";
-import { statusTone } from "@/lib/format";
+import { statusTone, statusDotTone } from "@/lib/format";
 
 // ---------------------------------------------------------------- logo
 
 export function Logo({ href = "/", light = false }: { href?: string; light?: boolean }) {
+  // Wordmark and mark are lifted 1:1 from the prototype header SVG.
   return (
     <Link href={href} className="inline-flex items-center gap-2.5" aria-label="ELVICTORIA home">
-      <span className="grid h-9 w-9 place-items-center rounded-lg bg-brand-700 shadow-sm">
-        <span className="font-serif text-lg leading-none text-gold-300">E</span>
-      </span>
-      <span className={`font-serif text-xl tracking-wide ${light ? "text-white" : "text-ink-strong"}`}>
+      <svg viewBox="0 0 40 40" className="h-9 w-9 shrink-0" aria-hidden>
+        <rect width="40" height="40" rx="9" fill={light ? "#ffffff" : "#6b1d2c"} />
+        <path d="M11 29 L11 13 L20 8 L29 13 L29 29" fill="none" stroke="#cfa04a" strokeWidth="2.2" strokeLinejoin="round" />
+        <path
+          d="M15.5 29 V18 h9 M15.5 23.5 h7 M15.5 29 h9"
+          fill="none"
+          stroke={light ? "#6b1d2c" : "#ffffff"}
+          strokeWidth="2.2"
+          strokeLinecap="round"
+        />
+      </svg>
+      <span className={`font-display text-2xl leading-none tracking-wide ${light ? "text-white" : "text-ink-strong"}`}>
         EL<span className="text-gold-500">V</span>ICTORIA
       </span>
     </Link>
@@ -28,9 +37,11 @@ export function Logo({ href = "/", light = false }: { href?: string; light?: boo
 
 // -------------------------------------------------------------- inputs
 
+// Prototype .input recipe: brand-100 border, 17px text, brand-400 focus.
 const inputClasses =
-  "w-full rounded-lg border border-zinc-200 bg-white px-3.5 py-2.5 text-sm text-ink-strong placeholder:text-ink-muted/70 " +
-  "focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/20 disabled:cursor-not-allowed disabled:bg-zinc-50";
+  "w-full rounded-lg border border-brand-100 bg-white px-3.5 py-2.5 text-base text-ink placeholder:text-ink-muted/70 " +
+  "transition-colors focus:border-brand-400 focus:outline-none focus:ring-2 focus:ring-brand-100 " +
+  "disabled:cursor-not-allowed disabled:bg-brand-50 disabled:text-ink-muted";
 
 export const Input = forwardRef<HTMLInputElement, InputHTMLAttributes<HTMLInputElement>>(
   function Input({ className, ...props }, ref) {
@@ -49,11 +60,11 @@ export const Select = forwardRef<HTMLSelectElement, SelectHTMLAttributes<HTMLSel
     return (
       <select
         ref={ref}
-        className={`${inputClasses} appearance-none bg-[right_0.6rem_center] bg-no-repeat pr-9 ${className ?? ""}`}
+        // Chevron and placement match the prototype's custom selects.
+        className={`${inputClasses} appearance-none bg-[length:16px] bg-[right_0.75rem_center] bg-no-repeat pr-9 ${className ?? ""}`}
         style={{
           backgroundImage:
-            "url(\"data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' fill='%236e727b' viewBox='0 0 24 24'><path d='M7 10l5 5 5-5z'/></svg>\")",
-          backgroundSize: "1.25rem",
+            "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%236b7385' stroke-width='2'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E\")",
         }}
         {...props}
       >
@@ -83,13 +94,13 @@ export function Field({
 }) {
   return (
     <div className={className}>
-      <label htmlFor={htmlFor} className="mb-1.5 block text-sm font-medium text-ink-strong">
+      <label htmlFor={htmlFor} className="label">
         {label}
-        {required && <span className="ml-0.5 text-brand-600">*</span>}
+        {required && <span className="ml-0.5 text-red-600" aria-hidden>*</span>}
       </label>
       {children}
       {hint && !error && <p className="mt-1 text-xs text-ink-muted">{hint}</p>}
-      {error && <p className="mt-1 text-xs font-medium text-rose-600">{error}</p>}
+      {error && <p className="mt-1 text-xs font-medium text-red-600">{error}</p>}
     </div>
   );
 }
@@ -99,18 +110,25 @@ export function Field({
 type ButtonVariant = "primary" | "outline" | "ghost" | "danger" | "gold";
 type ButtonSize = "sm" | "md" | "lg";
 
+// Base string lifted from the prototype's rendered buttons; variants and
+// sizes mirror the exact class combinations found in its DOM.
+const buttonBase =
+  "inline-flex select-none items-center justify-center whitespace-nowrap rounded-lg font-medium transition " +
+  "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold-400/60 " +
+  "disabled:cursor-not-allowed disabled:opacity-50";
+
 const buttonVariantClasses: Record<ButtonVariant, string> = {
-  primary: "bg-brand-700 text-white hover:bg-brand-800 disabled:bg-brand-300",
-  outline: "border border-brand-700 text-brand-700 hover:bg-brand-50 disabled:border-brand-200 disabled:text-brand-300",
+  primary: "bg-brand-800 text-white hover:bg-brand-700 shadow-sm",
+  outline: "border border-brand-200 bg-white text-brand-800 hover:bg-brand-50 shadow-sm",
   ghost: "text-brand-700 hover:bg-brand-50",
-  danger: "bg-rose-600 text-white hover:bg-rose-700",
-  gold: "bg-gold-500 text-white hover:bg-gold-600",
+  danger: "bg-red-600 text-white hover:bg-red-700 shadow-sm",
+  gold: "bg-gold-400 text-brand-950 hover:bg-gold-300 shadow-sm",
 };
 
 const buttonSizeClasses: Record<ButtonSize, string> = {
-  sm: "px-3 py-1.5 text-xs",
-  md: "px-4 py-2.5 text-sm",
-  lg: "px-5 py-3 text-sm",
+  sm: "h-9 px-3 text-sm gap-1.5",
+  md: "h-10 px-4 text-sm gap-2",
+  lg: "h-12 px-6 text-base gap-2",
 };
 
 export function Button({
@@ -127,7 +145,7 @@ export function Button({
 }) {
   return (
     <button
-      className={`inline-flex items-center justify-center gap-2 rounded-lg font-medium transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-500/40 disabled:cursor-not-allowed ${buttonVariantClasses[variant]} ${buttonSizeClasses[size]} ${className ?? ""}`}
+      className={`${buttonBase} ${buttonVariantClasses[variant]} ${buttonSizeClasses[size]} ${className ?? ""}`}
       disabled={props.disabled || loading}
       {...props}
     >
@@ -142,23 +160,34 @@ export function Button({
 // ---------------------------------------------------------- containers
 
 export function Card({ className, children }: { className?: string; children: ReactNode }) {
+  // Prototype card surface: blush border + wine-tinted card shadow.
   return (
-    <div className={`rounded-xl border border-zinc-200/80 bg-white shadow-[0_1px_2px_rgba(22,24,29,0.04)] ${className ?? ""}`}>
+    <div className={`rounded-xl border border-brand-100/80 bg-white shadow-card ${className ?? ""}`}>
       {children}
     </div>
   );
 }
 
 export function Badge({ tone, children }: { tone?: string; children: ReactNode }) {
+  // Prototype status chip: pill with an inset ring; tone supplies the
+  // bg/text/ring trio from STATUS_TONES.
   return (
-    <span className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-semibold ${tone ?? "bg-brand-50 text-brand-700"}`}>
+    <span
+      className={`inline-flex items-center gap-1.5 whitespace-nowrap rounded-full px-2.5 py-1 text-xs font-medium ring-1 ring-inset ${tone ?? "bg-brand-50 text-brand-800 ring-brand-200"}`}
+    >
       {children}
     </span>
   );
 }
 
 export function StatusBadge({ status, label }: { status: string; label?: string }) {
-  return <Badge tone={statusTone(status)}>{label ?? status.replace(/_/g, " ")}</Badge>;
+  const tone = statusTone(status);
+  return (
+    <Badge tone={tone}>
+      <span className={`h-1.5 w-1.5 rounded-full ${statusDotTone(status)}`} aria-hidden />
+      {label ?? status.replace(/_/g, " ")}
+    </Badge>
+  );
 }
 
 export function Spinner({ className }: { className?: string }) {
@@ -190,7 +219,7 @@ export function EmptyState({
   action?: ReactNode;
 }) {
   return (
-    <div className="rounded-xl border border-dashed border-zinc-300 bg-white/60 px-6 py-12 text-center">
+    <div className="rounded-xl border border-dashed border-brand-200 bg-white/60 px-6 py-12 text-center">
       <p className="font-medium text-ink-strong">{title}</p>
       {description && <p className="mx-auto mt-1 max-w-md text-sm text-ink-muted">{description}</p>}
       {action && <div className="mt-4 flex justify-center">{action}</div>}
@@ -201,7 +230,7 @@ export function EmptyState({
 export function Alert({ tone = "info", children }: { tone?: "info" | "error" | "success"; children: ReactNode }) {
   const tones = {
     info: "border-sky-200 bg-sky-50 text-sky-800",
-    error: "border-rose-200 bg-rose-50 text-rose-800",
+    error: "border-red-200 bg-red-50 text-red-800",
     success: "border-emerald-200 bg-emerald-50 text-emerald-800",
   };
   return (
@@ -211,30 +240,32 @@ export function Alert({ tone = "info", children }: { tone?: "info" | "error" | "
   );
 }
 
-/** Stat card used on every dashboard. */
+/** Stat card used on every dashboard — prototype tile with icon chip. */
 export function StatCard({
   label,
   value,
   hint,
   icon,
+  iconTone = "brand",
   href,
 }: {
   label: string;
   value: ReactNode;
   hint?: string;
   icon?: ReactNode;
+  /** "brand" = blush tile, "gold" = warm attention tile. */
+  iconTone?: "brand" | "gold";
   href?: string;
 }) {
+  const tileTones = iconTone === "gold" ? "bg-gold-400/15 text-gold-600" : "bg-brand-50 text-brand-700";
   const body = (
-    <div className="flex h-full items-start justify-between rounded-xl border border-zinc-200/80 bg-white p-5 shadow-[0_1px_2px_rgba(22,24,29,0.04)] transition-shadow hover:shadow-md">
-      <div>
+    <div className="flex h-full items-start justify-between gap-3 rounded-xl border border-brand-100/80 bg-white p-4 shadow-card transition hover:border-brand-200 hover:shadow-lift">
+      <div className="min-w-0">
         <p className="text-sm text-ink-muted">{label}</p>
-        <p className="mt-1.5 text-2xl font-bold text-ink-strong">{value}</p>
+        <p className="mt-1.5 text-2xl font-semibold tracking-tight text-ink-strong">{value}</p>
         {hint && <p className="mt-1 text-xs text-ink-muted">{hint}</p>}
       </div>
-      {icon && (
-        <span className="grid h-9 w-9 shrink-0 place-items-center rounded-lg bg-brand-50 text-brand-700">{icon}</span>
-      )}
+      {icon && <span className={`rounded-lg p-2 ${tileTones}`}>{icon}</span>}
     </div>
   );
   return href ? (
@@ -259,7 +290,8 @@ export function SectionHeader({
   return (
     <div className="mb-4 flex items-end justify-between gap-4">
       <div>
-        <h2 className="text-lg font-semibold text-ink-strong">{title}</h2>
+        {/* Prototype card-section headings: text-base semibold ink. */}
+        <h2 className="text-base font-semibold text-ink-strong">{title}</h2>
         {description && <p className="mt-0.5 text-sm text-ink-muted">{description}</p>}
       </div>
       {action}
@@ -287,6 +319,67 @@ export function TrustPanel({ compact = false }: { compact?: boolean }) {
           </li>
         ))}
       </ul>
+    </div>
+  );
+}
+
+// ----------------------------------------------------------- auth shell
+
+/** Split-screen frame for the auth pages, lifted from the prototype:
+ *  form column with logo, mobile trust note, and the full-bleed dark
+ *  photo panel with the tagline and trust bullets. */
+export function AuthShell({
+  heading,
+  intro,
+  children,
+}: {
+  heading: string;
+  intro?: ReactNode;
+  children: ReactNode;
+}) {
+  return (
+    <div className="grid min-h-screen lg:grid-cols-2">
+      <div className="flex flex-col px-5 py-8 sm:px-10">
+        <Logo />
+        <div className="mx-auto flex w-full max-w-md flex-1 flex-col justify-center py-10">
+          <h1 className="font-display text-3xl">{heading}</h1>
+          {intro && <p className="mt-2 text-ink-soft">{intro}</p>}
+          <p className="mt-4 flex items-center gap-2 rounded-lg bg-brand-50 px-3 py-2 text-sm font-medium text-brand-900 lg:hidden">
+            <ShieldIcon className="h-4 w-4 shrink-0 text-brand-700" />
+            Lawyers handle everything — not strangers.
+          </p>
+          <div className="mt-8">{children}</div>
+        </div>
+      </div>
+      <div className="relative hidden overflow-hidden bg-brand-950 lg:block">
+        <img
+          src="https://images.unsplash.com/photo-1643297551340-19d8ad4f20ad?auto=format&fit=crop&w=1400&q=82"
+          alt="Contemporary home"
+          className="object-cover absolute inset-0 h-full w-full opacity-80"
+          loading="eager"
+          decoding="async"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-brand-950 via-brand-950/30 to-transparent" />
+        <div className="absolute bottom-0 p-12 text-white">
+          <ScaleIcon className="h-6 w-6 text-gold-400" />
+          <p className="mt-4 max-w-md font-display text-3xl text-white">
+            Lawyers handle everything — not strangers.
+          </p>
+          <ul className="mt-4 max-w-md space-y-2 text-white/85">
+            {[
+              "Lawyers handle every enquiry",
+              "Your details stay confidential",
+              "Every listing is reviewed",
+              "Safer payments",
+            ].map((item) => (
+              <li key={item} className="flex gap-2">
+                <CheckIcon className="mt-0.5 h-4 w-4 shrink-0 text-gold-400" />
+                {item}
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
     </div>
   );
 }
@@ -521,6 +614,59 @@ export function TagIcon({ className }: { className?: string }) {
     <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
       <path d="M12.586 2.586A2 2 0 0 0 11.172 2H4a2 2 0 0 0-2 2v7.172a2 2 0 0 0 .586 1.414l8.704 8.704a2.426 2.426 0 0 0 3.42 0l6.58-6.58a2.426 2.426 0 0 0 0-3.42z" />
       <circle cx="7.5" cy="7.5" r=".5" fill="currentColor" />
+    </svg>
+  );
+}
+
+export function BedIcon({ className }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+      <path d="M2 20v-8a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v8" />
+      <path d="M4 10V6a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v4" />
+      <path d="M12 4v6" />
+      <path d="M2 18h20" />
+    </svg>
+  );
+}
+
+export function BathIcon({ className }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+      <path d="M10 4 8 6" />
+      <path d="M17 19v2" />
+      <path d="M2 12h20" />
+      <path d="M7 19v2" />
+      <path d="M9 5 7.621 3.621A2.121 2.121 0 0 0 4 5v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-5" />
+    </svg>
+  );
+}
+
+export function AreaIcon({ className }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+      <path d="M15 3h6v6" />
+      <path d="m21 3-7 7" />
+      <path d="m3 21 7-7" />
+      <path d="M9 21H3v-6" />
+    </svg>
+  );
+}
+
+export function MapPinIcon({ className }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+      <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z" />
+      <circle cx="12" cy="10" r="3" />
+    </svg>
+  );
+}
+
+export function MenuIcon({ className }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+      <path d="M4 5h16" />
+      <path d="M4 12h16" />
+      <path d="M4 19h16" />
     </svg>
   );
 }

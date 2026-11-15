@@ -10,7 +10,7 @@ import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { apiFetch, ApiRequestError } from "@/lib/api";
 import { useAuth, workspaceHome, type SessionUser } from "@/lib/auth";
-import { Button, Card, Field, Input, Select, Alert, EyeIcon, EyeOffIcon } from "@/components/platform/ui-bits";
+import { AuthShell, Button, Field, Input, Select, Alert, EyeIcon, EyeOffIcon } from "@/components/platform/ui-bits";
 
 export default function RegisterPage() {
   const router = useRouter();
@@ -100,15 +100,17 @@ export default function RegisterPage() {
   }
 
   return (
-    <main className="mx-auto w-full max-w-2xl px-4 py-10 sm:px-6">
-      <Card className="p-6 sm:p-8">
-        <h1 className="font-serif text-3xl text-ink-strong">Create an account</h1>
-        <p className="mt-1.5 text-sm text-ink-muted">
+    <AuthShell
+      heading="Create an account"
+      intro={
+        <>
           Already registered?{" "}
-          <Link href="/login" className="font-semibold text-brand-700 hover:text-brand-800">
+          <Link href="/login" className="font-semibold text-brand-700 hover:underline">
             Sign in
           </Link>
-        </p>
+        </>
+      }
+    >
 
         {/* Account type selector */}
         <div className="mt-5 grid grid-cols-2 gap-2 rounded-lg bg-brand-50 p-1" role="group" aria-label="Account type">
@@ -119,7 +121,7 @@ export default function RegisterPage() {
               onClick={() => setAccountType(option)}
               aria-pressed={accountType === option}
               className={`rounded-md px-4 py-2 text-sm font-semibold transition-colors ${
-                accountType === option ? "bg-brand-700 text-white" : "text-brand-700 hover:bg-brand-100"
+                accountType === option ? "bg-brand-800 text-white shadow" : "text-ink-soft"
               }`}
             >
               {option === "client" ? "Buy or rent" : "List a property"}
@@ -213,7 +215,7 @@ export default function RegisterPage() {
               type="checkbox"
               checked={acceptedTerms}
               onChange={(e) => setAcceptedTerms(e.target.checked)}
-              className="mt-0.5 h-4 w-4 rounded border-zinc-300 text-brand-700 focus:ring-brand-500/40"
+              className="mt-0.5 h-4 w-4 rounded border-brand-200 text-brand-700 focus:ring-brand-500/40"
             />
             <span>
               I accept the{" "}
@@ -227,15 +229,14 @@ export default function RegisterPage() {
               .
             </span>
           </label>
-          {errors.terms && <p className="text-xs font-medium text-rose-600">{errors.terms}</p>}
+          {errors.terms && <p className="text-xs font-medium text-red-600">{errors.terms}</p>}
 
           {errors.form && <Alert tone="error">{errors.form}</Alert>}
 
-          <Button type="submit" loading={submitting} className="w-full">
+          <Button type="submit" loading={submitting} size="lg" className="w-full">
             Create account
           </Button>
         </form>
-      </Card>
-    </main>
+    </AuthShell>
   );
 }

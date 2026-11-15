@@ -40,7 +40,7 @@ export default function ClientEnquiriesPage() {
 
   return (
     <div className="mx-auto max-w-6xl">
-      <h1 className="font-serif text-3xl text-ink-strong">My enquiries</h1>
+      <h1 className="text-2xl font-semibold tracking-tight sm:text-3xl">My enquiries</h1>
       <p className="mt-1.5 text-ink-muted">
         Every enquiry you submit is handled by a lawyer from the ELVICTORIA legal team.
       </p>
@@ -54,7 +54,7 @@ export default function ClientEnquiriesPage() {
               aria-selected={tab === option}
               onClick={() => setTab(option)}
               className={`rounded-md px-4 py-2 text-sm font-semibold capitalize transition-colors ${
-                tab === option ? "bg-brand-700 text-white" : "text-brand-700 hover:bg-brand-100"
+                tab === option ? "bg-brand-800 text-white" : "text-brand-700 hover:bg-brand-100"
               }`}
             >
               {option} {(enquiries ?? []).filter((e) => (option === "closed" ? ["COMPLETED", "CANCELLED"].includes(e.status) : !["COMPLETED", "CANCELLED"].includes(e.status))).length}
@@ -83,7 +83,7 @@ export default function ClientEnquiriesPage() {
           <div className="overflow-x-auto">
             <table className="w-full min-w-[720px] text-sm">
               <thead>
-                <tr className="border-b border-zinc-200 bg-zinc-50 text-left text-xs uppercase tracking-wide text-ink-muted">
+                <tr className="border-b border-brand-100 bg-brand-50 text-left text-xs uppercase tracking-wide text-ink-muted">
                   <th className="px-4 py-3 font-semibold">Property</th>
                   <th className="px-4 py-3 font-semibold">Reference</th>
                   <th className="px-4 py-3 font-semibold">Submitted</th>
@@ -91,7 +91,7 @@ export default function ClientEnquiriesPage() {
                   <th className="px-4 py-3 font-semibold"></th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-zinc-100">
+              <tbody className="divide-y divide-brand-50">
                 {rows.map((enquiry) => (
                   <tr
                     key={enquiry.id}

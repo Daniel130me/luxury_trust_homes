@@ -25,26 +25,26 @@ export default function AboutPage() {
         <section>
           <h2 className="text-lg font-semibold text-ink-strong">2. How a transaction works</h2>
           <ol className="mt-2 space-y-3 leading-relaxed text-ink-soft">
-            <li className="rounded-lg border border-zinc-200 bg-white p-4">
+            <li className="rounded-lg border border-brand-100 bg-white p-4">
               <strong className="text-ink-strong">1. Browse and enquire.</strong> Every listing has been
               reviewed by our legal team. Submit an enquiry with your timing, budget and questions.
             </li>
-            <li className="rounded-lg border border-zinc-200 bg-white p-4">
+            <li className="rounded-lg border border-brand-100 bg-white p-4">
               <strong className="text-ink-strong">2. A lawyer takes over.</strong> Your enquiry is assigned
               to a qualified lawyer who reviews it, opens a transaction case and becomes your single point
               of contact.
             </li>
-            <li className="rounded-lg border border-zinc-200 bg-white p-4">
+            <li className="rounded-lg border border-brand-100 bg-white p-4">
               <strong className="text-ink-strong">3. Inspections and negotiation.</strong> Your lawyer
               coordinates with the property provider, arranges inspections and negotiates terms on your
               behalf.
             </li>
-            <li className="rounded-lg border border-zinc-200 bg-white p-4">
+            <li className="rounded-lg border border-brand-100 bg-white p-4">
               <strong className="text-ink-strong">4. Secure payment.</strong> Payment requests are raised
               inside your account against the case and processed through Flutterwave. ELVICTORIA will
               never ask you to pay into a personal account.
             </li>
-            <li className="rounded-lg border border-zinc-200 bg-white p-4">
+            <li className="rounded-lg border border-brand-100 bg-white p-4">
               <strong className="text-ink-strong">5. Completion.</strong> Your lawyer confirms the
               transaction, documents the outcome and closes the case.
             </li>

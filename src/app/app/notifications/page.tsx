@@ -79,7 +79,7 @@ export default function NotificationsPage() {
       ) : notifications.length === 0 ? (
         <EmptyState title="No notifications yet" description="Updates about your enquiries, cases and payments will appear here." />
       ) : (
-        <Card className="divide-y divide-zinc-100">
+        <Card className="divide-y divide-brand-50">
           {notifications.map((notification) => (
             <button
               key={notification.id}
@@ -89,7 +89,7 @@ export default function NotificationsPage() {
               }`}
             >
               <span
-                className={`mt-1.5 h-2 w-2 shrink-0 rounded-full ${notification.readAt ? "bg-zinc-200" : "bg-brand-600"}`}
+                className={`mt-1.5 h-2 w-2 shrink-0 rounded-full ${notification.readAt ? "bg-brand-100" : "bg-brand-600"}`}
                 aria-hidden
               />
               <span className="min-w-0 flex-1">

@@ -83,7 +83,7 @@ export default function StaffEnquiriesPage() {
 
   return (
     <div className="mx-auto max-w-7xl">
-      <h1 className="font-serif text-3xl text-ink-strong">Enquiries</h1>
+      <h1 className="text-2xl font-semibold tracking-tight sm:text-3xl">Enquiries</h1>
       <p className="mt-1.5 text-ink-muted">
         Every enquiry submitted by buyers and renters, managed by the legal team.
       </p>
@@ -96,7 +96,7 @@ export default function StaffEnquiriesPage() {
             aria-selected={view === tab.value}
             onClick={() => setView(tab.value)}
             className={`rounded-full px-4 py-1.5 text-sm font-semibold transition-colors ${
-              view === tab.value ? "bg-brand-700 text-white" : "bg-white text-ink-soft ring-1 ring-zinc-200 hover:bg-brand-50"
+              view === tab.value ? "bg-brand-800 text-white" : "bg-white text-ink-soft ring-1 ring-brand-200 hover:bg-brand-50"
             }`}
           >
             {tab.label}
@@ -120,7 +120,7 @@ export default function StaffEnquiriesPage() {
           value={status}
           onChange={(e) => setStatus(e.target.value)}
           aria-label="Status filter"
-          className="w-52 rounded-lg border border-zinc-200 bg-white px-3.5 py-2.5 text-sm text-ink-strong focus:border-brand-500 focus:outline-none"
+          className="w-52 rounded-lg border border-brand-100 bg-white px-3.5 py-2.5 text-sm text-ink-strong focus:border-brand-500 focus:outline-none"
         >
           <option value="">All statuses</option>
           {Object.entries(CASE_STATUS_LABELS).map(([value, label]) => (
@@ -140,7 +140,7 @@ export default function StaffEnquiriesPage() {
           <div className="overflow-x-auto">
             <table className="w-full min-w-[900px] text-sm">
               <thead>
-                <tr className="border-b border-zinc-200 bg-zinc-50 text-left text-xs uppercase tracking-wide text-ink-muted">
+                <tr className="border-b border-brand-100 bg-brand-50 text-left text-xs uppercase tracking-wide text-ink-muted">
                   <th className="px-4 py-3 font-semibold">Enquiry</th>
                   <th className="px-4 py-3 font-semibold">Property</th>
                   <th className="px-4 py-3 font-semibold">Buyer / Renter</th>
@@ -149,7 +149,7 @@ export default function StaffEnquiriesPage() {
                   <th className="px-4 py-3 font-semibold">Lawyer</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-zinc-100">
+              <tbody className="divide-y divide-brand-50">
                 {enquiries.map((enquiry) => (
                   <tr
                     key={enquiry.id}

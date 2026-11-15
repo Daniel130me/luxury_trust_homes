@@ -77,7 +77,7 @@ export default function StaffUsersPage() {
 
   return (
     <div className="mx-auto max-w-7xl">
-      <h1 className="font-serif text-3xl text-ink-strong">Users</h1>
+      <h1 className="text-2xl font-semibold tracking-tight sm:text-3xl">Users</h1>
       <p className="mt-1.5 text-ink-muted">
         Buyers, renters, providers and ELVICTORIA staff.
       </p>
@@ -113,7 +113,7 @@ export default function StaffUsersPage() {
           <div className="overflow-x-auto">
             <table className="w-full min-w-[860px] text-sm">
               <thead>
-                <tr className="border-b border-zinc-200 bg-zinc-50 text-left text-xs uppercase tracking-wide text-ink-muted">
+                <tr className="border-b border-brand-100 bg-brand-50 text-left text-xs uppercase tracking-wide text-ink-muted">
                   <th className="px-4 py-3 font-semibold">User</th>
                   <th className="px-4 py-3 font-semibold">Role</th>
                   <th className="px-4 py-3 font-semibold">Phone</th>
@@ -123,7 +123,7 @@ export default function StaffUsersPage() {
                   {canManage && <th className="px-4 py-3 font-semibold"></th>}
                 </tr>
               </thead>
-              <tbody className="divide-y divide-zinc-100">
+              <tbody className="divide-y divide-brand-50">
                 {users.map((row) => (
                   <tr
                     key={row.id}
@@ -142,7 +142,7 @@ export default function StaffUsersPage() {
                     <td className="px-4 py-3 text-ink-soft">{row._count?.properties ?? 0}</td>
                     <td className="px-4 py-3 text-ink-muted">{formatDate(row.registeredAt)}</td>
                     <td className="px-4 py-3">
-                      <Badge tone={row.status === "ACTIVE" ? "bg-emerald-50 text-emerald-700" : "bg-rose-50 text-rose-700"}>
+                      <Badge tone={row.status === "ACTIVE" ? "bg-emerald-50 text-emerald-700" : "bg-red-50 text-red-700"}>
                         {row.status === "ACTIVE" ? "Active" : "Deactivated"}
                       </Badge>
                     </td>
@@ -168,7 +168,7 @@ export default function StaffUsersPage() {
         </Card>
       )}
 
-      {error && <p className="mt-3 text-sm font-medium text-rose-600">{error}</p>}
+      {error && <p className="mt-3 text-sm font-medium text-red-600">{error}</p>}
     </div>
   );
 }

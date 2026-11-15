@@ -129,33 +129,63 @@ export const PAYMENT_STATUS_LABELS: Record<string, string> = {
 };
 
 /** Tailwind classes per status — one place to keep badges consistent. */
-/** Status chip backgrounds exported for list views. */
+/** Status chip backgrounds exported for list views.
+ *  Values are the prototype's chip trios: bg + text + inset ring. */
 export const STATUS_TONES: Record<string, string> = {
-  APPROVED: "bg-emerald-50 text-emerald-700",
-  SUCCESSFUL: "bg-emerald-50 text-emerald-700",
-  COMPLETED: "bg-emerald-50 text-emerald-700",
-  AVAILABLE: "bg-emerald-50 text-emerald-700",
-  PENDING_REVIEW: "bg-brand-50 text-brand-700",
-  UNDER_REVIEW: "bg-brand-50 text-brand-700",
-  LAWYER_ASSIGNED: "bg-brand-50 text-brand-700",
-  NEW_ENQUIRY: "bg-brand-50 text-brand-700",
-  OUTSTANDING: "bg-brand-50 text-brand-700",
-  OPEN: "bg-brand-50 text-brand-700",
-  IN_PROGRESS: "bg-sky-50 text-sky-700",
-  NEGOTIATION: "bg-sky-50 text-sky-700",
-  AWAITING_PAYMENT: "bg-sky-50 text-sky-700",
-  PAYMENT_PENDING: "bg-amber-50 text-amber-700",
-  PENDING_CONFIRMATION: "bg-amber-50 text-amber-700",
-  CHANGES_REQUESTED: "bg-rose-50 text-rose-700",
-  FAILED: "bg-rose-50 text-rose-700",
-  CANCELLED: "bg-rose-50 text-rose-700",
-  REJECTED: "bg-rose-50 text-rose-700",
-  DRAFT: "bg-zinc-100 text-zinc-600",
-  UNAVAILABLE: "bg-zinc-100 text-zinc-600",
+  APPROVED: "bg-emerald-50 text-emerald-800 ring-emerald-200",
+  SUCCESSFUL: "bg-emerald-50 text-emerald-800 ring-emerald-200",
+  COMPLETED: "bg-emerald-50 text-emerald-800 ring-emerald-200",
+  AVAILABLE: "bg-emerald-50 text-emerald-800 ring-emerald-200",
+  PENDING_REVIEW: "bg-amber-50 text-amber-800 ring-amber-200",
+  UNDER_REVIEW: "bg-brand-50 text-brand-800 ring-brand-200",
+  LAWYER_ASSIGNED: "bg-brand-50 text-brand-800 ring-brand-200",
+  NEW_ENQUIRY: "bg-brand-50 text-brand-800 ring-brand-200",
+  OUTSTANDING: "bg-amber-50 text-amber-800 ring-amber-200",
+  OPEN: "bg-brand-50 text-brand-800 ring-brand-200",
+  IN_PROGRESS: "bg-brand-50 text-brand-800 ring-brand-200",
+  NEGOTIATION: "bg-brand-50 text-brand-800 ring-brand-200",
+  AWAITING_PAYMENT: "bg-amber-50 text-amber-800 ring-amber-200",
+  PAYMENT_PENDING: "bg-amber-50 text-amber-800 ring-amber-200",
+  PENDING_CONFIRMATION: "bg-amber-50 text-amber-800 ring-amber-200",
+  CHANGES_REQUESTED: "bg-amber-50 text-amber-800 ring-amber-200",
+  FAILED: "bg-red-50 text-red-800 ring-red-200",
+  CANCELLED: "bg-red-50 text-red-800 ring-red-200",
+  REJECTED: "bg-red-50 text-red-800 ring-red-200",
+  DRAFT: "bg-slate-100 text-slate-600 ring-slate-200",
+  UNAVAILABLE: "bg-slate-100 text-slate-600 ring-slate-200",
 };
 
 export function statusTone(status: string): string {
-  return STATUS_TONES[status] ?? "bg-brand-50 text-brand-700";
+  return STATUS_TONES[status] ?? "bg-brand-50 text-brand-800 ring-brand-200";
+}
+
+/** Dot colour inside a status chip — matches the chip's hue family. */
+export const STATUS_DOT_TONES: Record<string, string> = {
+  APPROVED: "bg-emerald-500",
+  SUCCESSFUL: "bg-emerald-500",
+  COMPLETED: "bg-emerald-500",
+  AVAILABLE: "bg-emerald-500",
+  PENDING_REVIEW: "bg-amber-500",
+  UNDER_REVIEW: "bg-brand-500",
+  LAWYER_ASSIGNED: "bg-brand-500",
+  NEW_ENQUIRY: "bg-brand-500",
+  OUTSTANDING: "bg-amber-500",
+  OPEN: "bg-brand-500",
+  IN_PROGRESS: "bg-brand-500",
+  NEGOTIATION: "bg-brand-500",
+  AWAITING_PAYMENT: "bg-amber-500",
+  PAYMENT_PENDING: "bg-amber-500",
+  PENDING_CONFIRMATION: "bg-amber-500",
+  CHANGES_REQUESTED: "bg-amber-500",
+  FAILED: "bg-red-500",
+  CANCELLED: "bg-red-500",
+  REJECTED: "bg-red-500",
+  DRAFT: "bg-slate-400",
+  UNAVAILABLE: "bg-slate-400",
+};
+
+export function statusDotTone(status: string): string {
+  return STATUS_DOT_TONES[status] ?? "bg-brand-500";
 }
 
 function _statusToneOld(status: string): string {

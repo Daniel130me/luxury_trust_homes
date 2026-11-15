@@ -3,6 +3,10 @@
 /**
  * Client enquiry detail — status stepper, message thread with the legal
  * team, payment requests and progress history (prototype layout).
+ *
+ * Data comes from two role-scoped endpoints: /enquiries/:id (enquiry +
+ * property + case reference) and /cases/:id (+ /threads) for the case
+ * bundle — messages and timeline are NOT part of the enquiry payload.
  */
 import { useCallback, useEffect, useState } from "react";
 import Link from "next/link";
@@ -36,20 +40,31 @@ type EnquiryDetail = {
     area: string; lga: string; state: string;
     images?: Array<{ url: string; label: string }>;
   };
-  case?: {
-    id: string;
-    reference: string;
-    status: string;
-    lawyer?: { id: string; name: string } | null;
-    payments: PaymentLite[];
-  } | null;
-  timeline: Array<{ id: string; at: string; label: string; note?: string | null }>;
-  messages: Array<{ id: string; at: string; body: string; author: { id: string; name: string; role: string } }>;
+  case?: { id: string; reference: string } | null;
 };
+
+type ThreadMessage = {
+  id: string;
+  at: string;
+  body: string;
+  thread: string;
+  author: { id: string; name: string; role: string };
+};
+
+type TimelineEntry = { id: string; at: string; label: string; note?: string | null };
+
+type CaseBundle = {
+  case: { id: string; reference: string; status: string; lawyer?: { id: string; name: string } | null };
+  timeline: TimelineEntry[];
+  payments: PaymentLite[];
+};
+
+type CaseData = CaseBundle & { threads: string[]; messages: ThreadMessage[] };
 
 export default function ClientEnquiryDetailPage() {
   const { id } = useParams<{ id: string }>();
   const [enquiry, setEnquiry] = useState<EnquiryDetail | null>(null);
+  const [caseData, setCaseData] = useState<CaseData | null>(null);
   const [missing, setMissing] = useState(false);
   const [reply, setReply] = useState("");
   const [sending, setSending] = useState(false);
@@ -58,7 +73,18 @@ export default function ClientEnquiryDetailPage() {
   const load = useCallback(async () => {
     try {
       const data = await apiFetch<{ enquiry: EnquiryDetail }>(`/enquiries/${id}`);
-      setEnquiry(data.enquiry);
+      const enquiry = data.enquiry;
+      setEnquiry(enquiry);
+      setCaseData(null);
+      if (enquiry.case?.id) {
+        // The case bundle carries threads, messages, timeline and payments.
+        const caseId = enquiry.case.id;
+        const [bundle, threads] = await Promise.all([
+          apiFetch<CaseBundle>(`/cases/${caseId}`),
+          apiFetch<{ threads: string[]; messages: ThreadMessage[] }>(`/cases/${caseId}/threads`),
+        ]);
+        setCaseData({ ...bundle, threads: threads.threads ?? [], messages: threads.messages ?? [] });
+      }
     } catch {
       setMissing(true);
     }
@@ -69,11 +95,11 @@ export default function ClientEnquiryDetailPage() {
   }, [load]);
 
   async function send() {
-    if (!reply.trim() || !enquiry?.case) return;
+    if (!reply.trim() || !caseData) return;
     setSending(true);
     setSendError(null);
     try {
-      await apiFetch(`/cases/${enquiry.case.id}/messages`, {
+      await apiFetch(`/cases/${caseData.case.id}/messages`, {
         method: "POST",
         body: { thread: "CLIENT", body: reply },
       });
@@ -98,11 +124,13 @@ export default function ClientEnquiryDetailPage() {
   }
   if (!enquiry) return <PageLoader />;
 
-  const kase = enquiry.case;
+  const kase = caseData?.case ?? null;
   const closed = ["COMPLETED", "CANCELLED"].includes(enquiry.status);
-  const outstandingPayments = kase?.payments.filter((p) =>
+  const messages = caseData?.messages ?? [];
+  const timeline = caseData?.timeline ?? [];
+  const outstandingPayments = (caseData?.payments ?? []).filter((p) =>
     ["OUTSTANDING", "AWAITING_PAYMENT", "PENDING_CONFIRMATION", "FAILED"].includes(p.status),
-  ) ?? [];
+  );
 
   return (
     <div className="mx-auto max-w-5xl">
@@ -117,7 +145,7 @@ export default function ClientEnquiryDetailPage() {
           {kase ? `${kase.reference} · Enquiry ${enquiry.reference}` : `Enquiry ${enquiry.reference}`}
         </p>
       </div>
-      <h1 className="mt-1 font-serif text-3xl text-ink-strong">{enquiry.property.title}</h1>
+      <h1 className="mt-1 text-2xl font-semibold tracking-tight sm:text-3xl">{enquiry.property.title}</h1>
       <p className="mt-1 text-sm text-ink-muted">
         Submitted {formatDateTime(enquiry.submittedAt)} · {PURPOSE_LABELS[enquiry.purpose] ?? enquiry.purpose}
       </p>
@@ -142,7 +170,7 @@ export default function ClientEnquiryDetailPage() {
               </div>
               <Link
                 href={`/app/client/payments/${payment.id}`}
-                className="rounded-lg bg-brand-700 px-4 py-2.5 text-sm font-semibold text-white hover:bg-brand-800"
+                className="rounded-lg bg-brand-800 px-4 py-2.5 text-sm font-semibold text-white hover:bg-brand-700"
               >
                 {payment.status === "FAILED" ? "Try again" : "Make a payment"}
               </Link>
@@ -154,28 +182,29 @@ export default function ClientEnquiryDetailPage() {
       {/* ------------------------------------------------------- messages */}
       {kase && (
         <Card className="mt-6 p-5 sm:p-6">
-          <h2 className="text-lg font-semibold text-ink-strong">Messages with the ELVICTORIA legal team</h2>
+          <h2 className="text-base font-semibold text-ink-strong">Messages with the ELVICTORIA legal team</h2>
           <p className="mt-0.5 text-sm text-ink-muted">
             Ask questions or share information. Your lawyer coordinates with the property provider for you.
           </p>
 
           <div className="mt-4 max-h-96 space-y-3 overflow-y-auto scroll-slim">
-            {enquiry.messages.map((message) => {
+            {messages.map((message) => {
               const fromLawyer = message.author.role === "LAWYER" || message.author.role === "SUPPORT";
               return (
-                <div
-                  key={message.id}
-                  className={`max-w-[85%] rounded-xl px-4 py-2.5 text-sm ${
-                    fromLawyer
-                      ? "bg-white text-ink-strong border border-zinc-200"
-                      : "ml-auto bg-brand-700 text-white"
-                  }`}
-                >
-                  <p className="whitespace-pre-line">{message.body}</p>
-                  <p className={`mt-1 text-[10px] ${fromLawyer ? "text-ink-muted" : "text-white/70"}`}>
-                    {message.author.name}
-                    {fromLawyer ? " · ELVICTORIA Legal" : ""} · {formatDateTime(message.at)}
-                  </p>
+                <div key={message.id} className={`flex gap-3 ${!fromLawyer ? "flex-row-reverse" : ""}`}>
+                  <span aria-hidden className="inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-brand-700 text-2xs font-semibold text-white">
+                    {(message.author.name ?? "?").split(" ").map((n) => n[0]).slice(0, 2).join("")}
+                  </span>
+                  <div className={`max-w-[85%] rounded-xl px-4 py-2.5 text-sm ${!fromLawyer ? "bg-brand-800 text-white" : "bg-brand-50"}`}>
+                    <p className={`mb-0.5 text-xs font-semibold ${!fromLawyer ? "text-brand-100" : "text-brand-700"}`}>
+                      {message.author.name}
+                      {fromLawyer && <span className="font-normal opacity-80"> · ELVICTORIA Legal</span>}
+                    </p>
+                    <p className="whitespace-pre-line">{message.body}</p>
+                    <p className={`mt-1 text-2xs ${!fromLawyer ? "text-brand-200" : "text-ink-muted"}`}>
+                      {formatDateTime(message.at)}
+                    </p>
+                  </div>
                 </div>
               );
             })}
@@ -207,12 +236,12 @@ export default function ClientEnquiryDetailPage() {
 
       {/* ------------------------------------------------------ progress */}
       <Card className="mt-6 p-5 sm:p-6">
-        <h2 className="text-lg font-semibold text-ink-strong">Progress</h2>
+        <h2 className="text-base font-semibold text-ink-strong">Progress</h2>
         <ol className="mt-3 space-y-0">
-          {enquiry.timeline.map((entry, index) => (
+          {timeline.map((entry, index) => (
             <li key={entry.id} className="relative flex gap-4 pb-4 last:pb-0">
-              {index < enquiry.timeline.length - 1 && (
-                <span className="absolute left-[7px] top-4 h-full w-px bg-zinc-200" aria-hidden />
+              {index < timeline.length - 1 && (
+                <span className="absolute left-[7px] top-4 h-full w-px bg-brand-100" aria-hidden />
               )}
               <span className="mt-1.5 h-3.5 w-3.5 shrink-0 rounded-full border-2 border-brand-500 bg-white" aria-hidden />
               <div className="min-w-0">
