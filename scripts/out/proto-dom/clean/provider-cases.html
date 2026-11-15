@@ -1,0 +1,415 @@
+
+    <div id="root">
+<div class="min-h-screen lg:pl-64">
+<aside class="fixed inset-y-0 left-0 z-30 hidden w-64 flex-col bg-brand-900 px-4 py-5 lg:flex">
+<div class="mb-8 px-2">
+<a class="inline-flex items-center gap-2.5" aria-label="ELVICTORIA home" href="/">
+<svg viewBox="0 0 40 40" class="h-9 w-9 shrink-0" aria-hidden="true">
+<rect width="40" height="40" rx="9" fill="#ffffff">
+</rect>
+<path d="M11 29 L11 13 L20 8 L29 13 L29 29" fill="none" stroke="#cfa04a" stroke-width="2.2" stroke-linejoin="round">
+</path>
+<path d="M15.5 29 V18 h9 M15.5 23.5 h7 M15.5 29 h9" fill="none" stroke="#6b1d2c" stroke-width="2.2" stroke-linecap="round">
+</path>
+</svg>
+<span class="font-display text-2xl leading-none tracking-wide text-white">EL<span class="text-gold-500">V</span>ICTORIA</span>
+</a>
+</div>
+<nav class="flex flex-col gap-0.5" aria-label="Workspace">
+<a class="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition text-brand-200 hover:bg-white/5 hover:text-white" href="/app/provider">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-layout-dashboard h-[18px] w-[18px] shrink-0" aria-hidden="true">
+<rect width="7" height="9" x="3" y="3" rx="1">
+</rect>
+<rect width="7" height="5" x="14" y="3" rx="1">
+</rect>
+<rect width="7" height="9" x="14" y="12" rx="1">
+</rect>
+<rect width="7" height="5" x="3" y="16" rx="1">
+</rect>
+</svg>
+<span class="flex-1">Overview</span>
+</a>
+<a class="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition text-brand-200 hover:bg-white/5 hover:text-white" href="/app/provider/properties">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-building-complex lucide-building-2 h-[18px] w-[18px] shrink-0" aria-hidden="true">
+<path d="M10 12h4">
+</path>
+<path d="M10 8h4">
+</path>
+<path d="M14 21v-3a2 2 0 0 0-4 0v3">
+</path>
+<path d="M6 10H4a2 2 0 0 0-2 2v7a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-2">
+</path>
+<path d="M6 21V5a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v16">
+</path>
+</svg>
+<span class="flex-1">My Properties</span>
+<span class="rounded-full bg-gold-400 px-1.5 text-2xs font-semibold text-brand-950">1</span>
+</a>
+<a class="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition text-brand-200 hover:bg-white/5 hover:text-white" href="/app/provider/properties/new">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-plus lucide-plus-circle h-[18px] w-[18px] shrink-0" aria-hidden="true">
+<circle cx="12" cy="12" r="10">
+</circle>
+<path d="M8 12h8">
+</path>
+<path d="M12 8v8">
+</path>
+</svg>
+<span class="flex-1">Add Property</span>
+</a>
+<a class="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition bg-white/10 text-white" href="/app/provider/cases" aria-current="page">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-briefcase h-[18px] w-[18px] shrink-0" aria-hidden="true">
+<path d="M16 20V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16">
+</path>
+<rect width="20" height="14" x="2" y="6" rx="2">
+</rect>
+</svg>
+<span class="flex-1">Enquiries &amp; Cases</span>
+</a>
+<a class="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition text-brand-200 hover:bg-white/5 hover:text-white" href="/app/saved">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-heart h-[18px] w-[18px] shrink-0" aria-hidden="true">
+<path d="M2 9.5a5.5 5.5 0 0 1 9.591-3.676.56.56 0 0 0 .818 0A5.49 5.49 0 0 1 22 9.5c0 2.29-1.5 4-3 5.5l-5.492 5.313a2 2 0 0 1-3 .019L5 15c-1.5-1.5-3-3.2-3-5.5">
+</path>
+</svg>
+<span class="flex-1">Saved Properties</span>
+</a>
+<a class="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition text-brand-200 hover:bg-white/5 hover:text-white" href="/app/notifications">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-bell h-[18px] w-[18px] shrink-0" aria-hidden="true">
+<path d="M10.268 21a2 2 0 0 0 3.464 0">
+</path>
+<path d="M3.262 15.326A1 1 0 0 0 4 17h16a1 1 0 0 0 .74-1.673C19.41 13.956 18 12.499 18 8A6 6 0 0 0 6 8c0 4.499-1.411 5.956-2.738 7.326">
+</path>
+</svg>
+<span class="flex-1">Notifications</span>
+<span class="rounded-full bg-gold-400 px-1.5 text-2xs font-semibold text-brand-950">2</span>
+</a>
+<a class="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition text-brand-200 hover:bg-white/5 hover:text-white" href="/app/help">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-life-buoy h-[18px] w-[18px] shrink-0" aria-hidden="true">
+<circle cx="12" cy="12" r="10">
+</circle>
+<path d="m4.93 4.93 4.24 4.24">
+</path>
+<path d="m14.83 9.17 4.24-4.24">
+</path>
+<path d="m14.83 14.83 4.24 4.24">
+</path>
+<path d="m9.17 14.83-4.24 4.24">
+</path>
+<circle cx="12" cy="12" r="4">
+</circle>
+</svg>
+<span class="flex-1">Help Desk</span>
+</a>
+</nav>
+<div class="mt-auto rounded-lg bg-white/5 px-3 py-3 text-xs text-brand-300">All communication about a property is handled by the ELVICTORIA legal team.</div>
+</aside>
+<header class="sticky top-0 z-20 flex h-16 items-center justify-between gap-3 border-b border-brand-100/70 bg-white/90 px-4 backdrop-blur sm:px-6">
+<div class="flex items-center gap-2">
+<button class="rounded-lg p-2 lg:hidden" aria-label="Open menu">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-menu h-5 w-5" aria-hidden="true">
+<path d="M4 5h16">
+</path>
+<path d="M4 12h16">
+</path>
+<path d="M4 19h16">
+</path>
+</svg>
+</button>
+<div class="lg:hidden">
+<a class="inline-flex items-center gap-2.5" aria-label="ELVICTORIA home" href="/">
+<svg viewBox="0 0 40 40" class="h-9 w-9 shrink-0" aria-hidden="true">
+<rect width="40" height="40" rx="9" fill="#6b1d2c">
+</rect>
+<path d="M11 29 L11 13 L20 8 L29 13 L29 29" fill="none" stroke="#cfa04a" stroke-width="2.2" stroke-linejoin="round">
+</path>
+<path d="M15.5 29 V18 h9 M15.5 23.5 h7 M15.5 29 h9" fill="none" stroke="#ffffff" stroke-width="2.2" stroke-linecap="round">
+</path>
+</svg>
+<span class="font-display text-2xl leading-none tracking-wide text-ink-strong">EL<span class="text-gold-500">V</span>ICTORIA</span>
+</a>
+</div>
+</div>
+<div class="flex items-center gap-1">
+<div class="relative">
+<button class="relative rounded-lg p-2 text-ink-soft hover:bg-brand-50" aria-label="Notifications, 2 unread">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-bell h-5 w-5" aria-hidden="true">
+<path d="M10.268 21a2 2 0 0 0 3.464 0">
+</path>
+<path d="M3.262 15.326A1 1 0 0 0 4 17h16a1 1 0 0 0 .74-1.673C19.41 13.956 18 12.499 18 8A6 6 0 0 0 6 8c0 4.499-1.411 5.956-2.738 7.326">
+</path>
+</svg>
+<span class="absolute right-1 top-1 flex h-4 min-w-4 items-center justify-center rounded-full bg-red-600 px-1 text-2xs font-semibold text-white">2</span>
+</button>
+</div>
+<div class="relative">
+<button class="flex items-center gap-2 rounded-lg p-1 pr-2 hover:bg-brand-50" aria-label="Account menu">
+<span aria-hidden="true" class="inline-flex shrink-0 items-center justify-center rounded-full font-semibold text-white bg-rose-700 h-7 w-7 text-2xs">CN</span>
+<span class="hidden text-left sm:block">
+<span class="block text-sm font-medium leading-tight text-ink-strong">Chinedu Nwosu</span>
+<span class="block text-xs text-ink-muted">Property Developer</span>
+</span>
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-down h-4 w-4 text-ink-muted" aria-hidden="true">
+<path d="m6 9 6 6 6-6">
+</path>
+</svg>
+</button>
+</div>
+</div>
+</header>
+<main class="mx-auto max-w-7xl px-4 py-6 sm:px-6 sm:py-8">
+<div>
+<div class="mb-6">
+<div class="flex flex-wrap items-end justify-between gap-4">
+<div class="min-w-0">
+<h1 class="text-2xl font-semibold tracking-tight sm:text-3xl">Enquiries &amp; cases</h1>
+<p class="mt-1.5 max-w-2xl text-base text-ink-soft">Enquiries on your listings. The ELVICTORIA legal team manages each one and shares updates with you here.</p>
+</div>
+</div>
+</div>
+<div class="rounded-xl border border-brand-100/80 bg-white shadow-card">
+<div class="border-b border-brand-50 p-3">
+<div class="scrollbar-thin -mx-1 flex gap-1 overflow-x-auto px-1" role="tablist">
+<button role="tab" aria-selected="true" class="inline-flex shrink-0 items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium transition bg-brand-800 text-white">Open<span class="rounded-full px-1.5 text-xs bg-white/20">4</span>
+</button>
+<button role="tab" aria-selected="false" class="inline-flex shrink-0 items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium transition text-ink-soft hover:bg-brand-50">Closed<span class="rounded-full px-1.5 text-xs bg-brand-50 text-ink-muted">0</span>
+</button>
+</div>
+</div>
+<div>
+<div class="hidden overflow-x-auto md:block">
+<table class="w-full text-left text-sm">
+<thead>
+<tr class="border-b border-brand-100 text-xs uppercase tracking-wide text-ink-muted">
+<th class="whitespace-nowrap px-4 py-3 font-medium">Property</th>
+<th class="whitespace-nowrap px-4 py-3 font-medium">Reference</th>
+<th class="whitespace-nowrap px-4 py-3 font-medium">Status</th>
+<th class="whitespace-nowrap px-4 py-3 font-medium">Lawyer</th>
+<th class="whitespace-nowrap px-4 py-3 font-medium">Latest update</th>
+<th class="whitespace-nowrap px-4 py-3 font-medium" aria-sort="descending">
+<button class="inline-flex items-center gap-1 hover:text-brand-800">Date<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-down h-3 w-3" aria-hidden="true">
+<path d="M12 5v14">
+</path>
+<path d="m19 12-7 7-7-7">
+</path>
+</svg>
+</button>
+</th>
+</tr>
+</thead>
+<tbody>
+<tr class="border-b border-brand-50 last:border-0 cursor-pointer hover:bg-brand-50/50">
+<td class="px-4 py-3 align-middle">
+<span class="line-clamp-1">Contemporary 4-Bedroom Detached Duplex</span>
+</td>
+<td class="px-4 py-3 align-middle">
+<span class="font-medium text-ink-strong">ELV-CS-2001</span>
+</td>
+<td class="px-4 py-3 align-middle">
+<span class="inline-flex items-center gap-1.5 whitespace-nowrap rounded-full px-2.5 py-1 text-xs font-medium ring-1 ring-inset bg-brand-50 text-brand-800 ring-brand-200">
+<span class="h-1.5 w-1.5 rounded-full bg-brand-500">
+</span>In progress</span>
+</td>
+<td class="px-4 py-3 align-middle">Adaeze Okonkwo</td>
+<td class="px-4 py-3 align-middle">
+<span class="line-clamp-1 max-w-[260px] text-ink-soft">In progress. Deposit received; inspection scheduled.</span>
+</td>
+<td class="px-4 py-3 align-middle">
+<span class="whitespace-nowrap text-ink-muted">6 Nov 2026</span>
+</td>
+</tr>
+<tr class="border-b border-brand-50 last:border-0 cursor-pointer hover:bg-brand-50/50">
+<td class="px-4 py-3 align-middle">
+<span class="line-clamp-1">Contemporary 4-Bedroom Detached Duplex</span>
+</td>
+<td class="px-4 py-3 align-middle">
+<span class="font-medium text-ink-strong">ELV-EQ-4020</span>
+</td>
+<td class="px-4 py-3 align-middle">
+<span class="inline-flex items-center gap-1.5 whitespace-nowrap rounded-full px-2.5 py-1 text-xs font-medium ring-1 ring-inset bg-amber-50 text-amber-800 ring-amber-200">
+<span class="h-1.5 w-1.5 rounded-full bg-amber-500">
+</span>Under review</span>
+</td>
+<td class="px-4 py-3 align-middle">
+<span class="text-ink-muted">Being assigned</span>
+</td>
+<td class="px-4 py-3 align-middle">
+<span class="line-clamp-1 max-w-[260px] text-ink-soft">Under review.</span>
+</td>
+<td class="px-4 py-3 align-middle">
+<span class="whitespace-nowrap text-ink-muted">5 Nov 2026</span>
+</td>
+</tr>
+<tr class="border-b border-brand-50 last:border-0 cursor-pointer hover:bg-brand-50/50">
+<td class="px-4 py-3 align-middle">
+<span class="line-clamp-1">4-Bedroom Terrace Duplex</span>
+</td>
+<td class="px-4 py-3 align-middle">
+<span class="font-medium text-ink-strong">ELV-CS-2009</span>
+</td>
+<td class="px-4 py-3 align-middle">
+<span class="inline-flex items-center gap-1.5 whitespace-nowrap rounded-full px-2.5 py-1 text-xs font-medium ring-1 ring-inset bg-amber-50 text-amber-800 ring-amber-200">
+<span class="h-1.5 w-1.5 rounded-full bg-amber-500">
+</span>Payment requested</span>
+</td>
+<td class="px-4 py-3 align-middle">Adaeze Okonkwo</td>
+<td class="px-4 py-3 align-middle">
+<span class="line-clamp-1 max-w-[260px] text-ink-soft">A payment attempt was unsuccessful. You can try again.</span>
+</td>
+<td class="px-4 py-3 align-middle">
+<span class="whitespace-nowrap text-ink-muted">2 Nov 2026</span>
+</td>
+</tr>
+<tr class="border-b border-brand-50 last:border-0 cursor-pointer hover:bg-brand-50/50">
+<td class="px-4 py-3 align-middle">
+<span class="line-clamp-1">3-Bedroom Semi-Detached Duplex</span>
+</td>
+<td class="px-4 py-3 align-middle">
+<span class="font-medium text-ink-strong">ELV-CS-2016</span>
+</td>
+<td class="px-4 py-3 align-middle">
+<span class="inline-flex items-center gap-1.5 whitespace-nowrap rounded-full px-2.5 py-1 text-xs font-medium ring-1 ring-inset bg-brand-50 text-brand-800 ring-brand-200">
+<span class="h-1.5 w-1.5 rounded-full bg-brand-500">
+</span>In progress</span>
+</td>
+<td class="px-4 py-3 align-middle">Nneka Eze</td>
+<td class="px-4 py-3 align-middle">
+<span class="line-clamp-1 max-w-[260px] text-ink-soft">In progress.</span>
+</td>
+<td class="px-4 py-3 align-middle">
+<span class="whitespace-nowrap text-ink-muted">21 Oct 2026</span>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<ul class="divide-y divide-brand-50 md:hidden">
+<li>
+<div role="button" tabindex="0" class="space-y-1.5 px-4 py-3.5 active:bg-brand-50">
+<div class="font-medium text-ink-strong">ELV-CS-2001</div>
+<div class="flex items-start justify-between gap-3 text-sm">
+<span class="shrink-0 text-ink-muted">Property</span>
+<span class="min-w-0 text-right">
+<span class="line-clamp-1">Contemporary 4-Bedroom Detached Duplex</span>
+</span>
+</div>
+<div class="flex items-start justify-between gap-3 text-sm">
+<span class="shrink-0 text-ink-muted">Status</span>
+<span class="min-w-0 text-right">
+<span class="inline-flex items-center gap-1.5 whitespace-nowrap rounded-full px-2.5 py-1 text-xs font-medium ring-1 ring-inset bg-brand-50 text-brand-800 ring-brand-200">
+<span class="h-1.5 w-1.5 rounded-full bg-brand-500">
+</span>In progress</span>
+</span>
+</div>
+<div class="flex items-start justify-between gap-3 text-sm">
+<span class="shrink-0 text-ink-muted">Lawyer</span>
+<span class="min-w-0 text-right">Adaeze Okonkwo</span>
+</div>
+<div class="flex items-start justify-between gap-3 text-sm">
+<span class="shrink-0 text-ink-muted">Date</span>
+<span class="min-w-0 text-right">
+<span class="whitespace-nowrap text-ink-muted">6 Nov 2026</span>
+</span>
+</div>
+</div>
+</li>
+<li>
+<div role="button" tabindex="0" class="space-y-1.5 px-4 py-3.5 active:bg-brand-50">
+<div class="font-medium text-ink-strong">ELV-EQ-4020</div>
+<div class="flex items-start justify-between gap-3 text-sm">
+<span class="shrink-0 text-ink-muted">Property</span>
+<span class="min-w-0 text-right">
+<span class="line-clamp-1">Contemporary 4-Bedroom Detached Duplex</span>
+</span>
+</div>
+<div class="flex items-start justify-between gap-3 text-sm">
+<span class="shrink-0 text-ink-muted">Status</span>
+<span class="min-w-0 text-right">
+<span class="inline-flex items-center gap-1.5 whitespace-nowrap rounded-full px-2.5 py-1 text-xs font-medium ring-1 ring-inset bg-amber-50 text-amber-800 ring-amber-200">
+<span class="h-1.5 w-1.5 rounded-full bg-amber-500">
+</span>Under review</span>
+</span>
+</div>
+<div class="flex items-start justify-between gap-3 text-sm">
+<span class="shrink-0 text-ink-muted">Lawyer</span>
+<span class="min-w-0 text-right">
+<span class="text-ink-muted">Being assigned</span>
+</span>
+</div>
+<div class="flex items-start justify-between gap-3 text-sm">
+<span class="shrink-0 text-ink-muted">Date</span>
+<span class="min-w-0 text-right">
+<span class="whitespace-nowrap text-ink-muted">5 Nov 2026</span>
+</span>
+</div>
+</div>
+</li>
+<li>
+<div role="button" tabindex="0" class="space-y-1.5 px-4 py-3.5 active:bg-brand-50">
+<div class="font-medium text-ink-strong">ELV-CS-2009</div>
+<div class="flex items-start justify-between gap-3 text-sm">
+<span class="shrink-0 text-ink-muted">Property</span>
+<span class="min-w-0 text-right">
+<span class="line-clamp-1">4-Bedroom Terrace Duplex</span>
+</span>
+</div>
+<div class="flex items-start justify-between gap-3 text-sm">
+<span class="shrink-0 text-ink-muted">Status</span>
+<span class="min-w-0 text-right">
+<span class="inline-flex items-center gap-1.5 whitespace-nowrap rounded-full px-2.5 py-1 text-xs font-medium ring-1 ring-inset bg-amber-50 text-amber-800 ring-amber-200">
+<span class="h-1.5 w-1.5 rounded-full bg-amber-500">
+</span>Payment requested</span>
+</span>
+</div>
+<div class="flex items-start justify-between gap-3 text-sm">
+<span class="shrink-0 text-ink-muted">Lawyer</span>
+<span class="min-w-0 text-right">Adaeze Okonkwo</span>
+</div>
+<div class="flex items-start justify-between gap-3 text-sm">
+<span class="shrink-0 text-ink-muted">Date</span>
+<span class="min-w-0 text-right">
+<span class="whitespace-nowrap text-ink-muted">2 Nov 2026</span>
+</span>
+</div>
+</div>
+</li>
+<li>
+<div role="button" tabindex="0" class="space-y-1.5 px-4 py-3.5 active:bg-brand-50">
+<div class="font-medium text-ink-strong">ELV-CS-2016</div>
+<div class="flex items-start justify-between gap-3 text-sm">
+<span class="shrink-0 text-ink-muted">Property</span>
+<span class="min-w-0 text-right">
+<span class="line-clamp-1">3-Bedroom Semi-Detached Duplex</span>
+</span>
+</div>
+<div class="flex items-start justify-between gap-3 text-sm">
+<span class="shrink-0 text-ink-muted">Status</span>
+<span class="min-w-0 text-right">
+<span class="inline-flex items-center gap-1.5 whitespace-nowrap rounded-full px-2.5 py-1 text-xs font-medium ring-1 ring-inset bg-brand-50 text-brand-800 ring-brand-200">
+<span class="h-1.5 w-1.5 rounded-full bg-brand-500">
+</span>In progress</span>
+</span>
+</div>
+<div class="flex items-start justify-between gap-3 text-sm">
+<span class="shrink-0 text-ink-muted">Lawyer</span>
+<span class="min-w-0 text-right">Nneka Eze</span>
+</div>
+<div class="flex items-start justify-between gap-3 text-sm">
+<span class="shrink-0 text-ink-muted">Date</span>
+<span class="min-w-0 text-right">
+<span class="whitespace-nowrap text-ink-muted">21 Oct 2026</span>
+</span>
+</div>
+</div>
+</li>
+</ul>
+<div class="px-3">
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+<div aria-live="polite" class="pointer-events-none fixed inset-x-0 bottom-4 z-[60] flex flex-col items-center gap-2 px-4 sm:bottom-6 sm:right-6 sm:left-auto sm:items-end">
+</div>
+</div>
+  
+

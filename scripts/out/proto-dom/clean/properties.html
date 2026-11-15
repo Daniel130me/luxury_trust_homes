@@ -1,0 +1,940 @@
+
+    <div id="root">
+<div class="flex min-h-screen flex-col">
+<header class="sticky top-0 z-30 border-b border-brand-100/70 bg-white/90 backdrop-blur">
+<div class="container-page flex h-16 items-center justify-between gap-4">
+<a class="inline-flex items-center gap-2.5" aria-label="ELVICTORIA home" href="/">
+<svg viewBox="0 0 40 40" class="h-9 w-9 shrink-0" aria-hidden="true">
+<rect width="40" height="40" rx="9" fill="#6b1d2c">
+</rect>
+<path d="M11 29 L11 13 L20 8 L29 13 L29 29" fill="none" stroke="#cfa04a" stroke-width="2.2" stroke-linejoin="round">
+</path>
+<path d="M15.5 29 V18 h9 M15.5 23.5 h7 M15.5 29 h9" fill="none" stroke="#ffffff" stroke-width="2.2" stroke-linecap="round">
+</path>
+</svg>
+<span class="font-display text-2xl leading-none tracking-wide text-ink-strong">EL<span class="text-gold-500">V</span>ICTORIA</span>
+</a>
+<nav class="hidden items-center gap-1 md:flex" aria-label="Main">
+<a class="rounded-md px-3 py-2 text-base font-medium transition text-brand-800" href="/properties?type=sale" aria-current="page">Buy</a>
+<a class="rounded-md px-3 py-2 text-base font-medium transition text-ink-soft hover:text-ink-strong" href="/properties?type=rent">Rent</a>
+<a class="rounded-md px-3 py-2 text-base font-medium transition text-ink-soft hover:text-ink-strong" href="/sell">Sell</a>
+<a class="rounded-md px-3 py-2 text-base font-medium transition text-ink-soft hover:text-ink-strong" href="/properties">Explore</a>
+<a class="rounded-md px-3 py-2 text-base font-medium transition text-ink-soft hover:text-ink-strong" href="/help">Help Desk</a>
+</nav>
+<div class="flex items-center gap-1.5">
+<a class="hidden rounded-lg p-2 text-ink-soft hover:bg-brand-50 md:block" aria-label="Saved properties" title="Saved properties" href="/app/saved">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-heart h-5 w-5" aria-hidden="true">
+<path d="M2 9.5a5.5 5.5 0 0 1 9.591-3.676.56.56 0 0 0 .818 0A5.49 5.49 0 0 1 22 9.5c0 2.29-1.5 4-3 5.5l-5.492 5.313a2 2 0 0 1-3 .019L5 15c-1.5-1.5-3-3.2-3-5.5">
+</path>
+</svg>
+</a>
+<div class="hidden items-center gap-2 md:flex">
+<a class="inline-flex select-none items-center justify-center whitespace-nowrap rounded-lg font-medium transition disabled:cursor-not-allowed disabled:opacity-50 text-brand-700 hover:bg-brand-50 h-10 px-4 text-sm gap-2" href="/login">Login</a>
+<a class="inline-flex select-none items-center justify-center whitespace-nowrap rounded-lg font-medium transition disabled:cursor-not-allowed disabled:opacity-50 bg-brand-800 text-white hover:bg-brand-700 shadow-sm h-10 px-4 text-sm gap-2" href="/register">Register</a>
+</div>
+<button class="rounded-lg p-2 md:hidden" aria-label="Toggle menu" aria-expanded="false">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-menu h-5 w-5" aria-hidden="true">
+<path d="M4 5h16">
+</path>
+<path d="M4 12h16">
+</path>
+<path d="M4 19h16">
+</path>
+</svg>
+</button>
+</div>
+</div>
+</header>
+<main class="flex-1 pb-16 md:pb-0">
+<div class="container-page py-10">
+<div class="mb-6">
+<p class="eyebrow">Explore Buying</p>
+<h1 class="mt-1.5 font-display text-3xl sm:text-4xl">Properties for sale</h1>
+<p class="mt-2 text-ink-soft">Every listing below has been reviewed by the ELVICTORIA legal team, and every enquiry is handled by a lawyer.</p>
+<ul class="flex flex-wrap gap-x-6 gap-y-2 mt-4" aria-label="Why ELVICTORIA">
+<li class="inline-flex items-center gap-2 text-sm font-medium text-ink-soft">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-scale h-4 w-4 text-brand-700" aria-hidden="true">
+<path d="M12 3v18">
+</path>
+<path d="m19 8 3 8a5 5 0 0 1-6 0zV7">
+</path>
+<path d="M3 7h1a17 17 0 0 0 8-2 17 17 0 0 0 8 2h1">
+</path>
+<path d="m5 8 3 8a5 5 0 0 1-6 0zV7">
+</path>
+<path d="M7 21h10">
+</path>
+</svg>Lawyer-managed transactions</li>
+<li class="inline-flex items-center gap-2 text-sm font-medium text-ink-soft">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-eye-off h-4 w-4 text-brand-700" aria-hidden="true">
+<path d="M10.733 5.076a10.744 10.744 0 0 1 11.205 6.575 1 1 0 0 1 0 .696 10.747 10.747 0 0 1-1.444 2.49">
+</path>
+<path d="M14.084 14.158a3 3 0 0 1-4.242-4.242">
+</path>
+<path d="M17.479 17.499a10.75 10.75 0 0 1-15.417-5.151 1 1 0 0 1 0-.696 10.75 10.75 0 0 1 4.446-5.143">
+</path>
+<path d="m2 2 20 20">
+</path>
+</svg>Confidential by default</li>
+<li class="inline-flex items-center gap-2 text-sm font-medium text-ink-soft">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-shield-check h-4 w-4 text-brand-700" aria-hidden="true">
+<path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z">
+</path>
+<path d="m9 12 2 2 4-4">
+</path>
+</svg>Reviewed listings, fewer scams</li>
+</ul>
+</div>
+<div class="rounded-xl border border-brand-100 bg-white p-4 shadow-card">
+<form novalidate="" class="flex gap-2" role="search">
+<div class="relative flex-1">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-search pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-ink-muted" aria-hidden="true">
+<path d="m21 21-4.34-4.34">
+</path>
+<circle cx="11" cy="11" r="8">
+</circle>
+</svg>
+<input class="input pl-9" aria-label="Search properties" placeholder="Search by area, city, title or reference" value="">
+</div>
+<button type="submit" class="inline-flex select-none items-center justify-center whitespace-nowrap rounded-lg font-medium transition disabled:cursor-not-allowed disabled:opacity-50 bg-brand-800 text-white hover:bg-brand-700 shadow-sm h-10 px-4 text-sm gap-2">Search</button>
+<button type="button" class="inline-flex select-none items-center justify-center whitespace-nowrap rounded-lg font-medium transition disabled:cursor-not-allowed disabled:opacity-50 bg-white text-brand-800 border border-brand-200 hover:bg-brand-50 h-10 px-4 text-sm gap-2 lg:hidden" aria-expanded="false">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-sliders-horizontal h-4 w-4" aria-hidden="true">
+<path d="M10 5H3">
+</path>
+<path d="M12 19H3">
+</path>
+<path d="M14 3v4">
+</path>
+<path d="M16 17v4">
+</path>
+<path d="M21 12h-9">
+</path>
+<path d="M21 19h-5">
+</path>
+<path d="M21 5h-7">
+</path>
+<path d="M8 10v4">
+</path>
+<path d="M8 12H3">
+</path>
+</svg>
+<span class="hidden sm:inline">Filters</span>
+<span class="rounded-full bg-brand-800 px-1.5 text-xs text-white">1</span>
+</button>
+</form>
+<div class="mt-3 hidden lg:block">
+<div class="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+<select class="input appearance-none bg-[length:16px] bg-[right_0.75rem_center] bg-no-repeat pr-9" aria-label="Buy or rent" style="background-image: url(&quot;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%236b7385' stroke-width='2'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E&quot;);">
+<option value="">Buy or rent</option>
+<option value="sale">For sale</option>
+<option value="rent">For rent</option>
+</select>
+<div>
+<select class="input appearance-none bg-[length:16px] bg-[right_0.75rem_center] bg-no-repeat pr-9" id="flt-state" aria-label="State" style="background-image: url(&quot;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%236b7385' stroke-width='2'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E&quot;);">
+<option value="">All states</option>
+<option value="Lagos">Lagos</option>
+<option value="Enugu">Enugu</option>
+</select>
+</div>
+<div>
+<select class="input appearance-none bg-[length:16px] bg-[right_0.75rem_center] bg-no-repeat pr-9" id="flt-lga" aria-label="Local Government Area" disabled="" style="background-image: url(&quot;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%236b7385' stroke-width='2'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E&quot;);">
+<option value="">All LGAs</option>
+</select>
+</div>
+<select class="input appearance-none bg-[length:16px] bg-[right_0.75rem_center] bg-no-repeat pr-9" aria-label="Property type" style="background-image: url(&quot;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%236b7385' stroke-width='2'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E&quot;);">
+<option value="">All property types</option>
+<option value="detached_duplex">Detached Duplex</option>
+<option value="semi_detached_duplex">Semi-Detached Duplex</option>
+<option value="apartment">Apartment</option>
+<option value="terrace">Terrace House</option>
+<option value="bungalow">Bungalow</option>
+<option value="land">Residential Land</option>
+<option value="commercial">Commercial Property</option>
+</select>
+<select class="input appearance-none bg-[length:16px] bg-[right_0.75rem_center] bg-no-repeat pr-9" aria-label="Price range" style="background-image: url(&quot;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%236b7385' stroke-width='2'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E&quot;);">
+<option value="">Any price</option>
+<optgroup label="Sale price">
+<option value="0-50000000">Under ₦50M</option>
+<option value="50000000-100000000">₦50M – ₦100M</option>
+<option value="100000000-200000000">₦100M – ₦200M</option>
+<option value="200000000-">Above ₦200M</option>
+</optgroup>
+</select>
+<select class="input appearance-none bg-[length:16px] bg-[right_0.75rem_center] bg-no-repeat pr-9" aria-label="Bedrooms" style="background-image: url(&quot;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%236b7385' stroke-width='2'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E&quot;);">
+<option value="0">Any bedrooms</option>
+<option value="1">1+ bedrooms</option>
+<option value="2">2+ bedrooms</option>
+<option value="3">3+ bedrooms</option>
+<option value="4">4+ bedrooms</option>
+<option value="5">5+ bedrooms</option>
+</select>
+</div>
+</div>
+</div>
+<div class="mt-6 flex flex-wrap items-center justify-between gap-3">
+<p class="text-sm text-ink-soft">
+<span class="font-semibold text-ink-strong">10</span> properties found<button class="ml-3 inline-flex items-center gap-1 font-medium text-brand-700 hover:underline">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-x h-3.5 w-3.5" aria-hidden="true">
+<path d="M18 6 6 18">
+</path>
+<path d="m6 6 12 12">
+</path>
+</svg>Clear filters</button>
+</p>
+<div class="flex items-center gap-2">
+<select class="input appearance-none bg-[length:16px] bg-[right_0.75rem_center] bg-no-repeat pr-9 h-9 w-auto py-1.5 text-sm" aria-label="Sort" style="background-image: url(&quot;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%236b7385' stroke-width='2'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E&quot;);">
+<option value="newest">Newest first</option>
+<option value="price_asc">Price: low to high</option>
+<option value="price_desc">Price: high to low</option>
+</select>
+<div class="hidden rounded-lg border border-brand-100 bg-white p-0.5 sm:flex">
+<button aria-label="grid view" aria-pressed="true" class="rounded-md p-1.5 bg-brand-800 text-white">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-layout-grid h-4 w-4" aria-hidden="true">
+<rect width="7" height="7" x="3" y="3" rx="1">
+</rect>
+<rect width="7" height="7" x="14" y="3" rx="1">
+</rect>
+<rect width="7" height="7" x="14" y="14" rx="1">
+</rect>
+<rect width="7" height="7" x="3" y="14" rx="1">
+</rect>
+</svg>
+</button>
+<button aria-label="list view" aria-pressed="false" class="rounded-md p-1.5 text-ink-muted">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-list h-4 w-4" aria-hidden="true">
+<path d="M3 5h.01">
+</path>
+<path d="M3 12h.01">
+</path>
+<path d="M3 19h.01">
+</path>
+<path d="M8 5h13">
+</path>
+<path d="M8 12h13">
+</path>
+<path d="M8 19h13">
+</path>
+</svg>
+</button>
+</div>
+</div>
+</div>
+<div class="mt-5 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+<a class="group flex overflow-hidden rounded-xl border border-brand-100/80 bg-white shadow-card transition hover:-translate-y-0.5 hover:shadow-lift flex-col" href="/properties/ELV-PR-1024">
+<div class="relative overflow-hidden bg-brand-50 aspect-[16/10]">
+<img src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&amp;fit=crop&amp;w=1400&amp;q=82" alt="Front elevation" class="object-cover h-full w-full transition duration-500 group-hover:scale-[1.03]" loading="lazy" decoding="async">
+<span class="absolute left-3 top-3 rounded-md px-2 py-1 text-xs font-semibold shadow-sm bg-brand-900 text-white">For Sale</span>
+<span class="absolute right-3 top-3">
+<button aria-pressed="false" aria-label="Save property" title="Save property" class="rounded-full bg-white/95 p-2 shadow-sm ring-1 ring-black/5 transition hover:scale-105">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-heart h-4 w-4 text-ink-soft" aria-hidden="true">
+<path d="M2 9.5a5.5 5.5 0 0 1 9.591-3.676.56.56 0 0 0 .818 0A5.49 5.49 0 0 1 22 9.5c0 2.29-1.5 4-3 5.5l-5.492 5.313a2 2 0 0 1-3 .019L5 15c-1.5-1.5-3-3.2-3-5.5">
+</path>
+</svg>
+</button>
+</span>
+</div>
+<div class="flex flex-1 flex-col gap-2 p-4">
+<p class="text-xs font-medium uppercase tracking-wide text-gold-600">Semi-Detached Duplex<span class="text-ink-muted"> · Lagos Island</span>
+</p>
+<h3 class="line-clamp-2 font-semibold text-ink-strong group-hover:text-brand-700">3-Bedroom Semi-Detached Duplex</h3>
+<p class="flex items-center gap-1 text-sm text-ink-muted">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-map-pin h-3.5 w-3.5" aria-hidden="true">
+<path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0">
+</path>
+<circle cx="12" cy="10" r="3">
+</circle>
+</svg>Sangotedo, Eti-Osa, Lagos</p>
+<div class="flex flex-wrap gap-x-4 gap-y-1 text-sm text-ink-soft">
+<span class="inline-flex items-center gap-1.5">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-bed-double h-4 w-4 text-brand-400" aria-hidden="true">
+<path d="M2 20v-8a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v8">
+</path>
+<path d="M4 10V6a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v4">
+</path>
+<path d="M12 4v6">
+</path>
+<path d="M2 18h20">
+</path>
+</svg>3 beds</span>
+<span class="inline-flex items-center gap-1.5">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-bath h-4 w-4 text-brand-400" aria-hidden="true">
+<path d="M10 4 8 6">
+</path>
+<path d="M17 19v2">
+</path>
+<path d="M2 12h20">
+</path>
+<path d="M7 19v2">
+</path>
+<path d="M9 5 7.621 3.621A2.121 2.121 0 0 0 4 5v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-5">
+</path>
+</svg>3 baths</span>
+<span class="inline-flex items-center gap-1.5">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-maximize-2 h-4 w-4 text-brand-400" aria-hidden="true">
+<path d="M15 3h6v6">
+</path>
+<path d="m21 3-7 7">
+</path>
+<path d="m3 21 7-7">
+</path>
+<path d="M9 21H3v-6">
+</path>
+</svg>220 sqm</span>
+</div>
+<div class="mt-auto flex items-end justify-between pt-2">
+<p class="text-lg font-semibold text-ink-strong">₦68,000,000</p>
+<span class="text-xs text-ink-muted">ELV-PR-1024</span>
+</div>
+</div>
+</a>
+<a class="group flex overflow-hidden rounded-xl border border-brand-100/80 bg-white shadow-card transition hover:-translate-y-0.5 hover:shadow-lift flex-col" href="/properties/ELV-PR-1019">
+<div class="relative overflow-hidden bg-brand-50 aspect-[16/10]">
+<img src="https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&amp;fit=crop&amp;w=1400&amp;q=82" alt="Front elevation" class="object-cover h-full w-full transition duration-500 group-hover:scale-[1.03]" loading="lazy" decoding="async">
+<span class="absolute left-3 top-3 rounded-md px-2 py-1 text-xs font-semibold shadow-sm bg-brand-900 text-white">For Sale</span>
+<span class="absolute right-3 top-3">
+<button aria-pressed="false" aria-label="Save property" title="Save property" class="rounded-full bg-white/95 p-2 shadow-sm ring-1 ring-black/5 transition hover:scale-105">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-heart h-4 w-4 text-ink-soft" aria-hidden="true">
+<path d="M2 9.5a5.5 5.5 0 0 1 9.591-3.676.56.56 0 0 0 .818 0A5.49 5.49 0 0 1 22 9.5c0 2.29-1.5 4-3 5.5l-5.492 5.313a2 2 0 0 1-3 .019L5 15c-1.5-1.5-3-3.2-3-5.5">
+</path>
+</svg>
+</button>
+</span>
+</div>
+<div class="flex flex-1 flex-col gap-2 p-4">
+<p class="text-xs font-medium uppercase tracking-wide text-gold-600">Detached Duplex</p>
+<h3 class="line-clamp-2 font-semibold text-ink-strong group-hover:text-brand-700">4-Bedroom Detached Duplex</h3>
+<p class="flex items-center gap-1 text-sm text-ink-muted">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-map-pin h-3.5 w-3.5" aria-hidden="true">
+<path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0">
+</path>
+<circle cx="12" cy="10" r="3">
+</circle>
+</svg>New Haven, Enugu North, Enugu</p>
+<div class="flex flex-wrap gap-x-4 gap-y-1 text-sm text-ink-soft">
+<span class="inline-flex items-center gap-1.5">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-bed-double h-4 w-4 text-brand-400" aria-hidden="true">
+<path d="M2 20v-8a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v8">
+</path>
+<path d="M4 10V6a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v4">
+</path>
+<path d="M12 4v6">
+</path>
+<path d="M2 18h20">
+</path>
+</svg>4 beds</span>
+<span class="inline-flex items-center gap-1.5">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-bath h-4 w-4 text-brand-400" aria-hidden="true">
+<path d="M10 4 8 6">
+</path>
+<path d="M17 19v2">
+</path>
+<path d="M2 12h20">
+</path>
+<path d="M7 19v2">
+</path>
+<path d="M9 5 7.621 3.621A2.121 2.121 0 0 0 4 5v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-5">
+</path>
+</svg>5 baths</span>
+<span class="inline-flex items-center gap-1.5">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-maximize-2 h-4 w-4 text-brand-400" aria-hidden="true">
+<path d="M15 3h6v6">
+</path>
+<path d="m21 3-7 7">
+</path>
+<path d="m3 21 7-7">
+</path>
+<path d="M9 21H3v-6">
+</path>
+</svg>480 sqm</span>
+</div>
+<div class="mt-auto flex items-end justify-between pt-2">
+<p class="text-lg font-semibold text-ink-strong">₦85,000,000</p>
+<span class="text-xs text-ink-muted">ELV-PR-1019</span>
+</div>
+</div>
+</a>
+<a class="group flex overflow-hidden rounded-xl border border-brand-100/80 bg-white shadow-card transition hover:-translate-y-0.5 hover:shadow-lift flex-col" href="/properties/ELV-PR-1017">
+<div class="relative overflow-hidden bg-brand-50 aspect-[16/10]">
+<img src="https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&amp;fit=crop&amp;w=1400&amp;q=82" alt="Plot overview" class="object-cover h-full w-full transition duration-500 group-hover:scale-[1.03]" loading="lazy" decoding="async">
+<span class="absolute left-3 top-3 rounded-md px-2 py-1 text-xs font-semibold shadow-sm bg-brand-900 text-white">For Sale</span>
+<span class="absolute right-3 top-3">
+<button aria-pressed="false" aria-label="Save property" title="Save property" class="rounded-full bg-white/95 p-2 shadow-sm ring-1 ring-black/5 transition hover:scale-105">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-heart h-4 w-4 text-ink-soft" aria-hidden="true">
+<path d="M2 9.5a5.5 5.5 0 0 1 9.591-3.676.56.56 0 0 0 .818 0A5.49 5.49 0 0 1 22 9.5c0 2.29-1.5 4-3 5.5l-5.492 5.313a2 2 0 0 1-3 .019L5 15c-1.5-1.5-3-3.2-3-5.5">
+</path>
+</svg>
+</button>
+</span>
+</div>
+<div class="flex flex-1 flex-col gap-2 p-4">
+<p class="text-xs font-medium uppercase tracking-wide text-gold-600">Residential Land</p>
+<h3 class="line-clamp-2 font-semibold text-ink-strong group-hover:text-brand-700">Residential Plot, 1,000 sqm</h3>
+<p class="flex items-center gap-1 text-sm text-ink-muted">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-map-pin h-3.5 w-3.5" aria-hidden="true">
+<path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0">
+</path>
+<circle cx="12" cy="10" r="3">
+</circle>
+</svg>Achara Layout, Enugu South, Enugu</p>
+<div class="flex flex-wrap gap-x-4 gap-y-1 text-sm text-ink-soft">
+<span class="inline-flex items-center gap-1.5">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-maximize-2 h-4 w-4 text-brand-400" aria-hidden="true">
+<path d="M15 3h6v6">
+</path>
+<path d="m21 3-7 7">
+</path>
+<path d="m3 21 7-7">
+</path>
+<path d="M9 21H3v-6">
+</path>
+</svg>1,000 sqm</span>
+</div>
+<div class="mt-auto flex items-end justify-between pt-2">
+<p class="text-lg font-semibold text-ink-strong">₦28,000,000</p>
+<span class="text-xs text-ink-muted">ELV-PR-1017</span>
+</div>
+</div>
+</a>
+<a class="group flex overflow-hidden rounded-xl border border-brand-100/80 bg-white shadow-card transition hover:-translate-y-0.5 hover:shadow-lift flex-col" href="/properties/ELV-PR-1016">
+<div class="relative overflow-hidden bg-brand-50 aspect-[16/10]">
+<img src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&amp;fit=crop&amp;w=1400&amp;q=82" alt="Front elevation" class="object-cover h-full w-full transition duration-500 group-hover:scale-[1.03]" loading="lazy" decoding="async">
+<span class="absolute left-3 top-3 rounded-md px-2 py-1 text-xs font-semibold shadow-sm bg-brand-900 text-white">For Sale</span>
+<span class="absolute right-3 top-3">
+<button aria-pressed="false" aria-label="Save property" title="Save property" class="rounded-full bg-white/95 p-2 shadow-sm ring-1 ring-black/5 transition hover:scale-105">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-heart h-4 w-4 text-ink-soft" aria-hidden="true">
+<path d="M2 9.5a5.5 5.5 0 0 1 9.591-3.676.56.56 0 0 0 .818 0A5.49 5.49 0 0 1 22 9.5c0 2.29-1.5 4-3 5.5l-5.492 5.313a2 2 0 0 1-3 .019L5 15c-1.5-1.5-3-3.2-3-5.5">
+</path>
+</svg>
+</button>
+</span>
+</div>
+<div class="flex flex-1 flex-col gap-2 p-4">
+<p class="text-xs font-medium uppercase tracking-wide text-gold-600">Detached Duplex</p>
+<h3 class="line-clamp-2 font-semibold text-ink-strong group-hover:text-brand-700">4-Bedroom Detached Duplex</h3>
+<p class="flex items-center gap-1 text-sm text-ink-muted">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-map-pin h-3.5 w-3.5" aria-hidden="true">
+<path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0">
+</path>
+<circle cx="12" cy="10" r="3">
+</circle>
+</svg>Independence Layout, Enugu North, Enugu</p>
+<div class="flex flex-wrap gap-x-4 gap-y-1 text-sm text-ink-soft">
+<span class="inline-flex items-center gap-1.5">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-bed-double h-4 w-4 text-brand-400" aria-hidden="true">
+<path d="M2 20v-8a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v8">
+</path>
+<path d="M4 10V6a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v4">
+</path>
+<path d="M12 4v6">
+</path>
+<path d="M2 18h20">
+</path>
+</svg>4 beds</span>
+<span class="inline-flex items-center gap-1.5">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-bath h-4 w-4 text-brand-400" aria-hidden="true">
+<path d="M10 4 8 6">
+</path>
+<path d="M17 19v2">
+</path>
+<path d="M2 12h20">
+</path>
+<path d="M7 19v2">
+</path>
+<path d="M9 5 7.621 3.621A2.121 2.121 0 0 0 4 5v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-5">
+</path>
+</svg>5 baths</span>
+<span class="inline-flex items-center gap-1.5">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-maximize-2 h-4 w-4 text-brand-400" aria-hidden="true">
+<path d="M15 3h6v6">
+</path>
+<path d="m21 3-7 7">
+</path>
+<path d="m3 21 7-7">
+</path>
+<path d="M9 21H3v-6">
+</path>
+</svg>450 sqm</span>
+</div>
+<div class="mt-auto flex items-end justify-between pt-2">
+<p class="text-lg font-semibold text-ink-strong">₦120,000,000</p>
+<span class="text-xs text-ink-muted">ELV-PR-1016</span>
+</div>
+</div>
+</a>
+<a class="group flex overflow-hidden rounded-xl border border-brand-100/80 bg-white shadow-card transition hover:-translate-y-0.5 hover:shadow-lift flex-col" href="/properties/ELV-PR-1014">
+<div class="relative overflow-hidden bg-brand-50 aspect-[16/10]">
+<img src="https://images.unsplash.com/photo-1643297551340-19d8ad4f20ad?auto=format&amp;fit=crop&amp;w=1400&amp;q=82" alt="Front elevation" class="object-cover h-full w-full transition duration-500 group-hover:scale-[1.03]" loading="lazy" decoding="async">
+<span class="absolute left-3 top-3 rounded-md px-2 py-1 text-xs font-semibold shadow-sm bg-brand-900 text-white">For Sale</span>
+<span class="absolute right-3 top-3">
+<button aria-pressed="false" aria-label="Save property" title="Save property" class="rounded-full bg-white/95 p-2 shadow-sm ring-1 ring-black/5 transition hover:scale-105">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-heart h-4 w-4 text-ink-soft" aria-hidden="true">
+<path d="M2 9.5a5.5 5.5 0 0 1 9.591-3.676.56.56 0 0 0 .818 0A5.49 5.49 0 0 1 22 9.5c0 2.29-1.5 4-3 5.5l-5.492 5.313a2 2 0 0 1-3 .019L5 15c-1.5-1.5-3-3.2-3-5.5">
+</path>
+</svg>
+</button>
+</span>
+<span class="absolute bottom-3 left-3">
+<span class="inline-flex items-center gap-1.5 whitespace-nowrap rounded-full px-2.5 py-1 text-xs font-medium ring-1 ring-inset bg-amber-50 text-amber-800 ring-amber-200">
+<span class="h-1.5 w-1.5 rounded-full bg-amber-500">
+</span>Under Offer</span>
+</span>
+</div>
+<div class="flex flex-1 flex-col gap-2 p-4">
+<p class="text-xs font-medium uppercase tracking-wide text-gold-600">Semi-Detached Duplex<span class="text-ink-muted"> · Lagos Mainland</span>
+</p>
+<h3 class="line-clamp-2 font-semibold text-ink-strong group-hover:text-brand-700">4-Bedroom Semi-Detached Duplex</h3>
+<p class="flex items-center gap-1 text-sm text-ink-muted">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-map-pin h-3.5 w-3.5" aria-hidden="true">
+<path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0">
+</path>
+<circle cx="12" cy="10" r="3">
+</circle>
+</svg>Gbagada Phase 2, Kosofe, Lagos</p>
+<div class="flex flex-wrap gap-x-4 gap-y-1 text-sm text-ink-soft">
+<span class="inline-flex items-center gap-1.5">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-bed-double h-4 w-4 text-brand-400" aria-hidden="true">
+<path d="M2 20v-8a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v8">
+</path>
+<path d="M4 10V6a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v4">
+</path>
+<path d="M12 4v6">
+</path>
+<path d="M2 18h20">
+</path>
+</svg>4 beds</span>
+<span class="inline-flex items-center gap-1.5">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-bath h-4 w-4 text-brand-400" aria-hidden="true">
+<path d="M10 4 8 6">
+</path>
+<path d="M17 19v2">
+</path>
+<path d="M2 12h20">
+</path>
+<path d="M7 19v2">
+</path>
+<path d="M9 5 7.621 3.621A2.121 2.121 0 0 0 4 5v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-5">
+</path>
+</svg>4 baths</span>
+<span class="inline-flex items-center gap-1.5">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-maximize-2 h-4 w-4 text-brand-400" aria-hidden="true">
+<path d="M15 3h6v6">
+</path>
+<path d="m21 3-7 7">
+</path>
+<path d="m3 21 7-7">
+</path>
+<path d="M9 21H3v-6">
+</path>
+</svg>310 sqm</span>
+</div>
+<div class="mt-auto flex items-end justify-between pt-2">
+<p class="text-lg font-semibold text-ink-strong">₦115,000,000</p>
+<span class="text-xs text-ink-muted">ELV-PR-1014</span>
+</div>
+</div>
+</a>
+<a class="group flex overflow-hidden rounded-xl border border-brand-100/80 bg-white shadow-card transition hover:-translate-y-0.5 hover:shadow-lift flex-col" href="/properties/ELV-PR-1011">
+<div class="relative overflow-hidden bg-brand-50 aspect-[16/10]">
+<img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&amp;fit=crop&amp;w=1400&amp;q=82" alt="Street view" class="object-cover h-full w-full transition duration-500 group-hover:scale-[1.03]" loading="lazy" decoding="async">
+<span class="absolute left-3 top-3 rounded-md px-2 py-1 text-xs font-semibold shadow-sm bg-brand-900 text-white">For Sale</span>
+<span class="absolute right-3 top-3">
+<button aria-pressed="false" aria-label="Save property" title="Save property" class="rounded-full bg-white/95 p-2 shadow-sm ring-1 ring-black/5 transition hover:scale-105">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-heart h-4 w-4 text-ink-soft" aria-hidden="true">
+<path d="M2 9.5a5.5 5.5 0 0 1 9.591-3.676.56.56 0 0 0 .818 0A5.49 5.49 0 0 1 22 9.5c0 2.29-1.5 4-3 5.5l-5.492 5.313a2 2 0 0 1-3 .019L5 15c-1.5-1.5-3-3.2-3-5.5">
+</path>
+</svg>
+</button>
+</span>
+</div>
+<div class="flex flex-1 flex-col gap-2 p-4">
+<p class="text-xs font-medium uppercase tracking-wide text-gold-600">Terrace House<span class="text-ink-muted"> · Lagos Island</span>
+</p>
+<h3 class="line-clamp-2 font-semibold text-ink-strong group-hover:text-brand-700">4-Bedroom Terrace Duplex</h3>
+<p class="flex items-center gap-1 text-sm text-ink-muted">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-map-pin h-3.5 w-3.5" aria-hidden="true">
+<path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0">
+</path>
+<circle cx="12" cy="10" r="3">
+</circle>
+</svg>Ikate, Eti-Osa, Lagos</p>
+<div class="flex flex-wrap gap-x-4 gap-y-1 text-sm text-ink-soft">
+<span class="inline-flex items-center gap-1.5">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-bed-double h-4 w-4 text-brand-400" aria-hidden="true">
+<path d="M2 20v-8a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v8">
+</path>
+<path d="M4 10V6a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v4">
+</path>
+<path d="M12 4v6">
+</path>
+<path d="M2 18h20">
+</path>
+</svg>4 beds</span>
+<span class="inline-flex items-center gap-1.5">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-bath h-4 w-4 text-brand-400" aria-hidden="true">
+<path d="M10 4 8 6">
+</path>
+<path d="M17 19v2">
+</path>
+<path d="M2 12h20">
+</path>
+<path d="M7 19v2">
+</path>
+<path d="M9 5 7.621 3.621A2.121 2.121 0 0 0 4 5v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-5">
+</path>
+</svg>4 baths</span>
+<span class="inline-flex items-center gap-1.5">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-maximize-2 h-4 w-4 text-brand-400" aria-hidden="true">
+<path d="M15 3h6v6">
+</path>
+<path d="m21 3-7 7">
+</path>
+<path d="m3 21 7-7">
+</path>
+<path d="M9 21H3v-6">
+</path>
+</svg>290 sqm</span>
+</div>
+<div class="mt-auto flex items-end justify-between pt-2">
+<p class="text-lg font-semibold text-ink-strong">₦135,000,000</p>
+<span class="text-xs text-ink-muted">ELV-PR-1011</span>
+</div>
+</div>
+</a>
+<a class="group flex overflow-hidden rounded-xl border border-brand-100/80 bg-white shadow-card transition hover:-translate-y-0.5 hover:shadow-lift flex-col" href="/properties/ELV-PR-1009">
+<div class="relative overflow-hidden bg-brand-50 aspect-[16/10]">
+<img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&amp;fit=crop&amp;w=1400&amp;q=82" alt="Front elevation" class="object-cover h-full w-full transition duration-500 group-hover:scale-[1.03]" loading="lazy" decoding="async">
+<span class="absolute left-3 top-3 rounded-md px-2 py-1 text-xs font-semibold shadow-sm bg-brand-900 text-white">For Sale</span>
+<span class="absolute right-3 top-3">
+<button aria-pressed="false" aria-label="Save property" title="Save property" class="rounded-full bg-white/95 p-2 shadow-sm ring-1 ring-black/5 transition hover:scale-105">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-heart h-4 w-4 text-ink-soft" aria-hidden="true">
+<path d="M2 9.5a5.5 5.5 0 0 1 9.591-3.676.56.56 0 0 0 .818 0A5.49 5.49 0 0 1 22 9.5c0 2.29-1.5 4-3 5.5l-5.492 5.313a2 2 0 0 1-3 .019L5 15c-1.5-1.5-3-3.2-3-5.5">
+</path>
+</svg>
+</button>
+</span>
+</div>
+<div class="flex flex-1 flex-col gap-2 p-4">
+<p class="text-xs font-medium uppercase tracking-wide text-gold-600">Detached Duplex<span class="text-ink-muted"> · Lagos Mainland</span>
+</p>
+<h3 class="line-clamp-2 font-semibold text-ink-strong group-hover:text-brand-700">5-Bedroom Detached Duplex with BQ</h3>
+<p class="flex items-center gap-1 text-sm text-ink-muted">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-map-pin h-3.5 w-3.5" aria-hidden="true">
+<path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0">
+</path>
+<circle cx="12" cy="10" r="3">
+</circle>
+</svg>Magodo GRA Phase 2, Kosofe, Lagos</p>
+<div class="flex flex-wrap gap-x-4 gap-y-1 text-sm text-ink-soft">
+<span class="inline-flex items-center gap-1.5">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-bed-double h-4 w-4 text-brand-400" aria-hidden="true">
+<path d="M2 20v-8a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v8">
+</path>
+<path d="M4 10V6a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v4">
+</path>
+<path d="M12 4v6">
+</path>
+<path d="M2 18h20">
+</path>
+</svg>5 beds</span>
+<span class="inline-flex items-center gap-1.5">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-bath h-4 w-4 text-brand-400" aria-hidden="true">
+<path d="M10 4 8 6">
+</path>
+<path d="M17 19v2">
+</path>
+<path d="M2 12h20">
+</path>
+<path d="M7 19v2">
+</path>
+<path d="M9 5 7.621 3.621A2.121 2.121 0 0 0 4 5v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-5">
+</path>
+</svg>6 baths</span>
+<span class="inline-flex items-center gap-1.5">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-maximize-2 h-4 w-4 text-brand-400" aria-hidden="true">
+<path d="M15 3h6v6">
+</path>
+<path d="m21 3-7 7">
+</path>
+<path d="m3 21 7-7">
+</path>
+<path d="M9 21H3v-6">
+</path>
+</svg>600 sqm</span>
+</div>
+<div class="mt-auto flex items-end justify-between pt-2">
+<p class="text-lg font-semibold text-ink-strong">₦210,000,000</p>
+<span class="text-xs text-ink-muted">ELV-PR-1009</span>
+</div>
+</div>
+</a>
+<a class="group flex overflow-hidden rounded-xl border border-brand-100/80 bg-white shadow-card transition hover:-translate-y-0.5 hover:shadow-lift flex-col" href="/properties/ELV-PR-1002">
+<div class="relative overflow-hidden bg-brand-50 aspect-[16/10]">
+<img src="https://images.unsplash.com/photo-1764722870631-877f5c694b76?auto=format&amp;fit=crop&amp;w=1400&amp;q=82" alt="Building" class="object-cover h-full w-full transition duration-500 group-hover:scale-[1.03]" loading="lazy" decoding="async">
+<span class="absolute left-3 top-3 rounded-md px-2 py-1 text-xs font-semibold shadow-sm bg-brand-900 text-white">For Sale</span>
+<span class="absolute right-3 top-3">
+<button aria-pressed="false" aria-label="Save property" title="Save property" class="rounded-full bg-white/95 p-2 shadow-sm ring-1 ring-black/5 transition hover:scale-105">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-heart h-4 w-4 text-ink-soft" aria-hidden="true">
+<path d="M2 9.5a5.5 5.5 0 0 1 9.591-3.676.56.56 0 0 0 .818 0A5.49 5.49 0 0 1 22 9.5c0 2.29-1.5 4-3 5.5l-5.492 5.313a2 2 0 0 1-3 .019L5 15c-1.5-1.5-3-3.2-3-5.5">
+</path>
+</svg>
+</button>
+</span>
+</div>
+<div class="flex flex-1 flex-col gap-2 p-4">
+<p class="text-xs font-medium uppercase tracking-wide text-gold-600">Apartment<span class="text-ink-muted"> · Lagos Island</span>
+</p>
+<h3 class="line-clamp-2 font-semibold text-ink-strong group-hover:text-brand-700">Luxury 3-Bedroom Apartment</h3>
+<p class="flex items-center gap-1 text-sm text-ink-muted">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-map-pin h-3.5 w-3.5" aria-hidden="true">
+<path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0">
+</path>
+<circle cx="12" cy="10" r="3">
+</circle>
+</svg>Old Ikoyi, Eti-Osa, Lagos</p>
+<div class="flex flex-wrap gap-x-4 gap-y-1 text-sm text-ink-soft">
+<span class="inline-flex items-center gap-1.5">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-bed-double h-4 w-4 text-brand-400" aria-hidden="true">
+<path d="M2 20v-8a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v8">
+</path>
+<path d="M4 10V6a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v4">
+</path>
+<path d="M12 4v6">
+</path>
+<path d="M2 18h20">
+</path>
+</svg>3 beds</span>
+<span class="inline-flex items-center gap-1.5">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-bath h-4 w-4 text-brand-400" aria-hidden="true">
+<path d="M10 4 8 6">
+</path>
+<path d="M17 19v2">
+</path>
+<path d="M2 12h20">
+</path>
+<path d="M7 19v2">
+</path>
+<path d="M9 5 7.621 3.621A2.121 2.121 0 0 0 4 5v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-5">
+</path>
+</svg>4 baths</span>
+<span class="inline-flex items-center gap-1.5">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-maximize-2 h-4 w-4 text-brand-400" aria-hidden="true">
+<path d="M15 3h6v6">
+</path>
+<path d="m21 3-7 7">
+</path>
+<path d="m3 21 7-7">
+</path>
+<path d="M9 21H3v-6">
+</path>
+</svg>210 sqm</span>
+</div>
+<div class="mt-auto flex items-end justify-between pt-2">
+<p class="text-lg font-semibold text-ink-strong">₦120,000,000</p>
+<span class="text-xs text-ink-muted">ELV-PR-1002</span>
+</div>
+</div>
+</a>
+<a class="group flex overflow-hidden rounded-xl border border-brand-100/80 bg-white shadow-card transition hover:-translate-y-0.5 hover:shadow-lift flex-col" href="/properties/ELV-PR-1012">
+<div class="relative overflow-hidden bg-brand-50 aspect-[16/10]">
+<img src="https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&amp;fit=crop&amp;w=1400&amp;q=82" alt="Front view" class="object-cover h-full w-full transition duration-500 group-hover:scale-[1.03]" loading="lazy" decoding="async">
+<span class="absolute left-3 top-3 rounded-md px-2 py-1 text-xs font-semibold shadow-sm bg-brand-900 text-white">For Sale</span>
+<span class="absolute right-3 top-3">
+<button aria-pressed="false" aria-label="Save property" title="Save property" class="rounded-full bg-white/95 p-2 shadow-sm ring-1 ring-black/5 transition hover:scale-105">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-heart h-4 w-4 text-ink-soft" aria-hidden="true">
+<path d="M2 9.5a5.5 5.5 0 0 1 9.591-3.676.56.56 0 0 0 .818 0A5.49 5.49 0 0 1 22 9.5c0 2.29-1.5 4-3 5.5l-5.492 5.313a2 2 0 0 1-3 .019L5 15c-1.5-1.5-3-3.2-3-5.5">
+</path>
+</svg>
+</button>
+</span>
+<span class="absolute bottom-3 left-3">
+<span class="inline-flex items-center gap-1.5 whitespace-nowrap rounded-full px-2.5 py-1 text-xs font-medium ring-1 ring-inset bg-amber-50 text-amber-800 ring-amber-200">
+<span class="h-1.5 w-1.5 rounded-full bg-amber-500">
+</span>Under Offer</span>
+</span>
+</div>
+<div class="flex flex-1 flex-col gap-2 p-4">
+<p class="text-xs font-medium uppercase tracking-wide text-gold-600">Bungalow<span class="text-ink-muted"> · Lagos Mainland</span>
+</p>
+<h3 class="line-clamp-2 font-semibold text-ink-strong group-hover:text-brand-700">3-Bedroom Bungalow</h3>
+<p class="flex items-center gap-1 text-sm text-ink-muted">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-map-pin h-3.5 w-3.5" aria-hidden="true">
+<path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0">
+</path>
+<circle cx="12" cy="10" r="3">
+</circle>
+</svg>Ikeja GRA, Ikeja, Lagos</p>
+<div class="flex flex-wrap gap-x-4 gap-y-1 text-sm text-ink-soft">
+<span class="inline-flex items-center gap-1.5">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-bed-double h-4 w-4 text-brand-400" aria-hidden="true">
+<path d="M2 20v-8a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v8">
+</path>
+<path d="M4 10V6a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v4">
+</path>
+<path d="M12 4v6">
+</path>
+<path d="M2 18h20">
+</path>
+</svg>3 beds</span>
+<span class="inline-flex items-center gap-1.5">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-bath h-4 w-4 text-brand-400" aria-hidden="true">
+<path d="M10 4 8 6">
+</path>
+<path d="M17 19v2">
+</path>
+<path d="M2 12h20">
+</path>
+<path d="M7 19v2">
+</path>
+<path d="M9 5 7.621 3.621A2.121 2.121 0 0 0 4 5v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-5">
+</path>
+</svg>3 baths</span>
+<span class="inline-flex items-center gap-1.5">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-maximize-2 h-4 w-4 text-brand-400" aria-hidden="true">
+<path d="M15 3h6v6">
+</path>
+<path d="m21 3-7 7">
+</path>
+<path d="m3 21 7-7">
+</path>
+<path d="M9 21H3v-6">
+</path>
+</svg>260 sqm</span>
+</div>
+<div class="mt-auto flex items-end justify-between pt-2">
+<p class="text-lg font-semibold text-ink-strong">₦95,000,000</p>
+<span class="text-xs text-ink-muted">ELV-PR-1012</span>
+</div>
+</div>
+</a>
+</div>
+<div class="mt-10 text-center">
+<button type="button" class="inline-flex select-none items-center justify-center whitespace-nowrap rounded-lg font-medium transition disabled:cursor-not-allowed disabled:opacity-50 bg-white text-brand-800 border border-brand-200 hover:bg-brand-50 h-12 px-6 text-base gap-2">Load more properties (1 remaining)</button>
+</div>
+</div>
+</main>
+<footer class="bg-brand-950 text-brand-200">
+<div class="container-page grid gap-10 py-14 md:grid-cols-4">
+<div class="md:col-span-2">
+<a class="inline-flex items-center gap-2.5" aria-label="ELVICTORIA home" href="/">
+<svg viewBox="0 0 40 40" class="h-9 w-9 shrink-0" aria-hidden="true">
+<rect width="40" height="40" rx="9" fill="#ffffff">
+</rect>
+<path d="M11 29 L11 13 L20 8 L29 13 L29 29" fill="none" stroke="#cfa04a" stroke-width="2.2" stroke-linejoin="round">
+</path>
+<path d="M15.5 29 V18 h9 M15.5 23.5 h7 M15.5 29 h9" fill="none" stroke="#6b1d2c" stroke-width="2.2" stroke-linecap="round">
+</path>
+</svg>
+<span class="font-display text-2xl leading-none tracking-wide text-white">EL<span class="text-gold-500">V</span>ICTORIA</span>
+</a>
+<p class="mt-4 font-display text-xl text-white">Lawyers handle everything — not strangers.</p>
+<p class="mt-2 max-w-md text-sm leading-relaxed text-brand-200">ELVICTORIA connects buyers and renters with property owners, landlords and agents in Lagos and Enugu. Every enquiry is coordinated by our legal team, from first contact to completion.</p>
+</div>
+<div>
+<p class="mb-3 text-sm font-semibold text-white">Explore</p>
+<ul class="space-y-2 text-sm">
+<li>
+<a class="hover:text-white" href="/properties?type=sale">Properties for sale</a>
+</li>
+<li>
+<a class="hover:text-white" href="/properties?type=rent">Properties for rent</a>
+</li>
+<li>
+<a class="hover:text-white" href="/about">How ELVICTORIA works</a>
+</li>
+<li>
+<a class="hover:text-white" href="/sell">List a property</a>
+</li>
+<li>
+<a class="hover:text-white" href="/help">Help Desk</a>
+</li>
+<li>
+<a class="hover:text-white" href="/contact">Contact</a>
+</li>
+<li>
+<a class="hover:text-white" href="/terms">Terms and Conditions</a>
+</li>
+<li>
+<a class="hover:text-white" href="/privacy">Privacy Policy</a>
+</li>
+</ul>
+</div>
+<div>
+<p class="mb-3 text-sm font-semibold text-white">Office</p>
+<ul class="space-y-2.5 text-sm">
+<li class="flex gap-2">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-map-pin mt-0.5 h-4 w-4 shrink-0 text-gold-400" aria-hidden="true">
+<path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0">
+</path>
+<circle cx="12" cy="10" r="3">
+</circle>
+</svg>14B Ademola Adetokunbo Crescent, Victoria Island, Lagos</li>
+<li class="flex gap-2">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-phone mt-0.5 h-4 w-4 shrink-0 text-gold-400" aria-hidden="true">
+<path d="M13.832 16.568a1 1 0 0 0 1.213-.303l.355-.465A2 2 0 0 1 17 15h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2A18 18 0 0 1 2 4a2 2 0 0 1 2-2h3a2 2 0 0 1 2 2v3a2 2 0 0 1-.8 1.6l-.468.351a1 1 0 0 0-.292 1.233 14 14 0 0 0 6.392 6.384">
+</path>
+</svg>+234 201 330 4410</li>
+<li class="flex gap-2">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-mail mt-0.5 h-4 w-4 shrink-0 text-gold-400" aria-hidden="true">
+<path d="m22 7-8.991 5.727a2 2 0 0 1-2.009 0L2 7">
+</path>
+<rect x="2" y="4" width="20" height="16" rx="2">
+</rect>
+</svg>hello@elvictoria.example</li>
+<li class="flex gap-2">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-clock mt-0.5 h-4 w-4 shrink-0 text-gold-400" aria-hidden="true">
+<circle cx="12" cy="12" r="10">
+</circle>
+<path d="M12 6v6l4 2">
+</path>
+</svg>Monday – Friday, 8:30am – 5:30pm (WAT)</li>
+</ul>
+</div>
+</div>
+<div class="border-t border-brand-900">
+<div class="container-page flex flex-col gap-2 py-5 text-xs text-brand-400 sm:flex-row sm:justify-between">
+<p>© 2026 ELVICTORIA. All rights reserved.</p>
+<p>Property information is supplied by listing providers and reviewed by our legal team before publication.</p>
+</div>
+</div>
+</footer>
+<nav class="fixed inset-x-0 bottom-0 z-30 grid grid-cols-5 border-t border-brand-100 bg-white/95 pb-[env(safe-area-inset-bottom)] backdrop-blur md:hidden" aria-label="Quick navigation">
+<a class="flex flex-col items-center gap-0.5 py-2 text-2xs font-medium text-ink-muted" href="/">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-house lucide-home h-5 w-5" aria-hidden="true">
+<path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8">
+</path>
+<path d="M3 10a2 2 0 0 1 .709-1.528l7-6a2 2 0 0 1 2.582 0l7 6A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z">
+</path>
+</svg>Home</a>
+<a class="flex flex-col items-center gap-0.5 py-2 text-2xs font-medium text-brand-700" href="/properties?type=sale">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-key-round h-5 w-5 fill-brand-50" aria-hidden="true">
+<path d="M2.586 17.414A2 2 0 0 0 2 18.828V21a1 1 0 0 0 1 1h3a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h1a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h.172a2 2 0 0 0 1.414-.586l.814-.814a6.5 6.5 0 1 0-4-4z">
+</path>
+<circle cx="16.5" cy="7.5" r=".5" fill="currentColor">
+</circle>
+</svg>Buy</a>
+<a class="flex flex-col items-center gap-0.5 py-2 text-2xs font-medium text-ink-muted" href="/properties?type=rent">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-compass h-5 w-5" aria-hidden="true">
+<circle cx="12" cy="12" r="10">
+</circle>
+<path d="m16.24 7.76-1.804 5.411a2 2 0 0 1-1.265 1.265L7.76 16.24l1.804-5.411a2 2 0 0 1 1.265-1.265z">
+</path>
+</svg>Rent</a>
+<a class="flex flex-col items-center gap-0.5 py-2 text-2xs font-medium text-ink-muted" href="/app/saved">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-heart h-5 w-5" aria-hidden="true">
+<path d="M2 9.5a5.5 5.5 0 0 1 9.591-3.676.56.56 0 0 0 .818 0A5.49 5.49 0 0 1 22 9.5c0 2.29-1.5 4-3 5.5l-5.492 5.313a2 2 0 0 1-3 .019L5 15c-1.5-1.5-3-3.2-3-5.5">
+</path>
+</svg>Saved</a>
+<a class="flex flex-col items-center gap-0.5 py-2 text-2xs font-medium text-ink-muted" href="/login">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-user-round lucide-user-2 h-5 w-5" aria-hidden="true">
+<circle cx="12" cy="8" r="5">
+</circle>
+<path d="M20 21a8 8 0 0 0-16 0">
+</path>
+</svg>Sign in</a>
+</nav>
+</div>
+<div aria-live="polite" class="pointer-events-none fixed inset-x-0 bottom-4 z-[60] flex flex-col items-center gap-2 px-4 sm:bottom-6 sm:right-6 sm:left-auto sm:items-end">
+</div>
+</div>
+  
+

@@ -1,0 +1,324 @@
+
+    <div id="root">
+<div class="min-h-screen lg:pl-64">
+<aside class="fixed inset-y-0 left-0 z-30 hidden w-64 flex-col bg-brand-900 px-4 py-5 lg:flex">
+<div class="mb-8 px-2">
+<a class="inline-flex items-center gap-2.5" aria-label="ELVICTORIA home" href="/">
+<svg viewBox="0 0 40 40" class="h-9 w-9 shrink-0" aria-hidden="true">
+<rect width="40" height="40" rx="9" fill="#ffffff">
+</rect>
+<path d="M11 29 L11 13 L20 8 L29 13 L29 29" fill="none" stroke="#cfa04a" stroke-width="2.2" stroke-linejoin="round">
+</path>
+<path d="M15.5 29 V18 h9 M15.5 23.5 h7 M15.5 29 h9" fill="none" stroke="#6b1d2c" stroke-width="2.2" stroke-linecap="round">
+</path>
+</svg>
+<span class="font-display text-2xl leading-none tracking-wide text-white">EL<span class="text-gold-500">V</span>ICTORIA</span>
+</a>
+</div>
+<nav class="flex flex-col gap-0.5" aria-label="Workspace">
+<a class="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition text-brand-200 hover:bg-white/5 hover:text-white" href="/app/client">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-house lucide-home h-[18px] w-[18px] shrink-0" aria-hidden="true">
+<path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8">
+</path>
+<path d="M3 10a2 2 0 0 1 .709-1.528l7-6a2 2 0 0 1 2.582 0l7 6A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z">
+</path>
+</svg>
+<span class="flex-1">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition bg-white/10 text-white" href="/app/client/enquiries" aria-current="page">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-file-search h-[18px] w-[18px] shrink-0" aria-hidden="true">
+<path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z">
+</path>
+<path d="M14 2v5a1 1 0 0 0 1 1h5">
+</path>
+<circle cx="11.5" cy="14.5" r="2.5">
+</circle>
+<path d="M13.3 16.3 15 18">
+</path>
+</svg>
+<span class="flex-1">My Enquiries</span>
+</a>
+<a class="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition text-brand-200 hover:bg-white/5 hover:text-white" href="/app/client/payments">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-credit-card h-[18px] w-[18px] shrink-0" aria-hidden="true">
+<rect width="20" height="14" x="2" y="5" rx="2">
+</rect>
+<line x1="2" x2="22" y1="10" y2="10">
+</line>
+<path d="M6 14h2">
+</path>
+</svg>
+<span class="flex-1">Payments</span>
+</a>
+<a class="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition text-brand-200 hover:bg-white/5 hover:text-white" href="/app/saved">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-heart h-[18px] w-[18px] shrink-0" aria-hidden="true">
+<path d="M2 9.5a5.5 5.5 0 0 1 9.591-3.676.56.56 0 0 0 .818 0A5.49 5.49 0 0 1 22 9.5c0 2.29-1.5 4-3 5.5l-5.492 5.313a2 2 0 0 1-3 .019L5 15c-1.5-1.5-3-3.2-3-5.5">
+</path>
+</svg>
+<span class="flex-1">Saved Properties</span>
+</a>
+<a class="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition text-brand-200 hover:bg-white/5 hover:text-white" href="/properties">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-globe h-[18px] w-[18px] shrink-0" aria-hidden="true">
+<circle cx="12" cy="12" r="10">
+</circle>
+<path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20">
+</path>
+<path d="M2 12h20">
+</path>
+</svg>
+<span class="flex-1">Explore Properties</span>
+</a>
+<a class="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition text-brand-200 hover:bg-white/5 hover:text-white" href="/app/notifications">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-bell h-[18px] w-[18px] shrink-0" aria-hidden="true">
+<path d="M10.268 21a2 2 0 0 0 3.464 0">
+</path>
+<path d="M3.262 15.326A1 1 0 0 0 4 17h16a1 1 0 0 0 .74-1.673C19.41 13.956 18 12.499 18 8A6 6 0 0 0 6 8c0 4.499-1.411 5.956-2.738 7.326">
+</path>
+</svg>
+<span class="flex-1">Notifications</span>
+<span class="rounded-full bg-gold-400 px-1.5 text-2xs font-semibold text-brand-950">1</span>
+</a>
+<a class="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition text-brand-200 hover:bg-white/5 hover:text-white" href="/app/help">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-life-buoy h-[18px] w-[18px] shrink-0" aria-hidden="true">
+<circle cx="12" cy="12" r="10">
+</circle>
+<path d="m4.93 4.93 4.24 4.24">
+</path>
+<path d="m14.83 9.17 4.24-4.24">
+</path>
+<path d="m14.83 14.83 4.24 4.24">
+</path>
+<path d="m9.17 14.83-4.24 4.24">
+</path>
+<circle cx="12" cy="12" r="4">
+</circle>
+</svg>
+<span class="flex-1">Help Desk</span>
+</a>
+</nav>
+<div class="mt-auto rounded-lg bg-white/5 px-3 py-3 text-xs text-brand-300">All communication about a property is handled by the ELVICTORIA legal team.</div>
+</aside>
+<header class="sticky top-0 z-20 flex h-16 items-center justify-between gap-3 border-b border-brand-100/70 bg-white/90 px-4 backdrop-blur sm:px-6">
+<div class="flex items-center gap-2">
+<button class="rounded-lg p-2 lg:hidden" aria-label="Open menu">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-menu h-5 w-5" aria-hidden="true">
+<path d="M4 5h16">
+</path>
+<path d="M4 12h16">
+</path>
+<path d="M4 19h16">
+</path>
+</svg>
+</button>
+<div class="lg:hidden">
+<a class="inline-flex items-center gap-2.5" aria-label="ELVICTORIA home" href="/">
+<svg viewBox="0 0 40 40" class="h-9 w-9 shrink-0" aria-hidden="true">
+<rect width="40" height="40" rx="9" fill="#6b1d2c">
+</rect>
+<path d="M11 29 L11 13 L20 8 L29 13 L29 29" fill="none" stroke="#cfa04a" stroke-width="2.2" stroke-linejoin="round">
+</path>
+<path d="M15.5 29 V18 h9 M15.5 23.5 h7 M15.5 29 h9" fill="none" stroke="#ffffff" stroke-width="2.2" stroke-linecap="round">
+</path>
+</svg>
+<span class="font-display text-2xl leading-none tracking-wide text-ink-strong">EL<span class="text-gold-500">V</span>ICTORIA</span>
+</a>
+</div>
+</div>
+<div class="flex items-center gap-1">
+<div class="relative">
+<button class="relative rounded-lg p-2 text-ink-soft hover:bg-brand-50" aria-label="Notifications, 1 unread">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-bell h-5 w-5" aria-hidden="true">
+<path d="M10.268 21a2 2 0 0 0 3.464 0">
+</path>
+<path d="M3.262 15.326A1 1 0 0 0 4 17h16a1 1 0 0 0 .74-1.673C19.41 13.956 18 12.499 18 8A6 6 0 0 0 6 8c0 4.499-1.411 5.956-2.738 7.326">
+</path>
+</svg>
+<span class="absolute right-1 top-1 flex h-4 min-w-4 items-center justify-center rounded-full bg-red-600 px-1 text-2xs font-semibold text-white">1</span>
+</button>
+</div>
+<div class="relative">
+<button class="flex items-center gap-2 rounded-lg p-1 pr-2 hover:bg-brand-50" aria-label="Account menu">
+<span aria-hidden="true" class="inline-flex shrink-0 items-center justify-center rounded-full font-semibold text-white bg-brand-700 h-7 w-7 text-2xs">DJ</span>
+<span class="hidden text-left sm:block">
+<span class="block text-sm font-medium leading-tight text-ink-strong">Daniel Johnson</span>
+<span class="block text-xs text-ink-muted">Buyer</span>
+</span>
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-down h-4 w-4 text-ink-muted" aria-hidden="true">
+<path d="m6 9 6 6 6-6">
+</path>
+</svg>
+</button>
+</div>
+</div>
+</header>
+<main class="mx-auto max-w-7xl px-4 py-6 sm:px-6 sm:py-8">
+<div>
+<div class="mb-6">
+<div class="flex flex-wrap items-end justify-between gap-4">
+<div class="min-w-0">
+<h1 class="text-2xl font-semibold tracking-tight sm:text-3xl">My enquiries</h1>
+<p class="mt-1.5 max-w-2xl text-base text-ink-soft">Every enquiry you submit is handled by a lawyer from the ELVICTORIA legal team.</p>
+</div>
+<div class="flex flex-wrap gap-2">
+<a class="inline-flex select-none items-center justify-center whitespace-nowrap rounded-lg font-medium transition disabled:cursor-not-allowed disabled:opacity-50 bg-brand-800 text-white hover:bg-brand-700 shadow-sm h-10 px-4 text-sm gap-2" href="/properties">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-search h-4 w-4" aria-hidden="true">
+<path d="m21 21-4.34-4.34">
+</path>
+<circle cx="11" cy="11" r="8">
+</circle>
+</svg>Browse properties</a>
+</div>
+</div>
+</div>
+<div class="rounded-xl border border-brand-100/80 bg-white shadow-card">
+<div class="border-b border-brand-50 p-3">
+<div class="scrollbar-thin -mx-1 flex gap-1 overflow-x-auto px-1" role="tablist">
+<button role="tab" aria-selected="true" class="inline-flex shrink-0 items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium transition bg-brand-800 text-white">Active<span class="rounded-full px-1.5 text-xs bg-white/20">2</span>
+</button>
+<button role="tab" aria-selected="false" class="inline-flex shrink-0 items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium transition text-ink-soft hover:bg-brand-50">Closed<span class="rounded-full px-1.5 text-xs bg-brand-50 text-ink-muted">0</span>
+</button>
+</div>
+</div>
+<div>
+<div class="hidden overflow-x-auto md:block">
+<table class="w-full text-left text-sm">
+<thead>
+<tr class="border-b border-brand-100 text-xs uppercase tracking-wide text-ink-muted">
+<th class="whitespace-nowrap px-4 py-3 font-medium">Property</th>
+<th class="whitespace-nowrap px-4 py-3 font-medium">Reference</th>
+<th class="whitespace-nowrap px-4 py-3 font-medium" aria-sort="descending">
+<button class="inline-flex items-center gap-1 hover:text-brand-800">Submitted<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-down h-3 w-3" aria-hidden="true">
+<path d="M12 5v14">
+</path>
+<path d="m19 12-7 7-7-7">
+</path>
+</svg>
+</button>
+</th>
+<th class="whitespace-nowrap px-4 py-3 font-medium">Status</th>
+<th class="whitespace-nowrap px-4 py-3 font-medium">Last update</th>
+<th class="whitespace-nowrap px-4 py-3 font-medium">
+</th>
+</tr>
+</thead>
+<tbody>
+<tr class="border-b border-brand-50 last:border-0 cursor-pointer hover:bg-brand-50/50">
+<td class="px-4 py-3 align-middle">
+<div class="flex items-center gap-3">
+<img src="https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&amp;fit=crop&amp;w=1400&amp;q=82" alt="Front elevation" class="object-cover h-10 w-14 shrink-0 rounded-md" loading="lazy" decoding="async">
+<span class="line-clamp-1 font-medium text-ink-strong">Contemporary 4-Bedroom Detached Duplex</span>
+</div>
+</td>
+<td class="px-4 py-3 align-middle">ELV-CS-2001</td>
+<td class="px-4 py-3 align-middle">
+<span class="text-ink-muted">3 Nov 2026</span>
+</td>
+<td class="px-4 py-3 align-middle">
+<span class="inline-flex items-center gap-1.5 whitespace-nowrap rounded-full px-2.5 py-1 text-xs font-medium ring-1 ring-inset bg-brand-50 text-brand-800 ring-brand-200">
+<span class="h-1.5 w-1.5 rounded-full bg-brand-500">
+</span>In progress</span>
+</td>
+<td class="px-4 py-3 align-middle">
+<span class="line-clamp-1 max-w-[240px] text-ink-soft">In progress. Deposit received; inspection scheduled.</span>
+</td>
+<td class="px-4 py-3 align-middle">
+<span class="inline-flex items-center gap-1 text-sm font-medium text-brand-700">View<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-right h-3.5 w-3.5" aria-hidden="true">
+<path d="M5 12h14">
+</path>
+<path d="m12 5 7 7-7 7">
+</path>
+</svg>
+</span>
+</td>
+</tr>
+<tr class="border-b border-brand-50 last:border-0 cursor-pointer hover:bg-brand-50/50">
+<td class="px-4 py-3 align-middle">
+<div class="flex items-center gap-3">
+<img src="https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&amp;fit=crop&amp;w=1400&amp;q=82" alt="Front elevation" class="object-cover h-10 w-14 shrink-0 rounded-md" loading="lazy" decoding="async">
+<span class="line-clamp-1 font-medium text-ink-strong">4-Bedroom Detached Duplex</span>
+</div>
+</td>
+<td class="px-4 py-3 align-middle">ELV-CS-2008</td>
+<td class="px-4 py-3 align-middle">
+<span class="text-ink-muted">15 Oct 2026</span>
+</td>
+<td class="px-4 py-3 align-middle">
+<span class="inline-flex items-center gap-1.5 whitespace-nowrap rounded-full px-2.5 py-1 text-xs font-medium ring-1 ring-inset bg-brand-50 text-brand-800 ring-brand-200">
+<span class="h-1.5 w-1.5 rounded-full bg-brand-500">
+</span>In progress</span>
+</td>
+<td class="px-4 py-3 align-middle">
+<span class="line-clamp-1 max-w-[240px] text-ink-soft">In progress.</span>
+</td>
+<td class="px-4 py-3 align-middle">
+<span class="inline-flex items-center gap-1 text-sm font-medium text-brand-700">View<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-right h-3.5 w-3.5" aria-hidden="true">
+<path d="M5 12h14">
+</path>
+<path d="m12 5 7 7-7 7">
+</path>
+</svg>
+</span>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<ul class="divide-y divide-brand-50 md:hidden">
+<li>
+<div role="button" tabindex="0" class="space-y-1.5 px-4 py-3.5 active:bg-brand-50">
+<div class="font-medium text-ink-strong">Contemporary 4-Bedroom Detached Duplex</div>
+<div class="flex items-start justify-between gap-3 text-sm">
+<span class="shrink-0 text-ink-muted">Reference</span>
+<span class="min-w-0 text-right">ELV-CS-2001</span>
+</div>
+<div class="flex items-start justify-between gap-3 text-sm">
+<span class="shrink-0 text-ink-muted">Submitted</span>
+<span class="min-w-0 text-right">
+<span class="text-ink-muted">3 Nov 2026</span>
+</span>
+</div>
+<div class="flex items-start justify-between gap-3 text-sm">
+<span class="shrink-0 text-ink-muted">Status</span>
+<span class="min-w-0 text-right">
+<span class="inline-flex items-center gap-1.5 whitespace-nowrap rounded-full px-2.5 py-1 text-xs font-medium ring-1 ring-inset bg-brand-50 text-brand-800 ring-brand-200">
+<span class="h-1.5 w-1.5 rounded-full bg-brand-500">
+</span>In progress</span>
+</span>
+</div>
+</div>
+</li>
+<li>
+<div role="button" tabindex="0" class="space-y-1.5 px-4 py-3.5 active:bg-brand-50">
+<div class="font-medium text-ink-strong">4-Bedroom Detached Duplex</div>
+<div class="flex items-start justify-between gap-3 text-sm">
+<span class="shrink-0 text-ink-muted">Reference</span>
+<span class="min-w-0 text-right">ELV-CS-2008</span>
+</div>
+<div class="flex items-start justify-between gap-3 text-sm">
+<span class="shrink-0 text-ink-muted">Submitted</span>
+<span class="min-w-0 text-right">
+<span class="text-ink-muted">15 Oct 2026</span>
+</span>
+</div>
+<div class="flex items-start justify-between gap-3 text-sm">
+<span class="shrink-0 text-ink-muted">Status</span>
+<span class="min-w-0 text-right">
+<span class="inline-flex items-center gap-1.5 whitespace-nowrap rounded-full px-2.5 py-1 text-xs font-medium ring-1 ring-inset bg-brand-50 text-brand-800 ring-brand-200">
+<span class="h-1.5 w-1.5 rounded-full bg-brand-500">
+</span>In progress</span>
+</span>
+</div>
+</div>
+</li>
+</ul>
+<div class="px-3">
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+<div aria-live="polite" class="pointer-events-none fixed inset-x-0 bottom-4 z-[60] flex flex-col items-center gap-2 px-4 sm:bottom-6 sm:right-6 sm:left-auto sm:items-end">
+</div>
+</div>
+  
+
