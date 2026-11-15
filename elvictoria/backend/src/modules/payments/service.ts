@@ -649,3 +649,36 @@ export async function getById(user: AuthUser, paymentId: string) {
       }));
   return { ...payment, attempts };
 }
+
+// ------------------------------------------------- bank transfer details
+
+// Manual bank transfer is the PRIMARY payment method; the details are the
+// platform's own receiving account, editable by staff in Settings.
+const BANK_SETTING_KEYS = ["bankName", "bankAccountName", "bankAccountNumber"];
+
+// A payer "reached the payment stage" when at least one payment request
+// is still actionable (outstanding, checkout opened, or transfer reported).
+const ACTIVE_PAYMENT_STATUSES: PaymentStatus[] = ["OUTSTANDING", "AWAITING_PAYMENT", "PENDING_CONFIRMATION"];
+
+/**
+ * Return ELVICTORIA's bank account details for the primary manual transfer
+ * method — but only once the payer has reached the payment stage (an
+ * active payment request exists). Staff always see them; nobody else does,
+ * so the account details are never publicly visible. Returns null when the
+ * caller is not eligible.
+ */
+export async function bankTransferDetails(
+  userId: string,
+  isStaff: boolean,
+): Promise<Record<string, string> | null> {
+  if (!isStaff) {
+    const active = await prisma.payment.count({
+      where: { payerId: userId, status: { in: ACTIVE_PAYMENT_STATUSES } },
+    });
+    if (active === 0) return null;
+  }
+  const rows = await prisma.setting.findMany({ where: { key: { in: BANK_SETTING_KEYS } } });
+  const details: Record<string, string> = {};
+  for (const row of rows) details[row.key] = row.value;
+  return details;
+}

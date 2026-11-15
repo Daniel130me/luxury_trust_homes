@@ -231,6 +231,11 @@ router.put(
         officeHours: z.string().trim().max(120).optional(),
         enquiryAcknowledgement: z.string().trim().max(300).optional(),
         paymentDueDays: z.coerce.number().int().min(1).max(60).optional(),
+        // ELVICTORIA's receiving account for the primary manual bank
+        // transfer method — shown to a payer only at the payment stage.
+        bankName: z.string().trim().max(80).optional(),
+        bankAccountName: z.string().trim().max(80).optional(),
+        bankAccountNumber: z.string().trim().max(30).optional(),
       }),
     }),
   }),

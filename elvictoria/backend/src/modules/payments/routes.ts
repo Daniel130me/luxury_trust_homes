@@ -5,6 +5,7 @@ import { ok, ApiError } from "../../lib/http.js";
 import { validate, pageSchema, pageSizeSchema } from "../../middleware/validate.js";
 import { requireAuth, requirePermission } from "../../middleware/auth.js";
 import { paymentLimiter } from "../../middleware/rateLimit.js";
+import { can } from "../../lib/permissions.js";
 import * as svc from "./service.js";
 import * as flw from "../../lib/flutterwave.js";
 
@@ -29,6 +30,16 @@ router.get("/client/payments", requireAuth, async (req, res) => {
     pageSize: Math.min(50, Math.max(1, Number(q.pageSize ?? 20))),
     status: q.status || undefined,
   }));
+});
+
+// Bank account details for the PRIMARY manual transfer method. Must be
+// registered before "/client/payments/:id" so "bank-details" is not read
+// as an :id. Revealed only at the payment stage (active request) or to staff.
+router.get("/client/payments/bank-details", requireAuth, async (req, res) => {
+  const user = req.user!;
+  const details = await svc.bankTransferDetails(user.id, can(user, "workspace.staff"));
+  if (!details) throw ApiError.forbidden("Bank details become available once you have an active payment request.");
+  ok(res, { details });
 });
 
 router.get("/client/payments/:id", requireAuth, async (req, res) => {

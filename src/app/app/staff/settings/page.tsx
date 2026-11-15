@@ -1,7 +1,7 @@
 "use client";
 
 /** Staff settings — platform office details (lawyers edit, support reads). */
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { apiFetch, ApiRequestError } from "@/lib/api";
 import { useAuth } from "@/lib/auth";
 import {
@@ -15,6 +15,9 @@ type Settings = {
   officeHours: string;
   enquiryAcknowledgement: string;
   paymentDueDays: string;
+  bankName: string;
+  bankAccountName: string;
+  bankAccountNumber: string;
 };
 
 const EMPTY: Settings = {
@@ -24,6 +27,9 @@ const EMPTY: Settings = {
   officeHours: "",
   enquiryAcknowledgement: "",
   paymentDueDays: "7",
+  bankName: "",
+  bankAccountName: "",
+  bankAccountNumber: "",
 };
 
 export default function StaffSettingsPage() {
@@ -64,6 +70,9 @@ export default function StaffSettingsPage() {
             officeHours: settings.officeHours,
             enquiryAcknowledgement: settings.enquiryAcknowledgement,
             paymentDueDays: Number(settings.paymentDueDays) || 7,
+            bankName: settings.bankName,
+            bankAccountName: settings.bankAccountName,
+            bankAccountNumber: settings.bankAccountNumber,
           },
         },
       });
@@ -115,6 +124,32 @@ export default function StaffSettingsPage() {
             />
           </Field>
 
+          {/* Primary manual payment method — the platform's own account. */}
+          <div className="rounded-xl border border-brand-100 bg-brand-50/40 p-4">
+            <p className="text-sm font-semibold text-ink-strong">Bank transfer account</p>
+            <p className="mt-1 text-xs text-ink-muted">
+              The ELVICTORIA account shown to a payer at the payment stage. Bank transfer is the
+              primary method; card checkout remains available as the alternative.
+            </p>
+            <div className="mt-3 grid gap-4 sm:grid-cols-2">
+              <Field label="Bank name">
+                <Input value={settings.bankName} onChange={(e) => set("bankName", e.target.value)} disabled={!canManage} />
+              </Field>
+              <Field label="Account name">
+                <Input value={settings.bankAccountName} onChange={(e) => set("bankAccountName", e.target.value)} disabled={!canManage} />
+              </Field>
+            </div>
+            <Field label="Account number">
+              <Input
+                inputMode="numeric"
+                value={settings.bankAccountNumber}
+                onChange={(e) => set("bankAccountNumber", e.target.value.replace(/[^0-9 ]/g, ""))}
+                disabled={!canManage}
+                className="w-56"
+              />
+            </Field>
+          </div>
+
           {notice && <Alert tone="success">{notice}</Alert>}
           {error && <Alert tone="error">{error}</Alert>}
 
@@ -125,6 +160,96 @@ export default function StaffSettingsPage() {
           )}
         </form>
       </Card>
+
+      {/* Admin-managed listing taxonomy — lawyers can add new types without a deploy. */}
+      {canManage && <PropertyTypesManager />}
     </div>
+  );
+}
+
+type PropertyTypeRow = { id: string; name: string; active: boolean; sortOrder: number };
+
+function PropertyTypesManager() {
+  const [types, setTypes] = useState<PropertyTypeRow[] | null>(null);
+  const [name, setName] = useState("");
+  const [busy, setBusy] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [notice, setNotice] = useState<string | null>(null);
+
+  const load = useCallback(async () => {
+    const data = await apiFetch<{ types: PropertyTypeRow[] }>("/properties/types/all").catch(() => null);
+    setTypes(data?.types ?? []);
+  }, []);
+
+  useEffect(() => {
+    void load();
+  }, [load]);
+
+  async function addType(event: React.FormEvent) {
+    event.preventDefault();
+    if (!name.trim()) return;
+    setBusy(true);
+    setError(null);
+    setNotice(null);
+    try {
+      await apiFetch("/properties/types", { method: "POST", body: { name: name.trim() } });
+      setNotice(`"${name.trim()}" added. It now appears in listing forms and search filters.`);
+      setName("");
+      await load();
+    } catch (err) {
+      setError(err instanceof ApiRequestError ? err.message : "Could not add the property type.");
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  async function toggleActive(type: PropertyTypeRow) {
+    setBusy(true);
+    setError(null);
+    try {
+      await apiFetch(`/properties/types/${type.id}`, { method: "PATCH", body: { active: !type.active } });
+      await load();
+    } catch (err) {
+      setError(err instanceof ApiRequestError ? err.message : "Could not update the property type.");
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  return (
+    <Card className="mt-6 p-5 sm:p-6">
+      <SectionHeader
+        title="Property types"
+        description="The listing taxonomy used in provider forms and public search filters."
+      />
+
+      <form onSubmit={addType} className="mt-4 flex flex-wrap items-end gap-3" noValidate>
+        <Field label="New property type">
+          <Input value={name} onChange={(e) => setName(e.target.value)} placeholder="e.g. Serviced Apartment" className="w-64" />
+        </Field>
+        <Button type="submit" loading={busy} disabled={!name.trim()}>Add type</Button>
+      </form>
+
+      {notice && <div className="mt-3"><Alert tone="success">{notice}</Alert></div>}
+      {error && <div className="mt-3"><Alert tone="error">{error}</Alert></div>}
+
+      {types === null ? (
+        <PageLoader />
+      ) : (
+        <ul className="mt-4 divide-y divide-brand-50">
+          {types.map((type) => (
+            <li key={type.id} className="flex items-center justify-between gap-3 py-2.5">
+              <span className="text-sm font-medium text-ink-strong">{type.name}</span>
+              <Button variant="outline" size="sm" onClick={() => void toggleActive(type)} disabled={busy}>
+                {type.active ? "Deactivate" : "Activate"}
+              </Button>
+            </li>
+          ))}
+        </ul>
+      )}
+      <p className="mt-3 text-xs text-ink-muted">
+        Deactivating a type hides it from new forms and filters. Existing listings keep their type.
+      </p>
+    </Card>
   );
 }

@@ -37,13 +37,17 @@ type PaymentDetail = {
 };
 
 type Method = "card" | "transfer" | null;
+type BankDetails = { bankName?: string; bankAccountName?: string; bankAccountNumber?: string };
 
 export default function PaymentDetailPage() {
   const { id } = useParams<{ id: string }>();
   const [payment, setPayment] = useState<PaymentDetail | null>(null);
   const [missing, setMissing] = useState(false);
-  const [method, setMethod] = useState<Method>(null);
+  // Bank transfer is the primary method — selected by default.
+  const [method, setMethod] = useState<Method>("transfer");
   const [transferNote, setTransferNote] = useState("");
+  const [bank, setBank] = useState<BankDetails | null>(null);
+  const [bankUnavailable, setBankUnavailable] = useState(false);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [notice, setNotice] = useState<string | null>(null);
@@ -60,6 +64,15 @@ export default function PaymentDetailPage() {
   useEffect(() => {
     void load();
   }, [load]);
+
+  // Bank details are gated server-side and only load once the payer has an
+  // active payment request — exactly when this page offers a payment method.
+  useEffect(() => {
+    if (!payment || !["OUTSTANDING", "AWAITING_PAYMENT", "FAILED"].includes(payment.status)) return;
+    apiFetch<{ details: BankDetails }>("/client/payments/bank-details")
+      .then((d) => setBank(d.details))
+      .catch(() => setBankUnavailable(true));
+  }, [payment?.id, payment?.status]);
 
   // After returning from the hosted checkout, verify the session server-side.
   useEffect(() => {
@@ -175,6 +188,19 @@ export default function PaymentDetailPage() {
               <fieldset>
                 <legend className="text-sm font-semibold text-ink-strong">Payment method</legend>
                 <div className="mt-3 grid gap-3 sm:grid-cols-2">
+                  {/* Primary: manual bank transfer into ELVICTORIA's account. */}
+                  <button
+                    onClick={() => setMethod("transfer")}
+                    aria-pressed={method === "transfer"}
+                    className={`rounded-xl border-2 p-4 text-left transition-colors ${
+                      method === "transfer" ? "border-brand-700 bg-brand-50" : "border-brand-100 hover:border-brand-300"
+                    }`}
+                  >
+                    <p className="font-semibold text-ink-strong">
+                      Bank transfer <span className="ml-1 rounded-full bg-brand-700 px-1.5 py-0.5 text-[10px] font-bold text-white">PRIMARY</span>
+                    </p>
+                    <p className="mt-0.5 text-xs text-ink-muted">Pay into the ELVICTORIA account — confirmed by the legal team</p>
+                  </button>
                   <button
                     onClick={() => setMethod("card")}
                     aria-pressed={method === "card"}
@@ -183,17 +209,7 @@ export default function PaymentDetailPage() {
                     }`}
                   >
                     <p className="font-semibold text-ink-strong">Debit card</p>
-                    <p className="mt-0.5 text-xs text-ink-muted">Pay instantly — secure Flutterwave checkout</p>
-                  </button>
-                  <button
-                    onClick={() => setMethod("transfer")}
-                    aria-pressed={method === "transfer"}
-                    className={`rounded-xl border-2 p-4 text-left transition-colors ${
-                      method === "transfer" ? "border-brand-700 bg-brand-50" : "border-brand-100 hover:border-brand-300"
-                    }`}
-                  >
-                    <p className="font-semibold text-ink-strong">Bank transfer</p>
-                    <p className="mt-0.5 text-xs text-ink-muted">Confirmed by your lawyer</p>
+                    <p className="mt-0.5 text-xs text-ink-muted">Alternative — instant payment via Flutterwave</p>
                   </button>
                 </div>
               </fieldset>
@@ -209,9 +225,39 @@ export default function PaymentDetailPage() {
               {method === "transfer" && (
                 <div className="mt-4 space-y-3">
                   <Alert tone="info">
-                    Transfer {formatNaira(payment.amount)} to the account your lawyer shared with you,
-                    then report the transfer here. Your lawyer confirms receipt against your case.
+                    Transfer {formatNaira(payment.amount)} into the ELVICTORIA account below, then
+                    report the transfer here. The legal team confirms receipt against your case.
                   </Alert>
+
+                  {/* The account details are fetched only for eligible payers. */}
+                  {bank && (bank.bankName || bank.bankAccountName || bank.bankAccountNumber) ? (
+                    <dl className="rounded-lg border border-brand-100 bg-white p-4 text-sm">
+                      {bank.bankName && (
+                        <div className="flex justify-between gap-4 py-1">
+                          <dt className="text-ink-muted">Bank</dt>
+                          <dd className="font-semibold text-ink-strong">{bank.bankName}</dd>
+                        </div>
+                      )}
+                      {bank.bankAccountName && (
+                        <div className="flex justify-between gap-4 py-1">
+                          <dt className="text-ink-muted">Account name</dt>
+                          <dd className="font-semibold text-ink-strong">{bank.bankAccountName}</dd>
+                        </div>
+                      )}
+                      {bank.bankAccountNumber && (
+                        <div className="flex justify-between gap-4 py-1">
+                          <dt className="text-ink-muted">Account number</dt>
+                          <dd className="font-mono text-base font-bold tracking-wide text-ink-strong">{bank.bankAccountNumber}</dd>
+                        </div>
+                      )}
+                    </dl>
+                  ) : bankUnavailable ? (
+                    <Alert tone="info">
+                      Bank details are temporarily unavailable. Please use the debit card option, or
+                      contact support for the transfer account.
+                    </Alert>
+                  ) : null}
+
                   <textarea
                     value={transferNote}
                     onChange={(e) => setTransferNote(e.target.value)}
