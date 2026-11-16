@@ -122,8 +122,13 @@ router.post(
   }),
   async (req, res) => {
     const name = req.body.name as string;
-    const exists = await prisma.propertyType.findUnique({ where: { name } });
-    if (exists) throw ApiError.badRequest("That property type already exists.", { name: "Already in use." });
+    // Case-insensitive uniqueness: "apartment" and "Apartment" must not
+    // coexist, or the taxonomy and its filters fragment.
+    const exists = await prisma.propertyType.findFirst({
+      where: { name: { equals: name, mode: "insensitive" } },
+      select: { id: true },
+    });
+    if (exists) throw ApiError.badRequest("That property type already exists.", { name: "Already in use (names are case-insensitive)." });
     const max = await prisma.propertyType.aggregate({ _max: { sortOrder: true } });
     const type = await prisma.propertyType.create({
       data: { name, sortOrder: (req.body.sortOrder as number | undefined) ?? (max._max.sortOrder ?? 0) + 1 },
@@ -149,9 +154,14 @@ router.patch(
     if (!type) throw ApiError.notFound("Property type not found.");
 
     const patch = req.body as { name?: string; active?: boolean; sortOrder?: number };
-    if (patch.name && patch.name !== type.name) {
-      const taken = await prisma.propertyType.findUnique({ where: { name: patch.name } });
-      if (taken) throw ApiError.badRequest("That property type already exists.", { name: "Already in use." });
+    // Case-insensitive uniqueness on rename, excluding the type itself so
+    // a pure case change ("Terrace House" -> "terrace house") stays allowed.
+    if (patch.name && patch.name.toLowerCase() !== type.name.toLowerCase()) {
+      const taken = await prisma.propertyType.findFirst({
+        where: { name: { equals: patch.name, mode: "insensitive" }, id: { not: id } },
+        select: { id: true },
+      });
+      if (taken) throw ApiError.badRequest("That property type already exists.", { name: "Already in use (names are case-insensitive)." });
     }
     const updated = await prisma.propertyType.update({ where: { id }, data: patch });
     // Deactivating a type hides it from pickers but existing listings keep
