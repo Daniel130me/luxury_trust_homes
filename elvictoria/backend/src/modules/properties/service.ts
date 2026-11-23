@@ -281,13 +281,18 @@ export async function updateByProvider(
     property.status === PropertyStatus.PENDING_REVIEW;
   if (!editable) throw ApiError.forbidden("This listing can no longer be edited.");
 
-  // Editing an approved listing sends it back to the legal team for review.
-  const nextStatus =
-    input.submitForReview === false
-      ? PropertyStatus.DRAFT
-      : property.status === PropertyStatus.APPROVED
-        ? PropertyStatus.PENDING_REVIEW
-        : property.status;
+  // Submitting (the default) always sends the listing back to the legal
+  // team — a fresh draft, a rework after "changes requested", or an edit
+  // of an approved listing. submitForReview=false keeps it a draft.
+  let nextStatus: PropertyStatus;
+  if (input.submitForReview === false) {
+    nextStatus = PropertyStatus.DRAFT;
+  } else if (property.status === PropertyStatus.PENDING_REVIEW) {
+    nextStatus = property.status; // already queued — nothing to change
+  } else {
+    // DRAFT, CHANGES_REQUESTED and APPROVED all (re)enter the review queue.
+    nextStatus = PropertyStatus.PENDING_REVIEW;
+  }
 
   return prisma.$transaction(async (tx) => {
     const updated = await tx.property.update({
@@ -342,13 +347,18 @@ export async function updateByProvider(
   });
 }
 
-/** Submit an existing draft for review. */
+/** Submit an existing draft (or a rework after "changes requested") for review. */
 export async function submitForReview(propertyId: string, providerId: string) {
   const property = await prisma.property.findUnique({ where: { id: propertyId } });
   if (!property) throw ApiError.notFound("Property not found.");
   if (property.providerId !== providerId) throw ApiError.forbidden();
-  if (property.status !== PropertyStatus.DRAFT) {
-    throw ApiError.badRequest("Only draft listings can be submitted for review.");
+  if (
+    property.status !== PropertyStatus.DRAFT &&
+    property.status !== PropertyStatus.CHANGES_REQUESTED
+  ) {
+    throw ApiError.badRequest(
+      "Only draft listings, or listings with requested changes, can be submitted for review.",
+    );
   }
   const updated = await prisma.property.update({
     where: { id: propertyId },

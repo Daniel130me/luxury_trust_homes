@@ -247,7 +247,7 @@ router.patch(
   validate({ body: upsertSchema }),
   async (req, res) => {
     if (req.user!.role !== "PROVIDER") throw ApiError.forbidden();
-    ok(res, { property: await svc.updateByProvider(req.user!.id, String(req.params.id), req.body) });
+    ok(res, { property: await svc.updateByProvider(String(req.params.id), req.user!.id, req.body) });
   },
 );
 
@@ -262,7 +262,7 @@ router.patch(
   validate({ body: z.object({ availability: z.enum(["AVAILABLE", "UNDER_OFFER", "UNAVAILABLE"]) }) }),
   async (req, res) => {
     if (req.user!.role !== "PROVIDER") throw ApiError.forbidden();
-    ok(res, { property: await svc.setAvailability(req.user!.id, String(req.params.id), req.body.availability) });
+    ok(res, { property: await svc.setAvailability(String(req.params.id), req.user!.id, req.body.availability) });
   },
 );
 
