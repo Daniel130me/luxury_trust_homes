@@ -42,6 +42,9 @@ type Property = {
   cautionDeposit?: number | null;
   serviceCharge?: number | null;
   images: Array<{ id: string; url: string; label: string }>;
+  videoUrl?: string | null;
+  videoBytes?: number | null;
+  videoDurationSec?: number | null;
   createdAt: string;
 };
 
@@ -200,6 +203,21 @@ export default function PropertyDetailPage() {
                 </button>
               ))}
             </div>
+          )}
+
+          {/* Video walkthrough — optional, uploaded by the lister */}
+          {property.videoUrl && (
+            <section className="mt-8">
+              <h2 className="text-lg font-semibold text-ink-strong">Video walkthrough</h2>
+              <video
+                src={property.videoUrl}
+                controls
+                preload="metadata"
+                playsInline
+                className="mt-3 aspect-video w-full rounded-xl bg-black"
+                data-testid="public-listing-video"
+              />
+            </section>
           )}
 
           {/* ------------------------------------------------------ body */}
