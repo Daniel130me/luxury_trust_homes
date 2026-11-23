@@ -5,7 +5,7 @@
  * features, and the enquiry panel. Signed-in clients get the enquiry form;
  * visitors are invited to sign in (prototype behaviour).
  */
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { useParams, useRouter, useSearchParams } from "next/navigation";
 import { apiFetch, ApiRequestError } from "@/lib/api";
@@ -57,6 +57,8 @@ export default function PropertyDetailPage() {
   const [property, setProperty] = useState<Property | null>(null);
   const [notFound, setNotFound] = useState(false);
   const [photoIndex, setPhotoIndex] = useState(0);
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const [playing, setPlaying] = useState(false);
   const [saved, setSaved] = useState(false);
   const [savedChecked, setSavedChecked] = useState(false);
 
@@ -108,6 +110,21 @@ export default function PropertyDetailPage() {
   if (!property) return <main className="mx-auto max-w-7xl px-4 py-8 sm:px-6"><PageLoader label="Loading property…" /></main>;
 
   const photos = property.images;
+
+  // Big overlay button (TikTok/YouTube style): tap to start, fades away
+  // while playing and comes back when paused. The native controls remain
+  // for seeking, volume and fullscreen.
+  async function togglePlay() {
+    const video = videoRef.current;
+    if (!video) return;
+    try {
+      if (video.paused) await video.play();
+      else video.pause();
+    } catch {
+      // play() can reject if the browser blocks it; the native controls
+      // still work, so there is nothing to recover here.
+    }
+  }
 
   async function toggleSave() {
     if (!user) {
@@ -209,14 +226,38 @@ export default function PropertyDetailPage() {
           {property.videoUrl && (
             <section className="mt-8">
               <h2 className="text-lg font-semibold text-ink-strong">Video walkthrough</h2>
-              <video
-                src={property.videoUrl}
-                controls
-                preload="metadata"
-                playsInline
-                className="mt-3 aspect-video w-full rounded-xl bg-black"
-                data-testid="public-listing-video"
-              />
+              <div className="relative mt-3">
+                <video
+                  ref={videoRef}
+                  src={property.videoUrl}
+                  controls
+                  preload="metadata"
+                  playsInline
+                  className="aspect-video w-full rounded-xl bg-black"
+                  data-testid="public-listing-video"
+                  onPlay={() => setPlaying(true)}
+                  onPause={() => setPlaying(false)}
+                  onEnded={() => setPlaying(false)}
+                />
+                <button
+                  type="button"
+                  onClick={togglePlay}
+                  aria-label={playing ? "Pause video" : "Play video"}
+                  className={`absolute left-1/2 top-1/2 z-10 grid h-20 w-20 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full bg-black/60 text-white shadow-lg backdrop-blur transition-all duration-200 hover:bg-black/75 sm:h-24 sm:w-24 ${
+                    playing ? "scale-75 opacity-0" : "scale-100 opacity-100"
+                  }`}
+                >
+                  {playing ? (
+                    <svg viewBox="0 0 24 24" fill="currentColor" className="h-9 w-9 sm:h-10 sm:w-10" aria-hidden>
+                      <path d="M6 5h4v14H6zM14 5h4v14h-4z" />
+                    </svg>
+                  ) : (
+                    <svg viewBox="0 0 24 24" fill="currentColor" className="-ml-1 h-9 w-9 sm:h-10 sm:w-10" aria-hidden>
+                      <path d="M8 5v14l11-7z" />
+                    </svg>
+                  )}
+                </button>
+              </div>
             </section>
           )}
 
