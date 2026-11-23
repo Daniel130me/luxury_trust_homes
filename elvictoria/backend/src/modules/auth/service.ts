@@ -368,3 +368,87 @@ export async function revokeAllSessions(userId: string): Promise<void> {
     data: { revokedAt: new Date() },
   });
 }
+
+// ---------------------------------------------------------- signup draft
+//
+// Onboarding wizard persistence: an anonymous visitor answers the wizard
+// step by step; every completed step is merged into a SignupDraft row keyed
+// by an httpOnly cookie token, so refreshing or closing the tab never loses
+// progress and no half-finished User rows are created. The password is
+// deliberately NOT persisted — only non-secret profile fields.
+
+export type SignupDraftRole = "client" | "provider";
+
+export type SignupDraftData = {
+  interest?: string;
+  clientKind?: string;
+  providerKind?: string;
+  organisation?: string;
+  name?: string;
+  email?: string;
+  phone?: string;
+  preferredState?: string;
+  preferredRegion?: string;
+};
+
+export type SignupDraft = {
+  step: number;
+  role: SignupDraftRole | null;
+  data: SignupDraftData;
+};
+
+function randomDraftToken(): string {
+  return randomBytes(32).toString("base64url");
+}
+
+export async function findSignupDraft(
+  token: string | undefined,
+): Promise<SignupDraft | null> {
+  if (!token) return null;
+  const row = await prisma.signupDraft.findUnique({
+    where: { token },
+    select: { step: true, role: true, data: true },
+  });
+  if (!row) return null;
+  return {
+    step: row.step,
+    role: (row.role as SignupDraftRole | null) ?? null,
+    data: (row.data as SignupDraftData) ?? {},
+  };
+}
+
+export async function saveSignupDraft(
+  token: string | undefined,
+  setCookie: (value: string) => void,
+  input: { step: number; role?: SignupDraftRole | null; data: SignupDraftData },
+): Promise<SignupDraft> {
+  // The token lives in the cookie; generate one on first save.
+  const draftToken = token ?? randomDraftToken();
+  if (!token) setCookie(draftToken);
+
+  const existing = await prisma.signupDraft.findUnique({ where: { token: draftToken } });
+  // Merge — later steps extend, never wipe, earlier answers.
+  const mergedData: SignupDraftData = {
+    ...((existing?.data as SignupDraftData) ?? {}),
+    ...input.data,
+  };
+  const role = input.role ?? (existing?.role as SignupDraftRole | null) ?? null;
+
+  const row = await prisma.signupDraft.upsert({
+    where: { token: draftToken },
+    create: { token: draftToken, step: input.step, role, data: mergedData },
+    update: { step: input.step, role, data: mergedData },
+    select: { step: true, role: true, data: true },
+  });
+  return {
+    step: row.step,
+    role: (row.role as SignupDraftRole | null) ?? null,
+    data: (row.data as SignupDraftData) ?? {},
+  };
+}
+
+export async function clearSignupDraft(token: string | undefined): Promise<void> {
+  if (!token) return;
+  await prisma.signupDraft.deleteMany({ where: { token } });
+}
+

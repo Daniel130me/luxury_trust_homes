@@ -18,6 +18,8 @@ type Settings = {
   bankName: string;
   bankAccountName: string;
   bankAccountNumber: string;
+  videoMaxMb: string;
+  videoMaxDurationSec: string;
 };
 
 const EMPTY: Settings = {
@@ -30,6 +32,8 @@ const EMPTY: Settings = {
   bankName: "",
   bankAccountName: "",
   bankAccountNumber: "",
+  videoMaxMb: "50",
+  videoMaxDurationSec: "120",
 };
 
 export default function StaffSettingsPage() {
@@ -73,6 +77,8 @@ export default function StaffSettingsPage() {
             bankName: settings.bankName,
             bankAccountName: settings.bankAccountName,
             bankAccountNumber: settings.bankAccountNumber,
+            videoMaxMb: Number(settings.videoMaxMb) || 50,
+            videoMaxDurationSec: Number(settings.videoMaxDurationSec) || 120,
           },
         },
       });
@@ -148,6 +154,33 @@ export default function StaffSettingsPage() {
                 className="w-56"
               />
             </Field>
+          </div>
+
+          {/* Listing media limits — applied to every lister's uploads. */}
+          <div className="rounded-xl border border-brand-100 bg-brand-50/40 p-4">
+            <p className="text-sm font-semibold text-ink-strong">Listing media limits</p>
+            <p className="mt-1 text-xs text-ink-muted">
+              Applied to the optional walkthrough video every lister can attach to a listing. Photos keep a fixed
+              5 MB per-file limit.
+            </p>
+            <div className="mt-3 grid gap-4 sm:grid-cols-2">
+              <Field label="Max video size (MB)">
+                <Input
+                  inputMode="numeric"
+                  value={settings.videoMaxMb}
+                  onChange={(e) => set("videoMaxMb", e.target.value.replace(/[^0-9]/g, ""))}
+                  disabled={!canManage}
+                />
+              </Field>
+              <Field label="Max video duration (seconds)">
+                <Input
+                  inputMode="numeric"
+                  value={settings.videoMaxDurationSec}
+                  onChange={(e) => set("videoMaxDurationSec", e.target.value.replace(/[^0-9]/g, ""))}
+                  disabled={!canManage}
+                />
+              </Field>
+            </div>
           </div>
 
           {notice && <Alert tone="success">{notice}</Alert>}

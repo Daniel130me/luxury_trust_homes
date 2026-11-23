@@ -111,6 +111,38 @@ export function workspaceHome(role: Role | undefined | null): string {
   }
 }
 
+/**
+ * Does `role` have access to the app area `pathname` belongs to?
+ * Mirrors the guard in workspace-shell — a single source of truth for both
+ * the guard and the post-login redirect so the two can never drift.
+ */
+export function canAccessArea(role: Role | undefined | null, pathname: string): boolean {
+  const isStaffArea = pathname.startsWith("/app/staff");
+  const isClientArea = pathname.startsWith("/app/client") || pathname === "/app/saved";
+  const isProviderArea = pathname.startsWith("/app/provider");
+  if (isStaffArea) return isStaffRole(role);
+  if (isClientArea) return role === "CLIENT";
+  if (isProviderArea) return role === "PROVIDER";
+  return true; // shared areas: profile, help desk, notifications…
+}
+
+/**
+ * Where should a freshly signed-in user land? An old `?next=` URL captured
+ * while signed in as a DIFFERENT role must never override the new role's
+ * home — otherwise the user lands on a page their new role cannot open and
+ * first sees the "Access restricted" screen. Use `next` only when the new
+ * role can actually access it.
+ */
+export function resolvePostAuthTarget(
+  role: Role | undefined | null,
+  next: string | null | undefined,
+): string {
+  if (next && next.startsWith("/") && !next.startsWith("//") && canAccessArea(role, next)) {
+    return next;
+  }
+  return workspaceHome(role);
+}
+
 export function roleLabel(role: Role | undefined | null, providerKind?: string | null): string {
   switch (role) {
     case "LAWYER":

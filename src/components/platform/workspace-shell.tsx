@@ -10,7 +10,7 @@
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { useAuth, isStaffRole, roleLabel, workspaceHome } from "@/lib/auth";
+import { useAuth, isStaffRole, roleLabel, workspaceHome, canAccessArea } from "@/lib/auth";
 import { apiFetch } from "@/lib/api";
 import {
   Logo, BellIcon, LogoutIcon, BuildingIcon,
@@ -60,11 +60,9 @@ export function WorkspaceShell({
   // need the client role (provider pages the provider role). The backend
   // enforces the same rules — this guard only avoids dead-end screens.
   const staff = isStaffRole(user.role);
-  const isClientArea = pathname.startsWith("/app/client") || pathname === "/app/saved";
-  const isProviderArea = pathname.startsWith("/app/provider");
-  const isStaffArea = pathname.startsWith("/app/staff");
 
-  if ((isStaffArea && !staff) || (isClientArea && user.role !== "CLIENT") || (isProviderArea && user.role !== "PROVIDER")) {
+  // Area guard — same rules as resolvePostAuthTarget (lib/auth).
+  if (!canAccessArea(user.role, pathname)) {
     return (
       <div className="mx-auto flex min-h-screen max-w-md flex-col items-center justify-center gap-3 px-6 text-center">
         <p className="font-medium text-ink-strong">Access restricted</p>

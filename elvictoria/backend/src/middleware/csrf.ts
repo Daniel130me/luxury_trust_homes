@@ -52,6 +52,10 @@ export function requireCsrf(req: Request, _res: Response, next: NextFunction) {
     "/auth/logout",
     "/auth/forgot-password",
     "/auth/reset-password",
+    // Onboarding-wizard draft: used before any session exists (anonymous
+    // visitor). Same threat model as register/login — no session to forge,
+    // SameSite=strict cookie, and the general rate limiter still applies.
+    "/auth/signup-draft",
   ]);
   if (CSRF_EXEMPT_AUTH.has(path)) return next();
   if (path === "/payments/webhook") return next();

@@ -33,6 +33,7 @@ type ListingDetail = {
   furnishing?: string | null;
   description: string;
   features: string[];
+  videoUrl?: string | null;
   status: string;
   availability: string;
   feedback?: string | null;
@@ -134,6 +135,27 @@ export default function StaffListingDetailPage() {
         <Card className="p-5">
           <h2 className="text-lg font-semibold text-ink-strong">About this property</h2>
           <p className="mt-2 whitespace-pre-line leading-relaxed text-ink-soft">{listing.description}</p>
+          {listing.features.length > 0 && (
+            <div className="mt-4">
+              <p className="text-sm font-medium text-ink-strong">Features</p>
+              <div className="mt-2 flex flex-wrap gap-2">
+                {listing.features.map((feature) => (
+                  <span
+                    key={feature}
+                    className="rounded-full bg-white px-3 py-1.5 text-xs font-medium text-ink-soft ring-1 ring-brand-200"
+                  >
+                    {feature}
+                  </span>
+                ))}
+              </div>
+            </div>
+          )}
+          {listing.videoUrl && (
+            <div className="mt-4">
+              <p className="text-sm font-medium text-ink-strong">Video walkthrough</p>
+              <video src={listing.videoUrl} controls className="mt-2 max-h-72 w-full rounded-lg bg-black" />
+            </div>
+          )}
           <dl className="mt-5 grid grid-cols-2 gap-x-6 gap-y-2 text-sm sm:grid-cols-3">
             <Detail term="Type" value={categoryLabel(listing.category)} />
             <Detail term="Listing" value={listing.listingType === "SALE" ? "For sale" : "For rent"} />

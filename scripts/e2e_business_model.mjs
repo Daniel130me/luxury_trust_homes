@@ -2,7 +2,7 @@
  * End-to-end business-model test — acts as EVERY user role against the
  * running dev stack and hunts edge cases around the three changes:
  *
- *   A. single shared "ELVICTORIA Legal" lawyer login (anonymity)
+ *   A. single shared "Elvictoria Legal" lawyer login (anonymity)
  *   B. manual bank transfer as PRIMARY payment method (gated details)
  *   C. admin-managed property types
  *
@@ -153,7 +153,7 @@ for (const u of [kemi, daniel, chinedu, legal, support]) {
 
 const me = await get(legal, "/auth/me");
 check("shared legal account: role LAWYER", me.json?.data?.user?.role === "LAWYER", JSON.stringify(me.json?.data));
-check("shared account name is generic", me.json?.data?.user?.name === "ELVICTORIA Legal", me.json?.data?.user?.name);
+check("shared account name is generic", me.json?.data?.user?.name === "Elvictoria Legal", me.json?.data?.user?.name);
 const meD = await get(daniel, "/auth/me");
 check("daniel role CLIENT", meD.json?.data?.user?.role === "CLIENT");
 const meC = await get(chinedu, "/auth/me");
@@ -219,7 +219,7 @@ console.log("\n— Client: Kemi Williams (has an active payment) —");
   // An anonymous enquiry's lawyer, as the client sees it, must be generic.
   const mineK = await get(kemi, "/enquiries/mine");
   const kEnq = rows(mineK.json, ["enquiries"]).find((e) => e.lawyer);
-  check("kemi's enquiry lawyer is generic", !kEnq || kEnq.lawyer?.name === "ELVICTORIA Legal", JSON.stringify(kEnq?.lawyer?.name));
+  check("kemi's enquiry lawyer is generic", !kEnq || kEnq.lawyer?.name === "Elvictoria Legal", JSON.stringify(kEnq?.lawyer?.name));
 }
 
 console.log("\n— Client: Daniel (no active payment) — privilege probes —");
@@ -272,7 +272,7 @@ let caseId = null, paymentId = null;
   // API omits the lawyer relation entirely; if present, it must be generic.
   const dLawyer = enquiryDetail.json?.data?.enquiry?.lawyer;
   check("client enquiry detail hides individual lawyer (absent or generic)",
-    dLawyer === undefined || dLawyer === null || dLawyer?.name === "ELVICTORIA Legal", JSON.stringify(dLawyer));
+    dLawyer === undefined || dLawyer === null || dLawyer?.name === "Elvictoria Legal", JSON.stringify(dLawyer));
 
   // Open a case — reuse the one attached to the enquiry if it exists.
   let opened = await post(legal, `/staff/enquiries/${enquiryId}/open-case`, {});
@@ -291,17 +291,17 @@ let caseId = null, paymentId = null;
     // The staff matters detail embeds the enquiry, whose lawyer is shown.
     const mattersDetail = await get(legal, `/staff/matters/${enquiryId}`);
     const mEnquiry = mattersDetail.json?.data?.enquiry ?? mattersDetail.json?.data;
-    check("staff view case lawyer is generic", mEnquiry?.lawyer?.name === "ELVICTORIA Legal", JSON.stringify(mEnquiry?.lawyer?.name));
+    check("staff view case lawyer is generic", mEnquiry?.lawyer?.name === "Elvictoria Legal", JSON.stringify(mEnquiry?.lawyer?.name));
   }
 
   if (caseId) {
     // Client's view of the case must never expose an individual lawyer.
     const clientCase = await get(daniel, `/cases/${caseId}`);
     check("client case view 200", clientCase.status === 200);
-    check("client case view: lawyer generic", clientCase.json?.data?.case?.lawyer?.name === "ELVICTORIA Legal", JSON.stringify(clientCase.json?.data?.case?.lawyer?.name));
+    check("client case view: lawyer generic", clientCase.json?.data?.case?.lawyer?.name === "Elvictoria Legal", JSON.stringify(clientCase.json?.data?.case?.lawyer?.name));
     const timeline = clientCase.json?.data?.case?.timeline ?? clientCase.json?.data?.timeline ?? [];
     const timelineAuthors = timeline.map((t) => t.author?.name).filter(Boolean);
-    check("timeline authors are generic", timelineAuthors.every((n) => n === "ELVICTORIA Legal"), timelineAuthors.join(","));
+    check("timeline authors are generic", timelineAuthors.every((n) => n === "Elvictoria Legal"), timelineAuthors.join(","));
 
     // Payment request (lawyer) — then transfer report (client) — confirm (lawyer).
     const req = await post(legal, "/staff/payments", { caseId, amount: 250000, description: "E2E legal service fee" });
@@ -338,7 +338,7 @@ let caseId = null, paymentId = null;
     );
     const lawyerMsgs = threadMsgs.filter((m) => m.author?.role === "LAWYER" || m.authorRole === "LAWYER" || /legal team/i.test(m.body ?? ""));
     check("client sees lawyer messages authored by ELVICTORIA Legal",
-      lawyerMsgs.length === 0 || lawyerMsgs.every((m) => (m.author?.name ?? "") === "ELVICTORIA Legal"),
+      lawyerMsgs.length === 0 || lawyerMsgs.every((m) => (m.author?.name ?? "") === "Elvictoria Legal"),
       lawyerMsgs.map((m) => m.author?.name).join(","));
   }
 }
@@ -404,7 +404,7 @@ console.log("\n— Provider (property owner): taxonomy + anonymity —");
   check("provider cases 200", pcases.status === 200);
   const pcList = rows(pcases.json, ["cases"]);
   const withLawyer = pcList.find((c) => c.lawyer);
-  check("provider sees only generic lawyer name", !withLawyer || withLawyer.lawyer.name === "ELVICTORIA Legal", JSON.stringify(withLawyer?.lawyer?.name));
+  check("provider sees only generic lawyer name", !withLawyer || withLawyer.lawyer.name === "Elvictoria Legal", JSON.stringify(withLawyer?.lawyer?.name));
 
   const block = await get(chinedu, "/staff/matters");
   check("provider blocked from staff matters (403)", block.status === 403, `got ${block.status}`);
@@ -449,7 +449,7 @@ console.log("\n— Lawyer (shared account): taxonomy admin + settings —");
   check("bank account number >30 chars rejected (400)", badBank.status === 400, `got ${badBank.status}`);
   const badDays = await put(legal, "/settings", { settings: { paymentDueDays: 99 } });
   check("payment due days out of range rejected (400)", badDays.status === 400, `got ${badDays.status}`);
-  const okSettings = await put(legal, "/settings", { settings: { bankName: "GTBank", bankAccountName: "ELVICTORIA Legal", bankAccountNumber: "0123456789" } });
+  const okSettings = await put(legal, "/settings", { settings: { bankName: "GTBank", bankAccountName: "Elvictoria Attorneys and Solicitors", bankAccountNumber: "0123456789" } });
   check("valid bank settings accepted (200)", okSettings.status === 200, JSON.stringify(okSettings.json?.error));
 }
 
@@ -479,7 +479,7 @@ let e2eTicketRef = null, e2eTicketId = null;
   check("client-facing staff replies carry generic identity",
     staffMsgs.length === 0 || staffMsgs.every((m) => {
       const n = m.author?.name ?? m.authorName ?? "";
-      return n === "ELVICTORIA Legal" || n === "" || n === "Legal Team";
+      return n === "Elvictoria Legal" || n === "" || n === "Legal Team";
     }),
     staffMsgs.map((m) => m.author?.name ?? m.authorName).join(","));
 

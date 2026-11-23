@@ -197,6 +197,10 @@ const SETTINGS_KEYS = [
   "officeHours",
   "enquiryAcknowledgement",
   "paymentDueDays",
+  // Listing media limits (apply to every lister; consumed by the upload
+  // endpoints and shown to providers by the property form).
+  "videoMaxMb",
+  "videoMaxDurationSec",
 ] as const;
 
 /**
@@ -205,7 +209,13 @@ const SETTINGS_KEYS = [
  */
 router.get("/settings/public", async (_req, res) => {
   const rows = await prisma.setting.findMany({
-    where: { key: { in: ["officeAddress", "officePhone", "officeEmail", "officeHours"] } },
+    // office* feed the footer/contact page; the video limits are exposed so
+    // the property form can show every lister the same admin-set limits.
+    where: {
+      key: {
+        in: ["officeAddress", "officePhone", "officeEmail", "officeHours", "videoMaxMb", "videoMaxDurationSec"],
+      },
+    },
   });
   const settings: Record<string, string> = {};
   for (const row of rows) settings[row.key] = row.value;
@@ -213,7 +223,20 @@ router.get("/settings/public", async (_req, res) => {
 });
 
 router.get("/settings", requirePermission("workspace.staff"), async (_req, res) => {
-  const rows = await prisma.setting.findMany({ where: { key: { in: SETTINGS_KEYS as unknown as string[] } } });
+  // Bank keys are included so the settings form round-trips them — reading
+  // without them made every save wipe the bank account with blanks.
+  const rows = await prisma.setting.findMany({
+    where: {
+      key: {
+        in: [
+          ...(SETTINGS_KEYS as unknown as string[]),
+          "bankName",
+          "bankAccountName",
+          "bankAccountNumber",
+        ],
+      },
+    },
+  });
   const settings: Record<string, string> = {};
   for (const row of rows) settings[row.key] = row.value;
   ok(res, { settings });
@@ -236,6 +259,9 @@ router.put(
         bankName: z.string().trim().max(80).optional(),
         bankAccountName: z.string().trim().max(80).optional(),
         bankAccountNumber: z.string().trim().max(30).optional(),
+        // Listing media limits (see uploads module for the consuming side).
+        videoMaxMb: z.coerce.number().int().min(1).max(500).optional(),
+        videoMaxDurationSec: z.coerce.number().int().min(10).max(600).optional(),
       }),
     }),
   }),

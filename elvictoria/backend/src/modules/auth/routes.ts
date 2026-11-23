@@ -5,6 +5,8 @@ import { validate, emailSchema, passwordSchema, phoneSchema } from "../../middle
 import { requireAuth } from "../../middleware/auth.js";
 import { authLimiter } from "../../middleware/rateLimit.js";
 import { prisma } from "../../lib/prisma.js";
+import { isProd } from "../../config/env.js";
+import { SIGNUP_DRAFT_COOKIE } from "../../middleware/cookies.js";
 import * as svc from "./service.js";
 
 /**
@@ -40,9 +42,79 @@ router.post(
   validate({ body: registerSchema }),
   async (req, res) => {
     const user = await svc.register(req.body, res, requestContext(req));
+    // Onboarding complete — drop the persisted wizard draft (row + cookie).
+    const draftToken = req.cookies?.[SIGNUP_DRAFT_COOKIE] as string | undefined;
+    if (draftToken) {
+      await svc.clearSignupDraft(draftToken);
+      res.clearCookie(SIGNUP_DRAFT_COOKIE, { path: "/" });
+    }
     ok(res, { user }, 201);
   },
 );
+
+// -------------------------------------------------------- signup draft
+//
+// Persistence for the onboarding wizard: each completed step is merged into
+// a SignupDraft row keyed by an httpOnly cookie, so the visitor can refresh
+// or leave and resume exactly where they stopped. Anonymous by design —
+// CSRF-exempt (see middleware/csrf.ts) and covered by the rate limiter;
+// drafts hold no secrets and are deleted on successful registration.
+
+const DRAFT_COOKIE_OPTS = {
+  httpOnly: true,
+  secure: isProd,
+  sameSite: "strict" as const,
+  path: "/",
+  maxAge: 30 * 24 * 60 * 60 * 1000,
+};
+
+const draftDataSchema = z.object({
+  interest: z.string().trim().max(20).optional(),
+  clientKind: z.string().trim().max(20).optional(),
+  providerKind: z.string().trim().max(20).optional(),
+  organisation: z.string().trim().max(120).optional(),
+  name: z.string().trim().max(120).optional(),
+  email: z.string().trim().max(200).optional(),
+  phone: z.string().trim().max(40).optional(),
+  preferredState: z.string().trim().max(40).optional(),
+  preferredRegion: z.string().trim().max(40).optional(),
+});
+
+router.get("/signup-draft", async (req, res) => {
+  const draft = await svc.findSignupDraft(req.cookies?.[SIGNUP_DRAFT_COOKIE] as string | undefined);
+  ok(res, { draft });
+});
+
+router.put(
+  "/signup-draft",
+  validate({
+    body: z.object({
+      step: z.coerce.number().int().min(1).max(3),
+      role: z.enum(["client", "provider"]).nullable().optional(),
+      data: draftDataSchema.optional(),
+    }),
+  }),
+  async (req, res) => {
+    const { step, role, data } = req.body as {
+      step: number;
+      role?: "client" | "provider" | null;
+      data?: svc.SignupDraftData;
+    };
+    const token = req.cookies?.[SIGNUP_DRAFT_COOKIE] as string | undefined;
+    const draft = await svc.saveSignupDraft(token, (value) => res.cookie(SIGNUP_DRAFT_COOKIE, value, DRAFT_COOKIE_OPTS), {
+      step,
+      role: role ?? null,
+      data: data ?? {},
+    });
+    ok(res, { draft });
+  },
+);
+
+router.delete("/signup-draft", async (req, res) => {
+  await svc.clearSignupDraft(req.cookies?.[SIGNUP_DRAFT_COOKIE] as string | undefined);
+  res.clearCookie(SIGNUP_DRAFT_COOKIE, { path: "/" });
+  ok(res, { cleared: true });
+});
 
 router.post(
   "/login",

@@ -21,7 +21,7 @@ import { PrismaClient, PropertyStatus, Availability } from "@prisma/client";
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import bcrypt from "bcryptjs";
-import { buildImageKey, publicUrl, putObject } from "../src/lib/r2.js";
+import { buildMediaKey, mediaPublicUrl, putMedia } from "../src/lib/media-storage.js";
 
 const prisma = new PrismaClient();
 
@@ -111,7 +111,7 @@ function parseLagosDate(value: string): Date {
   return new Date(`${value.replace(" ", "T")}:00+01:00`);
 }
 
-/** Download one prototype photo and store it in R2. Returns the public URL. */
+/** Download one prototype photo and store it via the media driver. */
 async function uploadPhoto(
   propertyId: string,
   photoId: string,
@@ -123,9 +123,9 @@ async function uploadPhoto(
     const res = await fetch(imageUrl, { signal: AbortSignal.timeout(20000) });
     if (!res.ok) return null;
     const buffer = Buffer.from(await res.arrayBuffer());
-    const key = buildImageKey(propertyId, "jpg");
-    await putObject(key, buffer, "image/jpeg");
-    return { objectKey: key, url: publicUrl(key) };
+    const key = buildMediaKey(propertyId, "jpg");
+    await putMedia(key, buffer, "image/jpeg");
+    return { objectKey: key, url: mediaPublicUrl(key) };
   } catch {
     // Keep the seed going even if a single photo download fails.
     // eslint-disable-next-line no-console
@@ -296,7 +296,7 @@ async function main() {
     }
   }
   // eslint-disable-next-line no-console
-  console.log(`  properties: ${propertyIds.size}, photos uploaded to R2: ${photoCount}`);
+  console.log(`  properties: ${propertyIds.size}, photos stored: ${photoCount}`);
 
   // ------------------------------------------ enquiries, cases, messages
   const caseIds = new Map<string, string>(); // prototype cs -> Case.id

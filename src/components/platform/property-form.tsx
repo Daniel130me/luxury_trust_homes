@@ -10,6 +10,7 @@ import { useRouter } from "next/navigation";
 import { apiFetch, ApiRequestError, apiUpload } from "@/lib/api";
 import { formatNaira } from "@/lib/format";
 import { usePropertyTypes } from "@/lib/property-types";
+import { STATES, lgasFor, areasFor, OTHER_OPTION } from "@/lib/nigeria-geo";
 import {
   Alert, Button, Card, Field, Input, PageLoader, Select, Textarea, ChevronLeftIcon,
 } from "@/components/platform/ui-bits";
@@ -63,40 +64,22 @@ export const EMPTY_FORM: PropertyFormValues = {
   serviceCharge: "",
 };
 
-const LGA_OPTIONS: Record<string, string[]> = {
-  Lagos: ["Eti-Osa", "Ibeju-Lekki", "Lagos Island", "Ikeja", "Lagos Mainland", "Kosofe", "Surulere", "Amuwo-Odofin", "Ojo", "Agege"],
-  Enugu: ["Enugu North", "Enugu South", "Enugu East", "Nsukka", "Udi", "Oji River"],
-};
-
-const AREA_OPTIONS: Record<string, Record<string, string[]>> = {
-  Lagos: {
-    "Eti-Osa": ["Lekki Phase 1", "Old Ikoyi", "Banana Island", "Victoria Island", "Sangotedo", "Ajah", "Ikate", "Oniru", "Chevron", "Osapa London"],
-    "Ibeju-Lekki": ["Eleko", "Ibeju", "Dangote Road", "Free Trade Zone", "Epe Road"],
-    "Lagos Island": ["Ikoyi", "Obalende", "Victoria Island Annex"],
-    Ikeja: ["Allen Avenue", "GRA Ikeja", "Ojodu", "Berger", "Magodo Phase 1", "Magodo Phase 2"],
-    "Lagos Mainland": ["Yaba", "Surulere", "Gbagada", "Bariga", "Onike"],
-    Kosofe: ["Ogudu", "Ketu", "Mile 12"],
-    Surulere: ["Adeniran Ogunsanya", "Bode Thomas", "Iponri"],
-    "Amuwo-Odofin": ["Festac Town", "Apple Junction", "Mile 2"],
-    Ojo: ["Iba", "Ojo Town", "Igando"],
-    Agege: ["Orile Agege", "Pen Cinema", "Shogunle"],
-  },
-  Enugu: {
-    "Enugu North": ["Independence Layout", "New Haven", "GRA Enugu", "Ogui", "Trans Ekulu", "Ugwu-Aaron"],
-    "Enugu South": ["Achara Layout", "Uwani", "Emerald Estate", "Amechi"],
-    "Enugu East": ["Abakpa Nike", "Emene", "Nike Lake", "Trans Ekulu East"],
-    Nsukka: ["Nsukka Town", "UNN Axis", "Odim Gate"],
-    Udi: ["Udi Town", "9th Mile Corner"],
-    "Oji River": ["Oji River Town", "Achi"],
-  },
-};
-
 const COMMON_FEATURES = [
   "Ensuite bedrooms", "Fitted kitchen", "24-hour security", "Gated estate",
   "Standby generator", "Borehole water", "Swimming pool", "Serviced estate",
   "Interlocked compound", "Boys’ quarters", "Walk-in closet", "Balcony",
   "Air conditioning", "POP ceilings", "CCTV", "Elevator",
 ];
+
+/** Video limits shown to the lister — admin-managed settings with defaults. */
+const DEFAULT_VIDEO_MAX_MB = 50;
+const DEFAULT_VIDEO_MAX_DURATION_SEC = 120;
+
+type ListingVideo = {
+  url: string;
+  bytes?: number | null;
+  durationSec?: number | null;
+};
 
 export function PropertyForm({
   mode,
@@ -109,6 +92,15 @@ export function PropertyForm({
   const [values, setValues] = useState<PropertyFormValues>(EMPTY_FORM);
   const [loaded, setLoaded] = useState(mode === "new");
   const [images, setImages] = useState<Array<{ id: string; url: string; label: string }>>([]);
+  const [video, setVideo] = useState<ListingVideo | null>(null);
+  const [uploadingVideo, setUploadingVideo] = useState(false);
+  const [videoLimits, setVideoLimits] = useState({
+    maxMb: DEFAULT_VIDEO_MAX_MB,
+    maxDurationSec: DEFAULT_VIDEO_MAX_DURATION_SEC,
+  });
+  // This provider's own previously-typed custom features (private per
+  // lister — never a shared global list).
+  const [myFeatures, setMyFeatures] = useState<string[]>([]);
   const [customFeature, setCustomFeature] = useState("");
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [saving, setSaving] = useState<"draft" | "submit" | null>(null);
@@ -122,6 +114,33 @@ export function PropertyForm({
       setValues((v) => (v.category ? v : { ...v, category: propertyTypes[0].name }));
     }
   }, [propertyTypes]);
+
+  // Media limits are admin-managed (staff Settings); the public settings
+  // endpoint exposes them so the form shows every lister the same rules.
+  useEffect(() => {
+    apiFetch<{ settings: Record<string, string> }>("/settings/public")
+      .then((data) => {
+        const maxMb = Number(data.settings.videoMaxMb);
+        const maxDurationSec = Number(data.settings.videoMaxDurationSec);
+        setVideoLimits({
+          maxMb: Number.isFinite(maxMb) && maxMb > 0 ? maxMb : DEFAULT_VIDEO_MAX_MB,
+          maxDurationSec:
+            Number.isFinite(maxDurationSec) && maxDurationSec > 0
+              ? maxDurationSec
+              : DEFAULT_VIDEO_MAX_DURATION_SEC,
+        });
+      })
+      .catch(() => undefined); // defaults stay in place if settings are unreachable
+  }, []);
+
+  // Load the lister's own feature vocabulary (new + edit mode).
+  useEffect(() => {
+    apiFetch<{ features: string[] }>("/provider/features")
+      .then((data) =>
+        setMyFeatures((prev) => Array.from(new Set([...prev, ...data.features]))),
+      )
+      .catch(() => undefined);
+  }, [mode, propertyId]);
 
   const load = useCallback(async () => {
     if (mode === "edit" && propertyId) {
@@ -154,6 +173,21 @@ export function PropertyForm({
           feedback: (p.feedback as string) ?? null,
         });
         setImages((p.images as Array<{ id: string; url: string; label: string }>) ?? []);
+        setMyFeatures(
+          ((p.features as string[]) ?? []).filter(
+            (feature) => !COMMON_FEATURES.includes(feature),
+          ),
+        );
+        const videoUrl = p.videoUrl as string | null;
+        setVideo(
+          videoUrl
+            ? {
+                url: videoUrl,
+                bytes: (p.videoBytes as number | null) ?? null,
+                durationSec: (p.videoDurationSec as number | null) ?? null,
+              }
+            : null,
+        );
       } catch {
         setNotice("Could not load this property.");
       }
@@ -169,10 +203,101 @@ export function PropertyForm({
     setValues((v) => ({ ...v, [key]: value }));
   }
 
+  const lgaOptions = useMemo(() => lgasFor(values.state), [values.state]);
   const areaOptions = useMemo(
-    () => (values.state && values.lga ? AREA_OPTIONS[values.state]?.[values.lga] ?? [] : []),
+    () => (values.state && values.lga ? areasFor(values.state, values.lga) : []),
     [values.state, values.lga],
   );
+  // When the stored LGA/area is not in the canonical list (older listings or
+  // free-typed entries), the select falls back to the "Other…" sentinel and
+  // a text input exposes the actual value.
+  const lgaSelectValue = lgaOptions.includes(values.lga) || !values.lga ? values.lga : OTHER_OPTION;
+  const areaSelectValue = areaOptions.includes(values.area) || !values.area ? values.area : OTHER_OPTION;
+
+  // Full chip list: the shared starter set + this lister's own vocabulary +
+  // anything already selected on the listing, so every choice is visible and
+  // removable as a chip (custom ones included).
+  const allFeatureOptions = useMemo(
+    () => Array.from(new Set([...COMMON_FEATURES, ...myFeatures, ...values.features])),
+    [myFeatures, values.features],
+  );
+
+  /** Add a custom feature: selects it on the listing and stores it in the
+   * provider's PRIVATE vocabulary (per lister, never global). */
+  async function addCustomFeature() {
+    const trimmed = customFeature.replace(/\s+/g, " ").trim().slice(0, 60);
+    setCustomFeature("");
+    if (!trimmed) return;
+    if (!values.features.includes(trimmed)) {
+      set("features", [...values.features, trimmed]);
+    }
+    if (!myFeatures.some((f) => f.toLowerCase() === trimmed.toLowerCase())) {
+      try {
+        const data = await apiFetch<{ feature: string }>("/provider/features", {
+          method: "POST",
+          body: { name: trimmed },
+        });
+        setMyFeatures((prev) => Array.from(new Set([...prev, data.feature])));
+      } catch {
+        // Vocabulary save is best-effort; the feature stays on the listing.
+      }
+    }
+  }
+
+  async function uploadVideo(file: File | null) {
+    if (!file) return;
+    if (!values.id) {
+      setErrors({ files: "Save the listing first, then add a video." });
+      return;
+    }
+    if (file.size > videoLimits.maxMb * 1024 * 1024) {
+      setErrors({ files: `Videos must be ${videoLimits.maxMb} MB or smaller (set by the admin team).` });
+      return;
+    }
+    setUploadingVideo(true);
+    setErrors({});
+    try {
+      // Read the duration from the file's metadata before uploading so the
+      // admin-set time limit is checked client-side too.
+      const durationSec = await new Promise<number>((resolve, reject) => {
+        const probe = document.createElement("video");
+        probe.preload = "metadata";
+        probe.onloadedmetadata = () => {
+          resolve(Math.round(probe.duration));
+          URL.revokeObjectURL(probe.src);
+        };
+        probe.onerror = () => reject(new Error("Not a playable video file."));
+        probe.src = URL.createObjectURL(file);
+      });
+      if (durationSec > videoLimits.maxDurationSec) {
+        setErrors({
+          files: `Videos must be ${videoLimits.maxDurationSec} seconds or shorter (set by the admin team).`,
+        });
+        return;
+      }
+      const formData = new FormData();
+      formData.append("file", file);
+      formData.append("propertyId", values.id);
+      formData.append("durationSec", String(durationSec));
+      const data = await apiUpload<{ video: ListingVideo }>("/uploads/property-video", formData);
+      setVideo({ url: data.video.url, bytes: data.video.bytes, durationSec: data.video.durationSec });
+      setNotice("Video added to the listing.");
+    } catch (err) {
+      setErrors({ files: err instanceof ApiRequestError ? err.message : "Video upload failed. Please try again." });
+    } finally {
+      setUploadingVideo(false);
+    }
+  }
+
+  async function removeVideo() {
+    if (!values.id) return;
+    try {
+      await apiFetch("/uploads/property-video", { method: "DELETE", body: { propertyId: values.id } });
+      setVideo(null);
+    } catch {
+      setErrors({ files: "Could not remove the video." });
+    }
+  }
 
   async function uploadFiles(files: FileList | null) {
     if (!files || files.length === 0) return;
@@ -254,16 +379,13 @@ export function PropertyForm({
       };
 
       if (mode === "new") {
-        const data = await apiFetch<{ property: { id: string } }>("/provider/properties", {
+        await apiFetch<{ property: { id: string } }>("/provider/properties", {
           method: "POST",
           body,
         });
-        // Photos are attached after the listing exists.
-        if (images.length === 0) {
-          router.push(`/app/provider/properties/${data.property.id}/edit?created=1`);
-        } else {
-          router.push("/app/provider/properties");
-        }
+        // Photos and video are attached from the listing's Edit page — go
+        // back to the list so the flow ends where the lister expects it.
+        router.push("/app/provider/properties?submitted=1");
         return;
       }
 
@@ -393,8 +515,9 @@ export function PropertyForm({
             <Field label="State" required>
               <Select value={values.state} onChange={(e) => { set("state", e.target.value); set("region", ""); set("lga", ""); set("area", ""); }} aria-label="State">
                 <option value="">Select state</option>
-                <option value="Lagos">Lagos</option>
-                <option value="Enugu">Enugu</option>
+                {STATES.map((state) => (
+                  <option key={state.name} value={state.name}>{state.name}</option>
+                ))}
               </Select>
             </Field>
             {values.state === "Lagos" && (
@@ -406,27 +529,53 @@ export function PropertyForm({
                 </Select>
               </Field>
             )}
-            <Field label="LGA" error={errors.lga}>
+            <Field label="Local Government Area (LGA)" error={errors.lga}>
               <Select
-                value={values.lga}
-                onChange={(e) => { set("lga", e.target.value); set("area", ""); }}
+                value={lgaSelectValue}
+                onChange={(e) => {
+                  const value = e.target.value;
+                  // "Other…" clears the value so the free-text input below
+                  // takes over; choosing a listed LGA clears the free text.
+                  set("lga", value === OTHER_OPTION ? "" : value);
+                  set("area", "");
+                }}
                 aria-label="Local Government Area"
                 disabled={!values.state}
               >
                 <option value="">Select LGA</option>
-                {(LGA_OPTIONS[values.state] ?? []).map((lga) => (
+                {lgaOptions.map((lga) => (
                   <option key={lga} value={lga}>{lga}</option>
                 ))}
+                <option value={OTHER_OPTION}>Other (type it below)</option>
               </Select>
             </Field>
+            {lgaSelectValue === OTHER_OPTION && (
+              <Field label="LGA name" hint="Type the LGA exactly as it is known.">
+                <Input value={values.lga} onChange={(e) => set("lga", e.target.value)} placeholder="e.g. Ogo-Oluwa" aria-label="Custom LGA" />
+              </Field>
+            )}
             <Field label="Area / neighbourhood" error={errors.area}>
-              <Select value={values.area} onChange={(e) => set("area", e.target.value)} aria-label="Area" disabled={!values.lga}>
+              <Select
+                value={areaSelectValue}
+                onChange={(e) => {
+                  const value = e.target.value;
+                  set("area", value === OTHER_OPTION ? "" : value);
+                }}
+                aria-label="Area"
+                disabled={!values.lga}
+              >
                 <option value="">Select area</option>
                 {areaOptions.map((area) => (
                   <option key={area} value={area}>{area}</option>
                 ))}
+                <option value={OTHER_OPTION}>Other (type it below)</option>
               </Select>
             </Field>
+            {areaSelectValue === OTHER_OPTION && (
+              <Field label="Area / neighbourhood name" hint="Type the area or estate as locals know it.">
+                <Input value={values.area} onChange={(e) => set("area", e.target.value)} placeholder="e.g. Nestoil Estate" aria-label="Custom area" />
+              </Field>
+            )}
             <Field label="Address or location description" error={errors.address} required className="sm:col-span-2">
               <Textarea rows={2} value={values.address} onChange={(e) => set("address", e.target.value)} />
             </Field>
@@ -468,8 +617,11 @@ export function PropertyForm({
 
           <div className="mt-5">
             <p className="mb-2 text-sm font-medium text-ink-strong">Features</p>
+            <p className="mb-2 text-xs text-ink-muted">
+              Tap to select. Features you type yourself are saved to <strong>your</strong> account only, so your suggestions stay relevant.
+            </p>
             <div className="flex flex-wrap gap-2">
-              {COMMON_FEATURES.map((feature) => {
+              {allFeatureOptions.map((feature) => {
                 const active = values.features.includes(feature);
                 return (
                   <button
@@ -494,18 +646,14 @@ export function PropertyForm({
                 onChange={(e) => setCustomFeature(e.target.value)}
                 placeholder="Add a custom feature"
                 aria-label="Custom feature"
-              />
-              <Button
-                type="button"
-                variant="outline"
-                onClick={() => {
-                  const trimmed = customFeature.trim();
-                  if (trimmed && !values.features.includes(trimmed)) {
-                    set("features", [...values.features, trimmed]);
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") {
+                    e.preventDefault();
+                    void addCustomFeature();
                   }
-                  setCustomFeature("");
                 }}
-              >
+              />
+              <Button type="button" variant="outline" onClick={() => void addCustomFeature()}>
                 Add
               </Button>
             </div>
@@ -563,6 +711,57 @@ export function PropertyForm({
                 />
               </label>
               {errors.files && <Alert tone="error">{errors.files}</Alert>}
+            </>
+          )}
+        </Card>
+
+        {/* ------------------------------------------------------ video */}
+        <Card className="p-5 sm:p-6">
+          <h2 className="text-lg font-semibold text-ink-strong">Video walkthrough</h2>
+          <p className="mt-0.5 text-sm text-ink-muted">
+            {mode === "new"
+              ? "Optional. Save the listing first, then add a short walkthrough video from the edit page."
+              : "Optional — one video per listing. It is replaced when you upload a new one."}
+          </p>
+          <p className="mt-1 text-xs text-ink-muted">
+            Limits set by the admin team: {videoLimits.maxMb} MB · {videoLimits.maxDurationSec} seconds · MP4, WebM or MOV.
+          </p>
+          {mode === "edit" && (
+            <>
+              {video && (
+                <div className="mt-4">
+                  <video
+                    src={video.url}
+                    controls
+                    className="max-h-72 w-full rounded-lg bg-black"
+                    data-testid="listing-video"
+                  />
+                  <div className="mt-2 flex items-center justify-between">
+                    <p className="text-xs text-ink-muted">
+                      {video.durationSec ? `${video.durationSec}s · ` : ""}
+                      {video.bytes ? `${(video.bytes / (1024 * 1024)).toFixed(1)} MB` : "uploaded"}
+                    </p>
+                    <Button type="button" variant="outline" onClick={() => void removeVideo()}>
+                      Remove video
+                    </Button>
+                  </div>
+                </div>
+              )}
+              <label className="mt-4 flex cursor-pointer flex-col items-center justify-center gap-2 rounded-xl border-2 border-dashed border-brand-200 px-6 py-8 text-center transition-colors hover:border-brand-400 hover:bg-brand-50/40">
+                <span className="text-sm font-medium text-ink-soft">
+                  {uploadingVideo ? "Uploading video…" : video ? "Replace the video" : "Click to upload a video"}
+                </span>
+                <span className="text-xs text-ink-muted">
+                  MP4, WebM or MOV · up to {videoLimits.maxMb} MB · max {videoLimits.maxDurationSec}s (optional)
+                </span>
+                <input
+                  type="file"
+                  accept="video/mp4,video/webm,video/quicktime"
+                  className="sr-only"
+                  onChange={(e) => void uploadVideo(e.target.files?.[0] ?? null)}
+                  disabled={uploadingVideo}
+                />
+              </label>
             </>
           )}
         </Card>

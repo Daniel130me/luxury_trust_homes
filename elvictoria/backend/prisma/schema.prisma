@@ -92,6 +92,7 @@ model User {
   escalations       EnquiryEscalation[]   @relation("Escalations")
   auditLogs         AuditLog[]
   disclosures       ContactDisclosure[]   @relation("DisclosedBy")
+  providerFeatures  ProviderFeature[]     @relation("ProviderFeatures")
 }
 
 // Opaque refresh tokens — hashed at rest, revocable (session expiry).
@@ -182,6 +183,14 @@ model Property {
   cautionDeposit Int?
   serviceCharge  Int?
   feedback       String? // staff feedback when requesting changes / rejecting
+
+  // Optional walkthrough video (set through the upload endpoint; the size
+  // and duration limits come from admin-managed settings).
+  videoUrl         String?
+  videoKey         String? // storage object key (local media dir or R2)
+  videoBytes       Int?
+  videoMimeType    String?
+  videoDurationSec Int?
   createdAt      DateTime          @default(now())
   updatedAt      DateTime          @updatedAt
 
@@ -213,6 +222,34 @@ model PropertyImage {
   property   Property @relation(fields: [propertyId], references: [id], onDelete: Cascade)
 
   @@index([propertyId, sortOrder])
+}
+
+// Per-lister feature vocabulary: custom features a provider typed for their
+// own listings. Scoped to the provider on purpose — a global list would grow
+// into a long wall of near-duplicate chips shared by everyone.
+model ProviderFeature {
+  id         String   @id @default(cuid())
+  providerId String
+  name       String // canonical display value (<= 60 chars)
+  createdAt  DateTime @default(now())
+  provider   User     @relation("ProviderFeatures", fields: [providerId], references: [id], onDelete: Cascade)
+
+  @@unique([providerId, name])
+  @@index([providerId])
+}
+
+// Onboarding wizard state, persisted per browser (httpOnly cookie token) so
+// a half-finished signup can be resumed after a refresh or a closed tab.
+// `data` holds only the non-secret answers — the password is never stored.
+// The row is deleted as soon as the account is created.
+model SignupDraft {
+  id        String   @id @default(cuid())
+  token     String   @unique // opaque cookie value
+  step      Int      @default(1) // highest completed step
+  role      String?  // "client" | "provider" once chosen in step 1
+  data      Json     // merged answers from completed steps
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model PropertyHistory {

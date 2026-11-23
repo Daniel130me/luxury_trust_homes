@@ -177,6 +177,41 @@ router.get("/properties/:reference", async (req, res) => {
 
 // ---------------------------------------------------------- provider area
 
+// Per-lister feature vocabulary: the custom features THIS provider has used
+// before, so their private suggestions stay relevant and never grow into a
+// shared global list of near-duplicates.
+router.get("/provider/features", requireAuth, async (req, res) => {
+  if (req.user!.role !== "PROVIDER") throw ApiError.forbidden("Only property providers have a feature list.");
+  const rows = await prisma.providerFeature.findMany({
+    where: { providerId: req.user!.id },
+    orderBy: { createdAt: "desc" },
+    take: 50,
+  });
+  ok(res, { features: rows.map((row) => row.name) });
+});
+
+router.post(
+  "/provider/features",
+  requireAuth,
+  validate({ body: z.object({ name: z.string().trim().min(2).max(60) }) }),
+  async (req, res) => {
+    if (req.user!.role !== "PROVIDER") throw ApiError.forbidden("Only property providers have a feature list.");
+    // Collapse inner whitespace so "cctv " and "cctv" dedupe to one row.
+    const name = String(req.body.name).replace(/\s+/g, " ").trim().slice(0, 60);
+    const existing = await prisma.providerFeature.findFirst({
+      where: { providerId: req.user!.id, name: { equals: name, mode: "insensitive" } },
+    });
+    if (existing) {
+      ok(res, { feature: existing.name });
+      return;
+    }
+    const created = await prisma.providerFeature.create({
+      data: { providerId: req.user!.id, name },
+    });
+    ok(res, { feature: created.name }, 201);
+  },
+);
+
 router.post(
   "/provider/properties",
   requireAuth,

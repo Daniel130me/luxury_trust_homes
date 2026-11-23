@@ -9,7 +9,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { apiFetch, ApiRequestError } from "@/lib/api";
-import { useAuth, workspaceHome, type SessionUser } from "@/lib/auth";
+import { useAuth, resolvePostAuthTarget, type SessionUser } from "@/lib/auth";
 import { AuthShell, Button, Field, Input, Alert, EyeIcon, EyeOffIcon } from "@/components/platform/ui-bits";
 
 export default function LoginPage() {
@@ -46,7 +46,9 @@ export default function LoginPage() {
         body: { email, password },
       });
       setUser(data.user);
-      const target = safeNext() || workspaceHome(data.user.role);
+      // An old ?next= captured under the previous account must not land a
+      // different role on a page it cannot open.
+      const target = resolvePostAuthTarget(data.user.role, safeNext());
       router.push(target);
     } catch (err) {
       if (err instanceof ApiRequestError) {

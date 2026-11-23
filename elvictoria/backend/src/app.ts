@@ -1,6 +1,7 @@
 import express from "express";
 import helmet from "helmet";
 import cookieParser from "cookie-parser";
+import { join } from "node:path";
 import { env, corsOrigins } from "./config/env.js";
 import apiRouter from "./routes/index.js";
 import { attachUser } from "./middleware/auth.js";
@@ -86,6 +87,20 @@ export function createApp() {
   app.get("/health", (_req, res) => {
     res.json({ ok: true, data: { status: "up", env: env.NODE_ENV } });
   });
+
+  // Serve locally-stored listing media (photos/videos) when the storage
+  // driver is local disk (sandbox/dev). With real R2 credentials the URLs
+  // point at the CDN instead, so this route simply never matches there.
+  // Public on purpose — listing media is public content (same as the old
+  // public R2 delivery).
+  app.use(
+    "/api/media",
+    express.static(join(process.cwd(), "media"), {
+      maxAge: "365d",
+      immutable: true,
+      fallthrough: true,
+    }),
+  );
 
   app.use("/api", apiRouter);
 
