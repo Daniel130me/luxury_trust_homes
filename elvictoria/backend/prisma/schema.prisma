@@ -279,8 +279,6 @@ model SavedProperty {
 
 enum EnquiryStatus {
   NEW_ENQUIRY
-  UNDER_REVIEW
-  LAWYER_ASSIGNED
   IN_PROGRESS
   NEGOTIATION
   PAYMENT_PENDING

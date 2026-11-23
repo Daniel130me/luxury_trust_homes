@@ -12,7 +12,7 @@ import { Alert, Badge, Button, Card, Field, Input } from "@/components/platform/
 const FAQS = [
   {
     q: "How are enquiries handled?",
-    a: "Every enquiry is submitted through the platform and assigned to an Elvictoria lawyer. Your lawyer reviews it, contacts the property provider, and keeps you updated inside your account. You never deal with unknown agents or middlemen.",
+    a: "Every enquiry is submitted through the platform and handled by an Elvictoria lawyer. Any of our lawyers can pick it up; the one who takes it over contacts the property provider and keeps you updated inside your account. You never deal with unknown agents or middlemen.",
   },
   {
     q: "Who can see my contact details?",

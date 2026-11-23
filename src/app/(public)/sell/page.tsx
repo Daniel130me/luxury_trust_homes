@@ -86,7 +86,7 @@ export default function SellPage() {
               <li>Submit your listing with photos and location details.</li>
               <li>Our legal team reviews it — usually within two working days.</li>
               <li>Approved listings go live in the public catalogue.</li>
-              <li>Enquiries are handled end-to-end by your assigned lawyer.</li>
+              <li>Enquiries are handled end-to-end by an Elvictoria lawyer.</li>
             </ol>
           </Card>
         </aside>

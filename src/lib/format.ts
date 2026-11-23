@@ -100,8 +100,6 @@ export const PROPERTY_STATUS_LABELS: Record<string, string> = {
 /** Enquiry / case status display names, as in the prototype stepper. */
 export const CASE_STATUS_LABELS: Record<string, string> = {
   NEW_ENQUIRY: "New Enquiry",
-  UNDER_REVIEW: "Under Review",
-  LAWYER_ASSIGNED: "Lawyer Assigned",
   IN_PROGRESS: "In Progress",
   NEGOTIATION: "Negotiation / Inspection",
   PAYMENT_PENDING: "Payment Pending",
@@ -109,11 +107,9 @@ export const CASE_STATUS_LABELS: Record<string, string> = {
   CANCELLED: "Cancelled",
 };
 
-/** Statuses in stepper order (1..7, cancelled sits outside the flow). */
+/** Statuses in stepper order (cancelled sits outside the flow). */
 export const CASE_STEPS = [
   "NEW_ENQUIRY",
-  "UNDER_REVIEW",
-  "LAWYER_ASSIGNED",
   "IN_PROGRESS",
   "NEGOTIATION",
   "PAYMENT_PENDING",
@@ -144,8 +140,6 @@ export const STATUS_TONES: Record<string, string> = {
   COMPLETED: "bg-emerald-50 text-emerald-800 ring-emerald-200",
   AVAILABLE: "bg-emerald-50 text-emerald-800 ring-emerald-200",
   PENDING_REVIEW: "bg-amber-50 text-amber-800 ring-amber-200",
-  UNDER_REVIEW: "bg-brand-50 text-brand-800 ring-brand-200",
-  LAWYER_ASSIGNED: "bg-brand-50 text-brand-800 ring-brand-200",
   NEW_ENQUIRY: "bg-brand-50 text-brand-800 ring-brand-200",
   OUTSTANDING: "bg-amber-50 text-amber-800 ring-amber-200",
   OPEN: "bg-brand-50 text-brand-800 ring-brand-200",
@@ -173,8 +167,6 @@ export const STATUS_DOT_TONES: Record<string, string> = {
   COMPLETED: "bg-emerald-500",
   AVAILABLE: "bg-emerald-500",
   PENDING_REVIEW: "bg-amber-500",
-  UNDER_REVIEW: "bg-brand-500",
-  LAWYER_ASSIGNED: "bg-brand-500",
   NEW_ENQUIRY: "bg-brand-500",
   OUTSTANDING: "bg-amber-500",
   OPEN: "bg-brand-500",

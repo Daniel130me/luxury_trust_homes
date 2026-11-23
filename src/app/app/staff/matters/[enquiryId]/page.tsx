@@ -106,15 +106,15 @@ export default function MatterDetailPage() {
     void load();
   }, [load]);
 
-  async function assignToMe() {
+  async function takeUpEnquiry() {
     setBusy(true);
     setError(null);
     try {
-      await apiFetch(`/staff/enquiries/${enquiryId}/assign`, { method: "POST", body: {} });
+      await apiFetch(`/staff/enquiries/${enquiryId}/take-up`, { method: "POST", body: {} });
       await load();
-      setNotice("The matter is assigned to you.");
+      setNotice("You are now handling this matter.");
     } catch (err) {
-      setError(err instanceof ApiRequestError ? err.message : "Could not assign the matter.");
+      setError(err instanceof ApiRequestError ? err.message : "Could not take up the matter.");
     } finally {
       setBusy(false);
     }
@@ -282,8 +282,8 @@ export default function MatterDetailPage() {
       {/* ------------------------------------------------- actions row */}
       <div className="mt-5 flex flex-wrap gap-3">
         {canManage && !isAssigned && (
-          <Button onClick={() => void assignToMe()} loading={busy}>
-            Assign to me
+          <Button onClick={() => void takeUpEnquiry()} loading={busy}>
+            Take up enquiry
           </Button>
         )}
         {canManage && isAssigned && !kase && (

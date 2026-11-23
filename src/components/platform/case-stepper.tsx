@@ -24,8 +24,6 @@ export function CaseStepper({ status, clientMode = false }: { status: string; cl
   const current = CASE_STEPS.indexOf(status as (typeof CASE_STEPS)[number]);
   const clientLabels: Partial<Record<string, string>> = {
     NEW_ENQUIRY: "Enquiry submitted",
-    UNDER_REVIEW: "Under review",
-    LAWYER_ASSIGNED: "Lawyer handling your enquiry",
     PAYMENT_PENDING: "Payment requested",
   };
 

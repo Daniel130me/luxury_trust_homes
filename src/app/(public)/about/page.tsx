@@ -30,8 +30,8 @@ export default function AboutPage() {
               reviewed by our legal team. Submit an enquiry with your timing, budget and questions.
             </li>
             <li className="rounded-lg border border-brand-100 bg-white p-4">
-              <strong className="text-ink-strong">2. A lawyer takes over.</strong> Your enquiry is assigned
-              to a qualified lawyer who reviews it, opens a transaction case and becomes your single point
+              <strong className="text-ink-strong">2. A lawyer takes over.</strong> An Elvictoria lawyer
+              takes up your enquiry, opens a transaction case and becomes your single point
               of contact.
             </li>
             <li className="rounded-lg border border-brand-100 bg-white p-4">

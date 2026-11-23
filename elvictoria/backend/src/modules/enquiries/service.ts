@@ -9,15 +9,15 @@ import { nextReference } from "../../lib/references.js";
  * Enquiries & transaction cases.
  *
  * Business model (from the prototype): a buyer/renter submits an enquiry on
- * a listed property. Every lawyer sees it. A lawyer assigns themselves and
- * opens a transaction case; all further contact between client and provider
+ * a listed property. Every lawyer sees it. Any lawyer takes up the enquiry
+ * and opens a transaction case; all further contact between client and provider
  * runs through the lawyer. Clients and providers never see each other's
  * contact details until the lawyer authorises a disclosure, and internal
  * notes are never visible to participants.
  */
 
 const OPEN_STATUSES: EnquiryStatus[] = [
-  "NEW_ENQUIRY", "UNDER_REVIEW", "LAWYER_ASSIGNED", "IN_PROGRESS", "NEGOTIATION", "PAYMENT_PENDING",
+  "NEW_ENQUIRY", "IN_PROGRESS", "NEGOTIATION", "PAYMENT_PENDING",
 ];
 
 // ------------------------------------------------------------- create
@@ -164,8 +164,8 @@ export async function listForStaff(
   return { enquiries, total, page: filters.page, pageSize: filters.pageSize, pages: Math.ceil(total / filters.pageSize) };
 }
 
-/** Assign a lawyer to an enquiry (case.manage). Defaults to the caller. */
-export async function assignLawyer(
+/** Take up an enquiry (case.manage). Defaults to the caller. */
+export async function takeUpEnquiry(
   enquiryId: string,
   actor: AuthUser,
   lawyerId?: string,
@@ -183,26 +183,28 @@ export async function assignLawyer(
   const lawyer = lawyerId
     ? await prisma.user.findFirst({ where: { id: lawyerId, role: "LAWYER", status: "ACTIVE" } })
     : actor;
-  if (!lawyer) throw ApiError.badRequest("Choose a valid lawyer to assign.");
+  if (!lawyer) throw ApiError.badRequest("Choose a valid lawyer to take up the enquiry.");
   if (!can(lawyer as AuthUser, "case.manage")) {
-    throw ApiError.badRequest("Choose a valid lawyer to assign.");
+    throw ApiError.badRequest("Choose a valid lawyer to take up the enquiry.");
   }
 
+  // Taking up an enquiry moves it straight into IN_PROGRESS — there is no
+  // separate "under review" / "lawyer assigned" stage in the flow.
   const updated = await prisma.$transaction(async (tx) => {
     const e = await tx.enquiry.update({
       where: { id: enquiryId },
-      data: { lawyerId: lawyer.id, status: "LAWYER_ASSIGNED" },
+      data: { lawyerId: lawyer.id, status: "IN_PROGRESS" },
     });
     if (enquiry.case) {
       await tx.case.update({
         where: { id: enquiry.case.id },
-        data: { lawyerId: lawyer.id, status: "LAWYER_ASSIGNED" },
+        data: { lawyerId: lawyer.id, status: "IN_PROGRESS" },
       });
       await tx.caseTimelineEntry.create({
         data: {
           caseId: enquiry.case.id,
           actorId: actor.id,
-          label: `${lawyer.name} assigned to the enquiry.`,
+          label: `${lawyer.name} took up the enquiry.`,
           visibility: Visibility.PARTICIPANTS,
           note: `${lawyer.name} is handling this enquiry.`,
         },
@@ -212,10 +214,10 @@ export async function assignLawyer(
   });
 
   await notifyMany([
-    { userId: lawyer.id, category: "case_update", title: "Enquiry assigned to you", body: `${updated.reference} — ${enquiry.reference} has been assigned to you.`, link: `/app/staff/matters/${updated.id}` },
+    { userId: lawyer.id, category: "case_update", title: "Enquiry taken up", body: `You are now handling ${updated.reference} — ${enquiry.reference}.`, link: `/app/staff/matters/${updated.id}` },
     { userId: enquiry.clientId, category: "case_update", title: "Lawyer handling your enquiry", body: `${lawyer.name} is now handling your enquiry.`, link: `/app/client/enquiries/${updated.id}` },
   ]);
-  await audit({ actorId: actor.id, action: "enquiry.assign", entityType: "Enquiry", entityId: enquiryId, meta: { lawyerId: lawyer.id }, ip });
+  await audit({ actorId: actor.id, action: "enquiry.take_up", entityType: "Enquiry", entityId: enquiryId, meta: { lawyerId: lawyer.id }, ip });
   return updated;
 }
 
@@ -371,8 +373,7 @@ export async function updateStatus(
 
 function defaultClientNote(next: EnquiryStatus): string {
   switch (next) {
-    case "UNDER_REVIEW": return "Your enquiry is being reviewed by the legal team.";
-    case "LAWYER_ASSIGNED": return "A lawyer is handling your enquiry.";
+    case "NEW_ENQUIRY": return "Your enquiry has been received by the legal team.";
     case "IN_PROGRESS": return "Your enquiry is in progress.";
     case "NEGOTIATION": return "Negotiation and inspection arrangements are under way.";
     case "PAYMENT_PENDING": return "A payment request is waiting for you.";
