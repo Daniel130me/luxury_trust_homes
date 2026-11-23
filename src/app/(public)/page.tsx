@@ -100,7 +100,7 @@ export default function HomePage() {
             </div>
           </form>
 
-          <ul className="mt-6 flex flex-wrap gap-x-6 gap-y-2" aria-label="Why ELVICTORIA">
+          <ul className="mt-6 flex flex-wrap gap-x-6 gap-y-2" aria-label="Why Luxury Trust Homes">
             {[
               { icon: <ScaleIcon className="h-4 w-4" />, label: "Lawyer-managed transactions" },
               { icon: <ShieldIcon className="h-4 w-4" />, label: "Confidential by default" },
@@ -118,13 +118,13 @@ export default function HomePage() {
       {/* --------------------------------------------------- why section */}
       <section className="container-page pt-16 sm:pt-20">
         <div className="mb-8 max-w-2xl">
-          <p className="eyebrow">Why ELVICTORIA</p>
+          <p className="eyebrow">Why Luxury Trust Homes</p>
           <h2 className="mt-1.5 font-display text-3xl sm:text-4xl">
             Lawyers handle everything — not strangers.
           </h2>
           <p className="mt-3 text-base text-ink-soft">
             Property search in Nigeria often means unknown agents, shared phone numbers and requests for
-            upfront fees. On ELVICTORIA, our lawyers stand between you and every transaction — giving
+            upfront fees. On Luxury Trust Homes, our lawyers stand between you and every transaction — giving
             buyers, renters and owners peace of mind.
           </p>
         </div>
@@ -134,7 +134,7 @@ export default function HomePage() {
             {
               icon: <ScaleIcon className="h-5 w-5" />,
               title: "Lawyers handle every enquiry",
-              body: "A qualified ELVICTORIA lawyer manages your enquiry from first question to completion. You never deal with an unknown middleman.",
+              body: "A qualified Elvictoria lawyer manages your enquiry from first question to completion. You never deal with an unknown middleman.",
             },
             {
               icon: <ShieldIcon className="h-5 w-5" />,

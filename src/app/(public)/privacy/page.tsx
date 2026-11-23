@@ -20,7 +20,7 @@ export default function PrivacyPage() {
           <p className="mt-2">
             Your contact details are never published on a listing. They are shared with another party
             only when your lawyer authorises it for your transaction, and every disclosure is recorded.
-            Payment information is processed by Flutterwave; ELVICTORIA does not store card details.
+            Payment information is processed by Flutterwave; Luxury Trust Homes does not store card details.
           </p>
         </section>
         <section>

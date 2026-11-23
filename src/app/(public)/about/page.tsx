@@ -12,9 +12,9 @@ export default function AboutPage() {
 
       <div className="mt-6 space-y-8">
         <section>
-          <h2 className="text-lg font-semibold text-ink-strong">1. About ELVICTORIA</h2>
+          <h2 className="text-lg font-semibold text-ink-strong">1. About Luxury Trust Homes</h2>
           <p className="mt-2 leading-relaxed text-ink-soft">
-            ELVICTORIA is a property platform operated by ELVICTORIA Attorneys that facilitates property
+            Luxury Trust Homes is a property platform operated by Elvictoria Attorneys and Solicitors that facilitates property
             discovery, listings, enquiries and lawyer-managed property transactions. Buyers and renters
             interact with property providers through the platform&apos;s authorised lawyers — never
             directly — so contact details stay confidential and every transaction leaves a proper
@@ -41,7 +41,7 @@ export default function AboutPage() {
             </li>
             <li className="rounded-lg border border-brand-100 bg-white p-4">
               <strong className="text-ink-strong">4. Secure payment.</strong> Payment requests are raised
-              inside your account against the case and processed through Flutterwave. ELVICTORIA will
+              inside your account against the case and processed through Flutterwave. Luxury Trust Homes will
               never ask you to pay into a personal account.
             </li>
             <li className="rounded-lg border border-brand-100 bg-white p-4">

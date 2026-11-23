@@ -56,7 +56,7 @@ export function PublicFooter() {
           <Logo light />
           <p className="mt-4 font-display text-xl text-white">Lawyers handle everything — not strangers.</p>
           <p className="mt-2 max-w-md text-sm leading-relaxed text-brand-200">
-            ELVICTORIA connects buyers and renters with property owners, landlords and agents in Lagos and Enugu.
+            Luxury Trust Homes — powered by Elvictoria Attorneys and Solicitors — connects buyers and renters with property owners, landlords and agents in Lagos and Enugu.
             Every enquiry is coordinated by our legal team, from first contact to completion.
           </p>
         </div>
@@ -65,7 +65,7 @@ export function PublicFooter() {
           <ul className="space-y-2 text-sm">
             <li><Link className="hover:text-white" href="/properties?type=sale">Properties for sale</Link></li>
             <li><Link className="hover:text-white" href="/properties?type=rent">Properties for rent</Link></li>
-            <li><Link className="hover:text-white" href="/about">How ELVICTORIA works</Link></li>
+            <li><Link className="hover:text-white" href="/about">How Luxury Trust Homes works</Link></li>
             <li><Link className="hover:text-white" href="/sell">List a property</Link></li>
             <li><Link className="hover:text-white" href="/help">Help Desk</Link></li>
             <li><Link className="hover:text-white" href="/contact">Contact</Link></li>
@@ -87,7 +87,7 @@ export function PublicFooter() {
       </div>
       <div className="border-t border-brand-900">
         <div className="container-page flex flex-col gap-2 py-5 text-xs text-brand-400 sm:flex-row sm:justify-between">
-          <p>© {new Date().getFullYear()} ELVICTORIA. All rights reserved.</p>
+          <p>© {new Date().getFullYear()} Elvictoria Attorneys and Solicitors. All rights reserved.</p>
           <p>Property information is supplied by listing providers and reviewed by our legal team before publication.</p>
         </div>
       </div>

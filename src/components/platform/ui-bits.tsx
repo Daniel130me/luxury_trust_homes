@@ -16,7 +16,7 @@ import { statusTone, statusDotTone } from "@/lib/format";
 export function Logo({ href = "/", light = false }: { href?: string; light?: boolean }) {
   // Wordmark and mark are lifted 1:1 from the prototype header SVG.
   return (
-    <Link href={href} className="inline-flex items-center gap-2.5" aria-label="ELVICTORIA home">
+    <Link href={href} className="inline-flex items-center gap-2.5" aria-label="Luxury Trust Homes home">
       <svg viewBox="0 0 40 40" className="h-9 w-9 shrink-0" aria-hidden>
         <rect width="40" height="40" rx="9" fill={light ? "#ffffff" : "#6b1d2c"} />
         <path d="M11 29 L11 13 L20 8 L29 13 L29 29" fill="none" stroke="#cfa04a" strokeWidth="2.2" strokeLinejoin="round" />
@@ -29,7 +29,7 @@ export function Logo({ href = "/", light = false }: { href?: string; light?: boo
         />
       </svg>
       <span className={`font-display text-2xl leading-none tracking-wide ${light ? "text-white" : "text-ink-strong"}`}>
-        EL<span className="text-gold-500">V</span>ICTORIA
+        Luxury <span className="text-gold-500">Trust</span> Homes
       </span>
     </Link>
   );

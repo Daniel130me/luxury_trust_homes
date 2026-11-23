@@ -18,8 +18,8 @@ const dmSerif = DM_Serif_Display({
 
 export const metadata: Metadata = {
   title: {
-    default: "ELVICTORIA — Property with Legal Confidence",
-    template: "%s | ELVICTORIA",
+    default: "Luxury Trust Homes — Property with Legal Confidence",
+    template: "%s | Luxury Trust Homes",
   },
   description:
     "Explore properties for sale and rent in Lagos and Enugu, with enquiries and transactions coordinated through our legal team.",

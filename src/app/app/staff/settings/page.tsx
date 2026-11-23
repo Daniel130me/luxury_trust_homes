@@ -128,7 +128,7 @@ export default function StaffSettingsPage() {
           <div className="rounded-xl border border-brand-100 bg-brand-50/40 p-4">
             <p className="text-sm font-semibold text-ink-strong">Bank transfer account</p>
             <p className="mt-1 text-xs text-ink-muted">
-              The ELVICTORIA account shown to a payer at the payment stage. Bank transfer is the
+              The Elvictoria Attorneys and Solicitors account shown to a payer at the payment stage. Bank transfer is the
               primary method; card checkout remains available as the alternative.
             </p>
             <div className="mt-3 grid gap-4 sm:grid-cols-2">

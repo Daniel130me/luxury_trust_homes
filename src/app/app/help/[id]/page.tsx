@@ -59,7 +59,7 @@ export default function HelpTicketPage() {
           <div key={message.id} className="px-5 py-4">
             <div className="flex items-center justify-between text-xs text-ink-muted">
               <span className="font-semibold text-ink-strong">
-                {message.fromStaff ? "ELVICTORIA Support" : (message.author?.name ?? "You")}
+                {message.fromStaff ? "Elvictoria Support" : (message.author?.name ?? "You")}
               </span>
               <span>{formatDateTime(message.at)}</span>
             </div>

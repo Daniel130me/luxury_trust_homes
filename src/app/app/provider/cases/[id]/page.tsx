@@ -133,7 +133,7 @@ export default function ProviderCaseDetailPage() {
       )}
 
       <Card className="mt-6 p-5 sm:p-6">
-        <h2 className="text-base font-semibold text-ink-strong">Messages with the ELVICTORIA legal team</h2>
+        <h2 className="text-base font-semibold text-ink-strong">Messages with the Elvictoria legal team</h2>
         <p className="mt-0.5 text-sm text-ink-muted">
           Your lawyer coordinates with the buyer or renter for you — you never exchange details directly.
         </p>
@@ -148,7 +148,7 @@ export default function ProviderCaseDetailPage() {
                   <div className={`max-w-[85%] rounded-xl px-4 py-2.5 text-sm ${!fromLawyer ? "bg-brand-800 text-white" : "bg-brand-50"}`}>
                     <p className={`mb-0.5 text-xs font-semibold ${!fromLawyer ? "text-brand-100" : "text-brand-700"}`}>
                       {message.author.name}
-                      {fromLawyer && <span className="font-normal opacity-80"> · ELVICTORIA Legal</span>}
+                      {fromLawyer && <span className="font-normal opacity-80"> · Elvictoria Legal</span>}
                     </p>
                     <p className="whitespace-pre-line">{message.body}</p>
                     <p className={`mt-1 text-2xs ${!fromLawyer ? "text-brand-200" : "text-ink-muted"}`}>

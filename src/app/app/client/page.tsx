@@ -45,7 +45,7 @@ export default function ClientDashboardPage() {
     <div className="mx-auto max-w-7xl">
       <h1 className="text-2xl font-semibold tracking-tight sm:text-3xl">Welcome, {firstName}</h1>
       <p className="mt-1.5 text-ink-muted">
-        Follow your enquiries and transactions, managed by the ELVICTORIA legal team.
+        Follow your enquiries and transactions, managed by the Elvictoria legal team.
       </p>
 
       <div className="mt-5 flex flex-wrap gap-3">

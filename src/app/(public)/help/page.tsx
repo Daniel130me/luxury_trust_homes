@@ -12,7 +12,7 @@ import { Alert, Badge, Button, Card, Field, Input } from "@/components/platform/
 const FAQS = [
   {
     q: "How are enquiries handled?",
-    a: "Every enquiry is submitted through the platform and assigned to an ELVICTORIA lawyer. Your lawyer reviews it, contacts the property provider, and keeps you updated inside your account. You never deal with unknown agents or middlemen.",
+    a: "Every enquiry is submitted through the platform and assigned to an Elvictoria lawyer. Your lawyer reviews it, contacts the property provider, and keeps you updated inside your account. You never deal with unknown agents or middlemen.",
   },
   {
     q: "Who can see my contact details?",
@@ -116,7 +116,7 @@ function TrackTicketCard() {
               >
                 <p>{message.body}</p>
                 <p className={`mt-1 text-[10px] ${message.fromStaff ? "text-ink-muted" : "text-white/70"}`}>
-                  {message.fromStaff ? "ELVICTORIA Support" : "You"} · {formatDateTime(message.at)}
+                  {message.fromStaff ? "Elvictoria Support" : "You"} · {formatDateTime(message.at)}
                 </p>
               </div>
             ))}

@@ -115,7 +115,7 @@ export default function PropertiesPage() {
       <p className="text-xs font-bold uppercase tracking-[0.18em] text-gold-600">{eyebrow}</p>
       <h1 className="mt-2 font-serif text-3xl text-ink-strong sm:text-4xl">{heading}</h1>
       <p className="mt-2 max-w-3xl leading-relaxed text-ink-soft">
-        Every listing below has been reviewed by the ELVICTORIA legal team, and every enquiry is
+        Every listing below has been reviewed by the Elvictoria legal team, and every enquiry is
         handled by a lawyer.
       </p>
 

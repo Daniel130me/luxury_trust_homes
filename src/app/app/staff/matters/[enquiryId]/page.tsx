@@ -400,7 +400,7 @@ export default function MatterDetailPage() {
                   <div className={`max-w-[85%] rounded-xl px-4 py-2.5 text-sm ${fromStaff ? "bg-brand-800 text-white" : "bg-brand-50"}`}>
                     <p className={`mb-0.5 text-xs font-semibold ${fromStaff ? "text-brand-100" : "text-brand-700"}`}>
                       {message.author.name}
-                      {!fromStaff && <span className="font-normal opacity-80">{activeThread === "INTERNAL" ? " · Internal note" : " · ELVICTORIA Legal"}</span>}
+                      {!fromStaff && <span className="font-normal opacity-80">{activeThread === "INTERNAL" ? " · Internal note" : " · Elvictoria Legal"}</span>}
                     </p>
                     <p className="whitespace-pre-line">{message.body}</p>
                     <p className={`mt-1 text-2xs ${fromStaff ? "text-brand-200" : "text-ink-muted"}`}>

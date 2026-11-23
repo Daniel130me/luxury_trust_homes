@@ -34,7 +34,7 @@ export default function ProviderCasesPage() {
     <div className="mx-auto max-w-6xl">
       <h1 className="text-2xl font-semibold tracking-tight sm:text-3xl">Enquiries & cases</h1>
       <p className="mt-1.5 text-ink-muted">
-        Every enquiry on your listings is handled by an ELVICTORIA lawyer.
+        Every enquiry on your listings is handled by an Elvictoria lawyer.
       </p>
 
       {cases === null ? (

@@ -177,7 +177,7 @@ export default function HelpDeskPage() {
                         >
                           <p>{message.body}</p>
                           <p className={`mt-1 text-[10px] ${message.fromStaff ? "text-ink-muted" : "text-white/70"}`}>
-                            {message.fromStaff ? "ELVICTORIA Support" : user?.name} · {formatDateTime(message.at)}
+                            {message.fromStaff ? "Elvictoria Support" : user?.name} · {formatDateTime(message.at)}
                           </p>
                         </div>
                       ))}

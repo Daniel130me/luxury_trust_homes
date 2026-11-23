@@ -79,7 +79,7 @@ export default function StaffUsersPage() {
     <div className="mx-auto max-w-7xl">
       <h1 className="text-2xl font-semibold tracking-tight sm:text-3xl">Users</h1>
       <p className="mt-1.5 text-ink-muted">
-        Buyers, renters, providers and ELVICTORIA staff.
+        Buyers, renters, providers and Elvictoria staff.
       </p>
 
       <div className="mt-4 flex flex-wrap gap-3">

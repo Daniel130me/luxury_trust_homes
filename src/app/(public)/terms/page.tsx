@@ -7,9 +7,9 @@ export default function TermsPage() {
       <h1 className="font-serif text-4xl text-ink-strong">Terms and Conditions</h1>
       <div className="mt-6 space-y-6 leading-relaxed text-ink-soft">
         <section>
-          <h2 className="text-lg font-semibold text-ink-strong">1. About ELVICTORIA</h2>
+          <h2 className="text-lg font-semibold text-ink-strong">1. About Luxury Trust Homes</h2>
           <p className="mt-2">
-            ELVICTORIA is a property platform operated by ELVICTORIA Attorneys that facilitates property
+            Luxury Trust Homes is a property platform operated by Elvictoria Attorneys and Solicitors that facilitates property
             discovery, listings, enquiries and lawyer-managed property transactions. By creating an
             account you agree to these terms.
           </p>
@@ -27,7 +27,7 @@ export default function TermsPage() {
           <h2 className="text-lg font-semibold text-ink-strong">3. Enquiries and transactions</h2>
           <p className="mt-2">
             All communication between buyers, renters and property providers runs through the
-            ELVICTORIA legal team. Contact details are shared only when a lawyer authorises it for a
+            Elvictoria legal team. Contact details are shared only when a lawyer authorises it for a
             live transaction. Opening an enquiry does not by itself reserve a property or create a
             contract.
           </p>
@@ -36,7 +36,7 @@ export default function TermsPage() {
           <h2 className="text-lg font-semibold text-ink-strong">4. Payments</h2>
           <p className="mt-2">
             Payment requests are raised through the platform against a transaction case and processed
-            through Flutterwave. ELVICTORIA will never ask you to pay into a personal account, or to
+            through Flutterwave. Luxury Trust Homes will never ask you to pay into a personal account, or to
             pay anyone by phone or message. Payment requests appear only in your account.
           </p>
         </section>

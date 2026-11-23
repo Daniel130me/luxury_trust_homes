@@ -199,7 +199,7 @@ export default function PaymentDetailPage() {
                     <p className="font-semibold text-ink-strong">
                       Bank transfer <span className="ml-1 rounded-full bg-brand-700 px-1.5 py-0.5 text-[10px] font-bold text-white">PRIMARY</span>
                     </p>
-                    <p className="mt-0.5 text-xs text-ink-muted">Pay into the ELVICTORIA account — confirmed by the legal team</p>
+                    <p className="mt-0.5 text-xs text-ink-muted">Pay into the Elvictoria Attorneys and Solicitors account — confirmed by the legal team</p>
                   </button>
                   <button
                     onClick={() => setMethod("card")}
@@ -225,7 +225,7 @@ export default function PaymentDetailPage() {
               {method === "transfer" && (
                 <div className="mt-4 space-y-3">
                   <Alert tone="info">
-                    Transfer {formatNaira(payment.amount)} into the ELVICTORIA account below, then
+                    Transfer {formatNaira(payment.amount)} into the Elvictoria Attorneys and Solicitors account below, then
                     report the transfer here. The legal team confirms receipt against your case.
                   </Alert>
 
@@ -275,7 +275,7 @@ export default function PaymentDetailPage() {
               <div className="mt-5 flex items-start gap-2 rounded-lg bg-brand-50 p-4 text-sm text-ink-soft">
                 <ShieldIcon className="mt-0.5 h-4 w-4 shrink-0 text-brand-700" />
                 <p>
-                  ELVICTORIA will never ask you to pay into a personal account, or to pay anyone by
+                  Luxury Trust Homes will never ask you to pay into a personal account, or to pay anyone by
                   phone or message. Payment requests appear only in your account.
                 </p>
               </div>

@@ -42,7 +42,7 @@ export default function ClientEnquiriesPage() {
     <div className="mx-auto max-w-6xl">
       <h1 className="text-2xl font-semibold tracking-tight sm:text-3xl">My enquiries</h1>
       <p className="mt-1.5 text-ink-muted">
-        Every enquiry you submit is handled by a lawyer from the ELVICTORIA legal team.
+        Every enquiry you submit is handled by a lawyer from the Elvictoria legal team.
       </p>
 
       <div className="mt-4 flex items-center justify-between gap-3">

@@ -176,7 +176,7 @@ export async function login(
   }
   if (user.status !== "ACTIVE") {
     throw ApiError.forbidden(
-      "This account has been deactivated. Please contact ELVICTORIA support.",
+      "This account has been deactivated. Please contact Elvictoria support.",
     );
   }
 
@@ -234,7 +234,7 @@ export async function refresh(
   if (session.user.status !== "ACTIVE") {
     clearSession(res);
     throw ApiError.forbidden(
-      "This account has been deactivated. Please contact ELVICTORIA support.",
+      "This account has been deactivated. Please contact Elvictoria support.",
     );
   }
 

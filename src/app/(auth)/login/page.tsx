@@ -64,7 +64,7 @@ export default function LoginPage() {
       heading="Welcome back"
       intro={
         <>
-          New to ELVICTORIA?{" "}
+          New to Luxury Trust Homes?{" "}
           <Link href="/register" className="font-semibold text-brand-700 hover:underline">
             Create an account
           </Link>

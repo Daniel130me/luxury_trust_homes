@@ -15,7 +15,7 @@ export default function SellPage() {
           <p className="text-xs font-bold uppercase tracking-[0.18em] text-gold-600">For property owners</p>
           <h1 className="mt-2 font-serif text-4xl text-ink-strong">List your property with legal confidence.</h1>
           <p className="mt-3 max-w-3xl leading-relaxed text-ink-soft">
-            ELVICTORIA connects your property with serious, verified buyers and renters. Every enquiry
+            Luxury Trust Homes connects your property with serious, verified buyers and renters. Every enquiry
             arrives through our lawyers, so you never share your contact details with strangers — and
             every listing is reviewed before it goes live.
           </p>

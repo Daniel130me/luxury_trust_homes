@@ -82,8 +82,8 @@ export function WorkspaceShell({
   const nav = buildNav(user.role as string, { unread });
 
   const footnote = staff
-    ? "Internal notes and participant contact details are visible to ELVICTORIA staff only."
-    : "All communication about a property is handled by the ELVICTORIA legal team.";
+    ? "Internal notes and participant contact details are visible to Elvictoria staff only."
+    : "All communication about a property is handled by the Elvictoria legal team.";
 
   const navList = (
     <nav aria-label="Workspace" className="flex flex-col gap-0.5">

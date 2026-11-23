@@ -79,7 +79,7 @@ export async function initiateCardPayment(
         phonenumber: input.customerPhone || undefined,
       },
       customizations: {
-        title: "ELVICTORIA",
+        title: "Luxury Trust Homes",
         description: input.description,
       },
     }),

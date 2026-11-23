@@ -125,7 +125,7 @@ export default function StaffTicketDetailPage() {
           <div key={message.id} className="px-5 py-4">
             <div className="flex items-center justify-between text-xs text-ink-muted">
               <span className="font-semibold text-ink-strong">
-                {message.fromStaff ? "ELVICTORIA Support" : (message.author?.name ?? ticket.name)}
+                {message.fromStaff ? "Elvictoria Support" : (message.author?.name ?? ticket.name)}
               </span>
               <span>{formatDateTime(message.at)}</span>
             </div>
