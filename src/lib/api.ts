@@ -109,7 +109,18 @@ export async function apiFetch<T>(path: string, options: RequestOptions = {}): P
         await rawRequest("/auth/refresh", { method: "POST" });
         return await rawRequest<T>(path, { ...options, _retried: true });
       } catch {
-        // Refresh failed — surface the original 401.
+        // The session is truly over (no valid refresh cookie). Never leave the
+        // user stuck on a silently broken page — send them to sign-in, with a
+        // return path so they land back where they were. Auth pages are
+        // excluded: a 401 there (e.g. a wrong password) is a normal outcome.
+        if (typeof window !== "undefined") {
+          const path = window.location.pathname;
+          const onAuthPage = path.startsWith("/login") || path.startsWith("/register");
+          if (!onAuthPage) {
+            const next = encodeURIComponent(path + window.location.search);
+            window.location.assign(`/login?next=${next}`);
+          }
+        }
       }
     }
     throw err;
