@@ -75,6 +75,12 @@ const COMMON_FEATURES = [
 const DEFAULT_VIDEO_MAX_MB = 50;
 const DEFAULT_VIDEO_MAX_DURATION_SEC = 120;
 
+/** Photo limits — kept in sync with the backend (MAX_IMAGE_BYTES in r2.ts). */
+const MAX_PHOTO_MB = 5;
+const MAX_PHOTOS = 10;
+const PHOTO_ACCEPT = "image/jpeg,image/png,image/webp";
+const VIDEO_ACCEPT = "video/mp4,video/webm,video/quicktime";
+
 type ListingVideo = {
   url: string;
   bytes?: number | null;
@@ -299,17 +305,29 @@ export function PropertyForm({
     }
   }
 
-  async function uploadFiles(files: FileList | null) {
-    if (!files || files.length === 0) return;
+  async function uploadFiles(files: File[]) {
+    if (files.length === 0) return;
     if (!values.id) {
       setErrors({ files: "Save the listing first, then add photographs." });
+      return;
+    }
+    // Instant feedback for rule-breaking files instead of a failed upload.
+    const oversized = files.filter((f) => f.size > MAX_PHOTO_MB * 1024 * 1024);
+    if (oversized.length > 0) {
+      setErrors({
+        files: `Photos must be ${MAX_PHOTO_MB} MB or smaller: ${oversized.map((f) => f.name).join(", ")}.`,
+      });
+      return;
+    }
+    if (images.length + files.length > MAX_PHOTOS) {
+      setErrors({ files: `A listing can hold up to ${MAX_PHOTOS} photos (it has ${images.length}).` });
       return;
     }
     setUploading(true);
     setErrors({});
     try {
       const formData = new FormData();
-      for (const file of Array.from(files)) formData.append("files", file);
+      for (const file of files) formData.append("files", file);
       formData.append("propertyId", values.id);
       const data = await apiUpload<{ images: Array<{ id: string; url: string; label: string }> }>(
         "/uploads/property-image",
@@ -696,20 +714,14 @@ export function PropertyForm({
                   ))}
                 </div>
               )}
-              <label className="mt-4 flex cursor-pointer flex-col items-center justify-center gap-2 rounded-xl border-2 border-dashed border-brand-200 px-6 py-8 text-center transition-colors hover:border-brand-400 hover:bg-brand-50/40">
-                <span className="text-sm font-medium text-ink-soft">
-                  {uploading ? "Uploading…" : "Click to upload photographs"}
-                </span>
-                <span className="text-xs text-ink-muted">JPEG, PNG or WebP · up to 5 MB each · max 10 photos</span>
-                <input
-                  type="file"
-                  accept="image/jpeg,image/png,image/webp"
-                  multiple
-                  className="sr-only"
-                  onChange={(e) => void uploadFiles(e.target.files)}
-                  disabled={uploading}
-                />
-              </label>
+              <MediaDropzone
+                accept={PHOTO_ACCEPT}
+                multiple
+                busy={uploading}
+                label="Drag & drop photos here, or click to browse"
+                hint={`JPEG, PNG or WebP · up to ${MAX_PHOTO_MB} MB each · max ${MAX_PHOTOS} photos`}
+                onFiles={(files) => void uploadFiles(files)}
+              />
               {errors.files && <Alert tone="error">{errors.files}</Alert>}
             </>
           )}
@@ -747,21 +759,17 @@ export function PropertyForm({
                   </div>
                 </div>
               )}
-              <label className="mt-4 flex cursor-pointer flex-col items-center justify-center gap-2 rounded-xl border-2 border-dashed border-brand-200 px-6 py-8 text-center transition-colors hover:border-brand-400 hover:bg-brand-50/40">
-                <span className="text-sm font-medium text-ink-soft">
-                  {uploadingVideo ? "Uploading video…" : video ? "Replace the video" : "Click to upload a video"}
-                </span>
-                <span className="text-xs text-ink-muted">
-                  MP4, WebM or MOV · up to {videoLimits.maxMb} MB · max {videoLimits.maxDurationSec}s (optional)
-                </span>
-                <input
-                  type="file"
-                  accept="video/mp4,video/webm,video/quicktime"
-                  className="sr-only"
-                  onChange={(e) => void uploadVideo(e.target.files?.[0] ?? null)}
-                  disabled={uploadingVideo}
-                />
-              </label>
+              <MediaDropzone
+                accept={VIDEO_ACCEPT}
+                busy={uploadingVideo}
+                label={
+                  video
+                    ? "Drag & drop a new video here, or click to replace it"
+                    : "Drag & drop a video here, or click to browse"
+                }
+                hint={`MP4, WebM or MOV · up to ${videoLimits.maxMb} MB · max ${videoLimits.maxDurationSec}s (optional)`}
+                onFiles={(files) => void uploadVideo(files[0] ?? null)}
+              />
             </>
           )}
         </Card>
@@ -777,5 +785,65 @@ export function PropertyForm({
         </div>
       </form>
     </div>
+  );
+}
+
+/**
+ * Shared photo/video dropzone: click to browse or drag files onto it.
+ * Dropped files are filtered by the same MIME list the file picker
+ * enforces, because the OS drop tray ignores the `accept` attribute.
+ */
+function MediaDropzone({
+  accept,
+  multiple = false,
+  busy,
+  label,
+  hint,
+  onFiles,
+}: {
+  accept: string;
+  multiple?: boolean;
+  busy: boolean;
+  label: string;
+  hint: string;
+  onFiles: (files: File[]) => void;
+}) {
+  const [dragging, setDragging] = useState(false);
+  const allowedTypes = accept.split(",").map((t) => t.trim());
+
+  return (
+    <label
+      onDragOver={(e) => {
+        e.preventDefault();
+        setDragging(true);
+      }}
+      onDragLeave={() => setDragging(false)}
+      onDrop={(e) => {
+        e.preventDefault();
+        setDragging(false);
+        const files = Array.from(e.dataTransfer.files).filter((f) => allowedTypes.includes(f.type));
+        if (files.length > 0) onFiles(multiple ? files : files.slice(0, 1));
+      }}
+      className={`mt-4 flex cursor-pointer flex-col items-center justify-center gap-2 rounded-xl border-2 border-dashed px-6 py-8 text-center transition-colors ${
+        dragging
+          ? "border-brand-600 bg-brand-50"
+          : "border-brand-200 hover:border-brand-400 hover:bg-brand-50/40"
+      }`}
+    >
+      <span className="text-sm font-medium text-ink-soft">{busy ? "Uploading…" : label}</span>
+      <span className="text-xs text-ink-muted">{hint}</span>
+      <input
+        type="file"
+        accept={accept}
+        multiple={multiple}
+        className="sr-only"
+        disabled={busy}
+        onChange={(e) => {
+          const files = Array.from(e.target.files ?? []);
+          e.target.value = ""; // allow picking the same file again later
+          if (files.length > 0) onFiles(files);
+        }}
+      />
+    </label>
   );
 }
