@@ -1,7 +1,8 @@
 /**
  * Fill the bankAccountName setting shown to payers at the manual-transfer
- * stage. Idempotent and staff-safe: only overwrites a BLANK value, never one
- * a staff member has already entered. Run: node scripts/seed_bank_name.js
+ * stage. Idempotent and staff-safe: overwrites a BLANK value, or one still
+ * carrying the pre-rebrand "ELVICTORIA" branding; a genuinely re-entered
+ * account name is never clobbered. Run: node scripts/seed_bank_name.js
  */
 const { Client } = require("/home/z/my-project/node_modules/pg");
 
@@ -18,7 +19,7 @@ const FIRM = "Elvictoria Attorneys and Solicitors";
   await c.query(
     'INSERT INTO "Setting" ("key","value","updatedAt") VALUES ($1,$2,NOW()) ' +
       'ON CONFLICT ("key") DO UPDATE SET "value"=$2, "updatedAt"=NOW() ' +
-      "WHERE \"Setting\".\"value\"=''",
+      "WHERE \"Setting\".\"value\"='' OR \"Setting\".\"value\" ILIKE 'ELVICTORIA%'",
     ["bankAccountName", FIRM],
   );
   const r = await c.query('SELECT "key","value" FROM "Setting" WHERE "key"=$1', [
