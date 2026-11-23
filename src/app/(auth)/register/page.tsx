@@ -41,7 +41,6 @@ export default function RegisterPage() {
   const next = params.get("next");
 
   const [step, setStep] = useState(1);
-  const [resumed, setResumed] = useState(false);
   const [accountType, setAccountType] = useState<"client" | "provider">(
     isProviderDefault ? "provider" : "client",
   );
@@ -87,7 +86,6 @@ export default function RegisterPage() {
         }));
         if (draft.role) setAccountType(draft.role);
         if (draft.step >= 1 && draft.step <= 3) setStep(draft.step);
-        setResumed(true);
       })
       .catch(() => undefined); // no draft / backend unreachable — start clean
   }, []);
@@ -236,10 +234,6 @@ export default function RegisterPage() {
           );
         })}
       </ol>
-      <p className="mt-2 text-center text-xs text-ink-muted">
-        Your progress is saved automatically — refresh or leave and pick up where you stopped.
-        {resumed && " (Progress restored.)"}
-      </p>
 
       <form
         onSubmit={step === 3 ? submit : (e) => { e.preventDefault(); void goNext(step); }}
