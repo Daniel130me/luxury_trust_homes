@@ -23,6 +23,12 @@ while true; do
     # .next cache behind (known signature: "next/font/google queries have
     # exactly one entry" 500s on every route) — detect it and rebuild clean.
     if ! curl -s -o /dev/null --max-time 10 http://localhost:3000/; then
+        # Recycles can wipe root node_modules entirely; npm run dev without
+        # deps fails instantly and would restart-loop forever.
+        if [ ! -x "$PROJECT/node_modules/.bin/next" ]; then
+            log "root node_modules missing — installing (bun, fallback npm)"
+            (cd "$PROJECT" && { command -v bun >/dev/null && bun install || npm install; } >> dev-deps.log 2>&1)
+        fi
         if tail -40 "$PROJECT/dev.log" 2>/dev/null | grep -q "exactly one entry"; then
             log "corrupted .next cache detected — wiping before restart"
             rm -rf "$PROJECT/.next"

@@ -1,154 +1,65 @@
 #!/bin/bash
+# ELVICTORIA boot bootstrap — executed by the platform at every container
+# boot: start.sh runs .zscripts/dev.sh as user z (in background) when the
+# file exists, BEFORE the gateway health check on :81 (120s window).
+#
+# This replaces the original scaffold template, whose flow (bun install →
+# bun run db:push → bun run dev) never survives a recycle: db:push targets
+# the unreachable remote database and bun install re-fetches the whole
+# project, so :3000 never comes up and the gateway serves the platform's
+# "Z" placeholder page indefinitely.
+#
+# What this does instead (all detached, idempotent):
+#   1. local PostgreSQL :5432   — scripts/pglocal.sh
+#   2. backend :3030            — self-healing launcher (heals its own
+#                                 .env / node_modules / prisma client)
+#   3. frontend :3000           — Next dev, deps installed when wiped,
+#                                 .next rebuilt clean each boot
+#   4. watchdog                 — covers mid-session crashes afterwards
+#
+# Fast path: if :81 already answers 200 (manual recovery beat the boot,
+# or a previous boot's stack is still healthy), touch nothing.
 
-set -euo pipefail
+set -uo pipefail
 
-# 获取脚本所在目录（.zscripts）
-# 使用 $0 获取脚本路径（与 build.sh 保持一致）
-SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
-PROJECT_DIR="$(cd "$SCRIPT_DIR/.." && pwd)"
+PROJECT=/home/z/my-project
+LOG=$PROJECT/scripts/out/boot-dev.log
+log() { echo "[$(date '+%Y-%m-%d %H:%M:%S')] $1" | tee -a "$LOG"; }
+up() { curl -s -o /dev/null -w '%{http_code}' --max-time 5 "http://localhost:$1/" 2>/dev/null; }
 
-log_step_start() {
-	local step_name="$1"
-	echo "=========================================="
-	echo "[$(date '+%Y-%m-%d %H:%M:%S')] Starting: $step_name"
-	echo "=========================================="
-	export STEP_START_TIME
-	STEP_START_TIME=$(date +%s)
-}
-
-log_step_end() {
-	local step_name="${1:-Unknown step}"
-	local end_time
-	end_time=$(date +%s)
-	local duration=$((end_time - STEP_START_TIME))
-	echo "=========================================="
-	echo "[$(date '+%Y-%m-%d %H:%M:%S')] Completed: $step_name"
-	echo "[LOG] Step: $step_name | Duration: ${duration}s"
-	echo "=========================================="
-	echo ""
-}
-
-start_mini_services() {
-	local mini_services_dir="$PROJECT_DIR/mini-services"
-	local started_count=0
-
-	log_step_start "Starting mini-services"
-	if [ ! -d "$mini_services_dir" ]; then
-		echo "Mini-services directory not found, skipping..."
-		log_step_end "Starting mini-services"
-		return 0
-	fi
-
-	echo "Found mini-services directory, scanning for sub-services..."
-
-	for service_dir in "$mini_services_dir"/*; do
-		if [ ! -d "$service_dir" ]; then
-			continue
-		fi
-
-		local service_name
-		service_name=$(basename "$service_dir")
-		echo "Checking service: $service_name"
-
-		if [ ! -f "$service_dir/package.json" ]; then
-			echo "[$service_name] No package.json found, skipping..."
-			continue
-		fi
-
-		if ! grep -q '"dev"' "$service_dir/package.json"; then
-			echo "[$service_name] No dev script found, skipping..."
-			continue
-		fi
-
-		echo "Starting $service_name in background..."
-		(
-			cd "$service_dir"
-			echo "[$service_name] Installing dependencies..."
-			bun install
-			echo "[$service_name] Running bun run dev..."
-			exec bun run dev
-		) >"$PROJECT_DIR/.zscripts/mini-service-${service_name}.log" 2>&1 &
-
-		local service_pid=$!
-		echo "[$service_name] Started in background (PID: $service_pid)"
-		echo "[$service_name] Log: $PROJECT_DIR/.zscripts/mini-service-${service_name}.log"
-		disown "$service_pid" 2>/dev/null || true
-		started_count=$((started_count + 1))
-	done
-
-	echo "Mini-services startup completed. Started $started_count service(s)."
-	log_step_end "Starting mini-services"
-}
-
-wait_for_service() {
-	local host="$1"
-	local port="$2"
-	local service_name="$3"
-	local max_attempts="${4:-60}"
-	local attempt=1
-
-	echo "Waiting for $service_name to be ready on $host:$port..."
-
-	while [ "$attempt" -le "$max_attempts" ]; do
-		if curl -s --connect-timeout 2 --max-time 5 "http://$host:$port" >/dev/null 2>&1; then
-			echo "$service_name is ready!"
-			return 0
-		fi
-
-		echo "Attempt $attempt/$max_attempts: $service_name not ready yet, waiting..."
-		sleep 1
-		attempt=$((attempt + 1))
-	done
-
-	echo "ERROR: $service_name failed to start within $max_attempts seconds"
-	return 1
-}
-
-cleanup() {
-	if [ -n "${DEV_PID:-}" ] && kill -0 "$DEV_PID" >/dev/null 2>&1; then
-		echo "Stopping Next.js dev server (PID: $DEV_PID)..."
-		kill "$DEV_PID" >/dev/null 2>&1 || true
-	fi
-}
-
-trap cleanup EXIT INT TERM
-
-cd "$PROJECT_DIR"
-
-if ! command -v bun >/dev/null 2>&1; then
-	echo "ERROR: bun is not installed or not in PATH"
-	exit 1
+if [ "$(up 81)" = "200" ]; then
+    log "site already up — nothing to do"
+    exit 0
 fi
 
-log_step_start "bun install"
-echo "[BUN] Installing dependencies..."
-bun install
-log_step_end "bun install"
+log "boot bootstrap starting"
 
-log_step_start "bun run db:push"
-echo "[BUN] Setting up database..."
-bun run db:push
-log_step_end "bun run db:push"
+# 1. Database (idempotent: init on first boot, start when dead, no-op when up)
+bash "$PROJECT/scripts/pglocal.sh" start >>"$LOG" 2>&1 || log "WARN: pglocal start rc=$?"
 
-log_step_start "Starting Next.js dev server"
-echo "[BUN] Starting development server..."
-bun run dev &
-DEV_PID=$!
-log_step_end "Starting Next.js dev server"
+# 2. Backend in the background — its launcher heals deps/env and can take
+#    minutes after a wipe; :3000 must not wait for it.
+setsid nohup bash "$PROJECT/mini-services/elvictoria-api/start-backend.sh" \
+    >"$PROJECT/scripts/out/backend-boot.log" 2>&1 < /dev/null &
 
-log_step_start "Waiting for Next.js dev server"
-wait_for_service "localhost" "3000" "Next.js dev server"
-log_step_end "Waiting for Next.js dev server"
+# 3. Frontend on :3000 — the only service inside the 120s health window.
+if [ ! -d "$PROJECT" ] || ! cd "$PROJECT"; then
+    log "FATAL: project dir missing"
+    exit 1
+fi
+if [ ! -x node_modules/.bin/next ]; then
+    log "root node_modules missing — installing (bun, fallback npm)"
+    (command -v bun >/dev/null && bun install || npm install) \
+        >>"$PROJECT/dev-deps.log" 2>&1 || log "WARN: root dep install rc=$?"
+fi
+# Recycles corrupt the Next build cache (font-resolve 500s on every route):
+# always rebuild clean at boot; a cold compile still fits the 120s window.
+rm -rf "$PROJECT/.next"
+setsid nohup npm run dev >"$PROJECT/dev.log" 2>&1 < /dev/null &
 
-log_step_start "Health check"
-echo "[BUN] Performing health check..."
-curl -fsS localhost:3000 >/dev/null
-echo "[BUN] Health check passed"
-log_step_end "Health check"
+# 4. Watchdog (no-op when already running; restarts services mid-session)
+pgrep -f dev-watchdog.sh >/dev/null || \
+    setsid nohup bash "$PROJECT/scripts/dev-watchdog.sh" >/dev/null 2>&1 < /dev/null &
 
-start_mini_services
-
-echo "Next.js dev server is running in background (PID: $DEV_PID)."
-echo "Use 'kill $DEV_PID' to stop it."
-disown "$DEV_PID" 2>/dev/null || true
-unset DEV_PID
+log "boot bootstrap issued all starts — exiting"
+exit 0
