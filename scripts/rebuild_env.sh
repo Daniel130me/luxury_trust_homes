@@ -8,10 +8,11 @@
 #   2. node_modules   — npm install when missing
 #   3. prisma client  — regenerated when missing
 #   4. migrations     — applied (no-op when already applied)
-#   5. bank account name setting — filled when blank
+#   5. bank transfer + rebrand settings — filled when blank/stale
+#   6. Next build cache — wiped (a recycled cache 500s every route)
 # The local PostgreSQL itself is started separately: bash scripts/pglocal.sh
 #
-# Usage: bash scripts/rebuild_env.sh
+# Usage: bash scripts/pglocal.sh start && bash scripts/rebuild_env.sh
 set -euo pipefail
 
 BACKEND=/home/z/my-project/elvictoria/backend
@@ -80,7 +81,11 @@ fi
 echo "[rebuild] prisma migrate deploy"
 (cd "$BACKEND" && npx prisma migrate deploy 2>&1 | tail -2)
 
-# ---- 5. bank account name ----
-node /home/z/my-project/scripts/seed_bank_name.js
+# ---- 5. bank transfer settings (all fields; fills blanks/stale only) ----
+node /home/z/my-project/scripts/seed_bank_settings.js
+node /home/z/my-project/scripts/rebrand_db_fixups.js
 
-echo "[rebuild] done"
+# ---- 6. fresh Next build cache (recycles corrupt it: font resolve 500s) ----
+rm -rf /home/z/my-project/.next
+
+echo "[rebuild] done — run scripts/dev-watchdog.sh (or the commands below) to start the stack"

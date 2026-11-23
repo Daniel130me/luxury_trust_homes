@@ -19,8 +19,14 @@ log() {
 }
 
 while true; do
-    # Frontend: Next dev server on :3000
+    # Frontend: Next dev server on :3000. Recycles can leave a corrupted
+    # .next cache behind (known signature: "next/font/google queries have
+    # exactly one entry" 500s on every route) — detect it and rebuild clean.
     if ! curl -s -o /dev/null --max-time 10 http://localhost:3000/; then
+        if tail -40 "$PROJECT/dev.log" 2>/dev/null | grep -q "exactly one entry"; then
+            log "corrupted .next cache detected — wiping before restart"
+            rm -rf "$PROJECT/.next"
+        fi
         log "frontend down — restarting"
         (cd "$PROJECT" && setsid nohup npm run dev > dev.log 2>&1 < /dev/null &)
         log "frontend restart issued"
