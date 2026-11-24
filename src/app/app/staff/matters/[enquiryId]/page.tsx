@@ -106,20 +106,6 @@ export default function MatterDetailPage() {
     void load();
   }, [load]);
 
-  async function takeUpEnquiry() {
-    setBusy(true);
-    setError(null);
-    try {
-      await apiFetch(`/staff/enquiries/${enquiryId}/take-up`, { method: "POST", body: {} });
-      await load();
-      setNotice("You are now handling this matter.");
-    } catch (err) {
-      setError(err instanceof ApiRequestError ? err.message : "Could not take up the matter.");
-    } finally {
-      setBusy(false);
-    }
-  }
-
   async function openCase() {
     setBusy(true);
     setError(null);
@@ -254,7 +240,6 @@ export default function MatterDetailPage() {
 
   const kase = matter.case;
   const threadMessages = (threads?.messages ?? []).filter((m) => m.thread === activeThread);
-  const isAssigned = Boolean(matter.lawyer);
   const closed = ["COMPLETED", "CANCELLED"].includes(matter.status);
 
   return (
@@ -281,12 +266,7 @@ export default function MatterDetailPage() {
 
       {/* ------------------------------------------------- actions row */}
       <div className="mt-5 flex flex-wrap gap-3">
-        {canManage && !isAssigned && (
-          <Button onClick={() => void takeUpEnquiry()} loading={busy}>
-            Take up enquiry
-          </Button>
-        )}
-        {canManage && isAssigned && !kase && (
+        {canManage && !kase && (
           <Button onClick={() => void openCase()} loading={busy}>
             Open transaction case
           </Button>

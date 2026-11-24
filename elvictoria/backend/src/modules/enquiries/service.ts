@@ -9,15 +9,16 @@ import { nextReference } from "../../lib/references.js";
  * Enquiries & transaction cases.
  *
  * Business model (from the prototype): a buyer/renter submits an enquiry on
- * a listed property. Every lawyer sees it. Any lawyer takes up the enquiry
- * and opens a transaction case; all further contact between client and provider
- * runs through the lawyer. Clients and providers never see each other's
- * contact details until the lawyer authorises a disclosure, and internal
- * notes are never visible to participants.
+ * a listed property. It lands directly in progress with the least-loaded
+ * active lawyer assigned — there is no "waiting to be taken up" stage — and
+ * any lawyer can open the transaction case; all further contact between
+ * client and provider runs through the lawyer. Clients and providers never
+ * see each other's contact details until the lawyer authorises a disclosure,
+ * and internal notes are never visible to participants.
  */
 
 const OPEN_STATUSES: EnquiryStatus[] = [
-  "NEW_ENQUIRY", "IN_PROGRESS", "NEGOTIATION", "PAYMENT_PENDING",
+  "IN_PROGRESS", "NEGOTIATION", "PAYMENT_PENDING",
 ];
 
 // ------------------------------------------------------------- create
@@ -60,6 +61,29 @@ export async function createEnquiry(
     );
   }
 
+  // Pick the active lawyer carrying the fewest open enquiries so the matter
+  // is genuinely in progress from the moment it lands. If none is active the
+  // enquiry still moves forward unassigned and the lawyer opening the case
+  // takes it over (see openCase).
+  const lawyerLoad = await prisma.enquiry.groupBy({
+    by: ["lawyerId"],
+    where: {
+      lawyerId: { not: null },
+      status: { in: ["IN_PROGRESS", "NEGOTIATION", "PAYMENT_PENDING"] },
+    },
+    _count: { lawyerId: true },
+  });
+  const activeLawyers = await prisma.user.findMany({
+    where: { role: "LAWYER", status: "ACTIVE" },
+    select: { id: true, name: true },
+  });
+  const openCount = new Map(
+    lawyerLoad.map((row) => [row.lawyerId as string, row._count.lawyerId]),
+  );
+  const assignedLawyer =
+    activeLawyers.sort((a, b) => (openCount.get(a.id) ?? 0) - (openCount.get(b.id) ?? 0))[0] ??
+    null;
+
   // Allocate the reference and create the enquiry atomically.
   const enquiry = await prisma.$transaction(async (tx) => {
     const reference = await nextReference(tx as never, "enquiry");
@@ -71,7 +95,8 @@ export async function createEnquiry(
         purpose: input.purpose,
         contactMethod: input.contactMethod,
         message: input.message.trim(),
-        status: EnquiryStatus.NEW_ENQUIRY,
+        lawyerId: assignedLawyer?.id ?? null,
+        status: EnquiryStatus.IN_PROGRESS,
       },
     });
   });
@@ -88,12 +113,36 @@ export async function createEnquiry(
       link: `/app/staff/matters/${enquiry.id}`,
     },
   ]);
+  if (assignedLawyer) {
+    await notifyMany([
+      {
+        userId: assignedLawyer.id,
+        category: "case_update",
+        title: "Enquiry assigned to you",
+        body: `You are handling ${enquiry.reference} — ${property.title}.`,
+        link: `/app/staff/matters/${enquiry.id}`,
+      },
+    ]);
+  }
+  // The client must never get the impression the request sits in a queue:
+  // confirm immediately that it is already in progress.
+  await notifyMany([
+    {
+      userId: client.id,
+      category: "case_update",
+      title: "Your request is in progress",
+      body: assignedLawyer
+        ? `${assignedLawyer.name} is handling your enquiry about ${property.reference} — ${property.title}. We will keep you updated here.`
+        : `Our team is handling your enquiry about ${property.reference} — ${property.title}. We will keep you updated here.`,
+      link: `/app/client/enquiries/${enquiry.id}`,
+    },
+  ]);
   await audit({
     actorId: client.id,
     action: "enquiry.create",
     entityType: "Enquiry",
     entityId: enquiry.id,
-    meta: { property: property.reference },
+    meta: { property: property.reference, lawyerId: assignedLawyer?.id ?? null },
     ip,
   });
   return enquiry;
@@ -125,7 +174,7 @@ export async function listForStaff(
     where.OR = [
       { lawyerId: null },
       { escalations: { some: {} } },
-      { status: { in: ["NEW_ENQUIRY", "PAYMENT_PENDING"] } },
+      { status: { in: ["PAYMENT_PENDING"] } },
     ];
   }
   if (filters.search) {
@@ -164,70 +213,22 @@ export async function listForStaff(
   return { enquiries, total, page: filters.page, pageSize: filters.pageSize, pages: Math.ceil(total / filters.pageSize) };
 }
 
-/** Take up an enquiry (case.manage). Defaults to the caller. */
-export async function takeUpEnquiry(
-  enquiryId: string,
-  actor: AuthUser,
-  lawyerId?: string,
-  ip?: string,
-) {
-  const enquiry = await prisma.enquiry.findUnique({
-    where: { id: enquiryId },
-    include: { case: { select: { id: true } } },
-  });
-  if (!enquiry) throw ApiError.notFound("Enquiry not found.");
-  if (["COMPLETED", "CANCELLED"].includes(enquiry.status)) {
-    throw ApiError.badRequest("This enquiry is closed.");
-  }
-
-  const lawyer = lawyerId
-    ? await prisma.user.findFirst({ where: { id: lawyerId, role: "LAWYER", status: "ACTIVE" } })
-    : actor;
-  if (!lawyer) throw ApiError.badRequest("Choose a valid lawyer to take up the enquiry.");
-  if (!can(lawyer as AuthUser, "case.manage")) {
-    throw ApiError.badRequest("Choose a valid lawyer to take up the enquiry.");
-  }
-
-  // Taking up an enquiry moves it straight into IN_PROGRESS — there is no
-  // separate "under review" / "lawyer assigned" stage in the flow.
-  const updated = await prisma.$transaction(async (tx) => {
-    const e = await tx.enquiry.update({
-      where: { id: enquiryId },
-      data: { lawyerId: lawyer.id, status: "IN_PROGRESS" },
-    });
-    if (enquiry.case) {
-      await tx.case.update({
-        where: { id: enquiry.case.id },
-        data: { lawyerId: lawyer.id, status: "IN_PROGRESS" },
-      });
-      await tx.caseTimelineEntry.create({
-        data: {
-          caseId: enquiry.case.id,
-          actorId: actor.id,
-          label: `${lawyer.name} took up the enquiry.`,
-          visibility: Visibility.PARTICIPANTS,
-          note: `${lawyer.name} is handling this enquiry.`,
-        },
-      });
-    }
-    return e;
-  });
-
-  await notifyMany([
-    { userId: lawyer.id, category: "case_update", title: "Enquiry taken up", body: `You are now handling ${updated.reference} — ${enquiry.reference}.`, link: `/app/staff/matters/${updated.id}` },
-    { userId: enquiry.clientId, category: "case_update", title: "Lawyer handling your enquiry", body: `${lawyer.name} is now handling your enquiry.`, link: `/app/client/enquiries/${updated.id}` },
-  ]);
-  await audit({ actorId: actor.id, action: "enquiry.take_up", entityType: "Enquiry", entityId: enquiryId, meta: { lawyerId: lawyer.id }, ip });
-  return updated;
-}
-
 /** Open the transaction case for an enquiry (case.manage). */
 export async function openCase(enquiryId: string, actor: AuthUser, ip?: string) {
   const enquiry = await prisma.enquiry.findUnique({ where: { id: enquiryId } });
   if (!enquiry) throw ApiError.notFound("Enquiry not found.");
   const existingCase = await prisma.case.findUnique({ where: { enquiryId } });
   if (existingCase) throw ApiError.conflict("A transaction case is already open for this enquiry.");
-  if (!enquiry.lawyerId) throw ApiError.badRequest("Assign a lawyer before opening the case.");
+  if (!enquiry.lawyerId) {
+    // No lawyer could be auto-assigned at creation (e.g. none was active).
+    // The lawyer opening the case takes it over — otherwise nothing could
+    // ever progress, since there is no separate take-up step in the flow.
+    if (actor.role !== "LAWYER") {
+      throw ApiError.badRequest("Assign a lawyer before opening the case.");
+    }
+    await prisma.enquiry.update({ where: { id: enquiryId }, data: { lawyerId: actor.id } });
+    enquiry.lawyerId = actor.id;
+  }
 
   const property = await prisma.property.findUnique({
     where: { id: enquiry.propertyId },
@@ -373,7 +374,6 @@ export async function updateStatus(
 
 function defaultClientNote(next: EnquiryStatus): string {
   switch (next) {
-    case "NEW_ENQUIRY": return "Your enquiry has been received by the legal team.";
     case "IN_PROGRESS": return "Your enquiry is in progress.";
     case "NEGOTIATION": return "Negotiation and inspection arrangements are under way.";
     case "PAYMENT_PENDING": return "A payment request is waiting for you.";

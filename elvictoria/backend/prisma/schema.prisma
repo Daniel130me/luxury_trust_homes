@@ -278,7 +278,6 @@ model SavedProperty {
 // ------------------------------------------------- enquiries & cases
 
 enum EnquiryStatus {
-  NEW_ENQUIRY
   IN_PROGRESS
   NEGOTIATION
   PAYMENT_PENDING
@@ -317,7 +316,7 @@ model Enquiry {
   propertyId    String
   clientId      String
   lawyerId      String?
-  status        EnquiryStatus    @default(NEW_ENQUIRY)
+  status        EnquiryStatus    @default(IN_PROGRESS)
   purpose       Purpose
   contactMethod ContactMethod
   message       String

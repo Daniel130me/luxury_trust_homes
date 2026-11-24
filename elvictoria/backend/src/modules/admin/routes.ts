@@ -95,7 +95,7 @@ router.get("/client/summary", requireAuth, async (req, res) => {
   const userId = req.user!.id;
   const [activeEnquiries, ongoingTransactions, completed, pendingPayments, recentUpdates, unread] =
     await Promise.all([
-      prisma.enquiry.count({ where: { clientId: userId, status: { in: ["NEW_ENQUIRY", "IN_PROGRESS"] } } }),
+      prisma.enquiry.count({ where: { clientId: userId, status: { in: ["IN_PROGRESS"] } } }),
       prisma.case.count({ where: { clientId: userId, status: { in: ["IN_PROGRESS", "NEGOTIATION", "PAYMENT_PENDING"] } } }),
       prisma.case.count({ where: { clientId: userId, status: "COMPLETED" } }),
       prisma.payment.count({ where: { payerId: userId, status: { in: ["OUTSTANDING", "AWAITING_PAYMENT", "PENDING_CONFIRMATION"] } } }),

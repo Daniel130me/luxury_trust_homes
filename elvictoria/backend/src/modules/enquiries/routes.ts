@@ -95,15 +95,6 @@ router.get("/staff/matters/:enquiryId", requirePermission("case.viewAll"), async
 });
 
 router.post(
-  "/staff/enquiries/:id/take-up",
-  requirePermission("case.manage"),
-  validate({ body: z.object({ lawyerId: z.string().min(1).optional() }) }),
-  async (req, res) => {
-    ok(res, { enquiry: await svc.takeUpEnquiry(String(req.params.id), req.user!, req.body.lawyerId, req.ip) });
-  },
-);
-
-router.post(
   "/staff/enquiries/:id/open-case",
   requirePermission("case.manage"),
   async (req, res) => {
@@ -200,7 +191,7 @@ router.patch(
   validate({
     body: z.object({
       status: z.enum([
-        "NEW_ENQUIRY", "IN_PROGRESS",
+        "IN_PROGRESS",
         "NEGOTIATION", "PAYMENT_PENDING", "COMPLETED", "CANCELLED",
       ]),
       note: z.string().trim().max(1000).optional().or(z.literal("")),
