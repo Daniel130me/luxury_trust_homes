@@ -51,11 +51,21 @@ export async function attachUser(
     });
     // Deactivated accounts lose access immediately.
     req.user = user && user.status === "ACTIVE" ? (user as AuthUser) : null;
-  } catch {
-    // Invalid/expired token — treat as anonymous; refresh flow handles renewal.
-    req.user = null;
+    next();
+  } catch (err) {
+    // An invalid or expired token means "anonymous" — the refresh flow takes
+    // it from there. Any other failure (DB unreachable, a suspended Neon
+    // compute timing out) must NOT masquerade as an auth failure: that made
+    // every transient hiccup a 401 and bounced users to /login in a loop.
+    // Infrastructure errors propagate to the error handler (500) so clients
+    // keep their session and retry.
+    if (err instanceof jwt.JsonWebTokenError || err instanceof jwt.TokenExpiredError) {
+      req.user = null;
+      next();
+    } else {
+      next(err);
+    }
   }
-  next();
 }
 
 /** Require a signed-in, active user. */

@@ -10,6 +10,9 @@ const BACKEND_INTERNAL_URL = process.env.BACKEND_INTERNAL_URL ?? "http://127.0.0
 
 const nextConfig: NextConfig = {
   output: "standalone",
+  // Hide the floating dev-mode badge (route indicator / build activity) so
+  // the preview shows only the product UI.
+  devIndicators: false,
   async rewrites() {
     return [
       {

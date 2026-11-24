@@ -108,12 +108,20 @@ export async function apiFetch<T>(path: string, options: RequestOptions = {}): P
       try {
         await rawRequest("/auth/refresh", { method: "POST" });
         return await rawRequest<T>(path, { ...options, _retried: true });
-      } catch {
-        // The session is truly over (no valid refresh cookie). Never leave the
-        // user stuck on a silently broken page — send them to sign-in, with a
-        // return path so they land back where they were. Auth pages are
-        // excluded: a 401 there (e.g. a wrong password) is a normal outcome.
-        if (typeof window !== "undefined") {
+      } catch (refreshErr) {
+        // Only a genuine auth rejection means the session is truly over.
+        // A refresh that failed because the backend/DB is unavailable (5xx)
+        // must NOT trigger the bounce: the user keeps their (still valid)
+        // cookies and the original 401 surfaces as a retryable error —
+        // otherwise every transient outage becomes a redirect loop.
+        const sessionDead =
+          refreshErr instanceof ApiRequestError &&
+          (refreshErr.status === 401 || refreshErr.status === 400);
+        if (sessionDead && typeof window !== "undefined") {
+          // Never leave the user stuck on a silently broken page — send them
+          // to sign-in, with a return path so they land back where they were.
+          // Auth pages are excluded: a 401 there (e.g. a wrong password) is a
+          // normal outcome.
           const path = window.location.pathname;
           const onAuthPage = path.startsWith("/login") || path.startsWith("/register");
           if (!onAuthPage) {
