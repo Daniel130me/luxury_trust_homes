@@ -54,3 +54,11 @@ prompt
 server.log
 # Skills directory
 /skills/
+
+# local sandbox artifacts — never publish: local Postgres data, prototype
+# SQLite, runtime pid files, agent deliverables and uploads
+/.pglocal/
+/db/
+*.pid
+/download/
+/upload/
