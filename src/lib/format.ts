@@ -94,6 +94,8 @@ export const PROPERTY_STATUS_LABELS: Record<string, string> = {
   APPROVED: "Approved",
   CHANGES_REQUESTED: "Changes Requested",
   REJECTED: "Not Approved",
+  SUSPENDED: "Suspended",
+  ARCHIVED: "Archived",
   UNAVAILABLE: "Unavailable",
 };
 
@@ -152,6 +154,8 @@ export const STATUS_TONES: Record<string, string> = {
   FAILED: "bg-red-50 text-red-800 ring-red-200",
   CANCELLED: "bg-red-50 text-red-800 ring-red-200",
   REJECTED: "bg-red-50 text-red-800 ring-red-200",
+  SUSPENDED: "bg-red-50 text-red-800 ring-red-200",
+  ARCHIVED: "bg-slate-100 text-slate-600 ring-slate-200",
   DRAFT: "bg-slate-100 text-slate-600 ring-slate-200",
   UNAVAILABLE: "bg-slate-100 text-slate-600 ring-slate-200",
 };
@@ -179,6 +183,8 @@ export const STATUS_DOT_TONES: Record<string, string> = {
   FAILED: "bg-red-500",
   CANCELLED: "bg-red-500",
   REJECTED: "bg-red-500",
+  SUSPENDED: "bg-red-500",
+  ARCHIVED: "bg-slate-400",
   DRAFT: "bg-slate-400",
   UNAVAILABLE: "bg-slate-400",
 };

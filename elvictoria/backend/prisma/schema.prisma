@@ -147,6 +147,8 @@ enum PropertyStatus {
   APPROVED
   CHANGES_REQUESTED
   REJECTED
+  SUSPENDED
+  ARCHIVED
   UNAVAILABLE
 }
 
@@ -179,6 +181,7 @@ model Property {
   features       String[]          @default([])
   status         PropertyStatus    @default(DRAFT)
   availability   Availability      @default(AVAILABLE)
+  archivedAt     DateTime? // set when archived; purged 20 days later
   featured       Boolean           @default(false)
   cautionDeposit Int?
   serviceCharge  Int?

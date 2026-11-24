@@ -320,6 +320,49 @@ router.post(
   },
 );
 
+// --------------------------------------------------- admin listing control
+// Lawyers are the platform administrators: full edit, suspend / archive /
+// restore and availability control on any listing, any time.
+
+router.patch(
+  "/staff/listings/:id",
+  requirePermission("listing.moderate"),
+  validate({ body: upsertSchema }),
+  async (req, res) => {
+    ok(res, {
+      property: await svc.adminUpdate(String(req.params.id), req.user!, req.body, req.ip),
+    });
+  },
+);
+
+router.post(
+  "/staff/listings/:id/status",
+  requirePermission("listing.moderate"),
+  validate({
+    body: z.object({
+      action: z.enum(["suspend", "reactivate", "archive", "unarchive"]),
+      note: z.string().trim().max(1000).optional().or(z.literal("")),
+    }),
+  }),
+  async (req, res) => {
+    const { action, note } = req.body as { action: "suspend" | "reactivate" | "archive" | "unarchive"; note?: string };
+    ok(res, {
+      property: await svc.adminSetStatus(String(req.params.id), req.user!, action, note || undefined, req.ip),
+    });
+  },
+);
+
+router.post(
+  "/staff/listings/:id/availability",
+  requirePermission("listing.moderate"),
+  validate({ body: z.object({ availability: z.enum(["AVAILABLE", "UNDER_OFFER", "UNAVAILABLE"]) }) }),
+  async (req, res) => {
+    ok(res, {
+      property: await svc.adminSetAvailability(String(req.params.id), req.user!, req.body.availability, req.ip),
+    });
+  },
+);
+
 // ------------------------------------------------------------ saved list
 
 router.get("/saved", requireAuth, async (req, res) => {

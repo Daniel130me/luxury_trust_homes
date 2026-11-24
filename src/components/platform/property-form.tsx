@@ -8,6 +8,7 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import { apiFetch, ApiRequestError, apiUpload } from "@/lib/api";
+import { toast } from "@/lib/toast";
 import { formatNaira } from "@/lib/format";
 import { usePropertyTypes } from "@/lib/property-types";
 import { STATES, lgasFor, areasFor, OTHER_OPTION } from "@/lib/nigeria-geo";
@@ -90,9 +91,13 @@ type ListingVideo = {
 export function PropertyForm({
   mode,
   propertyId,
+  staffMode = false,
 }: {
   mode: "new" | "edit";
   propertyId?: string;
+  /** Staff (lawyer) admin edit: loads and saves through the staff endpoints
+   *  and hides photo/video management, which stays with the provider. */
+  staffMode?: boolean;
 }) {
   const router = useRouter();
   const [values, setValues] = useState<PropertyFormValues>(EMPTY_FORM);
@@ -151,7 +156,9 @@ export function PropertyForm({
   const load = useCallback(async () => {
     if (mode === "edit" && propertyId) {
       try {
-        const data = await apiFetch<{ property: Record<string, unknown> }>(`/provider/properties/${propertyId}`);
+        const data = await apiFetch<{ property: Record<string, unknown> }>(
+          staffMode ? `/staff/listings/${propertyId}` : `/provider/properties/${propertyId}`,
+        );
         const p = data.property;
         setValues({
           id: propertyId,
@@ -407,15 +414,23 @@ export function PropertyForm({
         return;
       }
 
-      await apiFetch(`/provider/properties/${propertyId}`, { method: "PATCH", body });
-      setNotice(
-        submitForReview
-          ? "Listing submitted for review. Our legal team will be in touch."
-          : "Listing saved.",
+      await apiFetch(
+        staffMode ? `/staff/listings/${propertyId}` : `/provider/properties/${propertyId}`,
+        { method: "PATCH", body },
       );
+      setNotice(
+        staffMode
+          ? "Listing saved — the provider has been notified of the change."
+          : submitForReview
+            ? "Listing submitted for review. Our legal team will be in touch."
+            : "Listing saved.",
+      );
+      if (staffMode) toast.success("Listing saved — provider notified.");
       await load();
     } catch (err) {
-      setErrors(err instanceof ApiRequestError ? (err.fields ?? { form: err.message }) : { form: "Could not save the listing." });
+      const fields = err instanceof ApiRequestError ? (err.fields ?? { form: err.message }) : { form: "Could not save the listing." };
+      toast.error(String(fields.form));
+      setErrors(fields);
     } finally {
       setSaving(null);
     }
@@ -429,17 +444,19 @@ export function PropertyForm({
   return (
     <div className="mx-auto max-w-4xl">
       <button
-        onClick={() => router.push("/app/provider/properties")}
+        onClick={() => router.push(staffMode ? `/app/staff/listings/${propertyId}` : "/app/provider/properties")}
         className="inline-flex items-center gap-1.5 text-sm font-medium text-ink-muted hover:text-brand-700"
       >
         <ChevronLeftIcon className="h-4 w-4" />
-        My properties
+        {staffMode ? "Back to listing" : "My properties"}
       </button>
       <h1 className="mt-3 font-serif text-3xl text-ink-strong">
-        {mode === "new" ? "Add a property" : "Edit property"}
+        {mode === "new" ? "Add a property" : staffMode ? "Edit listing" : "Edit property"}
       </h1>
       <p className="mt-1.5 text-ink-muted">
-        Complete the details below. Listings are reviewed by our legal team before they appear publicly.
+        {staffMode
+          ? "Administrative edit — the provider is notified of every change."
+          : "Complete the details below. Listings are reviewed by our legal team before they appear publicly."}
       </p>
 
       {isChangesRequested && values.feedback && (
@@ -682,6 +699,7 @@ export function PropertyForm({
         </Card>
 
         {/* ----------------------------------------------- photographs */}
+        {!staffMode && (
         <Card className="p-5 sm:p-6">
           <h2 className="text-lg font-semibold text-ink-strong">Photographs</h2>
           <p className="mt-0.5 text-sm text-ink-muted">
@@ -726,8 +744,10 @@ export function PropertyForm({
             </>
           )}
         </Card>
+        )}
 
         {/* ------------------------------------------------------ video */}
+        {!staffMode && (
         <Card className="p-5 sm:p-6">
           <h2 className="text-lg font-semibold text-ink-strong">Video walkthrough</h2>
           <p className="mt-0.5 text-sm text-ink-muted">
@@ -773,6 +793,17 @@ export function PropertyForm({
             </>
           )}
         </Card>
+        )}
+
+        {staffMode && (
+          <Card className="p-5 sm:p-6">
+            <h2 className="text-lg font-semibold text-ink-strong">Photographs &amp; video</h2>
+            <p className="mt-0.5 text-sm text-ink-muted">
+              Photos and walkthrough videos are managed by the listing provider from their own dashboard. Every
+              other detail can be edited here.
+            </p>
+          </Card>
+        )}
 
         {/* --------------------------------------------------- submit row */}
         <div className="flex flex-wrap items-center justify-end gap-3 pb-6">

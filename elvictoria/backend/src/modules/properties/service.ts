@@ -465,6 +465,243 @@ export async function setAvailability(
   return prisma.property.update({ where: { id: propertyId }, data: { availability } });
 }
 
+// ------------------------------------------------- admin (lawyer) control
+
+/**
+ * Lawyers are the platform administrators (see permissions.ts): they can
+ * edit, suspend, archive and re-publish ANY listing at ANY time, regardless
+ * of its state. Every action lands in the property history, the audit log
+ * and the provider's notifications.
+ */
+
+export type AdminStatusAction = "suspend" | "reactivate" | "archive" | "unarchive";
+
+const STATUS_TRANSITIONS: Record<AdminStatusAction, {
+  next: PropertyStatus;
+  historyAction: string;
+  allowedFrom: PropertyStatus[];
+  title: string;
+  body: (reference: string, title: string, note?: string) => string;
+}> = {
+  suspend: {
+    next: PropertyStatus.SUSPENDED,
+    historyAction: "suspended",
+    allowedFrom: [PropertyStatus.DRAFT, PropertyStatus.PENDING_REVIEW, PropertyStatus.APPROVED, PropertyStatus.CHANGES_REQUESTED, PropertyStatus.REJECTED],
+    title: "Listing suspended",
+    body: (r, t, note) => `${r} — ${t} has been suspended by the ELVICTORIA team and is hidden from the marketplace.${note ? ` Reason: ${note}` : ""}`,
+  },
+  reactivate: {
+    next: PropertyStatus.APPROVED,
+    historyAction: "reactivated",
+    allowedFrom: [PropertyStatus.SUSPENDED],
+    title: "Listing reactivated",
+    body: (r, t) => `${r} — ${t} is live on the marketplace again.`,
+  },
+  archive: {
+    next: PropertyStatus.ARCHIVED,
+    historyAction: "archived",
+    allowedFrom: [PropertyStatus.DRAFT, PropertyStatus.PENDING_REVIEW, PropertyStatus.APPROVED, PropertyStatus.CHANGES_REQUESTED, PropertyStatus.REJECTED, PropertyStatus.SUSPENDED],
+    title: "Listing archived",
+    body: (r, t) => `${r} — ${t} has been archived by the ELVICTORIA team. It will be permanently deleted after 20 days unless restored.`,
+  },
+  unarchive: {
+    next: PropertyStatus.APPROVED,
+    historyAction: "restored",
+    allowedFrom: [PropertyStatus.ARCHIVED],
+    title: "Listing restored",
+    body: (r, t) => `${r} — ${t} has been restored and is live on the marketplace again.`,
+  },
+};
+
+/** Suspend / reactivate / archive / restore any listing (listing.moderate). */
+export async function adminSetStatus(
+  propertyId: string,
+  actor: AuthUser,
+  action: AdminStatusAction,
+  note: string | undefined,
+  ip?: string,
+) {
+  const rule = STATUS_TRANSITIONS[action];
+  const property = await prisma.property.findUnique({ where: { id: propertyId } });
+  if (!property) throw ApiError.notFound("Property not found.");
+  if (!rule.allowedFrom.includes(property.status)) {
+    throw ApiError.badRequest(
+      action === "archive"
+        ? "This listing is already archived."
+        : `This listing cannot be ${action === "suspend" ? "suspended" : action === "reactivate" ? "reactivated" : "restored"} from its current state.`,
+    );
+  }
+
+  const updated = await prisma.$transaction(async (tx) => {
+    const p = await tx.property.update({
+      where: { id: propertyId },
+      data: {
+        status: rule.next,
+        archivedAt: action === "archive" ? new Date() : null,
+        feedback: note ?? property.feedback,
+      },
+    });
+    await tx.propertyHistory.create({
+      data: { propertyId, action: rule.historyAction, actorId: actor.id, note: note ?? null },
+    });
+    return p;
+  });
+
+  await notifyMany([
+    {
+      userId: property.providerId,
+      category: "property_submission",
+      title: rule.title,
+      body: rule.body(property.reference, property.title, note),
+      link: `/app/provider/properties/${property.id}`,
+    },
+  ]);
+  await audit({
+    actorId: actor.id,
+    action: `property.admin_${rule.historyAction}`,
+    entityType: "Property",
+    entityId: propertyId,
+    meta: { reference: property.reference, from: property.status, to: rule.next, note: note ?? null },
+    ip,
+  });
+  return updated;
+}
+
+/** Change availability (available / unavailable) on any listing. */
+export async function adminSetAvailability(
+  propertyId: string,
+  actor: AuthUser,
+  availability: Availability,
+  ip?: string,
+) {
+  const property = await prisma.property.findUnique({ where: { id: propertyId } });
+  if (!property) throw ApiError.notFound("Property not found.");
+
+  const updated = await prisma.$transaction(async (tx) => {
+    const p = await tx.property.update({ where: { id: propertyId }, data: { availability } });
+    await tx.propertyHistory.create({
+      data: { propertyId, action: "availability_changed", actorId: actor.id, note: availability },
+    });
+    return p;
+  });
+  await audit({
+    actorId: actor.id,
+    action: "property.admin_availability",
+    entityType: "Property",
+    entityId: propertyId,
+    meta: { reference: property.reference, availability },
+    ip,
+  });
+  return updated;
+}
+
+/**
+ * Full edit of any listing, any time, by the platform administrators.
+ * Unlike the provider update this never touches the review state — an
+ * admin correction keeps the listing exactly where it is in the flow.
+ */
+export async function adminUpdate(
+  propertyId: string,
+  actor: AuthUser,
+  input: UpsertInput,
+  ip?: string,
+) {
+  await validateInput(input);
+  const property = await prisma.property.findUnique({ where: { id: propertyId } });
+  if (!property) throw ApiError.notFound("Property not found.");
+
+  const updated = await prisma.$transaction(async (tx) => {
+    const p = await tx.property.update({
+      where: { id: propertyId },
+      data: {
+        title: input.title.trim(),
+        category: input.category,
+        listingType: input.listingType,
+        price: input.price,
+        state: input.state,
+        region: input.region || null,
+        lga: input.lga,
+        area: input.area,
+        address: input.address.trim(),
+        beds: input.beds ?? null,
+        baths: input.baths ?? null,
+        toilets: input.toilets ?? null,
+        sqm: input.sqm ?? null,
+        parking: input.parking ?? null,
+        furnishing: input.furnishing || null,
+        description: input.description.trim(),
+        features: input.features ?? [],
+        availability: input.availability ?? property.availability,
+        cautionDeposit: input.cautionDeposit ?? null,
+        serviceCharge: input.serviceCharge ?? null,
+      },
+    });
+    await tx.propertyHistory.create({
+      data: { propertyId, action: "admin_updated", actorId: actor.id },
+    });
+    return p;
+  });
+
+  await notifyMany([
+    {
+      userId: property.providerId,
+      category: "property_submission",
+      title: "Listing updated by the ELVICTORIA team",
+      body: `${property.reference} — ${property.title} was updated by our team. Open it to review the current details.`,
+      link: `/app/provider/properties/${property.id}`,
+    },
+  ]);
+  await audit({
+    actorId: actor.id,
+    action: "property.admin_update",
+    entityType: "Property",
+    entityId: propertyId,
+    meta: { reference: property.reference },
+    ip,
+  });
+  return updated;
+}
+
+// ---------------------------------------------------------- archive purge
+
+/** Archived listings are permanently deleted after this many days. */
+export const ARCHIVE_RETENTION_DAYS = 20;
+
+/**
+ * Hard-delete listings whose 20-day archive window has expired.
+ *
+ * A listing tied to an enquiry or transaction case is NEVER deleted — those
+ * records are the legal history of the platform — so it stays archived
+ * (invisible to the marketplace) instead. Everything listing-owned
+ * (images, history, saves) goes with a clean delete via cascade.
+ */
+export async function purgeExpiredArchives() {
+  const cutoff = new Date(Date.now() - ARCHIVE_RETENTION_DAYS * 86400_000);
+  const expired = await prisma.property.findMany({
+    where: { status: PropertyStatus.ARCHIVED, archivedAt: { lt: cutoff } },
+    select: { id: true, reference: true },
+  });
+
+  let purged = 0;
+  let kept = 0;
+  for (const property of expired) {
+    const referenced = await prisma.enquiry.count({ where: { propertyId: property.id } });
+    if (referenced > 0) {
+      kept += 1;
+      continue;
+    }
+    try {
+      await prisma.property.delete({ where: { id: property.id } });
+      purged += 1;
+    } catch (err) {
+      kept += 1;
+      // eslint-disable-next-line no-console
+      console.warn(`[properties] purge skipped ${property.reference}: ${(err as Error).message}`);
+    }
+  }
+  return { purged, kept, checked: expired.length };
+}
+
 // -------------------------------------------------------------- saved
 
 export async function listSaved(userId: string) {
