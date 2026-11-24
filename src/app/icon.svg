@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40">
+  <!-- ELVICTORIA brand mark — same monogram as the Logo component
+       (ui-bits.tsx): wine rounded square, gold house outline, white door. -->
+  <rect width="40" height="40" rx="9" fill="#6b1d2c"/>
+  <path d="M11 29 L11 13 L20 8 L29 13 L29 29" fill="none" stroke="#cfa04a" stroke-width="2.2" stroke-linejoin="round"/>
+  <path d="M15.5 29 V18 h9 M15.5 23.5 h7 M15.5 29 h9" fill="none" stroke="#ffffff" stroke-width="2.2" stroke-linecap="round"/>
+</svg>
