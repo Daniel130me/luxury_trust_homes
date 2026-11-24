@@ -16,7 +16,8 @@ import * as flw from "../../lib/flutterwave.js";
  *           POST /client/payments/:id/pay        -> Flutterwave checkout link
  *           POST /client/payments/:id/verify     server-side verification
  *           POST /client/payments/:id/transfer   report a bank transfer
- * Staff:    GET  /staff/payments (+summary), POST request / confirm / fail
+ * Staff:    GET  /staff/payments (+summary), POST request / confirm / fail,
+ *           PATCH amount, DELETE an unpaid request
  * Webhook:  POST /payments/webhook  (signature checked; configuration later)
  */
 const router = Router();
@@ -177,6 +178,15 @@ router.post(
   validate({ body: z.object({ reason: z.string().trim().max(500).optional().or(z.literal("")) }) }),
   async (req, res) => {
     ok(res, await svc.markFailed(req.user!, String(req.params.id), req.body.reason, req.ip));
+  },
+);
+
+router.delete(
+  "/staff/payments/:id",
+  requirePermission("payment.manage"),
+  validate({ body: z.object({ reason: z.string().trim().max(500).optional().or(z.literal("")) }).optional() }),
+  async (req, res) => {
+    ok(res, await svc.deleteRequest(req.user!, String(req.params.id), req.body?.reason, req.ip));
   },
 );
 

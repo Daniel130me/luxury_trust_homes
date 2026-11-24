@@ -81,8 +81,8 @@ export default function MatterDetailPage() {
   const [editAmount, setEditAmount] = useState("");
   const [editReason, setEditReason] = useState("");
 
-  const [escalateOpen, setEscalateOpen] = useState(false);
-  const [escalateNote, setEscalateNote] = useState("");
+  const [deletePayment, setDeletePayment] = useState<{ id: string; reference: string; amount: number } | null>(null);
+  const [deleteReason, setDeleteReason] = useState("");
 
   const [error, setError] = useState<string | null>(null);
   const [notice, setNotice] = useState<string | null>(null);
@@ -218,18 +218,24 @@ export default function MatterDetailPage() {
     }
   }
 
-  async function escalate() {
-    if (!escalateNote.trim()) return;
+  async function confirmDeletePayment() {
+    if (!deletePayment) return;
     setBusy(true);
+    setError(null);
     try {
-      await apiFetch(`/staff/enquiries/${enquiryId}/escalate`, { method: "POST", body: { note: escalateNote } });
-      setEscalateOpen(false);
-      setEscalateNote("");
+      await apiFetch(`/staff/payments/${deletePayment.id}`, {
+        method: "DELETE",
+        body: { reason: deleteReason || undefined },
+      });
+      setDeletePayment(null);
+      setDeleteReason("");
       await load();
-      setNotice("Escalated — all lawyers have been alerted.");
+      toast.success("Payment request deleted.");
+      setNotice("The payment request was deleted — the client and provider have been notified.");
     } catch (err) {
-      setError(err instanceof ApiRequestError ? err.message : "Could not escalate.");
-      toast.error(err instanceof ApiRequestError ? err.message : "Could not escalate.");
+      const message = err instanceof ApiRequestError ? err.message : "Could not delete the payment request.";
+      toast.error(message);
+      setError(message);
     } finally {
       setBusy(false);
     }
@@ -320,9 +326,6 @@ export default function MatterDetailPage() {
             </Button>
           </>
         )}
-        <Button variant="ghost" onClick={() => setEscalateOpen(true)}>
-          Escalate
-        </Button>
       </div>
 
       {/* ----------------------------------------------- status stepper */}
@@ -373,6 +376,18 @@ export default function MatterDetailPage() {
                       }}
                     >
                       Edit amount
+                    </Button>
+                  )}
+                  {canManage && ["OUTSTANDING", "AWAITING_PAYMENT", "FAILED"].includes(payment.status) && (
+                    <Button
+                      size="sm"
+                      variant="ghost"
+                      onClick={() => {
+                        setDeletePayment({ id: payment.id, reference: payment.reference, amount: payment.amount });
+                        setDeleteReason("");
+                      }}
+                    >
+                      Delete
                     </Button>
                   )}
                   {canManage && payment.status === "PENDING_CONFIRMATION" && (
@@ -609,20 +624,30 @@ export default function MatterDetailPage() {
         </Modal>
       )}
 
-      {/* -------------------------------------------- escalate modal */}
-      {escalateOpen && (
-        <Modal title="Escalate this matter" onClose={() => setEscalateOpen(false)}>
-          <Field label="Why does this need attention?" required hint="All lawyers are alerted immediately.">
-            <Textarea rows={3} value={escalateNote} onChange={(e) => setEscalateNote(e.target.value)} />
+      {/* ------------------------------------- delete payment modal */}
+      {deletePayment && (
+        <Modal title={`Delete payment request — ${deletePayment.reference}`} onClose={() => setDeletePayment(null)}>
+          <p className="text-sm text-ink-soft">
+            Delete the request for {formatNaira(deletePayment.amount)}? The client and provider are notified and
+            the deletion is recorded on the case timeline and audit log. This cannot be undone.
+          </p>
+          <Field label="Reason (optional)" hint="Recorded on the case timeline and the audit log.">
+            <Textarea
+              rows={2}
+              value={deleteReason}
+              onChange={(e) => setDeleteReason(e.target.value)}
+              placeholder="e.g. Raised in error — superseded by another request"
+            />
           </Field>
           <div className="mt-4 flex justify-end gap-3">
-            <Button variant="outline" onClick={() => setEscalateOpen(false)}>Cancel</Button>
-            <Button onClick={() => void escalate()} loading={busy} disabled={!escalateNote.trim()}>
-              Escalate
+            <Button variant="outline" onClick={() => setDeletePayment(null)}>Cancel</Button>
+            <Button variant="danger" onClick={() => void confirmDeletePayment()} loading={busy}>
+              Delete request
             </Button>
           </div>
         </Modal>
       )}
+
     </div>
   );
 }

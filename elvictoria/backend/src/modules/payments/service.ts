@@ -218,6 +218,113 @@ export async function updateAmount(
   return updated;
 }
 
+// -------------------------------------------------------- delete request
+
+/**
+ * Deletable statuses mirror the amount-edit rule: the request is still open
+ * and no money has changed hands. A transfer the client already reported is
+ * locked (confirm or fail it first) and a settled payment is a financial
+ * record, never deletable.
+ */
+const DELETABLE_STATUSES: PaymentStatus[] = [
+  PaymentStatus.OUTSTANDING,
+  PaymentStatus.AWAITING_PAYMENT,
+  PaymentStatus.FAILED,
+];
+
+export async function deleteRequest(actor: AuthUser, paymentId: string, reason: string | undefined, ip?: string) {
+  const payment = await prisma.payment.findUnique({
+    where: { id: paymentId },
+    include: {
+      case: {
+        select: {
+          id: true, reference: true, clientId: true, providerId: true, status: true,
+          enquiry: { select: { id: true } },
+        },
+      },
+    },
+  });
+  if (!payment) throw ApiError.notFound("Payment request not found.");
+  if (!DELETABLE_STATUSES.includes(payment.status)) {
+    throw ApiError.badRequest(
+      payment.status === PaymentStatus.PENDING_CONFIRMATION
+        ? "The client has already reported a transfer for this request — confirm or fail that transfer first."
+        : "A completed payment is part of the financial record and cannot be deleted.",
+    );
+  }
+
+  // PaymentAttempt rows cascade with the payment (schema onDelete: Cascade).
+  const naira = `₦${payment.amount.toLocaleString("en-NG")}`;
+  await prisma.$transaction(async (tx) => {
+    await tx.payment.delete({ where: { id: paymentId } });
+    await tx.caseTimelineEntry.createMany({
+      data: [
+        {
+          caseId: payment.case.id,
+          actorId: actor.id,
+          label: `Payment request ${payment.reference} (${naira}) deleted by ${actor.name}.`,
+          visibility: "INTERNAL",
+        },
+        {
+          caseId: payment.case.id,
+          actorId: actor.id,
+          label: `Payment request ${payment.reference} (${naira}) deleted by ${actor.name}.`,
+          visibility: "PARTICIPANTS",
+          note: `The payment request of ${naira} (${payment.description.trim()}) was removed${reason ? ` — ${reason}` : "."}`,
+        },
+      ],
+    });
+  });
+
+  // Deleting the last open request resolves a PAYMENT_PENDING case the same
+  // way a settled payment does (mirrors the verify/confirm logic above).
+  const remaining = await prisma.payment.count({
+    where: { caseId: payment.case.id, status: { in: UNPAID_STATUSES } },
+  });
+  if (payment.case.status === "PAYMENT_PENDING" && remaining === 0) {
+    await prisma.case.update({ where: { id: payment.case.id }, data: { status: "IN_PROGRESS" } });
+    await prisma.enquiry.update({
+      where: { id: payment.case.enquiry.id },
+      data: { status: "IN_PROGRESS" },
+    });
+    await prisma.caseTimelineEntry.create({
+      data: {
+        caseId: payment.case.id,
+        actorId: actor.id,
+        label: "Status changed from Payment Pending to In Progress.",
+        visibility: "PARTICIPANTS",
+        note: "No open payment requests remain; the transaction continues.",
+      },
+    });
+  }
+
+  await notifyMany([
+    {
+      userId: payment.case.clientId,
+      category: "case_update",
+      title: "Payment request removed",
+      body: `The payment request ${payment.reference} of ${naira} on ${payment.case.reference} was removed by the legal team.`,
+      link: `/app/client/enquiries/${payment.case.enquiry.id}`,
+    },
+    {
+      userId: payment.case.providerId,
+      category: "case_update",
+      title: "Payment request removed",
+      body: `The payment request ${payment.reference} of ${naira} on ${payment.case.reference} was removed.`,
+      link: `/app/provider/cases/${payment.case.id}`,
+    },
+  ]);
+  await audit({
+    actorId: actor.id,
+    action: "payment.delete",
+    entityType: "Payment",
+    entityId: paymentId,
+    meta: { reference: payment.reference, amount: payment.amount, reason: reason ?? null },
+    ip,
+  });
+  return { deleted: true, reference: payment.reference };
+}
+
 // --------------------------------------------------------- card payment
 
 function txRefFor(payment: { reference: string }): string {

@@ -3,7 +3,7 @@
 /** Staff payment detail — full attempt history and management actions. */
 import { useCallback, useEffect, useState } from "react";
 import Link from "next/link";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { apiFetch, ApiRequestError } from "@/lib/api";
 import { toast } from "@/lib/toast";
 import { useAuth } from "@/lib/auth";
@@ -39,6 +39,7 @@ type PaymentDetail = {
 
 export default function StaffPaymentDetailPage() {
   const { id } = useParams<{ id: string }>();
+  const router = useRouter();
   const { user } = useAuth();
   const canManage = user?.role === "LAWYER";
 
@@ -46,6 +47,8 @@ export default function StaffPaymentDetailPage() {
   const [missing, setMissing] = useState(false);
   const [reason, setReason] = useState("");
   const [busy, setBusy] = useState(false);
+  // Two-step delete: arm first, then confirm — no stray modal, no accidents.
+  const [armedDelete, setArmedDelete] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [notice, setNotice] = useState<string | null>(null);
 
@@ -88,6 +91,20 @@ export default function StaffPaymentDetailPage() {
       setError(err instanceof ApiRequestError ? err.message : "Could not update the payment.");
       toast.error(err instanceof ApiRequestError ? err.message : "Could not update the payment.");
     } finally {
+      setBusy(false);
+    }
+  }
+
+  async function deleteRequest() {
+    setBusy(true);
+    setError(null);
+    try {
+      await apiFetch(`/staff/payments/${id}`, { method: "DELETE" });
+      toast.success("Payment request deleted — the client and provider have been notified.");
+      router.push("/app/staff/payments");
+    } catch (err) {
+      setError(err instanceof ApiRequestError ? err.message : "Could not delete the payment request.");
+      toast.error(err instanceof ApiRequestError ? err.message : "Could not delete the payment request.");
       setBusy(false);
     }
   }
@@ -191,6 +208,28 @@ export default function StaffPaymentDetailPage() {
                   Mark as failed
                 </Button>
               </div>
+
+              {["OUTSTANDING", "AWAITING_PAYMENT", "FAILED"].includes(payment.status) &&
+                (armedDelete ? (
+                  <div className="mt-3 rounded-lg border border-red-200 bg-red-50 p-3">
+                    <p className="text-xs text-red-800">
+                      Delete this request? The client and provider are notified and the deletion is recorded on
+                      the case timeline and audit log. This cannot be undone.
+                    </p>
+                    <div className="mt-2 flex gap-2">
+                      <Button variant="danger" onClick={() => void deleteRequest()} loading={busy}>
+                        Delete request
+                      </Button>
+                      <Button variant="outline" onClick={() => setArmedDelete(false)}>
+                        Cancel
+                      </Button>
+                    </div>
+                  </div>
+                ) : (
+                  <Button variant="ghost" className="mt-3 w-full" onClick={() => setArmedDelete(true)}>
+                    Delete request…
+                  </Button>
+                ))}
             </Card>
           )}
         </div>
