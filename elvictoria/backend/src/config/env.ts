@@ -22,6 +22,8 @@ try {
       (value.startsWith("'") && value.endsWith("'"))
     ) {
       value = value.slice(1, -1);
+    } else {
+      value = value.replace(/\s+#.*$/, "").trim();
     }
     if (value !== "") process.env[key] = value;
   }
