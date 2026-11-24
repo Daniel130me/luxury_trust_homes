@@ -6,6 +6,7 @@
  */
 import { useEffect, useState } from "react";
 import { apiFetch, ApiRequestError } from "@/lib/api";
+import { toast } from "@/lib/toast";
 import { useAuth, roleLabel } from "@/lib/auth";
 import {
   Alert, Button, Card, Field, Input, PageLoader, SectionHeader, Select,
@@ -74,10 +75,9 @@ export default function ProfilePage() {
       await refreshUser();
       setProfileStatus({ tone: "success", message: "Your details have been updated." });
     } catch (err) {
-      setProfileStatus({
-        tone: "error",
-        message: err instanceof ApiRequestError ? err.message : "Could not save your details. Please try again.",
-      });
+      const message = err instanceof ApiRequestError ? err.message : "Could not save your details. Please try again.";
+      toast.error(message);
+      setProfileStatus({ tone: "error", message });
     } finally {
       setSavingProfile(false);
     }
@@ -106,10 +106,9 @@ export default function ProfilePage() {
       setNext("");
       setConfirm("");
     } catch (err) {
-      setPwStatus({
-        tone: "error",
-        message: err instanceof ApiRequestError ? (Object.values(err.fields ?? {})[0] ?? err.message) : "Could not change your password.",
-      });
+      const message = err instanceof ApiRequestError ? (Object.values(err.fields ?? {})[0] ?? err.message) : "Could not change your password.";
+      toast.error(message);
+      setPwStatus({ tone: "error", message });
     } finally {
       setChangingPw(false);
     }

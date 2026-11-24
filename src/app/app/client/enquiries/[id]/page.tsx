@@ -12,6 +12,7 @@ import { useCallback, useEffect, useState } from "react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { apiFetch, ApiRequestError } from "@/lib/api";
+import { toast } from "@/lib/toast";
 import { CASE_STATUS_LABELS, PURPOSE_LABELS, formatDateTime, formatNaira } from "@/lib/format";
 import {
   Alert, Button, Card, PageLoader, StatusBadge, Textarea, ChevronLeftIcon,
@@ -107,6 +108,7 @@ export default function ClientEnquiryDetailPage() {
       await load();
     } catch (err) {
       setSendError(err instanceof ApiRequestError ? err.message : "Could not send the message.");
+      toast.error(err instanceof ApiRequestError ? err.message : "Could not send the message.");
     } finally {
       setSending(false);
     }

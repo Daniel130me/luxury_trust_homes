@@ -2,7 +2,11 @@ import type { Metadata, Viewport } from "next";
 import { DM_Sans, DM_Serif_Display } from "next/font/google";
 import "./globals.css";
 import { AuthProvider } from "@/lib/auth";
-import { Toaster } from "@/components/ui/toaster";
+// Global toast layer (module-store based, so any handler can push a toast —
+// the old hook-based shadcn toaster required useToast() per component and
+// was effectively never wired up). Mounted here to cover public, auth and
+// workspace routes alike.
+import { Toaster } from "@/components/platform/toaster";
 
 const dmSans = DM_Sans({
   variable: "--font-dm-sans",

@@ -18,7 +18,7 @@ const buttonVariants = cva(
         secondary:
           "bg-secondary text-secondary-foreground shadow-xs hover:bg-secondary/80",
         ghost:
-          "hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50",
+          "hover:bg-accent hover:text-accent-foreground dark:bg-accent/50 dark:hover:bg-accent",
         link: "text-primary underline-offset-4 hover:underline",
       },
       size: {
@@ -35,24 +35,66 @@ const buttonVariants = cva(
   }
 )
 
+// NON-STANDARD: extended beyond stock shadcn/ui with a `loading` prop —
+// stock Button silently dropped unknown props, so pages passing
+// `loading={busy}` showed no processing state at all. Standard
+// alternative: hand-rolled spinner markup around every button (rejected:
+// platform-wide repetition).
 function Button({
   className,
   variant,
   size,
   asChild = false,
+  loading = false,
+  disabled,
+  children,
   ...props
 }: React.ComponentProps<"button"> &
   VariantProps<typeof buttonVariants> & {
     asChild?: boolean
+    /** Shows a spinner and disables the button while an action runs. */
+    loading?: boolean
   }) {
   const Comp = asChild ? Slot : "button"
+
+  if (asChild) {
+    // A spinner cannot be injected into an arbitrary child element; the
+    // caller renders its own state for asChild buttons.
+    return (
+      <Comp
+        data-slot="button"
+        className={cn(buttonVariants({ variant, size, className }))}
+        aria-busy={loading || undefined}
+        {...props}
+      >
+        {children}
+      </Comp>
+    )
+  }
 
   return (
     <Comp
       data-slot="button"
       className={cn(buttonVariants({ variant, size, className }))}
+      disabled={disabled || loading}
+      aria-busy={loading || undefined}
       {...props}
-    />
+    >
+      {loading && (
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2.5"
+          strokeLinecap="round"
+          className="size-4 shrink-0 animate-spin"
+          aria-hidden
+        >
+          <path d="M21 12a9 9 0 1 1-6.2-8.56" />
+        </svg>
+      )}
+      {children}
+    </Comp>
   )
 }
 

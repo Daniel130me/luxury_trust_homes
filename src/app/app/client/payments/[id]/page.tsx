@@ -9,6 +9,7 @@ import { useCallback, useEffect, useState } from "react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { apiFetch, ApiRequestError } from "@/lib/api";
+import { toast } from "@/lib/toast";
 import { PAYMENT_STATUS_LABELS, formatDateTime, formatNaira } from "@/lib/format";
 import {
   Alert, Button, Card, PageLoader, StatusBadge, ChevronLeftIcon, ShieldIcon,
@@ -95,6 +96,7 @@ export default function PaymentDetailPage() {
         await load();
       } catch (err) {
         setError(err instanceof ApiRequestError ? err.message : "Could not verify the payment. It remains pending.");
+        toast.error(err instanceof ApiRequestError ? err.message : "Could not verify the payment. It remains pending.");
       } finally {
         setBusy(false);
         // Clean the query string so refresh does not re-verify.
@@ -132,6 +134,7 @@ export default function PaymentDetailPage() {
       window.location.href = data.link;
     } catch (err) {
       setError(err instanceof ApiRequestError ? err.message : "Could not start the payment. Please try again.");
+      toast.error(err instanceof ApiRequestError ? err.message : "Could not start the payment. Please try again.");
       setBusy(false);
     }
   }
@@ -150,6 +153,7 @@ export default function PaymentDetailPage() {
       await load();
     } catch (err) {
       setError(err instanceof ApiRequestError ? err.message : "Could not report the transfer.");
+      toast.error(err instanceof ApiRequestError ? err.message : "Could not report the transfer.");
     } finally {
       setBusy(false);
     }

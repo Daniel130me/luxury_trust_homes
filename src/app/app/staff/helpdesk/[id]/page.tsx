@@ -5,6 +5,7 @@ import { useCallback, useEffect, useState } from "react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { apiFetch, ApiRequestError } from "@/lib/api";
+import { toast } from "@/lib/toast";
 import { formatDateTime } from "@/lib/format";
 import { priorityBadge, statusBadge, ticketAcceptsReplies, type TicketPriorityKey, type TicketStatusKey } from "@/lib/tickets";
 import {
@@ -62,6 +63,7 @@ export default function StaffTicketDetailPage() {
       await load();
     } catch (err) {
       setError(err instanceof ApiRequestError ? err.message : "Could not send the reply.");
+      toast.error(err instanceof ApiRequestError ? err.message : "Could not send the reply.");
     } finally {
       setBusy(false);
     }
@@ -79,6 +81,7 @@ export default function StaffTicketDetailPage() {
       setNotice("Ticket updated — the owner is notified where needed.");
     } catch (err) {
       setError(err instanceof ApiRequestError ? err.message : "Could not update the ticket.");
+      toast.error(err instanceof ApiRequestError ? err.message : "Could not update the ticket.");
     } finally {
       setBusy(false);
     }

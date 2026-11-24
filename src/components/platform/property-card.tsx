@@ -13,7 +13,7 @@ import { useState } from "react";
 import { apiFetch } from "@/lib/api";
 import { categoryLabel, AVAILABILITY_LABELS, formatNaira } from "@/lib/format";
 import { BedIcon, BathIcon, AreaIcon, HeartIcon } from "./ui-bits";
-import { useToast } from "@/hooks/use-toast";
+import { toast } from "@/lib/toast";
 
 export type PropertyCardData = {
   id: string;
@@ -43,7 +43,6 @@ export function PropertyCard({
   onUnsaved?: () => void;
 }) {
   const router = useRouter();
-  const { toast } = useToast();
   const [saved, setSaved] = useState(initiallySaved);
   const cover = property.images?.[0];
 
@@ -59,14 +58,14 @@ export function PropertyCard({
     try {
       await apiFetch("/saved", { method: "POST", body: { propertyId: property.id } });
       setSaved(true);
-      toast({ title: "Property saved", description: "Find it anytime under Saved properties." });
+      toast.success("Property saved — find it anytime under Saved properties.");
     } catch (err) {
-      toast({
-        title: err instanceof Error ? err.message : "Sign in to save properties",
-        description: err instanceof Error ? undefined : "Create a free account to keep track of homes you like.",
-        variant: "destructive",
-      });
-      if (!(err instanceof Error)) router.push("/login?next=/properties");
+      if (err instanceof Error) {
+        toast.error(err.message);
+      } else {
+        toast.info("Sign in to save properties — create a free account to keep track of homes you like.");
+        router.push("/login?next=/properties");
+      }
     }
   }
 

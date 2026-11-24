@@ -4,6 +4,7 @@
 import { useCallback, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { apiFetch, ApiRequestError } from "@/lib/api";
+import { toast } from "@/lib/toast";
 import { useAuth } from "@/lib/auth";
 import { formatDate } from "@/lib/format";
 import {
@@ -70,6 +71,7 @@ export default function StaffUsersPage() {
       await load();
     } catch (err) {
       setError(err instanceof ApiRequestError ? err.message : "Could not update the account.");
+      toast.error(err instanceof ApiRequestError ? err.message : "Could not update the account.");
     } finally {
       setBusyId(null);
     }

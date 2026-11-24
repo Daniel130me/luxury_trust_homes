@@ -9,6 +9,7 @@ import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { useParams, useRouter, useSearchParams } from "next/navigation";
 import { apiFetch, ApiRequestError } from "@/lib/api";
+import { toast } from "@/lib/toast";
 import { useAuth } from "@/lib/auth";
 import {
   AVAILABILITY_LABELS, categoryLabel, PURPOSE_LABELS, formatDateTime, formatNaira,
@@ -151,11 +152,11 @@ export default function PropertyDetailPage() {
       });
       setEnquiryDone(true);
     } catch (err) {
-      setEnquiryError(
-        err instanceof ApiRequestError
-          ? (Object.values(err.fields ?? {})[0] ?? err.message)
-          : "Could not submit the enquiry. Please try again.",
-      );
+      const message = err instanceof ApiRequestError
+        ? (Object.values(err.fields ?? {})[0] ?? err.message)
+        : "Could not submit the enquiry. Please try again.";
+      toast.error(message);
+      setEnquiryError(message);
     } finally {
       setSubmitting(false);
     }

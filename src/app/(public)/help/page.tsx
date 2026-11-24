@@ -4,6 +4,7 @@
 import Link from "next/link";
 import { useState } from "react";
 import { apiFetch, ApiRequestError } from "@/lib/api";
+import { toast } from "@/lib/toast";
 import { useAuth } from "@/lib/auth";
 import { formatDateTime } from "@/lib/format";
 import { priorityBadge, statusBadge } from "@/lib/tickets";
@@ -65,7 +66,9 @@ function TrackTicketCard() {
       });
       setTicket(data.ticket);
     } catch (err) {
-      setError(err instanceof ApiRequestError ? err.message : "No ticket found for that reference and email.");
+      const message = err instanceof ApiRequestError ? err.message : "No ticket found for that reference and email.";
+      toast.error(message);
+      setError(message);
     } finally {
       setBusy(false);
     }

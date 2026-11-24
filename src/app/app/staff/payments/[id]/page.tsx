@@ -5,6 +5,7 @@ import { useCallback, useEffect, useState } from "react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { apiFetch, ApiRequestError } from "@/lib/api";
+import { toast } from "@/lib/toast";
 import { useAuth } from "@/lib/auth";
 import { PAYMENT_STATUS_LABELS, formatDateTime, formatNaira } from "@/lib/format";
 import {
@@ -70,6 +71,7 @@ export default function StaffPaymentDetailPage() {
       setNotice("Transfer confirmed as received. The case stage has been updated.");
     } catch (err) {
       setError(err instanceof ApiRequestError ? err.message : "Could not confirm the transfer.");
+      toast.error(err instanceof ApiRequestError ? err.message : "Could not confirm the transfer.");
     } finally {
       setBusy(false);
     }
@@ -84,6 +86,7 @@ export default function StaffPaymentDetailPage() {
       await load();
     } catch (err) {
       setError(err instanceof ApiRequestError ? err.message : "Could not update the payment.");
+      toast.error(err instanceof ApiRequestError ? err.message : "Could not update the payment.");
     } finally {
       setBusy(false);
     }

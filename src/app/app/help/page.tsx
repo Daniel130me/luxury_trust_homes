@@ -3,6 +3,7 @@
 /** Signed-in Help Desk — ticket list + new ticket form (client/provider). */
 import { useCallback, useEffect, useState } from "react";
 import { apiFetch, ApiRequestError } from "@/lib/api";
+import { toast } from "@/lib/toast";
 import { useAuth } from "@/lib/auth";
 import { formatDateTime } from "@/lib/format";
 import { priorityBadge, statusBadge, ticketAcceptsReplies } from "@/lib/tickets";
@@ -77,7 +78,9 @@ export default function HelpDeskPage() {
       setCreatedId(data.ticket.id);
       await load();
     } catch (err) {
-      setFormErrors(err instanceof ApiRequestError ? (err.fields ?? { form: err.message }) : { form: "Could not create the ticket." });
+      const fields = err instanceof ApiRequestError ? (err.fields ?? { form: err.message }) : { form: "Could not create the ticket." };
+      toast.error(String(fields.form));
+      setFormErrors(fields);
     } finally {
       setSubmitting(false);
     }
@@ -92,6 +95,7 @@ export default function HelpDeskPage() {
       await load();
     } catch (err) {
       setNotice(err instanceof ApiRequestError ? err.message : "Could not send the reply.");
+      toast.error(err instanceof ApiRequestError ? err.message : "Could not send the reply.");
     } finally {
       setReplying(false);
     }

@@ -4,6 +4,7 @@
 import { useCallback, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { apiFetch } from "@/lib/api";
+import { toast } from "@/lib/toast";
 import { formatRelative } from "@/lib/format";
 import { Button, Card, EmptyState, PageLoader, SectionHeader } from "@/components/platform/ui-bits";
 
@@ -44,7 +45,8 @@ export default function NotificationsPage() {
   }, [load]);
 
   async function markAll() {
-    await apiFetch("/notifications/mark-all-read", { method: "POST" }).catch(() => undefined);
+    await apiFetch("/notifications/mark-all-read", { method: "POST" })
+      .catch(() => toast.error("Could not mark notifications as read. Please try again."));
     void load(page);
   }
 

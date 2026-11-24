@@ -3,6 +3,7 @@
 /** Staff settings — platform office details (lawyers edit, support reads). */
 import { useCallback, useEffect, useState } from "react";
 import { apiFetch, ApiRequestError } from "@/lib/api";
+import { toast } from "@/lib/toast";
 import { useAuth } from "@/lib/auth";
 import {
   Alert, Button, Card, Field, Input, PageLoader, SectionHeader, Textarea,
@@ -85,6 +86,7 @@ export default function StaffSettingsPage() {
       setNotice("Settings saved. Public pages reflect the new details immediately.");
     } catch (err) {
       setError(err instanceof ApiRequestError ? err.message : "Could not save the settings.");
+      toast.error(err instanceof ApiRequestError ? err.message : "Could not save the settings.");
     } finally {
       setSaving(false);
     }
@@ -231,6 +233,7 @@ function PropertyTypesManager() {
       await load();
     } catch (err) {
       setError(err instanceof ApiRequestError ? err.message : "Could not add the property type.");
+      toast.error(err instanceof ApiRequestError ? err.message : "Could not add the property type.");
     } finally {
       setBusy(false);
     }
@@ -244,6 +247,7 @@ function PropertyTypesManager() {
       await load();
     } catch (err) {
       setError(err instanceof ApiRequestError ? err.message : "Could not update the property type.");
+      toast.error(err instanceof ApiRequestError ? err.message : "Could not update the property type.");
     } finally {
       setBusy(false);
     }
