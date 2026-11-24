@@ -27,7 +27,9 @@ type ProviderCaseDetail = {
     area: string; lga: string; state: string;
     images?: Array<{ url: string; label: string }>;
   };
-  client: { id: string; name: string };
+  // The client's contact fields arrive only after the lawyer disclosed them
+  // to this provider (they are null in the payload otherwise).
+  client: { id: string; name: string; email: string | null; phone: string | null };
   lawyer?: { id: string; name: string } | null;
   payments: Array<{ id: string; reference: string; amount: number; status: string; dueDate: string; paidAt?: string | null }>;
 };
@@ -131,6 +133,34 @@ export default function ProviderCaseDetailPage() {
               </li>
             ))}
           </ul>
+        </Card>
+      )}
+
+      {/* --------------------------------------- shared contacts */}
+      {(kase.client.email || kase.client.phone) && (
+        <Card className="mt-6 p-5">
+          <h2 className="text-base font-semibold text-ink-strong">Shared contacts</h2>
+          <p className="mt-0.5 text-sm text-ink-muted">
+            Your lawyer shared the client's contact details with you for this transaction.
+          </p>
+          <dl className="mt-3 space-y-1.5 text-sm">
+            <div className="flex justify-between gap-4">
+              <dt className="text-ink-muted">Name</dt>
+              <dd className="font-semibold text-ink-strong">{kase.client.name}</dd>
+            </div>
+            {kase.client.email && (
+              <div className="flex justify-between gap-4">
+                <dt className="text-ink-muted">Email</dt>
+                <dd className="font-semibold text-ink-strong">{kase.client.email}</dd>
+              </div>
+            )}
+            {kase.client.phone && (
+              <div className="flex justify-between gap-4">
+                <dt className="text-ink-muted">Phone</dt>
+                <dd className="font-semibold text-ink-strong">{kase.client.phone}</dd>
+              </div>
+            )}
+          </dl>
         </Card>
       )}
 

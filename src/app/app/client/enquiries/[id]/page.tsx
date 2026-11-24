@@ -55,7 +55,21 @@ type ThreadMessage = {
 type TimelineEntry = { id: string; at: string; label: string; note?: string | null };
 
 type CaseBundle = {
-  case: { id: string; reference: string; status: string; lawyer?: { id: string; name: string } | null };
+  case: {
+    id: string;
+    reference: string;
+    status: string;
+    lawyer?: { id: string; name: string } | null;
+    // The provider's contact fields arrive only after the lawyer disclosed
+    // them to this client (they are null in the payload otherwise).
+    provider?: {
+      id: string;
+      name: string;
+      organisation?: string | null;
+      email: string | null;
+      phone: string | null;
+    } | null;
+  };
   timeline: TimelineEntry[];
   payments: PaymentLite[];
 };
@@ -178,6 +192,37 @@ export default function ClientEnquiryDetailPage() {
               </Link>
             </div>
           ))}
+        </Card>
+      )}
+
+      {/* --------------------------------------- shared contacts */}
+      {kase && (kase.provider?.email || kase.provider?.phone) && (
+        <Card className="mt-6 p-5">
+          <h2 className="text-base font-semibold text-ink-strong">Shared contacts</h2>
+          <p className="mt-0.5 text-sm text-ink-muted">
+            Your lawyer shared the property provider's contact details with you for this matter.
+          </p>
+          <dl className="mt-3 space-y-1.5 text-sm">
+            <div className="flex justify-between gap-4">
+              <dt className="text-ink-muted">Name</dt>
+              <dd className="font-semibold text-ink-strong">
+                {kase.provider.name}
+                {kase.provider.organisation ? ` (${kase.provider.organisation})` : ""}
+              </dd>
+            </div>
+            {kase.provider.email && (
+              <div className="flex justify-between gap-4">
+                <dt className="text-ink-muted">Email</dt>
+                <dd className="font-semibold text-ink-strong">{kase.provider.email}</dd>
+              </div>
+            )}
+            {kase.provider.phone && (
+              <div className="flex justify-between gap-4">
+                <dt className="text-ink-muted">Phone</dt>
+                <dd className="font-semibold text-ink-strong">{kase.provider.phone}</dd>
+              </div>
+            )}
+          </dl>
         </Card>
       )}
 

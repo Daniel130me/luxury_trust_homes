@@ -523,13 +523,25 @@ export async function getForProvider(providerId: string, caseId: string) {
           images: { orderBy: [{ isCover: "desc" }, { sortOrder: "asc" }], take: 1, select: { url: true, label: true } },
         },
       },
-      client: { select: { id: true, name: true } },
+      client: { select: { id: true, name: true, email: true, phone: true } },
       lawyer: { select: { id: true, name: true } },
       payments: { select: { id: true, reference: true, amount: true, status: true, dueDate: true, paidAt: true }, orderBy: { createdAt: "desc" } },
     },
   });
   if (!kase || kase.providerId !== providerId) throw ApiError.notFound("Case not found.");
-  return kase;
+
+  // The client's contact details reach the provider only once the lawyer has
+  // disclosed them (party = the receiving party, matching the disclose
+  // endpoint). Without a disclosure the fields are stripped from the payload.
+  const disclosed = await prisma.contactDisclosure.findFirst({
+    where: { caseId, disclosedTo: providerId, party: "provider" },
+    select: { id: true },
+  });
+  const client = disclosed
+    ? kase.client
+    : { id: kase.client.id, name: kase.client.name, email: null, phone: null };
+
+  return { ...kase, client };
 }
 
 /** Role-scoped timeline for a case. */

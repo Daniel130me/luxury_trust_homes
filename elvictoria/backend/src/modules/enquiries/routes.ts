@@ -156,6 +156,25 @@ router.get("/cases/:id", requireAuth, async (req, res) => {
     clientSummary = { ...clientSummary, email: kase.client.email, phone: kase.client.phone };
   }
 
+  // A disclosure permanently unlocks the counterpart's contact details for
+  // the receiving party, so they show on every load — not only in the
+  // one-off "Contact details shared with you" notification. (Disclosure
+  // semantics: party = the party receiving the details, matching the
+  // disclose endpoint and its notifications.)
+  if (!staff) {
+    const disclosures = await prisma.contactDisclosure.findMany({
+      where: { caseId: kase.id, disclosedTo: req.user!.id },
+      select: { party: true },
+    });
+    const revealed = new Set(disclosures.map((d) => d.party));
+    if (isClient && revealed.has("client")) {
+      providerSummary = { ...providerSummary, email: kase.provider.email, phone: kase.provider.phone };
+    }
+    if (isProvider && revealed.has("provider")) {
+      clientSummary = { ...clientSummary, email: kase.client.email, phone: kase.client.phone };
+    }
+  }
+
   const threads = await svc.getThreads(req.user!, kase.id);
   const timeline = await svc.getTimeline(req.user!, kase.id);
   const payments = await prisma.payment.findMany({
