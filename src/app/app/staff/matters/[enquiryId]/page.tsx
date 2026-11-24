@@ -10,6 +10,7 @@ import { useCallback, useEffect, useState } from "react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { apiFetch, ApiRequestError } from "@/lib/api";
+import { toast } from "@/lib/toast";
 import { useAuth } from "@/lib/auth";
 import {
   CASE_STATUS_LABELS, PAYMENT_STATUS_LABELS, PURPOSE_LABELS, formatDateTime, formatNaira,
@@ -76,6 +77,10 @@ export default function MatterDetailPage() {
   const [paymentDesc, setPaymentDesc] = useState("");
   const [paymentDue, setPaymentDue] = useState("");
 
+  const [editPayment, setEditPayment] = useState<{ id: string; reference: string; amount: number } | null>(null);
+  const [editAmount, setEditAmount] = useState("");
+  const [editReason, setEditReason] = useState("");
+
   const [escalateOpen, setEscalateOpen] = useState(false);
   const [escalateNote, setEscalateNote] = useState("");
 
@@ -115,6 +120,7 @@ export default function MatterDetailPage() {
       setNotice("Transaction case opened.");
     } catch (err) {
       setError(err instanceof ApiRequestError ? err.message : "Could not open the case.");
+      toast.error(err instanceof ApiRequestError ? err.message : "Could not open the case.");
     } finally {
       setBusy(false);
     }
@@ -136,6 +142,7 @@ export default function MatterDetailPage() {
       setNotice("Status updated.");
     } catch (err) {
       setError(err instanceof ApiRequestError ? err.message : "Could not update the status.");
+      toast.error(err instanceof ApiRequestError ? err.message : "Could not update the status.");
     } finally {
       setBusy(false);
     }
@@ -164,6 +171,7 @@ export default function MatterDetailPage() {
       setNotice("Payment request raised — the client has been notified.");
     } catch (err) {
       setError(err instanceof ApiRequestError ? err.message : "Could not raise the payment request.");
+      toast.error(err instanceof ApiRequestError ? err.message : "Could not raise the payment request.");
     } finally {
       setBusy(false);
     }
@@ -177,6 +185,34 @@ export default function MatterDetailPage() {
       setNotice("Transfer confirmed as received.");
     } catch (err) {
       setError(err instanceof ApiRequestError ? err.message : "Could not confirm the transfer.");
+      toast.error(err instanceof ApiRequestError ? err.message : "Could not confirm the transfer.");
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  /** Amount edits stay possible while the request is open: the client may
+   *  dispute the figure or the matter may need re-scoping. Settled payments
+   *  and transfers the client already reported are locked (backend guards). */
+  async function savePaymentAmount() {
+    if (!editPayment) return;
+    const amount = Number(editAmount.replace(/[^0-9]/g, ""));
+    setBusy(true);
+    setError(null);
+    try {
+      await apiFetch(`/staff/payments/${editPayment.id}/amount`, {
+        method: "PATCH",
+        body: { amount, reason: editReason || undefined },
+      });
+      setEditPayment(null);
+      setEditReason("");
+      await load();
+      toast.success("Amount updated — client notified.");
+      setNotice("Payment request amount updated — the client has been notified.");
+    } catch (err) {
+      const message = err instanceof ApiRequestError ? err.message : "Could not update the amount.";
+      toast.error(message);
+      setError(message);
     } finally {
       setBusy(false);
     }
@@ -193,6 +229,7 @@ export default function MatterDetailPage() {
       setNotice("Escalated — all lawyers have been alerted.");
     } catch (err) {
       setError(err instanceof ApiRequestError ? err.message : "Could not escalate.");
+      toast.error(err instanceof ApiRequestError ? err.message : "Could not escalate.");
     } finally {
       setBusy(false);
     }
@@ -207,6 +244,7 @@ export default function MatterDetailPage() {
       setNotice(`Contact details disclosed to the ${party}.`);
     } catch (err) {
       setError(err instanceof ApiRequestError ? err.message : "Could not record the disclosure.");
+      toast.error(err instanceof ApiRequestError ? err.message : "Could not record the disclosure.");
     } finally {
       setBusy(false);
     }
@@ -225,6 +263,7 @@ export default function MatterDetailPage() {
       await load();
     } catch (err) {
       setError(err instanceof ApiRequestError ? err.message : "Could not send the message.");
+      toast.error(err instanceof ApiRequestError ? err.message : "Could not send the message.");
     } finally {
       setSending(false);
     }
@@ -323,6 +362,19 @@ export default function MatterDetailPage() {
                 </div>
                 <div className="flex items-center gap-2">
                   <StatusBadge status={payment.status} label={PAYMENT_STATUS_LABELS[payment.status]} />
+                  {canManage && ["OUTSTANDING", "AWAITING_PAYMENT", "FAILED"].includes(payment.status) && (
+                    <Button
+                      size="sm"
+                      variant="outline"
+                      onClick={() => {
+                        setEditPayment({ id: payment.id, reference: payment.reference, amount: payment.amount });
+                        setEditAmount(String(payment.amount));
+                        setEditReason("");
+                      }}
+                    >
+                      Edit amount
+                    </Button>
+                  )}
                   {canManage && payment.status === "PENDING_CONFIRMATION" && (
                     <Button size="sm" onClick={() => void confirmTransfer(payment.id)} loading={busy}>
                       Payment received — update stage
@@ -521,6 +573,37 @@ export default function MatterDetailPage() {
               disabled={!paymentAmount || !paymentDesc.trim()}
             >
               Raise request
+            </Button>
+          </div>
+        </Modal>
+      )}
+
+      {/* --------------------------------------- edit amount modal */}
+      {editPayment && (
+        <Modal title={`Edit amount — ${editPayment.reference}`} onClose={() => setEditPayment(null)}>
+          <Field label="Amount (₦)" required hint="The client and provider are notified of the change immediately.">
+            <Input
+              inputMode="numeric"
+              value={editAmount}
+              onChange={(e) => setEditAmount(e.target.value.replace(/[^0-9]/g, ""))}
+            />
+          </Field>
+          <Field label="Reason (optional)" hint="Recorded on the case timeline and the audit log.">
+            <Textarea
+              rows={2}
+              value={editReason}
+              onChange={(e) => setEditReason(e.target.value)}
+              placeholder="e.g. Client negotiated the figure down"
+            />
+          </Field>
+          <div className="mt-4 flex justify-end gap-3">
+            <Button variant="outline" onClick={() => setEditPayment(null)}>Cancel</Button>
+            <Button
+              onClick={() => void savePaymentAmount()}
+              loading={busy}
+              disabled={!editAmount || Number(editAmount) === editPayment.amount}
+            >
+              Save new amount
             </Button>
           </div>
         </Modal>

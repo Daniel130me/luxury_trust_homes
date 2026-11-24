@@ -126,6 +126,98 @@ export async function createRequest(actor: AuthUser, input: CreateRequestInput, 
   return payment;
 }
 
+// -------------------------------------------------------- amount editing
+
+/** Amounts may change while the request is still open; settled ones never. */
+const EDITABLE_AMOUNT_STATUSES: PaymentStatus[] = [
+  PaymentStatus.OUTSTANDING,
+  PaymentStatus.AWAITING_PAYMENT,
+  PaymentStatus.FAILED,
+];
+
+/**
+ * Change the amount of a payment request (payment.manage).
+ *
+ * The client may dispute the figure or the matter may need re-scoping, so
+ * staff can correct the amount while it is open. A transfer the client
+ * already reported (PENDING_CONFIRMATION) is locked to the figure they
+ * actually paid — confirm or fail that transfer first.
+ */
+export async function updateAmount(
+  actor: AuthUser,
+  paymentId: string,
+  amount: number,
+  reason: string | undefined,
+  ip?: string,
+) {
+  const payment = await prisma.payment.findUnique({
+    where: { id: paymentId },
+    include: {
+      case: { select: { id: true, reference: true, clientId: true, providerId: true } },
+    },
+  });
+  if (!payment) throw ApiError.notFound("Payment request not found.");
+  if (!EDITABLE_AMOUNT_STATUSES.includes(payment.status)) {
+    throw ApiError.badRequest(
+      payment.status === PaymentStatus.PENDING_CONFIRMATION
+        ? "The client has already reported a transfer at the current amount — confirm or fail that transfer before changing the amount."
+        : "This payment request can no longer be changed.",
+    );
+  }
+  if (amount === payment.amount) {
+    throw ApiError.badRequest("The amount is unchanged.");
+  }
+
+  const naira = (v: number) => `₦${v.toLocaleString("en-NG")}`;
+  const updated = await prisma.$transaction(async (tx) => {
+    const p = await tx.payment.update({ where: { id: paymentId }, data: { amount } });
+    await tx.caseTimelineEntry.createMany({
+      data: [
+        {
+          caseId: payment.case.id,
+          actorId: actor.id,
+          label: `Payment request ${payment.reference} amount changed from ${naira(payment.amount)} to ${naira(amount)} by ${actor.name}.`,
+          visibility: "INTERNAL",
+        },
+        {
+          caseId: payment.case.id,
+          actorId: actor.id,
+          label: `Payment request ${payment.reference} amount changed from ${naira(payment.amount)} to ${naira(amount)} by ${actor.name}.`,
+          visibility: "PARTICIPANTS",
+          note: `The requested amount is now ${naira(amount)}${reason ? ` — ${reason}` : ""}.`,
+        },
+      ],
+    });
+    return p;
+  });
+
+  await notifyMany([
+    {
+      userId: payment.case.clientId,
+      category: "case_update",
+      title: "Payment request updated",
+      body: `The amount for ${payment.reference} on ${payment.case.reference} changed from ${naira(payment.amount)} to ${naira(amount)}${reason ? `: ${reason}` : ""}.`,
+      link: `/app/client/payments/${payment.id}`,
+    },
+    {
+      userId: payment.case.providerId,
+      category: "case_update",
+      title: "Payment request updated",
+      body: `The amount for ${payment.reference} on ${payment.case.reference} changed from ${naira(payment.amount)} to ${naira(amount)}.`,
+      link: `/app/provider/cases/${payment.case.id}`,
+    },
+  ]);
+  await audit({
+    actorId: actor.id,
+    action: "payment.amount_update",
+    entityType: "Payment",
+    entityId: paymentId,
+    meta: { reference: payment.reference, from: payment.amount, to: amount, reason: reason ?? null },
+    ip,
+  });
+  return updated;
+}
+
 // --------------------------------------------------------- card payment
 
 function txRefFor(payment: { reference: string }): string {

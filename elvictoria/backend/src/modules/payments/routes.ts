@@ -149,6 +149,28 @@ router.post(
   },
 );
 
+router.patch(
+  "/staff/payments/:id/amount",
+  requirePermission("payment.manage"),
+  validate({
+    body: z.object({
+      amount: z.coerce.number().int().min(1, "Enter an amount greater than zero.").max(2_000_000_000),
+      reason: z.string().trim().max(500).optional().or(z.literal("")),
+    }),
+  }),
+  async (req, res) => {
+    ok(res, {
+      payment: await svc.updateAmount(
+        req.user!,
+        String(req.params.id),
+        req.body.amount,
+        req.body.reason || undefined,
+        req.ip,
+      ),
+    });
+  },
+);
+
 router.post(
   "/staff/payments/:id/fail",
   requirePermission("payment.manage"),
