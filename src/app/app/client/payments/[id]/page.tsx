@@ -12,7 +12,7 @@ import { apiFetch, ApiRequestError } from "@/lib/api";
 import { toast } from "@/lib/toast";
 import { PAYMENT_STATUS_LABELS, formatDateTime, formatNaira } from "@/lib/format";
 import {
-  Alert, Button, Card, PageLoader, StatusBadge, ChevronLeftIcon, ShieldIcon,
+  Alert, Button, Card, PageLoader, StatusBadge, ChevronLeftIcon,
 } from "@/components/platform/ui-bits";
 
 type Attempt = {
@@ -276,13 +276,6 @@ export default function PaymentDetailPage() {
                 </div>
               )}
 
-              <div className="mt-5 flex items-start gap-2 rounded-lg bg-brand-50 p-4 text-sm text-ink-soft">
-                <ShieldIcon className="mt-0.5 h-4 w-4 shrink-0 text-brand-700" />
-                <p>
-                  Luxury Trust Homes will never ask you to pay into a personal account, or to pay anyone by
-                  phone or message. Payment requests appear only in your account.
-                </p>
-              </div>
             </>
           ) : (
             <p className="text-sm text-ink-muted">
