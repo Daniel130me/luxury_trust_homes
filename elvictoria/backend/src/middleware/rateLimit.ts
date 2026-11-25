@@ -28,6 +28,30 @@ export const paymentLimiter = rateLimit({
   max: 30,
   standardHeaders: true,
   legacyHeaders: false,
+  message: {
+    ok: false,
+    error: { code: "RATE_LIMITED", message: "Too many payment attempts. Please wait a minute and try again." },
+  },
+});
+
+/**
+ * Anonymous public forms (contact form, ticket tracking). Every contact
+ * submission notifies all lawyers, and ticket tracking takes a reference +
+ * email pair, so both need a tight per-IP budget against spam and
+ * enumeration.
+ */
+export const publicFormLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 10,
+  standardHeaders: true,
+  legacyHeaders: false,
+  message: {
+    ok: false,
+    error: {
+      code: "RATE_LIMITED",
+      message: "Too many submissions. Please wait a few minutes and try again.",
+    },
+  },
 });
 
 export const generalLimiter = rateLimit({

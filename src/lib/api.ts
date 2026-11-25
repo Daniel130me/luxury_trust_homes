@@ -97,6 +97,27 @@ async function rawRequest<T>(path: string, options: RequestOptions = {}): Promis
   return payload.data;
 }
 
+/**
+ * Single-flight refresh: dashboards fire several requests at once, and when
+ * the access token expires they all get a 401 together. Sending one
+ * /auth/refresh per request made the backend see the same refresh token
+ * presented several times. Every caller now awaits the same in-flight
+ * refresh instead.
+ */
+let refreshInFlight: Promise<unknown> | null = null;
+
+function refreshSession(): Promise<unknown> {
+  if (!refreshInFlight) {
+    refreshInFlight = rawRequest("/auth/refresh", { method: "POST" }).finally(() => {
+      refreshInFlight = null;
+    });
+  }
+  return refreshInFlight;
+}
+
+/** Auth endpoints whose 401 is a normal answer, never a reason to refresh. */
+const NO_REFRESH_PATHS = new Set(["/auth/login", "/auth/refresh", "/auth/register"]);
+
 /** Request with one automatic refresh-and-retry on session expiry. */
 export async function apiFetch<T>(path: string, options: RequestOptions = {}): Promise<T> {
   try {
@@ -104,10 +125,13 @@ export async function apiFetch<T>(path: string, options: RequestOptions = {}): P
   } catch (err) {
     const isAuthError = err instanceof ApiRequestError && err.status === 401;
     const alreadyRetrying = (options as { _retried?: boolean })._retried;
-    if (isAuthError && !alreadyRetrying) {
+    if (isAuthError && !alreadyRetrying && !NO_REFRESH_PATHS.has(path)) {
+      // The CSRF cookie only exists while a session does, so it tells a
+      // signed-in user whose session just died apart from an anonymous
+      // visitor (whose 401 is expected and must not bounce them to login).
+      const hadSession = readCookie("ev_csrf") !== null;
       try {
-        await rawRequest("/auth/refresh", { method: "POST" });
-        return await rawRequest<T>(path, { ...options, _retried: true });
+        await refreshSession();
       } catch (refreshErr) {
         // Only a genuine auth rejection means the session is truly over.
         // A refresh that failed because the backend/DB is unavailable (5xx)
@@ -116,23 +140,30 @@ export async function apiFetch<T>(path: string, options: RequestOptions = {}): P
         // otherwise every transient outage becomes a redirect loop.
         const sessionDead =
           refreshErr instanceof ApiRequestError &&
-          (refreshErr.status === 401 || refreshErr.status === 400);
-        if (sessionDead && typeof window !== "undefined") {
-          // Never leave the user stuck on a silently broken page — send them
-          // to sign-in, with a return path so they land back where they were.
-          // Auth pages are excluded: a 401 there (e.g. a wrong password) is a
-          // normal outcome.
-          const path = window.location.pathname;
-          const onAuthPage = path.startsWith("/login") || path.startsWith("/register");
-          if (!onAuthPage) {
-            const next = encodeURIComponent(path + window.location.search);
-            window.location.assign(`/login?next=${next}`);
-          }
-        }
+          (refreshErr.status === 401 || refreshErr.status === 403);
+        if (sessionDead && hadSession) redirectToSignIn();
+        throw err;
       }
+      // Refresh worked: retry once. Errors from the retried request are the
+      // request's own outcome (e.g. a 400 validation error) and propagate
+      // unchanged — they say nothing about the session.
+      return rawRequest<T>(path, { ...options, _retried: true });
     }
     throw err;
   }
+}
+
+/**
+ * Send the user to sign-in with a return path so they land back where they
+ * were. Auth pages are excluded: a 401 there is a normal outcome.
+ */
+function redirectToSignIn(): void {
+  if (typeof window === "undefined") return;
+  const current = window.location.pathname;
+  const onAuthPage = current.startsWith("/login") || current.startsWith("/register");
+  if (onAuthPage) return;
+  const next = encodeURIComponent(current + window.location.search);
+  window.location.assign(`/login?next=${next}`);
 }
 
 /** Multipart upload (property photos). Same CSRF handling as JSON calls. */

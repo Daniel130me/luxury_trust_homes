@@ -1,3 +1,4 @@
+import { timingSafeEqual } from "node:crypto";
 import { env } from "../config/env.js";
 
 /**
@@ -30,9 +31,13 @@ type FlwVerifyResponse = {
   };
 };
 
+/** Give up on a gateway call after this long instead of hanging the request. */
+const FLW_TIMEOUT_MS = 15_000;
+
 async function flwFetch<T>(path: string, init?: RequestInit): Promise<T> {
   const res = await fetch(`${BASE_URL}${path}`, {
     ...init,
+    signal: AbortSignal.timeout(FLW_TIMEOUT_MS),
     headers: {
       Authorization: `Bearer ${env.FLW_SECRET_KEY}`,
       "Content-Type": "application/json",
@@ -136,6 +141,10 @@ export async function verifyByReference(txRef: string): Promise<VerifyResult> {
  * Returns false while FLW_WEBHOOK_SECRET is unset (documented follow-up).
  */
 export function webhookSignatureValid(header: string | undefined): boolean {
-  if (!env.FLW_WEBHOOK_SECRET) return false;
-  return header === env.FLW_WEBHOOK_SECRET;
+  if (!env.FLW_WEBHOOK_SECRET || !header) return false;
+  // Constant-time comparison so the secret cannot be guessed byte by byte
+  // from response timing.
+  const expected = Buffer.from(env.FLW_WEBHOOK_SECRET);
+  const received = Buffer.from(header);
+  return expected.length === received.length && timingSafeEqual(expected, received);
 }

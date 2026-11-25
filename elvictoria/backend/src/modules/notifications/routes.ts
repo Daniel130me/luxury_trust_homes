@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { z } from "zod";
 
-import { validate } from "../../middleware/validate.js";
+import { validate, paginationQuery } from "../../middleware/validate.js";
 import { requireAuth } from "../../middleware/auth.js";
 import { ok } from "../../lib/http.js";
 import { prisma } from "../../lib/prisma.js";
@@ -11,10 +11,13 @@ import { prisma } from "../../lib/prisma.js";
  */
 const router = Router();
 
-router.get("/", requireAuth, async (req, res) => {
-  const page = Math.max(1, Number(req.query.page ?? 1));
-  const pageSize = Math.min(50, Math.max(1, Number(req.query.pageSize ?? 20)));
-  const unreadOnly = req.query.unread === "true";
+const listQuery = paginationQuery(20).extend({
+  unread: z.enum(["true", "false"]).optional(),
+});
+
+router.get("/", requireAuth, validate({ query: listQuery }), async (req, res) => {
+  const { page, pageSize, unread: unreadParam } = req.validated!.query as z.infer<typeof listQuery>;
+  const unreadOnly = unreadParam === "true";
 
   const where = {
     userId: req.user!.id,
@@ -43,13 +46,14 @@ router.get("/unread-count", requireAuth, async (req, res) => {
 router.post(
   "/mark-read",
   requireAuth,
-  validate({ body: z.object({ ids: z.array(z.string()).min(1).max(100) }) }),
+  validate({ body: z.object({ ids: z.array(z.string().min(1).max(40)).min(1).max(100) }) }),
   async (req, res) => {
-    await prisma.notification.updateMany({
+    const result = await prisma.notification.updateMany({
       where: { id: { in: req.body.ids }, userId: req.user!.id, readAt: null },
       data: { readAt: new Date() },
     });
-    ok(res, { marked: req.body.ids.length });
+    // Report what actually changed (foreign or already-read ids are skipped).
+    ok(res, { marked: result.count });
   },
 );
 

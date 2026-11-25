@@ -4,6 +4,7 @@ import { ApiError } from "../../lib/errors.js";
 import { can, type AuthUser } from "../../lib/permissions.js";
 import { notifyAllLawyers, notifyMany, audit } from "../../lib/notify.js";
 import { nextReference } from "../../lib/references.js";
+import { deleteMedia } from "../../lib/media-storage.js";
 
 /**
  * Property service — the heart of the catalogue.
@@ -51,6 +52,10 @@ function publicWhere(filters: ListFilters): Prisma.PropertyWhereInput {
     where.category = filters.category;
   }
   if (filters.beds) where.beds = { gte: filters.beds };
+  if (filters.priceMin !== undefined && filters.priceMax !== undefined && filters.priceMin > filters.priceMax) {
+    // Swapped bounds are a user slip, not a request for zero results.
+    [filters.priceMin, filters.priceMax] = [filters.priceMax, filters.priceMin];
+  }
   if (filters.priceMin || filters.priceMax) {
     where.price = {
       ...(filters.priceMin ? { gte: filters.priceMin } : {}),
@@ -139,17 +144,36 @@ export async function getByReference(reference: string, user: AuthUser | null) {
   if (!property) throw ApiError.notFound("Property not found.");
 
   const isOwner = user?.role === "PROVIDER" && property.providerId === user.id;
+  const staffSeeAll = can(user, "listing.viewAll");
   const isPublic = property.status === PropertyStatus.APPROVED && property.availability !== Availability.UNAVAILABLE;
 
-  if (!isPublic) {
-    const staffSeeAll = can(user, "listing.viewAll");
-    if (!staffSeeAll && !isOwner) throw ApiError.notFound("Property not found.");
-    // Providers cannot open other providers' non-public listings.
-    if (isOwner && !isPublic && !staffSeeAll && property.status === PropertyStatus.REJECTED) {
-      // owner may still see it with feedback in their dashboard
-    }
-  }
-  return property;
+  if (!isPublic && !staffSeeAll && !isOwner) throw ApiError.notFound("Property not found.");
+  if (staffSeeAll || isOwner) return property;
+  return toPublicDetail(property);
+}
+
+/**
+ * Fields only the owner and staff may see. The street address exists so
+ * the legal team can identify the property (the public page shows area /
+ * LGA / state); `feedback` holds internal moderation notes; the provider's
+ * identity is withheld because all contact runs through the legal team.
+ */
+function toPublicDetail<T extends {
+  address: string;
+  feedback: string | null;
+  providerId: string;
+  videoKey: string | null;
+  provider: unknown;
+}>(property: T) {
+  const {
+    address: _address,
+    feedback: _feedback,
+    providerId: _providerId,
+    videoKey: _videoKey,
+    provider: _provider,
+    ...publicFields
+  } = property;
+  return publicFields;
 }
 
 // ------------------------------------------------------------ mutations
@@ -378,6 +402,14 @@ export async function submitForReview(propertyId: string, providerId: string) {
   return updated;
 }
 
+/** States from which staff may record an approve / changes / reject decision. */
+const REVIEWABLE_STATUSES: PropertyStatus[] = [
+  PropertyStatus.PENDING_REVIEW,
+  PropertyStatus.APPROVED,
+  PropertyStatus.CHANGES_REQUESTED,
+  PropertyStatus.REJECTED,
+];
+
 export type ReviewDecision =
   | { action: "approve"; note?: string }
   | { action: "request_changes"; note: string }
@@ -392,6 +424,12 @@ export async function reviewByStaff(
 ) {
   const property = await prisma.property.findUnique({ where: { id: propertyId } });
   if (!property) throw ApiError.notFound("Property not found.");
+  // Moderation applies to submitted work only. Drafts have not been sent
+  // in, and suspended/archived listings are handled by adminSetStatus —
+  // approving those here would bypass the archive bookkeeping.
+  if (!REVIEWABLE_STATUSES.includes(property.status)) {
+    throw ApiError.badRequest("This listing is not awaiting a review decision.");
+  }
 
   let nextStatus: PropertyStatus;
   let action: string;
@@ -406,6 +444,10 @@ export async function reviewByStaff(
     if (!decision.note?.trim()) throw ApiError.badRequest("Give a reason for rejecting this listing.");
     nextStatus = PropertyStatus.REJECTED;
     action = "rejected";
+  }
+
+  if (nextStatus === property.status) {
+    throw ApiError.badRequest("The listing already has that review outcome.");
   }
 
   const updated = await prisma.$transaction(async (tx) => {
@@ -677,22 +719,34 @@ export const ARCHIVE_RETENTION_DAYS = 20;
  */
 export async function purgeExpiredArchives() {
   const cutoff = new Date(Date.now() - ARCHIVE_RETENTION_DAYS * 86400_000);
+  // One query returns every expired listing with its enquiry count and the
+  // storage keys of its media (no per-listing N+1 lookups).
   const expired = await prisma.property.findMany({
     where: { status: PropertyStatus.ARCHIVED, archivedAt: { lt: cutoff } },
-    select: { id: true, reference: true },
+    select: {
+      id: true,
+      reference: true,
+      videoKey: true,
+      images: { select: { objectKey: true } },
+      _count: { select: { enquiries: true, cases: true } },
+    },
   });
 
   let purged = 0;
   let kept = 0;
   for (const property of expired) {
-    const referenced = await prisma.enquiry.count({ where: { propertyId: property.id } });
-    if (referenced > 0) {
+    if (property._count.enquiries > 0 || property._count.cases > 0) {
       kept += 1;
       continue;
     }
     try {
       await prisma.property.delete({ where: { id: property.id } });
       purged += 1;
+      // Cascades removed the image rows; remove the stored files too so
+      // purged listings do not leave orphaned media behind. Best-effort:
+      // a storage hiccup must not undo the purge.
+      const keys = [...property.images.map((i) => i.objectKey), ...(property.videoKey ? [property.videoKey] : [])];
+      await Promise.allSettled(keys.map((key) => deleteMedia(key)));
     } catch (err) {
       kept += 1;
       // eslint-disable-next-line no-console
@@ -716,8 +770,16 @@ export async function listSaved(userId: string) {
 }
 
 export async function saveProperty(userId: string, propertyId: string) {
-  const property = await prisma.property.findUnique({ where: { id: propertyId } });
-  if (!property) throw ApiError.notFound("Property not found.");
+  const property = await prisma.property.findUnique({
+    where: { id: propertyId },
+    select: { status: true, availability: true },
+  });
+  // Only publicly visible listings can be saved: the saved list returns
+  // listing details, so saving an arbitrary id must not expose drafts or
+  // rejected listings of other providers.
+  const isPublic =
+    property?.status === PropertyStatus.APPROVED && property.availability !== Availability.UNAVAILABLE;
+  if (!isPublic) throw ApiError.notFound("Property not found.");
   await prisma.savedProperty.upsert({
     where: { userId_propertyId: { userId, propertyId } },
     create: { userId, propertyId },

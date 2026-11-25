@@ -22,6 +22,40 @@ import { env } from "../../config/env.js";
 
 const UNPAID_STATUSES: PaymentStatus[] = ["OUTSTANDING", "AWAITING_PAYMENT", "FAILED"];
 
+/** Due period used when staff give no due date and no setting exists. */
+const DEFAULT_PAYMENT_DUE_DAYS = 7;
+
+/** Admin-managed due period (Settings -> paymentDueDays), with a safe default. */
+async function paymentDueDays(): Promise<number> {
+  const row = await prisma.setting.findUnique({ where: { key: "paymentDueDays" } });
+  const days = Number(row?.value);
+  return Number.isInteger(days) && days > 0 ? days : DEFAULT_PAYMENT_DUE_DAYS;
+}
+
+/**
+ * Move a payment to `next` only if it is still in one of `from`. Returns
+ * false when a concurrent action (webhook, staff confirmation, another tab)
+ * already moved it — callers must then not overwrite that newer state
+ * (e.g. turning a SUCCESSFUL payment back into FAILED).
+ */
+async function transition(
+  db: Prisma.TransactionClient,
+  paymentId: string,
+  from: PaymentStatus[],
+  next: PaymentStatus,
+): Promise<boolean> {
+  const result = await db.payment.updateMany({
+    where: { id: paymentId, status: { in: from } },
+    data: { status: next },
+  });
+  return result.count > 0;
+}
+
+/** Thrown when a concurrent action changed the payment first. */
+function changedConcurrently() {
+  return ApiError.conflict("This payment was updated by another action. Refresh and try again.");
+}
+
 // ------------------------------------------------------- create request
 
 export type CreateRequestInput = {
@@ -44,8 +78,12 @@ export async function createRequest(actor: AuthUser, input: CreateRequestInput, 
     throw ApiError.badRequest("Payments cannot be raised on a closed case.");
   }
 
-  const dueDays = 7; // settings.paymentDueDays — mirrored from the prototype
-  const dueDate = input.dueDate ? new Date(input.dueDate) : new Date(Date.now() + dueDays * 86400_000);
+  const dueDate = input.dueDate
+    ? new Date(input.dueDate)
+    : new Date(Date.now() + (await paymentDueDays()) * 86400_000);
+  if (Number.isNaN(dueDate.getTime())) {
+    throw ApiError.badRequest("Please check the highlighted fields.", { dueDate: "Enter a valid due date." });
+  }
 
   const payment = await prisma.$transaction(async (tx) => {
     const reference = await nextReference(tx as never, "payment");
@@ -170,7 +208,15 @@ export async function updateAmount(
 
   const naira = (v: number) => `₦${v.toLocaleString("en-NG")}`;
   const updated = await prisma.$transaction(async (tx) => {
-    const p = await tx.payment.update({ where: { id: paymentId }, data: { amount } });
+    // Conditional write: the client may report a transfer or pay at the
+    // same moment — never rewrite the amount of a request that just left
+    // the editable states.
+    const changed = await tx.payment.updateMany({
+      where: { id: paymentId, status: { in: EDITABLE_AMOUNT_STATUSES } },
+      data: { amount },
+    });
+    if (changed.count === 0) throw changedConcurrently();
+    const p = await tx.payment.findUniqueOrThrow({ where: { id: paymentId } });
     await tx.caseTimelineEntry.createMany({
       data: [
         {
@@ -256,7 +302,12 @@ export async function deleteRequest(actor: AuthUser, paymentId: string, reason: 
   // PaymentAttempt rows cascade with the payment (schema onDelete: Cascade).
   const naira = `₦${payment.amount.toLocaleString("en-NG")}`;
   await prisma.$transaction(async (tx) => {
-    await tx.payment.delete({ where: { id: paymentId } });
+    // Conditional delete: a payment that was settled or reported in the
+    // meantime is a financial record and must survive.
+    const removed = await tx.payment.deleteMany({
+      where: { id: paymentId, status: { in: DELETABLE_STATUSES } },
+    });
+    if (removed.count === 0) throw changedConcurrently();
     await tx.caseTimelineEntry.createMany({
       data: [
         {
@@ -384,8 +435,12 @@ export async function initiateCard(
     throw new ApiError(502, "GATEWAY", "Could not reach the payment gateway. Please try again.");
   }
 
-  await prisma.$transaction([
-    prisma.paymentAttempt.create({
+  await prisma.$transaction(async (tx) => {
+    // Only move to AWAITING_PAYMENT while still unpaid; a payment settled
+    // or reported meanwhile must keep its newer state.
+    const moved = await transition(tx, payment.id, UNPAID_STATUSES, PaymentStatus.AWAITING_PAYMENT);
+    if (!moved) throw changedConcurrently();
+    await tx.paymentAttempt.create({
       data: {
         paymentId: payment.id,
         method: AttemptMethod.CARD,
@@ -393,12 +448,8 @@ export async function initiateCard(
         processorReference,
         message: "Checkout session opened.",
       },
-    }),
-    prisma.payment.update({
-      where: { id: payment.id },
-      data: { status: PaymentStatus.AWAITING_PAYMENT },
-    }),
-  ]);
+    });
+  });
   await audit({
     actorId: actor.id,
     action: "payment.initiate",
@@ -431,6 +482,11 @@ export async function verifyCardPayment(
     },
   });
   if (!payment) throw ApiError.notFound("Payment not found.");
+  // actor is null only for the signature-checked webhook; a signed-in caller
+  // must be the payer or payment staff (same 404 as "missing" otherwise).
+  if (actor && payment.payerId !== actor.id && !can(actor, "payment.manage")) {
+    throw ApiError.notFound("Payment not found.");
+  }
   if (payment.status === PaymentStatus.SUCCESSFUL) return { status: payment.status };
   if (payment.status === PaymentStatus.PENDING_CONFIRMATION) {
     throw ApiError.badRequest("A bank transfer is awaiting confirmation for this payment.");
@@ -483,12 +539,12 @@ export async function verifyCardPayment(
   }
 
   if (result.status === "failed") {
-    await prisma.$transaction([
-      prisma.payment.update({
-        where: { id: payment.id },
-        data: { status: PaymentStatus.FAILED },
-      }),
-      prisma.paymentAttempt.create({
+    const recorded = await prisma.$transaction(async (tx) => {
+      // A stale failed session must never overwrite a payment that a newer
+      // session (or a confirmed transfer) has already settled.
+      const moved = await transition(tx, payment.id, UNPAID_STATUSES, PaymentStatus.FAILED);
+      if (!moved) return false;
+      await tx.paymentAttempt.create({
         data: {
           paymentId,
           method: AttemptMethod.CARD,
@@ -497,8 +553,8 @@ export async function verifyCardPayment(
           processorTxId: result.processorTxId,
           message: "The payment attempt was unsuccessful.",
         },
-      }),
-      prisma.caseTimelineEntry.create({
+      });
+      await tx.caseTimelineEntry.create({
         data: {
           caseId: payment.case.id,
           actorId: payment.payerId,
@@ -506,8 +562,13 @@ export async function verifyCardPayment(
           visibility: "PARTICIPANTS",
           note: "A payment attempt was unsuccessful. You can try again.",
         },
-      }),
-    ]);
+      });
+      return true;
+    });
+    if (!recorded) {
+      const current = await prisma.payment.findUnique({ where: { id: payment.id }, select: { status: true } });
+      return { status: current?.status ?? payment.status };
+    }
     await notifyMany([
       { userId: payment.case.clientId, category: "payment_failure", title: "Payment attempt failed", body: `A payment attempt on ${payment.reference} failed. You can try again.`, link: `/app/client/payments/${payment.id}` },
       { userId: payment.case.providerId, category: "payment_failure", title: "Payment attempt failed", body: `A payment attempt on ${payment.reference} failed.`, link: `/app/provider/cases/${payment.case.id}` },
@@ -627,12 +688,11 @@ export async function reportTransfer(actor: AuthUser, paymentId: string, note?: 
   }
 
   const processorReference = `${payment.reference}-TR-${Date.now().toString(36)}`;
-  await prisma.$transaction([
-    prisma.payment.update({
-      where: { id: payment.id },
-      data: { status: PaymentStatus.PENDING_CONFIRMATION },
-    }),
-    prisma.paymentAttempt.create({
+  await prisma.$transaction(async (tx) => {
+    // Conditional: a card payment settling at the same moment wins.
+    const moved = await transition(tx, payment.id, UNPAID_STATUSES, PaymentStatus.PENDING_CONFIRMATION);
+    if (!moved) throw changedConcurrently();
+    await tx.paymentAttempt.create({
       data: {
         paymentId: payment.id,
         method: AttemptMethod.TRANSFER,
@@ -640,8 +700,8 @@ export async function reportTransfer(actor: AuthUser, paymentId: string, note?: 
         processorReference,
         message: note?.trim() || "Bank transfer reported by the client.",
       },
-    }),
-    prisma.caseTimelineEntry.create({
+    });
+    await tx.caseTimelineEntry.create({
       data: {
         caseId: payment.case.id,
         actorId: actor.id,
@@ -649,8 +709,8 @@ export async function reportTransfer(actor: AuthUser, paymentId: string, note?: 
         visibility: "PARTICIPANTS",
         note: "Your transfer has been reported and is awaiting confirmation by the legal team.",
       },
-    }),
-  ]);
+    });
+  });
 
   await notifyAllLawyers([
     {
@@ -699,12 +759,19 @@ export async function markFailed(actor: AuthUser, paymentId: string, reason?: st
   if (payment.status === PaymentStatus.SUCCESSFUL) {
     throw ApiError.badRequest("A successful payment cannot be marked failed.");
   }
-  await prisma.$transaction([
-    prisma.payment.update({
-      where: { id: paymentId },
-      data: { status: PaymentStatus.FAILED },
-    }),
-    prisma.caseTimelineEntry.create({
+  if (payment.status === PaymentStatus.FAILED) {
+    throw ApiError.badRequest("This payment is already marked failed.");
+  }
+  await prisma.$transaction(async (tx) => {
+    // Conditional: never flip a payment that settled a moment ago.
+    const moved = await transition(
+      tx,
+      paymentId,
+      [PaymentStatus.OUTSTANDING, PaymentStatus.AWAITING_PAYMENT, PaymentStatus.PENDING_CONFIRMATION],
+      PaymentStatus.FAILED,
+    );
+    if (!moved) throw changedConcurrently();
+    await tx.caseTimelineEntry.create({
       data: {
         caseId: payment.case.id,
         actorId: actor.id,
@@ -712,8 +779,8 @@ export async function markFailed(actor: AuthUser, paymentId: string, reason?: st
         visibility: "PARTICIPANTS",
         note: reason?.trim() || "The payment was cancelled. No funds were taken.",
       },
-    }),
-  ]);
+    });
+  });
   await notifyMany([
     { userId: payment.payerId, category: "payment_failure", title: "Payment cancelled", body: `Payment ${payment.reference} was cancelled. No funds were taken. You can try again.`, link: `/app/client/payments/${paymentId}` },
   ]);
@@ -816,7 +883,7 @@ export async function getById(user: AuthUser, paymentId: string) {
     include: {
       case: {
         select: {
-          id: true, reference: true, status: true,
+          id: true, reference: true, status: true, providerId: true,
           property: { select: { reference: true, title: true, images: { take: 1, orderBy: [{ isCover: "desc" }, { sortOrder: "asc" }], select: { url: true, label: true } } } },
         },
       },
@@ -829,10 +896,8 @@ export async function getById(user: AuthUser, paymentId: string) {
 
   const staff = can(user, "payment.manage");
   const isPayer = payment.payerId === user.id;
-  const isProviderOnCase = await prisma.case.findFirst({
-    where: { id: payment.caseId, providerId: user.id },
-    select: { id: true },
-  });
+  // providerId comes with the case select above — no extra query needed.
+  const isProviderOnCase = payment.case.providerId === user.id;
   if (!staff && !isPayer && !isProviderOnCase) throw ApiError.forbidden();
 
   // Clients never see gateway internals; staff see full attempt history.

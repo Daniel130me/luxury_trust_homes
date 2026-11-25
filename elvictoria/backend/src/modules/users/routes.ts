@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { z } from "zod";
 import { ok, ApiError } from "../../lib/http.js";
-import { validate, phoneSchema } from "../../middleware/validate.js";
+import { validate, phoneSchema, paginationQuery } from "../../middleware/validate.js";
 import { requireAuth, requirePermission } from "../../middleware/auth.js";
 import { prisma } from "../../lib/prisma.js";
 import { audit } from "../../lib/notify.js";
@@ -48,11 +48,16 @@ router.patch("/me", requireAuth, validate({ body: updateProfileSchema }), async 
  * GET /users (staff, user.viewAll)
  * Search + role filter + pagination. Contact details are visible to staff.
  */
-router.get("/", requirePermission("user.viewAll"), async (req, res) => {
-  const page = Math.max(1, Number(req.query.page ?? 1));
-  const pageSize = Math.min(50, Math.max(1, Number(req.query.pageSize ?? 20)));
-  const search = String(req.query.search ?? "").trim();
-  const role = String(req.query.role ?? "").toUpperCase();
+const userListQuery = paginationQuery(20).extend({
+  search: z.string().trim().max(80).optional(),
+  role: z.string().trim().max(20).optional(),
+});
+
+router.get("/", requirePermission("user.viewAll"), validate({ query: userListQuery }), async (req, res) => {
+  const q = req.validated!.query as z.infer<typeof userListQuery>;
+  const { page, pageSize } = q;
+  const search = q.search ?? "";
+  const role = (q.role ?? "").toUpperCase();
 
   const where = {
     AND: [
@@ -126,6 +131,10 @@ router.patch(
     if (!target) throw ApiError.notFound("User not found.");
     if (target.role === "LAWYER") {
       throw ApiError.forbidden("Lawyer accounts are managed outside the platform.");
+    }
+
+    if (target.status === req.body.status) {
+      throw ApiError.badRequest(`This account is already ${req.body.status === "ACTIVE" ? "active" : "deactivated"}.`);
     }
 
     const user = await prisma.user.update({

@@ -2,9 +2,11 @@ import type { NextFunction, Request, Response } from "express";
 import jwt from "jsonwebtoken";
 import { env } from "../config/env.js";
 import { ApiError } from "../lib/errors.js";
-import type { AuthUser } from "../lib/permissions.js";
+import { can, type AuthUser } from "../lib/permissions.js";
 import { prisma } from "../lib/prisma.js";
 import { ACCESS_COOKIE, CSRF_COOKIE } from "./cookies.js";
+
+type AccessTokenPayload = { sub?: unknown };
 
 /**
  * Authentication middleware.
@@ -36,7 +38,10 @@ export async function attachUser(
   if (!token) return next();
 
   try {
-    const payload = jwt.verify(token, env.JWT_SECRET) as { sub: string };
+    // Pin the algorithm so a token can never pick its own verification
+    // scheme (algorithm-confusion attacks).
+    const payload = jwt.verify(token, env.JWT_SECRET, { algorithms: ["HS256"] }) as AccessTokenPayload;
+    if (typeof payload.sub !== "string" || payload.sub.length === 0) return next();
     const user = await prisma.user.findUnique({
       where: { id: payload.sub },
       select: {
@@ -78,7 +83,6 @@ export function requireAuth(req: Request, _res: Response, next: NextFunction) {
 export function requirePermission(...permissions: string[]) {
   return (req: Request, _res: Response, next: NextFunction) => {
     if (!req.user) return next(ApiError.unauthorized());
-    const { can } = require("../lib/permissions.js") as typeof import("../lib/permissions.js");
     const allowed = permissions.some((p) => can(req.user, p));
     if (!allowed) next(ApiError.forbidden());
     else next();

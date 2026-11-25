@@ -4,7 +4,8 @@ import { ok } from "../../lib/http.js";
 import { requireAuth, requirePermission } from "../../middleware/auth.js";
 import { validate } from "../../middleware/validate.js";
 import { prisma } from "../../lib/prisma.js";
-import { audit } from "../../lib/notify.js";
+import { audit, notifyAllLawyers } from "../../lib/notify.js";
+import { publicFormLimiter } from "../../middleware/rateLimit.js";
 import { staffListingsSummary } from "../properties/routes.js";
 
 /**
@@ -295,17 +296,17 @@ router.put(
  */
 router.post(
   "/contact",
+  publicFormLimiter, // every submission notifies all lawyers — keep spam out
   validate({
     body: z.object({
       name: z.string().trim().min(2).max(80),
-      email: z.string().trim().toLowerCase().email("Enter a valid email address."),
+      email: z.string().trim().toLowerCase().max(254).email("Enter a valid email address."),
       subject: z.string().trim().min(3).max(140),
       message: z.string().trim().min(10).max(4000),
     }),
   }),
   async (req, res) => {
     const { name, email, subject, message } = req.body;
-    const { notifyAllLawyers } = await import("../../lib/notify.js");
     await notifyAllLawyers([
       {
         category: "admin_alert",

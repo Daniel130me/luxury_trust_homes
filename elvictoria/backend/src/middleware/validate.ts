@@ -55,10 +55,18 @@ export function validate(schemas: {
 }
 
 /** Shared primitives reused by several module schemas. */
-export const emailSchema = z.string().trim().toLowerCase().email("Enter a valid email address.");
+export const emailSchema = z.string().trim().toLowerCase().max(254).email("Enter a valid email address.");
+
+/**
+ * bcrypt only uses the first 72 bytes of a password; a generous cap keeps
+ * multi-megabyte "passwords" from being hashed (CPU exhaustion) while still
+ * allowing long passphrases.
+ */
+export const PASSWORD_MAX_LENGTH = 128;
 export const passwordSchema = z
   .string()
   .min(8, "Use at least 8 characters.")
+  .max(PASSWORD_MAX_LENGTH, `Use at most ${PASSWORD_MAX_LENGTH} characters.`)
   .regex(/[A-Za-z]/, "Include at least one letter.")
   .regex(/[0-9]/, "Include at least one number.");
 export const phoneSchema = z
@@ -70,3 +78,13 @@ export const phoneSchema = z
 export const idSchema = z.string().min(1);
 export const pageSchema = z.coerce.number().int().min(1).default(1);
 export const pageSizeSchema = z.coerce.number().int().min(1).max(50).default(12);
+
+/**
+ * Standard list query: page + pageSize. Non-numeric or out-of-range values
+ * are rejected with a 400 instead of reaching Prisma as NaN (a 500).
+ */
+export const paginationQuery = (defaultPageSize = 20) =>
+  z.object({
+    page: z.coerce.number().int().min(1).max(10_000).default(1),
+    pageSize: z.coerce.number().int().min(1).max(50).default(defaultPageSize),
+  });

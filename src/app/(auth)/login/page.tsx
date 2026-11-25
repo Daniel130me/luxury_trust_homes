@@ -9,7 +9,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { apiFetch, ApiRequestError } from "@/lib/api";
-import { useAuth, resolvePostAuthTarget, type SessionUser } from "@/lib/auth";
+import { useAuth, resolvePostAuthTarget, safeInternalPath, type SessionUser } from "@/lib/auth";
 import { AuthShell, Button, Field, Input, Alert, EyeIcon, EyeOffIcon } from "@/components/platform/ui-bits";
 
 export default function LoginPage() {
@@ -27,8 +27,7 @@ export default function LoginPage() {
 
   function safeNext(): string {
     // Only allow internal redirects (never an off-site target).
-    if (next && next.startsWith("/") && !next.startsWith("//")) return next;
-    return "";
+    return safeInternalPath(next) ?? "";
   }
 
   async function submit(event: React.FormEvent) {

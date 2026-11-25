@@ -17,10 +17,12 @@ export default function ContactPage() {
     setSubmitting(true);
     setError(null);
     try {
-      const res = await apiFetch<{ message: string }>("/contact", { body: form });
+      // Must be a POST: a GET with a body is rejected by fetch() itself, so
+      // the form previously failed before any request was sent.
+      await apiFetch<{ message: string }>("/contact", { method: "POST", body: form });
+      setErrors({});
       setSent(true);
       setForm({ name: "", email: "", subject: "", message: "" });
-      void res;
     } catch (err) {
       const fields = (err as { fields?: Record<string, string> }).fields;
       if (fields) setErrors(fields);

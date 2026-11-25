@@ -1,7 +1,8 @@
 import { Router } from "express";
 import { z } from "zod";
 import { ok, ApiError } from "../../lib/http.js";
-import { validate, pageSchema, pageSizeSchema } from "../../middleware/validate.js";
+import { validate, pageSchema, pageSizeSchema, paginationQuery } from "../../middleware/validate.js";
+import { can } from "../../lib/permissions.js";
 import { requireAuth, requirePermission } from "../../middleware/auth.js";
 import { prisma } from "../../lib/prisma.js";
 import { notifyMany, audit } from "../../lib/notify.js";
@@ -76,13 +77,20 @@ router.get(
   },
 );
 
-router.get("/staff/matters", requirePermission("case.viewAll"), async (req, res) => {
-  const q = req.query as Record<string, string>;
+const mattersQuery = paginationQuery(20).extend({
+  view: z.enum(["all", "open", "closed"]).optional(),
+  status: z.string().trim().max(30).optional(),
+  lawyerId: z.string().trim().max(40).optional(),
+  search: z.string().trim().max(80).optional(),
+});
+
+router.get("/staff/matters", requirePermission("case.viewAll"), validate({ query: mattersQuery }), async (req, res) => {
+  const q = req.validated!.query as z.infer<typeof mattersQuery>;
   const lawyerId =
     q.lawyerId === "me" ? req.user!.id : (q.lawyerId || undefined);
   ok(res, await svc.listCasesForStaff({
-    page: Math.max(1, Number(q.page ?? 1)),
-    pageSize: Math.min(50, Math.max(1, Number(q.pageSize ?? 20))),
+    page: q.page,
+    pageSize: q.pageSize,
     view: q.view,
     status: q.status || undefined,
     lawyerId,
@@ -133,7 +141,7 @@ router.get("/cases/:id", requireAuth, async (req, res) => {
   });
   if (!kase) throw ApiError.notFound("Case not found.");
 
-  const staff = (await import("../../lib/permissions.js")).can(req.user, "case.viewAll");
+  const staff = can(req.user, "case.viewAll");
   const isClient = kase.clientId === req.user!.id;
   const isProvider = kase.providerId === req.user!.id;
   if (!staff && !isClient && !isProvider) throw ApiError.forbidden();
@@ -263,6 +271,9 @@ router.post(
       },
     });
     if (!kase) throw ApiError.notFound("Case not found.");
+    if (kase.status === "CANCELLED") {
+      throw ApiError.badRequest("Contact details cannot be shared on a cancelled case.");
+    }
 
     const { party, note } = req.body as { party: "client" | "provider"; note?: string };
     await prisma.contactDisclosure.create({

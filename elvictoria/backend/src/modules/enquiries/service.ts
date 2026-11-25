@@ -179,11 +179,17 @@ export async function listForStaff(
   }
   if (filters.search) {
     const s = filters.search;
-    where.OR = [
-      { reference: { contains: s, mode: "insensitive" } },
-      { message: { contains: s, mode: "insensitive" } },
-      { property: { is: { title: { contains: s, mode: "insensitive" } } } },
-      { client: { is: { name: { contains: s, mode: "insensitive" } } } },
+    // AND-combined so a search inside the "attention" view keeps that
+    // view's own OR filter instead of overwriting it.
+    where.AND = [
+      {
+        OR: [
+          { reference: { contains: s, mode: "insensitive" } },
+          { message: { contains: s, mode: "insensitive" } },
+          { property: { is: { title: { contains: s, mode: "insensitive" } } } },
+          { client: { is: { name: { contains: s, mode: "insensitive" } } } },
+        ],
+      },
     ];
   }
 
@@ -219,6 +225,9 @@ export async function openCase(enquiryId: string, actor: AuthUser, ip?: string) 
   if (!enquiry) throw ApiError.notFound("Enquiry not found.");
   const existingCase = await prisma.case.findUnique({ where: { enquiryId } });
   if (existingCase) throw ApiError.conflict("A transaction case is already open for this enquiry.");
+  if (!OPEN_STATUSES.includes(enquiry.status)) {
+    throw ApiError.badRequest("This enquiry is closed.");
+  }
   if (!enquiry.lawyerId) {
     // No lawyer could be auto-assigned at creation (e.g. none was active).
     // The lawyer opening the case takes it over — otherwise nothing could
@@ -322,8 +331,11 @@ export async function updateStatus(
     include: { enquiry: { select: { id: true, reference: true } } },
   });
   if (!kase) throw ApiError.notFound("Case not found.");
-  if (["COMPLETED", "CANCELLED"].includes(kase.status) && next !== kase.status) {
+  if (["COMPLETED", "CANCELLED"].includes(kase.status)) {
     throw ApiError.badRequest("This case is closed. Cancelled and completed cases cannot be reopened from here.");
+  }
+  if (next === kase.status) {
+    throw ApiError.badRequest("The case already has that status.");
   }
 
   const statusLabel = (s: EnquiryStatus) =>
@@ -436,7 +448,11 @@ export async function postMessage(
   if (!staff && thread !== (isClient ? Thread.CLIENT : Thread.PROVIDER)) {
     throw ApiError.forbidden();
   }
-  if (staff && thread === Thread.INTERNAL && !user) throw ApiError.forbidden();
+  // Writing to a participant thread speaks for the legal team, which needs
+  // case.manage (lawyers); observing staff (support) may add internal notes.
+  if (staff && thread !== Thread.INTERNAL && !can(user, "case.manage")) {
+    throw ApiError.forbidden("Only the handling legal team can message participants.");
+  }
 
   const trimmed = body.trim();
   if (!trimmed) throw ApiError.badRequest("Write a message before sending.");

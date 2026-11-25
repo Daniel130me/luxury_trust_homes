@@ -2,7 +2,7 @@ import { Router } from "express";
 import { prisma } from "../../lib/prisma.js";
 import { z } from "zod";
 import { ok, ApiError } from "../../lib/http.js";
-import { validate, pageSchema, pageSizeSchema } from "../../middleware/validate.js";
+import { validate, pageSchema, pageSizeSchema, paginationQuery } from "../../middleware/validate.js";
 import { requireAuth, requirePermission } from "../../middleware/auth.js";
 import { paymentLimiter } from "../../middleware/rateLimit.js";
 import { can } from "../../lib/permissions.js";
@@ -24,11 +24,17 @@ const router = Router();
 
 // ------------------------------------------------------------- client
 
-router.get("/client/payments", requireAuth, async (req, res) => {
-  const q = (req.validated?.query ?? {}) as Record<string, string>;
+const clientListQuery = paginationQuery(20).extend({
+  status: z.string().trim().max(30).optional(),
+});
+
+// The query used to be read from req.validated without a validate() step,
+// so page/pageSize/status were silently ignored.
+router.get("/client/payments", requireAuth, validate({ query: clientListQuery }), async (req, res) => {
+  const q = req.validated!.query as z.infer<typeof clientListQuery>;
   ok(res, await svc.listForClient(req.user!.id, {
-    page: Math.max(1, Number(q.page ?? 1)),
-    pageSize: Math.min(50, Math.max(1, Number(q.pageSize ?? 20))),
+    page: q.page,
+    pageSize: q.pageSize,
     status: q.status || undefined,
   }));
 });
@@ -63,7 +69,7 @@ router.post(
   requireAuth,
   paymentLimiter,
   validate({
-    body: z.object({ processorReference: z.string().min(4) }),
+    body: z.object({ processorReference: z.string().min(4).max(80) }),
   }),
   async (req, res) => {
     const result = await svc.verifyCardPayment(String(req.params.id), req.body.processorReference, req.user, req.ip);
@@ -134,7 +140,15 @@ router.post(
       caseId: z.string().min(1),
       amount: z.coerce.number().int().min(1, "Enter an amount greater than zero.").max(2_000_000_000),
       description: z.string().trim().min(3, "Describe the payment, e.g. “First year's rent”.").max(200),
-      dueDate: z.string().datetime({ offset: true }).optional().or(z.string().min(4).max(40)),
+      // Any parseable date string (date inputs send "YYYY-MM-DD"); garbage
+      // used to become an Invalid Date and crash the insert with a 500.
+      dueDate: z
+        .string()
+        .trim()
+        .max(40)
+        .refine((v) => !Number.isNaN(Date.parse(v)), "Enter a valid due date.")
+        .optional()
+        .or(z.literal("")),
     }),
   }),
   async (req, res) => {

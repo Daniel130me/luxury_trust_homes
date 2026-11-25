@@ -1,12 +1,12 @@
 import { Router, type Request } from "express";
 import { z } from "zod";
 import { ok } from "../../lib/http.js";
-import { validate, emailSchema, passwordSchema, phoneSchema } from "../../middleware/validate.js";
+import { validate, emailSchema, passwordSchema, phoneSchema, PASSWORD_MAX_LENGTH } from "../../middleware/validate.js";
 import { requireAuth } from "../../middleware/auth.js";
 import { authLimiter } from "../../middleware/rateLimit.js";
 import { prisma } from "../../lib/prisma.js";
 import { isProd } from "../../config/env.js";
-import { SIGNUP_DRAFT_COOKIE } from "../../middleware/cookies.js";
+import { REFRESH_COOKIE, SIGNUP_DRAFT_COOKIE } from "../../middleware/cookies.js";
 import * as svc from "./service.js";
 
 /**
@@ -122,7 +122,7 @@ router.post(
   validate({
     body: z.object({
       email: emailSchema,
-      password: z.string().min(1, "Enter your password."),
+      password: z.string().min(1, "Enter your password.").max(PASSWORD_MAX_LENGTH),
     }),
   }),
   async (req, res) => {
@@ -139,7 +139,7 @@ router.post(
 // CSRF exempt (bootstrap endpoint) — see middleware/csrf.ts.
 router.post("/refresh", async (req, res) => {
   const user = await svc.refresh(
-    req.cookies?.["ev_refresh"] as string | undefined,
+    req.cookies?.[REFRESH_COOKIE] as string | undefined,
     res,
     requestContext(req),
   );
@@ -147,7 +147,7 @@ router.post("/refresh", async (req, res) => {
 });
 
 router.post("/logout", async (req, res) => {
-  await svc.logout(req.cookies?.["ev_refresh"] as string | undefined, res);
+  await svc.logout(req.cookies?.[REFRESH_COOKIE] as string | undefined, res);
   ok(res, { signedOut: true });
 });
 
@@ -193,7 +193,7 @@ router.post(
   "/reset-password",
   authLimiter,
   validate({
-    body: z.object({ token: z.string().min(10), password: passwordSchema }),
+    body: z.object({ token: z.string().min(10).max(200), password: passwordSchema }),
   }),
   async (req, res) => {
     await svc.resetPassword(req.body.token, req.body.password);
@@ -207,12 +207,12 @@ router.post(
   requireAuth,
   validate({
     body: z.object({
-      current: z.string().min(1, "Enter your current password."),
+      current: z.string().min(1, "Enter your current password.").max(PASSWORD_MAX_LENGTH),
       password: passwordSchema,
     }),
   }),
   async (req, res) => {
-    await svc.changePassword(req.user!.id, req.body.current, req.body.password);
+    await svc.changePassword(req.user!.id, req.body.current, req.body.password, res, requestContext(req));
     ok(res, { message: "Your password has been changed." });
   },
 );

@@ -3,6 +3,7 @@ import { z } from "zod";
 import { ok, ApiError } from "../../lib/http.js";
 import { validate, phoneSchema, pageSchema, pageSizeSchema } from "../../middleware/validate.js";
 import { requireAuth, requirePermission } from "../../middleware/auth.js";
+import { publicFormLimiter } from "../../middleware/rateLimit.js";
 import { prisma } from "../../lib/prisma.js";
 import { notifyMany, notifyAllLawyers, audit } from "../../lib/notify.js";
 import { nextReference } from "../../lib/references.js";
@@ -27,10 +28,11 @@ const PRIORITIES = ["LOW", "MEDIUM", "HIGH", "URGENT"] as const;
 // the ticket must match, so knowing a reference alone reveals nothing.
 router.get(
   "/track",
+  publicFormLimiter, // reference + email guessing must stay slow
   validate({
     query: z.object({
       reference: z.string().trim().min(6).max(24),
-      email: z.string().trim().email("Enter the email address you used on the ticket."),
+      email: z.string().trim().max(254).email("Enter the email address you used on the ticket."),
     }),
   }),
   async (req, res) => {

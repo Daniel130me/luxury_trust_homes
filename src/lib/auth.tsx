@@ -137,10 +137,30 @@ export function resolvePostAuthTarget(
   role: Role | undefined | null,
   next: string | null | undefined,
 ): string {
-  if (next && next.startsWith("/") && !next.startsWith("//") && canAccessArea(role, next)) {
-    return next;
-  }
+  const safe = safeInternalPath(next);
+  if (safe && canAccessArea(role, safe)) return safe;
   return workspaceHome(role);
+}
+
+/**
+ * Return `candidate` only if it is a same-site path, else null.
+ *
+ * A plain `startsWith("/") && !startsWith("//")` check is not enough:
+ * browsers read "/\evil.com" as "//evil.com" (an off-site URL), and tabs or
+ * newlines inside the value are stripped before parsing. Resolving against
+ * a fixed dummy origin and comparing origins catches every such variant.
+ */
+export function safeInternalPath(candidate: string | null | undefined): string | null {
+  if (!candidate || !candidate.startsWith("/")) return null;
+  if (/[\\\u0000-\u001f\u007f]/.test(candidate)) return null;
+  const base = "https://internal.invalid";
+  try {
+    const resolved = new URL(candidate, base);
+    if (resolved.origin !== base) return null;
+    return `${resolved.pathname}${resolved.search}${resolved.hash}`;
+  } catch {
+    return null;
+  }
 }
 
 export function roleLabel(role: Role | undefined | null, providerKind?: string | null): string {

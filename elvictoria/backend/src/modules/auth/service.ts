@@ -7,6 +7,7 @@ import { ApiError } from "../../lib/errors.js";
 import { env, isProd } from "../../config/env.js";
 import { ACCESS_COOKIE, REFRESH_COOKIE } from "../../middleware/cookies.js";
 import { issueCsrfToken } from "../../middleware/csrf.js";
+import { CSRF_COOKIE } from "../../middleware/cookies.js";
 import { notifyMany } from "../../lib/notify.js";
 import type { AuthUser } from "../../lib/permissions.js";
 
@@ -22,6 +23,26 @@ import type { AuthUser } from "../../lib/permissions.js";
 
 const BCRYPT_ROUNDS = 10;
 
+/** Password reset links stay valid for one hour. */
+const RESET_TOKEN_TTL_MS = 60 * 60 * 1000;
+
+/**
+ * Refresh-token reuse grace window. Two browser tabs (or two parallel
+ * requests) that refresh at the same moment both present the same token;
+ * the second one finds it already rotated. Inside this window that is
+ * treated as a benign race (plain 401 — the browser already holds the new
+ * cookies from the winner) instead of a stolen-token replay that revokes
+ * every session of the user.
+ */
+const REFRESH_REUSE_GRACE_MS = 30 * 1000;
+
+/**
+ * Pre-computed bcrypt hash compared against when the email is unknown, so
+ * a login for a non-existent account costs the same time as a wrong
+ * password and response timing cannot be used to enumerate accounts.
+ */
+const DUMMY_PASSWORD_HASH = bcrypt.hashSync("timing-equaliser-not-a-real-password", BCRYPT_ROUNDS);
+
 export function hashPassword(plain: string): Promise<string> {
   return bcrypt.hash(plain, BCRYPT_ROUNDS);
 }
@@ -36,6 +57,7 @@ function sha256(value: string): string {
 
 function signAccessToken(userId: string): string {
   return jwt.sign({ sub: userId }, env.JWT_SECRET, {
+    algorithm: "HS256",
     expiresIn: env.JWT_ACCESS_TTL,
   });
 }
@@ -81,6 +103,7 @@ async function startSession(
 export async function clearSession(res: Response): Promise<void> {
   res.clearCookie(ACCESS_COOKIE, { path: "/" });
   res.clearCookie(REFRESH_COOKIE, { path: "/" });
+  res.clearCookie(CSRF_COOKIE, { path: "/" });
 }
 
 // ------------------------------------------------------------- register
@@ -166,8 +189,10 @@ export async function login(
     where: { email: email.trim().toLowerCase() },
   });
 
-  // Same generic message for unknown email and wrong password.
-  if (!user || !(await verifyPassword(password, user.passwordHash))) {
+  // Same generic message — and the same bcrypt cost — for an unknown email
+  // and a wrong password.
+  const passwordOk = await verifyPassword(password, user?.passwordHash ?? DUMMY_PASSWORD_HASH);
+  if (!user || !passwordOk) {
     throw new ApiError(
       401,
       "INVALID_CREDENTIALS",
@@ -219,32 +244,37 @@ export async function refresh(
   });
 
   if (!session || session.expiresAt < new Date()) {
-    clearSession(res);
+    await clearSession(res);
     throw ApiError.unauthorized("Session expired. Please sign in again.");
   }
   if (session.revokedAt) {
-    // Refresh token replay — revoke everything for this user.
-    await prisma.session.updateMany({
-      where: { userId: session.userId, revokedAt: null },
-      data: { revokedAt: new Date() },
-    });
-    clearSession(res);
+    // A just-rotated token is a concurrent refresh (another tab won the
+    // race), not an attack — reject it without touching other sessions.
+    const revokedRecently = Date.now() - session.revokedAt.getTime() < REFRESH_REUSE_GRACE_MS;
+    if (!revokedRecently) {
+      // Refresh token replay — revoke everything for this user.
+      await revokeAllSessions(session.userId);
+      await clearSession(res);
+    }
     throw ApiError.unauthorized("Session expired. Please sign in again.");
   }
   if (session.user.status !== "ACTIVE") {
-    clearSession(res);
+    await clearSession(res);
     throw ApiError.forbidden(
       "This account has been deactivated. Please contact Elvictoria support.",
     );
   }
 
+  // Claim the presented token atomically: of two concurrent refreshes only
+  // one may rotate it, otherwise both would mint a new session.
   const newRefreshToken = randomBytes(48).toString("base64url");
-  await prisma.$transaction([
-    prisma.session.update({
-      where: { id: session.id },
+  const claimed = await prisma.$transaction(async (tx) => {
+    const claim = await tx.session.updateMany({
+      where: { id: session.id, revokedAt: null },
       data: { revokedAt: new Date() },
-    }),
-    prisma.session.create({
+    });
+    if (claim.count === 0) return false;
+    await tx.session.create({
       data: {
         userId: session.userId,
         tokenHash: sha256(newRefreshToken),
@@ -252,8 +282,13 @@ export async function refresh(
         ip: context.ip ?? null,
         userAgent: context.userAgent?.slice(0, 200) ?? null,
       },
-    }),
-  ]);
+    });
+    return true;
+  });
+  if (!claimed) {
+    // Lost the race to a parallel refresh: the winner already set cookies.
+    throw ApiError.unauthorized("Session expired. Please sign in again.");
+  }
 
   setAuthCookies(res, signAccessToken(session.userId), newRefreshToken);
   issueCsrfToken(res);
@@ -296,13 +331,21 @@ export async function requestPasswordReset(email: string): Promise<void> {
   if (!user || user.status !== "ACTIVE") return;
 
   const token = randomBytes(32).toString("base64url");
-  await prisma.passwordReset.create({
-    data: {
-      userId: user.id,
-      tokenHash: sha256(token),
-      expiresAt: new Date(Date.now() + 60 * 60 * 1000), // 1 hour
-    },
-  });
+  // Only the newest link works: older unused links for the account are
+  // invalidated so a leaked earlier email cannot be used later.
+  await prisma.$transaction([
+    prisma.passwordReset.updateMany({
+      where: { userId: user.id, usedAt: null },
+      data: { usedAt: new Date() },
+    }),
+    prisma.passwordReset.create({
+      data: {
+        userId: user.id,
+        tokenHash: sha256(token),
+        expiresAt: new Date(Date.now() + RESET_TOKEN_TTL_MS),
+      },
+    }),
+  ]);
 
   const link = `${env.FRONTEND_URL}/reset-password?token=${token}`;
   // NON-STANDARD: email delivery is not configured yet, so the reset link
@@ -323,27 +366,31 @@ export async function resetPassword(token: string, newPassword: string): Promise
   }
 
   const passwordHash = await hashPassword(newPassword);
-  await prisma.$transaction([
-    prisma.passwordReset.update({
-      where: { id: record.id },
+  await prisma.$transaction(async (tx) => {
+    // Conditional claim: two concurrent submissions of the same link must
+    // not both succeed (single-use guarantee).
+    const claim = await tx.passwordReset.updateMany({
+      where: { id: record.id, usedAt: null },
       data: { usedAt: new Date() },
-    }),
-    prisma.user.update({
-      where: { id: record.userId },
-      data: { passwordHash },
-    }),
+    });
+    if (claim.count === 0) {
+      throw ApiError.badRequest("This reset link is invalid or has expired. Please request a new one.");
+    }
+    await tx.user.update({ where: { id: record.userId }, data: { passwordHash } });
     // Password change invalidates every existing session.
-    prisma.session.updateMany({
+    await tx.session.updateMany({
       where: { userId: record.userId, revokedAt: null },
       data: { revokedAt: new Date() },
-    }),
-  ]);
+    });
+  });
 }
 
 export async function changePassword(
   userId: string,
   currentPassword: string,
   newPassword: string,
+  res: Response,
+  context: { ip?: string; userAgent?: string },
 ): Promise<void> {
   const user = await prisma.user.findUnique({ where: { id: userId } });
   if (!user || !(await verifyPassword(currentPassword, user.passwordHash))) {
@@ -359,6 +406,9 @@ export async function changePassword(
       data: { revokedAt: new Date() },
     }),
   ]);
+  // Every other device is signed out; this one continues on a fresh
+  // session instead of being logged out when its access token expires.
+  await startSession(userId, res, context);
 }
 
 /** Revoke every refresh token (used when staff deactivate an account). */

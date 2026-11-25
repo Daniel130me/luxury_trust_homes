@@ -68,12 +68,16 @@ export async function updateTicketAsStaff(
   const ticket = await prisma.ticket.findUnique({ where: { id: ticketId } });
   if (!ticket) return null;
 
+  // Only notify on a real status change; re-saving the same status (or a
+  // priority-only change) must not spam the owner with "reopened" notices.
+  const statusChanged = patch.status !== undefined && patch.status !== ticket.status;
+
   const updated = await prisma.ticket.update({
     where: { id: ticket.id },
     data: patch,
   });
 
-  const notice = patch.status ? STATUS_NOTICES[patch.status] : null;
+  const notice = statusChanged && patch.status ? STATUS_NOTICES[patch.status] : null;
   if (notice && ticket.userId) {
     await notifyMany([
       {
