@@ -284,7 +284,6 @@ export default function PropertyDetailPage() {
           <section className="mt-8">
             <h2 className="text-lg font-semibold text-ink-strong">Property details</h2>
             <dl className="mt-3 grid grid-cols-2 gap-x-6 gap-y-3 rounded-xl border border-brand-100/80 bg-white p-5 sm:grid-cols-3">
-              <Detail term="Reference" value={property.reference} />
               <Detail term="Type" value={categoryLabel(property.category)} />
               <Detail term="Listing" value={property.listingType === "SALE" ? "For sale" : "For rent"} />
               <Detail term="Availability" value={AVAILABILITY_LABELS[property.availability] ?? property.availability} />
@@ -312,8 +311,6 @@ export default function PropertyDetailPage() {
               {formatNaira(property.price)}
               {property.listingType === "RENT" && <span className="text-sm font-medium text-ink-muted"> / year</span>}
             </p>
-            <p className="mt-1 text-xs text-ink-muted">Ref. {property.reference}</p>
-
             <button
               onClick={() => (user ? setEnquiryOpen(true) : router.push(`/login?next=/properties/${property.reference}`))}
               className="mt-4 w-full rounded-lg bg-brand-700 px-4 py-3 text-sm font-semibold text-white transition-colors hover:bg-brand-800"
@@ -363,9 +360,7 @@ export default function PropertyDetailPage() {
                 <div className="flex items-start justify-between gap-3">
                   <div>
                     <h3 className="font-serif text-xl text-ink-strong">Enquire about this property</h3>
-                    <p className="mt-0.5 text-sm text-ink-muted">
-                      {property.title} · {property.reference}
-                    </p>
+                    <p className="mt-0.5 text-sm text-ink-muted">{property.title}</p>
                   </div>
                   <button onClick={() => setEnquiryOpen(false)} aria-label="Close" className="text-ink-muted hover:text-ink-strong">
                     ✕

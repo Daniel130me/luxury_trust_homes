@@ -5,7 +5,7 @@
  * Markup and classes are lifted 1:1 from the prototype's rendered card:
  * 16/10 cover with brand-50 placeholder, wine listing chip, round save
  * button, gold category eyebrow, semibold title, pin location row,
- * bed/bath/size feature icons, price + reference footer.
+ * bed/bath/size feature icons, and price footer.
  */
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -142,7 +142,6 @@ export function PropertyCard({
             {formatNaira(property.price)}
             {property.listingType === "RENT" && <span className="text-xs font-medium text-ink-muted"> / year</span>}
           </p>
-          <span className="text-xs text-ink-muted">{property.reference}</span>
         </div>
       </div>
     </Link>
