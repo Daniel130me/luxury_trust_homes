@@ -236,7 +236,12 @@ router.delete("/property-image/:imageId", requireAuth, async (req, res) => {
 
   // Promote the next photo only when the cover itself was removed —
   // promoting unconditionally gave listings two cover photos.
-  if (image.isCover) {
+  // The extra check covers a cover change that landed between reading this
+  // photo and deleting it (e.g. a second tab): never create a second cover.
+  const coverRemains =
+    image.isCover &&
+    (await prisma.propertyImage.count({ where: { propertyId: image.propertyId, isCover: true } })) > 0;
+  if (image.isCover && !coverRemains) {
     const next = await prisma.propertyImage.findFirst({
       where: { propertyId: image.propertyId },
       orderBy: [{ sortOrder: "asc" }],
@@ -246,6 +251,36 @@ router.delete("/property-image/:imageId", requireAuth, async (req, res) => {
     }
   }
   ok(res, { deleted: true });
+});
+
+/**
+ * Make one photo the listing's cover. Exactly one cover per listing: the
+ * old cover is cleared and the new one set in a single transaction, so a
+ * failure never leaves the listing with zero or two covers.
+ */
+router.patch("/property-image/:imageId/cover", requireAuth, async (req, res) => {
+  requireProvider(req.user!.role);
+  const image = await prisma.propertyImage.findUnique({
+    where: { id: String(req.params.imageId) },
+    include: { property: { select: { providerId: true, status: true } } },
+  });
+  if (!image || image.property.providerId !== req.user!.id) {
+    throw ApiError.notFound("Photo not found.");
+  }
+  if (LOCKED_STATUSES.includes(image.property.status)) {
+    throw ApiError.forbidden("This listing can no longer be edited.");
+  }
+
+  if (!image.isCover) {
+    await prisma.$transaction([
+      prisma.propertyImage.updateMany({
+        where: { propertyId: image.propertyId, isCover: true },
+        data: { isCover: false },
+      }),
+      prisma.propertyImage.update({ where: { id: image.id }, data: { isCover: true } }),
+    ]);
+  }
+  ok(res, { coverId: image.id });
 });
 
 // ------------------------------------------------------------------ video

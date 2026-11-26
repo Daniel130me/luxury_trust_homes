@@ -36,8 +36,9 @@ const TABS = [
 export default function ProviderPropertiesPage() {
   const [properties, setProperties] = useState<ProviderProperty[] | null>(null);
   const [status, setStatus] = useState("");
-  // Set when the user returns from submitting a new listing (?submitted=1).
-  const [justSubmitted, setJustSubmitted] = useState(false);
+  // Set when the user returns from a new listing: ?submitted=1 (sent for
+  // review) or ?submitted=draft (saved as a draft).
+  const [justSaved, setJustSaved] = useState<"submitted" | "draft" | null>(null);
 
   const load = useCallback(async (statusFilter: string) => {
     const data = await apiFetch<{ properties: ProviderProperty[] }>("/provider/properties", {
@@ -52,9 +53,9 @@ export default function ProviderPropertiesPage() {
 
   useEffect(() => {
     // Read the flag from the URL directly (no Suspense wrapper needed).
-    if (new URLSearchParams(window.location.search).get("submitted") === "1") {
-      setJustSubmitted(true);
-    }
+    const flag = new URLSearchParams(window.location.search).get("submitted");
+    if (flag === "1") setJustSaved("submitted");
+    else if (flag === "draft") setJustSaved("draft");
   }, []);
 
   return (
@@ -71,17 +72,18 @@ export default function ProviderPropertiesPage() {
         </Link>
       </div>
 
-      {justSubmitted && (
+      {justSaved && (
         <div className="mt-4">
           <Alert tone="success">
             <span className="flex flex-wrap items-center justify-between gap-2">
               <span>
-                Listing submitted for review. Our legal team will be in touch — open{" "}
-                <strong>Edit</strong> on the listing to add photographs and a video walkthrough.
+                {justSaved === "submitted"
+                  ? "Listing submitted for review with its photos. Our legal team will be in touch."
+                  : "Draft saved. Open it any time to finish and submit it for review."}
               </span>
               <button
                 type="button"
-                onClick={() => setJustSubmitted(false)}
+                onClick={() => setJustSaved(null)}
                 className="text-xs font-semibold underline"
               >
                 Dismiss

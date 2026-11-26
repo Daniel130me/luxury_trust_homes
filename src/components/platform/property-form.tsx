@@ -1,17 +1,29 @@
 "use client";
 
 /**
- * Provider property form — used for creating and editing listings.
- * Fields mirror the prototype: basic information, location cascade
- * (state → region → LGA → area), specifications, photographs and features.
+ * Property listing form — used by providers to create and edit listings,
+ * and by staff (lawyers) for administrative edits.
+ *
+ * Layout, top to bottom: the basics → photos & video → location →
+ * description → optional extra details (collapsed). Only the asking price
+ * is collected; no other amounts (caution deposit, service charge).
+ *
+ * Media is added while filling in the form. For a new listing the files
+ * wait in the browser; pressing Save/Submit creates the listing as a draft,
+ * uploads the files, and only then submits it for review — so the legal
+ * team receives the listing complete with its photos. If an upload fails,
+ * the provider stays on the page with the draft saved and can retry.
  */
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState, type ReactNode } from "react";
 import { useRouter } from "next/navigation";
-import { apiFetch, ApiRequestError, apiUpload } from "@/lib/api";
+import { apiFetch, ApiRequestError } from "@/lib/api";
 import { toast } from "@/lib/toast";
 import { formatNaira } from "@/lib/format";
 import { usePropertyTypes } from "@/lib/property-types";
 import { STATES, lgasFor, areasFor, OTHER_OPTION } from "@/lib/nigeria-geo";
+import { useVideoLimits } from "@/lib/listing-media";
+import { useListingMedia, type StoredImage } from "@/lib/use-listing-media";
+import { ListingMediaPicker } from "@/components/platform/listing-media-picker";
 import {
   Alert, Button, Card, Field, Input, PageLoader, Select, Textarea, ChevronLeftIcon,
 } from "@/components/platform/ui-bits";
@@ -36,8 +48,6 @@ export type PropertyFormValues = {
   furnishing: string;
   description: string;
   features: string[];
-  cautionDeposit: string;
-  serviceCharge: string;
   status?: string;
   feedback?: string | null;
 };
@@ -61,8 +71,6 @@ export const EMPTY_FORM: PropertyFormValues = {
   furnishing: "",
   description: "",
   features: [],
-  cautionDeposit: "",
-  serviceCharge: "",
 };
 
 const COMMON_FEATURES = [
@@ -72,21 +80,36 @@ const COMMON_FEATURES = [
   "Air conditioning", "POP ceilings", "CCTV", "Elevator",
 ];
 
-/** Video limits shown to the lister — admin-managed settings with defaults. */
-const DEFAULT_VIDEO_MAX_MB = 50;
-const DEFAULT_VIDEO_MAX_DURATION_SEC = 120;
+/** Minimum lengths — the backend rejects anything shorter. */
+const MIN_TITLE_LENGTH = 8;
+const MIN_DESCRIPTION_LENGTH = 60;
+const MAX_CUSTOM_FEATURE_LENGTH = 60;
 
-/** Photo limits — kept in sync with the backend (MAX_IMAGE_BYTES in r2.ts). */
-const MAX_PHOTO_MB = 5;
-const MAX_PHOTOS = 10;
-const PHOTO_ACCEPT = "image/jpeg,image/png,image/webp";
-const VIDEO_ACCEPT = "video/mp4,video/webm,video/quicktime";
+/** Provider can no longer change listings in these states (mirrors the backend). */
+const LOCKED_STATUSES = ["REJECTED", "SUSPENDED", "ARCHIVED"];
 
-type ListingVideo = {
-  url: string;
-  bytes?: number | null;
-  durationSec?: number | null;
-};
+/** Optional numeric details, shown in the collapsed "More details" group. */
+const NUMBER_DETAILS: Array<[keyof PropertyFormValues, string]> = [
+  ["beds", "Bedrooms"], ["baths", "Bathrooms"], ["toilets", "Toilets"],
+  ["sqm", "Size (sqm)"], ["parking", "Parking spaces"],
+];
+const OPTIONAL_DETAIL_KEYS = ["beds", "baths", "toilets", "sqm", "parking", "furnishing", "availability"];
+
+/**
+ * Error keys in the order the fields appear, so the page scrolls to the
+ * first problem. "files" is the media section.
+ */
+const FIELD_ORDER = [
+  "category", "price", "title", "files", "state", "lga", "area", "address",
+  "description", "features", ...OPTIONAL_DETAIL_KEYS,
+];
+
+/** The stored extra amounts the form no longer shows, kept unchanged on edit. */
+type HiddenAmounts = { cautionDeposit: number | null; serviceCharge: number | null };
+const NO_HIDDEN_AMOUNTS: HiddenAmounts = { cautionDeposit: null, serviceCharge: null };
+
+const digitsOnly = (value: string) => value.replace(/[^0-9]/g, "");
+const toNumberOrNull = (value: string) => (value ? Number(value) : null);
 
 export function PropertyForm({
   mode,
@@ -101,14 +124,9 @@ export function PropertyForm({
 }) {
   const router = useRouter();
   const [values, setValues] = useState<PropertyFormValues>(EMPTY_FORM);
+  const [hiddenAmounts, setHiddenAmounts] = useState<HiddenAmounts>(NO_HIDDEN_AMOUNTS);
   const [loaded, setLoaded] = useState(mode === "new");
-  const [images, setImages] = useState<Array<{ id: string; url: string; label: string }>>([]);
-  const [video, setVideo] = useState<ListingVideo | null>(null);
-  const [uploadingVideo, setUploadingVideo] = useState(false);
-  const [videoLimits, setVideoLimits] = useState({
-    maxMb: DEFAULT_VIDEO_MAX_MB,
-    maxDurationSec: DEFAULT_VIDEO_MAX_DURATION_SEC,
-  });
+  const [loadFailed, setLoadFailed] = useState(false);
   // This provider's own previously-typed custom features (private per
   // lister — never a shared global list).
   const [myFeatures, setMyFeatures] = useState<string[]>([]);
@@ -116,9 +134,12 @@ export function PropertyForm({
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [saving, setSaving] = useState<"draft" | "submit" | null>(null);
   const [notice, setNotice] = useState<string | null>(null);
-  const [uploading, setUploading] = useState(false);
+  const [detailsOpen, setDetailsOpen] = useState(false);
   // Admin-managed property types; the first active type is the default.
   const propertyTypes = usePropertyTypes();
+  const videoLimits = useVideoLimits();
+  const media = useListingMedia({ propertyId: values.id, videoLimits });
+  const { initialise: initialiseMedia } = media;
 
   useEffect(() => {
     if (propertyTypes && propertyTypes.length > 0) {
@@ -126,94 +147,86 @@ export function PropertyForm({
     }
   }, [propertyTypes]);
 
-  // Media limits are admin-managed (staff Settings); the public settings
-  // endpoint exposes them so the form shows every lister the same rules.
+  // Load the lister's own feature vocabulary (providers only).
   useEffect(() => {
-    apiFetch<{ settings: Record<string, string> }>("/settings/public")
-      .then((data) => {
-        const maxMb = Number(data.settings.videoMaxMb);
-        const maxDurationSec = Number(data.settings.videoMaxDurationSec);
-        setVideoLimits({
-          maxMb: Number.isFinite(maxMb) && maxMb > 0 ? maxMb : DEFAULT_VIDEO_MAX_MB,
-          maxDurationSec:
-            Number.isFinite(maxDurationSec) && maxDurationSec > 0
-              ? maxDurationSec
-              : DEFAULT_VIDEO_MAX_DURATION_SEC,
-        });
-      })
-      .catch(() => undefined); // defaults stay in place if settings are unreachable
-  }, []);
-
-  // Load the lister's own feature vocabulary (new + edit mode).
-  useEffect(() => {
+    if (staffMode) return;
     apiFetch<{ features: string[] }>("/provider/features")
-      .then((data) =>
-        setMyFeatures((prev) => Array.from(new Set([...prev, ...data.features]))),
-      )
+      .then((data) => setMyFeatures((prev) => Array.from(new Set([...prev, ...data.features]))))
       .catch(() => undefined);
-  }, [mode, propertyId]);
+  }, [staffMode]);
 
   const load = useCallback(async () => {
-    if (mode === "edit" && propertyId) {
-      try {
-        const data = await apiFetch<{ property: Record<string, unknown> }>(
-          staffMode ? `/staff/listings/${propertyId}` : `/provider/properties/${propertyId}`,
-        );
-        const p = data.property;
-        setValues({
-          id: propertyId,
-          title: (p.title as string) ?? "",
-          category: (p.category as string) ?? "",
-          listingType: ((p.listingType as string) === "RENT" ? "RENT" : "SALE") as "SALE" | "RENT",
-          price: String(p.price ?? ""),
-          availability: (p.availability as string) ?? "AVAILABLE",
-          state: (p.state as string) ?? "",
-          region: (p.region as string) ?? "",
-          lga: (p.lga as string) ?? "",
-          area: (p.area as string) ?? "",
-          address: (p.address as string) ?? "",
-          beds: p.beds != null ? String(p.beds) : "",
-          baths: p.baths != null ? String(p.baths) : "",
-          toilets: p.toilets != null ? String(p.toilets) : "",
-          sqm: p.sqm != null ? String(p.sqm) : "",
-          parking: p.parking != null ? String(p.parking) : "",
-          furnishing: (p.furnishing as string) ?? "",
-          description: (p.description as string) ?? "",
-          features: (p.features as string[]) ?? [],
-          cautionDeposit: p.cautionDeposit != null ? String(p.cautionDeposit) : "",
-          serviceCharge: p.serviceCharge != null ? String(p.serviceCharge) : "",
-          status: p.status as string,
-          feedback: (p.feedback as string) ?? null,
-        });
-        setImages((p.images as Array<{ id: string; url: string; label: string }>) ?? []);
-        setMyFeatures(
-          ((p.features as string[]) ?? []).filter(
-            (feature) => !COMMON_FEATURES.includes(feature),
-          ),
-        );
-        const videoUrl = p.videoUrl as string | null;
-        setVideo(
-          videoUrl
-            ? {
-                url: videoUrl,
-                bytes: (p.videoBytes as number | null) ?? null,
-                durationSec: (p.videoDurationSec as number | null) ?? null,
-              }
-            : null,
-        );
-      } catch {
-        setNotice("Could not load this property.");
-      }
+    if (mode !== "edit" || !propertyId) return;
+    try {
+      const data = await apiFetch<{ property: Record<string, unknown> }>(
+        staffMode ? `/staff/listings/${propertyId}` : `/provider/properties/${propertyId}`,
+      );
+      const p = data.property;
+      const numberText = (key: string) => (p[key] != null ? String(p[key]) : "");
+      const next: PropertyFormValues = {
+        id: propertyId,
+        title: (p.title as string) ?? "",
+        category: (p.category as string) ?? "",
+        listingType: p.listingType === "RENT" ? "RENT" : "SALE",
+        price: String(p.price ?? ""),
+        availability: (p.availability as string) ?? "AVAILABLE",
+        state: (p.state as string) ?? "",
+        region: (p.region as string) ?? "",
+        lga: (p.lga as string) ?? "",
+        area: (p.area as string) ?? "",
+        address: (p.address as string) ?? "",
+        beds: numberText("beds"),
+        baths: numberText("baths"),
+        toilets: numberText("toilets"),
+        sqm: numberText("sqm"),
+        parking: numberText("parking"),
+        furnishing: (p.furnishing as string) ?? "",
+        description: (p.description as string) ?? "",
+        features: (p.features as string[]) ?? [],
+        status: p.status as string,
+        feedback: (p.feedback as string) ?? null,
+      };
+      setValues(next);
+      setHiddenAmounts({
+        cautionDeposit: (p.cautionDeposit as number | null) ?? null,
+        serviceCharge: (p.serviceCharge as number | null) ?? null,
+      });
+      // Show the optional group open when the listing already uses it.
+      setDetailsOpen(OPTIONAL_DETAIL_KEYS.some((key) => key !== "availability" && next[key as keyof PropertyFormValues]));
+      setMyFeatures((prev) =>
+        Array.from(new Set([...prev, ...next.features.filter((f) => !COMMON_FEATURES.includes(f))])),
+      );
+      const videoUrl = p.videoUrl as string | null;
+      initialiseMedia(
+        (p.images as StoredImage[]) ?? [],
+        videoUrl
+          ? { url: videoUrl, bytes: p.videoBytes as number | null, durationSec: p.videoDurationSec as number | null }
+          : null,
+      );
+    } catch {
+      setLoadFailed(true);
+    } finally {
+      setLoaded(true);
     }
-    setLoaded(true);
-  }, [mode, propertyId]);
+  }, [mode, propertyId, staffMode, initialiseMedia]);
 
   useEffect(() => {
     void load();
   }, [load]);
 
+  // Warn before leaving while files are still uploading or not yet saved.
+  const hasUnsavedMedia = !staffMode && media.unsavedCount > 0;
+  useEffect(() => {
+    if (!hasUnsavedMedia && !saving) return;
+    const warn = (event: BeforeUnloadEvent) => event.preventDefault();
+    window.addEventListener("beforeunload", warn);
+    return () => window.removeEventListener("beforeunload", warn);
+  }, [hasUnsavedMedia, saving]);
+
   function set<K extends keyof PropertyFormValues>(key: K, value: PropertyFormValues[K]) {
     setValues((v) => ({ ...v, [key]: value }));
+    // Clear a field's error as soon as the provider edits it.
+    setErrors((e) => (e[key] ? { ...e, [key]: "" } : e));
   }
 
   const lgaOptions = useMemo(() => lgasFor(values.state), [values.state]);
@@ -228,8 +241,7 @@ export function PropertyForm({
   const areaSelectValue = areaOptions.includes(values.area) || !values.area ? values.area : OTHER_OPTION;
 
   // Full chip list: the shared starter set + this lister's own vocabulary +
-  // anything already selected on the listing, so every choice is visible and
-  // removable as a chip (custom ones included).
+  // anything already selected on the listing.
   const allFeatureOptions = useMemo(
     () => Array.from(new Set([...COMMON_FEATURES, ...myFeatures, ...values.features])),
     [myFeatures, values.features],
@@ -238,212 +250,177 @@ export function PropertyForm({
   /** Add a custom feature: selects it on the listing and stores it in the
    * provider's PRIVATE vocabulary (per lister, never global). */
   async function addCustomFeature() {
-    const trimmed = customFeature.replace(/\s+/g, " ").trim().slice(0, 60);
+    const trimmed = customFeature.replace(/\s+/g, " ").trim().slice(0, MAX_CUSTOM_FEATURE_LENGTH);
     setCustomFeature("");
     if (!trimmed) return;
-    if (!values.features.includes(trimmed)) {
-      set("features", [...values.features, trimmed]);
-    }
-    if (!myFeatures.some((f) => f.toLowerCase() === trimmed.toLowerCase())) {
-      try {
-        const data = await apiFetch<{ feature: string }>("/provider/features", {
-          method: "POST",
-          body: { name: trimmed },
-        });
-        setMyFeatures((prev) => Array.from(new Set([...prev, data.feature])));
-      } catch {
-        // Vocabulary save is best-effort; the feature stays on the listing.
-      }
-    }
-  }
-
-  async function uploadVideo(file: File | null) {
-    if (!file) return;
-    if (!values.id) {
-      setErrors({ files: "Save the listing first, then add a video." });
-      return;
-    }
-    if (file.size > videoLimits.maxMb * 1024 * 1024) {
-      setErrors({ files: `Videos must be ${videoLimits.maxMb} MB or smaller (set by the admin team).` });
-      return;
-    }
-    setUploadingVideo(true);
-    setErrors({});
+    if (!values.features.includes(trimmed)) set("features", [...values.features, trimmed]);
+    if (staffMode || myFeatures.some((f) => f.toLowerCase() === trimmed.toLowerCase())) return;
     try {
-      // Read the duration from the file's metadata before uploading so the
-      // admin-set time limit is checked client-side too.
-      const durationSec = await new Promise<number>((resolve, reject) => {
-        const probe = document.createElement("video");
-        probe.preload = "metadata";
-        probe.onloadedmetadata = () => {
-          resolve(Math.round(probe.duration));
-          URL.revokeObjectURL(probe.src);
-        };
-        probe.onerror = () => reject(new Error("Not a playable video file."));
-        probe.src = URL.createObjectURL(file);
+      const data = await apiFetch<{ feature: string }>("/provider/features", {
+        method: "POST",
+        body: { name: trimmed },
       });
-      if (durationSec > videoLimits.maxDurationSec) {
-        setErrors({
-          files: `Videos must be ${videoLimits.maxDurationSec} seconds or shorter (set by the admin team).`,
-        });
-        return;
-      }
-      const formData = new FormData();
-      formData.append("file", file);
-      formData.append("propertyId", values.id);
-      formData.append("durationSec", String(durationSec));
-      const data = await apiUpload<{ video: ListingVideo }>("/uploads/property-video", formData);
-      setVideo({ url: data.video.url, bytes: data.video.bytes, durationSec: data.video.durationSec });
-      setNotice("Video added to the listing.");
-    } catch (err) {
-      setErrors({ files: err instanceof ApiRequestError ? err.message : "Video upload failed. Please try again." });
-    } finally {
-      setUploadingVideo(false);
-    }
-  }
-
-  async function removeVideo() {
-    if (!values.id) return;
-    try {
-      await apiFetch("/uploads/property-video", { method: "DELETE", body: { propertyId: values.id } });
-      setVideo(null);
+      setMyFeatures((prev) => Array.from(new Set([...prev, data.feature])));
     } catch {
-      setErrors({ files: "Could not remove the video." });
+      // Vocabulary save is best-effort; the feature stays on the listing.
     }
   }
 
-  async function uploadFiles(files: File[]) {
-    if (files.length === 0) return;
-    if (!values.id) {
-      setErrors({ files: "Save the listing first, then add photographs." });
-      return;
+  function validateLocally(): Record<string, string> {
+    const local: Record<string, string> = {};
+    if (values.title.trim().length < MIN_TITLE_LENGTH) {
+      local.title = `Give the property a title of at least ${MIN_TITLE_LENGTH} characters.`;
     }
-    // Instant feedback for rule-breaking files instead of a failed upload.
-    const oversized = files.filter((f) => f.size > MAX_PHOTO_MB * 1024 * 1024);
-    if (oversized.length > 0) {
-      setErrors({
-        files: `Photos must be ${MAX_PHOTO_MB} MB or smaller: ${oversized.map((f) => f.name).join(", ")}.`,
-      });
-      return;
+    if (!values.category) local.category = "Choose a property type.";
+    if (!(Number(values.price) > 0)) local.price = "Enter the price in naira.";
+    if (!values.state) local.state = "Choose a state.";
+    if (!values.lga.trim()) local.lga = "Choose the local government area.";
+    if (!values.area.trim()) local.area = "Choose the area or neighbourhood.";
+    if (!values.address.trim()) local.address = "Add the address or directions so our legal team can find it.";
+    if (values.description.trim().length < MIN_DESCRIPTION_LENGTH) {
+      local.description = `Write at least ${MIN_DESCRIPTION_LENGTH} characters about the property.`;
     }
-    if (images.length + files.length > MAX_PHOTOS) {
-      setErrors({ files: `A listing can hold up to ${MAX_PHOTOS} photos (it has ${images.length}).` });
-      return;
-    }
-    setUploading(true);
-    setErrors({});
-    try {
-      const formData = new FormData();
-      for (const file of files) formData.append("files", file);
-      formData.append("propertyId", values.id);
-      const data = await apiUpload<{ images: Array<{ id: string; url: string; label: string }> }>(
-        "/uploads/property-image",
-        formData,
-      );
-      setImages((prev) => [...prev, ...data.images]);
-    } catch (err) {
-      setErrors({ files: err instanceof ApiRequestError ? err.message : "Upload failed. Please try again." });
-    } finally {
-      setUploading(false);
-    }
+    return local;
   }
 
-  async function removeImage(imageId: string) {
-    try {
-      await apiFetch(`/uploads/property-image/${imageId}`, { method: "DELETE" });
-      setImages((prev) => prev.filter((img) => img.id !== imageId));
-    } catch {
-      setErrors({ files: "Could not remove the photo." });
-    }
+  /** Show errors inline and bring the first one into view. */
+  function showErrors(fields: Record<string, string>) {
+    const known = Object.fromEntries(Object.entries(fields).filter(([key]) => FIELD_ORDER.includes(key) || key === "form"));
+    const unknown = Object.entries(fields).filter(([key]) => !FIELD_ORDER.includes(key) && key !== "form");
+    if (unknown.length > 0 && !known.form) known.form = unknown.map(([, message]) => message).join(" ");
+    setErrors(known);
+    if (OPTIONAL_DETAIL_KEYS.some((key) => known[key])) setDetailsOpen(true);
+    const first = FIELD_ORDER.find((key) => known[key]);
+    const target = first ? document.getElementById(`field-${first}`) : document.getElementById("form-top");
+    target?.scrollIntoView({ behavior: "smooth", block: "center" });
+    target?.querySelector<HTMLElement>("input, select, textarea")?.focus({ preventScroll: true });
+  }
+
+  function buildBody(submitForReview: boolean) {
+    return {
+      title: values.title,
+      category: values.category,
+      listingType: values.listingType,
+      price: Number(values.price),
+      state: values.state,
+      region: values.region || undefined,
+      lga: values.lga,
+      area: values.area,
+      address: values.address,
+      beds: toNumberOrNull(values.beds),
+      baths: toNumberOrNull(values.baths),
+      toilets: toNumberOrNull(values.toilets),
+      sqm: toNumberOrNull(values.sqm),
+      parking: toNumberOrNull(values.parking),
+      furnishing: values.furnishing || undefined,
+      description: values.description,
+      features: values.features,
+      availability: values.availability,
+      // Not editable in the form any more; older listings keep their values.
+      cautionDeposit: hiddenAmounts.cautionDeposit,
+      serviceCharge: hiddenAmounts.serviceCharge,
+      submitForReview,
+    };
   }
 
   async function save(submitForReview: boolean) {
-    setErrors({});
+    if (saving) return; // ignore double taps
     setNotice(null);
-
-    // Client-side validation mirrors the prototype's rules.
-    const local: Record<string, string> = {};
-    if (values.title.trim().length < 8) local.title = "Give the property a descriptive title (at least 8 characters).";
-    const price = Number(values.price.replace(/[^0-9]/g, ""));
-    if (!(price > 0)) local.price = "Enter a price greater than zero.";
-    if (!values.state) local.state = "Complete the state, LGA and area.";
-    if (!values.lga) local.lga = "Choose an LGA within the selected state.";
-    if (!values.area) local.area = "Choose an area within the selected LGA.";
-    if (!values.address.trim()) local.address = "Describe the location so the legal team can identify it.";
-    if (values.description.trim().length < 60) local.description = "Write a description of at least 60 characters.";
-    setErrors(local);
+    const local = validateLocally();
     if (Object.keys(local).length > 0) {
-      document.querySelector("form")?.scrollIntoView({ behavior: "smooth" });
+      showErrors(local);
       return;
     }
-
+    setErrors({});
     setSaving(submitForReview ? "submit" : "draft");
     try {
-      const body = {
-        title: values.title,
-        category: values.category,
-        listingType: values.listingType,
-        price,
-        state: values.state,
-        region: values.region || undefined,
-        lga: values.lga,
-        area: values.area,
-        address: values.address,
-        beds: values.beds ? Number(values.beds) : null,
-        baths: values.baths ? Number(values.baths) : null,
-        toilets: values.toilets ? Number(values.toilets) : null,
-        sqm: values.sqm ? Number(values.sqm) : null,
-        parking: values.parking ? Number(values.parking) : null,
-        furnishing: values.furnishing || undefined,
-        description: values.description,
-        features: values.features,
-        availability: values.availability,
-        cautionDeposit: values.cautionDeposit ? Number(values.cautionDeposit) : null,
-        serviceCharge: values.serviceCharge ? Number(values.serviceCharge) : null,
-        submitForReview,
-      };
-
-      if (mode === "new") {
-        await apiFetch<{ property: { id: string } }>("/provider/properties", {
-          method: "POST",
-          body,
-        });
-        // Photos and video are attached from the listing's Edit page — go
-        // back to the list so the flow ends where the lister expects it.
-        router.push("/app/provider/properties?submitted=1");
+      if (staffMode) {
+        await apiFetch(`/staff/listings/${propertyId}`, { method: "PATCH", body: buildBody(submitForReview) });
+        setNotice("Listing saved — the provider has been notified of the change.");
+        toast.success("Listing saved — provider notified.");
         return;
       }
 
-      await apiFetch(
-        staffMode ? `/staff/listings/${propertyId}` : `/provider/properties/${propertyId}`,
-        { method: "PATCH", body },
-      );
+      // 1. Make sure the listing exists. A new listing is created as a
+      //    draft first so its photos have somewhere to go.
+      let id = values.id;
+      const createdNow = !id;
+      if (!id) {
+        const created = await apiFetch<{ property: { id: string; status: string } }>("/provider/properties", {
+          method: "POST",
+          body: buildBody(false),
+        });
+        id = created.property.id;
+        const newId = id;
+        setValues((v) => ({ ...v, id: newId, status: created.property.status }));
+      }
+
+      // 2. Upload every photo/video not yet stored.
+      const { failed } = await media.uploadPending(id);
+      if (failed > 0) {
+        const what = failed === 1 ? "1 file didn't" : `${failed} files didn't`;
+        showErrors({
+          files: `${what} upload. Tap Retry on ${failed === 1 ? "it" : "them"} or remove ${failed === 1 ? "it" : "them"}, then press ${submitForReview ? "Submit" : "Save"} again.`,
+        });
+        if (createdNow) setNotice("Your details are saved as a draft — only the files below still need attention.");
+        return;
+      }
+
+      // 3. Save (and optionally submit). A just-created draft already holds
+      //    these exact details, so it only needs the submit step.
+      if (createdNow) {
+        if (submitForReview) await apiFetch(`/provider/properties/${id}/submit`, { method: "POST" });
+        router.push(`/app/provider/properties?submitted=${submitForReview ? "1" : "draft"}`);
+        return;
+      }
+      const saved = await apiFetch<{ property: { status: string } }>(`/provider/properties/${id}`, {
+        method: "PATCH",
+        body: buildBody(submitForReview),
+      });
+      // A new listing that needed a second try (e.g. a failed upload) ends
+      // where a first-time success does.
+      if (mode === "new") {
+        router.push(`/app/provider/properties?submitted=${submitForReview ? "1" : "draft"}`);
+        return;
+      }
+      setValues((v) => ({ ...v, status: saved.property.status }));
       setNotice(
-        staffMode
-          ? "Listing saved — the provider has been notified of the change."
-          : submitForReview
-            ? "Listing submitted for review. Our legal team will be in touch."
-            : "Listing saved.",
+        submitForReview
+          ? "Listing submitted for review. Our legal team will be in touch."
+          : "Changes saved as a draft.",
       );
-      if (staffMode) toast.success("Listing saved — provider notified.");
-      await load();
+      document.getElementById("form-top")?.scrollIntoView({ behavior: "smooth" });
     } catch (err) {
-      const fields = err instanceof ApiRequestError ? (err.fields ?? { form: err.message }) : { form: "Could not save the listing." };
-      toast.error(String(fields.form));
-      setErrors(fields);
+      const fields =
+        err instanceof ApiRequestError
+          ? { ...(err.fields ?? {}), form: err.message }
+          : { form: "We couldn't save the listing. Check your connection and try again." };
+      toast.error(fields.form);
+      showErrors(fields);
     } finally {
       setSaving(null);
     }
   }
 
   if (!loaded) return <PageLoader />;
+  if (loadFailed) {
+    return (
+      <div className="mx-auto max-w-3xl py-10">
+        <Alert tone="error">We couldn&apos;t load this listing. Refresh the page to try again.</Alert>
+      </div>
+    );
+  }
 
-  const isDraft = values.status === "DRAFT";
-  const isChangesRequested = values.status === "CHANGES_REQUESTED";
+  const isNew = !values.id;
+  const locked = !staffMode && LOCKED_STATUSES.includes(values.status ?? "");
+  const isApproved = values.status === "APPROVED";
+  const blocked = locked || saving !== null;
+  const priceLabel = values.listingType === "SALE" ? "Asking price (₦)" : "Rent per year (₦)";
 
   return (
-    <div className="mx-auto max-w-4xl">
+    <div className="mx-auto max-w-3xl" id="form-top">
       <button
+        type="button"
         onClick={() => router.push(staffMode ? `/app/staff/listings/${propertyId}` : "/app/provider/properties")}
         className="inline-flex items-center gap-1.5 text-sm font-medium text-ink-muted hover:text-brand-700"
       >
@@ -451,430 +428,399 @@ export function PropertyForm({
         {staffMode ? "Back to listing" : "My properties"}
       </button>
       <h1 className="mt-3 font-serif text-3xl text-ink-strong">
-        {mode === "new" ? "Add a property" : staffMode ? "Edit listing" : "Edit property"}
+        {mode === "new" ? "List a property" : staffMode ? "Edit listing" : "Edit property"}
       </h1>
       <p className="mt-1.5 text-ink-muted">
         {staffMode
           ? "Administrative edit — the provider is notified of every change."
-          : "Complete the details below. Listings are reviewed by our legal team before they appear publicly."}
+          : "Fill in the details and add photos. Our legal team checks every listing before it goes live."}
       </p>
 
-      {isChangesRequested && values.feedback && (
+      {values.status === "CHANGES_REQUESTED" && values.feedback && (
         <div className="mt-4 rounded-xl border border-amber-200 bg-amber-50 p-4 text-sm text-amber-800">
           <p className="font-semibold">Changes requested by the legal team:</p>
           <p className="mt-1">{values.feedback}</p>
         </div>
       )}
+      {locked && (
+        <div className="mt-4">
+          <Alert tone="error">This listing can no longer be changed. Contact support if you think this is a mistake.</Alert>
+        </div>
+      )}
+      {isApproved && !staffMode && (
+        <div className="mt-4">
+          <Alert tone="info">This listing is live. Submitting changes sends it back to our legal team for a quick review.</Alert>
+        </div>
+      )}
       {notice && <div className="mt-4"><Alert tone="success">{notice}</Alert></div>}
       {errors.form && <div className="mt-4"><Alert tone="error">{errors.form}</Alert></div>}
 
-      <form onSubmit={(e) => { e.preventDefault(); void save(true); }} className="mt-6 space-y-6" noValidate>
-        {/* ------------------------------------------- basic information */}
-        <Card className="p-5 sm:p-6">
-          <h2 className="text-lg font-semibold text-ink-strong">Basic information</h2>
-          <div className="mt-4 space-y-4">
-            <Field label="Property title" error={errors.title} required hint="e.g. Contemporary 4-Bedroom Detached Duplex">
-              <Input value={values.title} onChange={(e) => set("title", e.target.value)} />
-            </Field>
-
-            <div className="grid gap-4 sm:grid-cols-2">
-              <Field label="Property type" required>
-                <Select value={values.category} onChange={(e) => set("category", e.target.value)} aria-label="Property type">
-                  {(propertyTypes ?? []).map((type) => (
-                    <option key={type.id} value={type.name}>{type.name}</option>
-                  ))}
-                </Select>
-              </Field>
-              <Field label="Listing for" required>
-                <div className="grid grid-cols-2 gap-2 rounded-lg bg-brand-50 p-1" role="group" aria-label="Listing for">
-                  {(["SALE", "RENT"] as const).map((option) => (
-                    <button
-                      key={option}
-                      type="button"
-                      onClick={() => set("listingType", option)}
-                      aria-pressed={values.listingType === option}
-                      className={`rounded-md px-4 py-2 text-sm font-semibold transition-colors ${
-                        values.listingType === option ? "bg-brand-700 text-white" : "text-brand-700 hover:bg-brand-100"
-                      }`}
-                    >
-                      {option === "SALE" ? "Sale" : "Rent"}
-                    </button>
-                  ))}
-                </div>
-              </Field>
-            </div>
-
-            <div className="grid gap-4 sm:grid-cols-2">
-              <Field
-                label={values.listingType === "SALE" ? "Sale price (₦)" : "Annual rent (₦)"}
-                error={errors.price}
-                required
-                hint={values.price ? formatNaira(Number(values.price.replace(/[^0-9]/g, "") || 0)) : undefined}
-              >
-                <Input
-                  inputMode="numeric"
-                  value={values.price}
-                  onChange={(e) => set("price", e.target.value.replace(/[^0-9]/g, ""))}
-                  placeholder="e.g. 4500000"
-                />
-              </Field>
-              <Field label="Availability">
-                <Select value={values.availability} onChange={(e) => set("availability", e.target.value)} aria-label="Availability">
-                  <option value="AVAILABLE">Available</option>
-                  <option value="UNDER_OFFER">Under offer</option>
-                  <option value="UNAVAILABLE">Unavailable</option>
-                </Select>
-              </Field>
-            </div>
-
-            {values.listingType === "RENT" && (
-              <div className="grid gap-4 sm:grid-cols-2">
-                <Field label="Caution deposit (₦)" hint="Optional">
-                  <Input inputMode="numeric" value={values.cautionDeposit} onChange={(e) => set("cautionDeposit", e.target.value.replace(/[^0-9]/g, ""))} />
-                </Field>
-                <Field label="Service charge (₦)" hint="Optional">
-                  <Input inputMode="numeric" value={values.serviceCharge} onChange={(e) => set("serviceCharge", e.target.value.replace(/[^0-9]/g, ""))} />
-                </Field>
-              </div>
-            )}
-          </div>
-        </Card>
-
-        {/* --------------------------------------------------- location */}
-        <Card className="p-5 sm:p-6">
-          <h2 className="text-lg font-semibold text-ink-strong">Location</h2>
-          <p className="mt-0.5 text-sm text-ink-muted">
-            The exact address is shared with our legal team only.
-          </p>
-          <div className="mt-4 grid gap-4 sm:grid-cols-2">
-            <Field label="State" required>
-              <Select value={values.state} onChange={(e) => { set("state", e.target.value); set("region", ""); set("lga", ""); set("area", ""); }} aria-label="State">
-                <option value="">Select state</option>
-                {STATES.map((state) => (
-                  <option key={state.name} value={state.name}>{state.name}</option>
-                ))}
-              </Select>
-            </Field>
-            {values.state === "Lagos" && (
-              <Field label="Island / Mainland">
-                <Select value={values.region} onChange={(e) => set("region", e.target.value)} aria-label="Island or Mainland">
-                  <option value="">Select</option>
-                  <option value="Island">Island</option>
-                  <option value="Mainland">Mainland</option>
-                </Select>
-              </Field>
-            )}
-            <Field label="Local Government Area (LGA)" error={errors.lga}>
-              <Select
-                value={lgaSelectValue}
-                onChange={(e) => {
-                  const value = e.target.value;
-                  // "Other…" clears the value so the free-text input below
-                  // takes over; choosing a listed LGA clears the free text.
-                  set("lga", value === OTHER_OPTION ? "" : value);
-                  set("area", "");
-                }}
-                aria-label="Local Government Area"
-                disabled={!values.state}
-              >
-                <option value="">Select LGA</option>
-                {lgaOptions.map((lga) => (
-                  <option key={lga} value={lga}>{lga}</option>
-                ))}
-                <option value={OTHER_OPTION}>Other (type it below)</option>
-              </Select>
-            </Field>
-            {lgaSelectValue === OTHER_OPTION && (
-              <Field label="LGA name" hint="Type the LGA exactly as it is known.">
-                <Input value={values.lga} onChange={(e) => set("lga", e.target.value)} placeholder="e.g. Ogo-Oluwa" aria-label="Custom LGA" />
-              </Field>
-            )}
-            <Field label="Area / neighbourhood" error={errors.area}>
-              <Select
-                value={areaSelectValue}
-                onChange={(e) => {
-                  const value = e.target.value;
-                  set("area", value === OTHER_OPTION ? "" : value);
-                }}
-                aria-label="Area"
-                disabled={!values.lga}
-              >
-                <option value="">Select area</option>
-                {areaOptions.map((area) => (
-                  <option key={area} value={area}>{area}</option>
-                ))}
-                <option value={OTHER_OPTION}>Other (type it below)</option>
-              </Select>
-            </Field>
-            {areaSelectValue === OTHER_OPTION && (
-              <Field label="Area / neighbourhood name" hint="Type the area or estate as locals know it.">
-                <Input value={values.area} onChange={(e) => set("area", e.target.value)} placeholder="e.g. Nestoil Estate" aria-label="Custom area" />
-              </Field>
-            )}
-            <Field label="Address or location description" error={errors.address} required className="sm:col-span-2">
-              <Textarea rows={2} value={values.address} onChange={(e) => set("address", e.target.value)} />
-            </Field>
-          </div>
-        </Card>
-
-        {/* ----------------------------------------------- specifications */}
-        <Card className="p-5 sm:p-6">
-          <h2 className="text-lg font-semibold text-ink-strong">Specifications</h2>
-          <div className="mt-4 grid gap-4 sm:grid-cols-3">
-            {([
-              ["beds", "Bedrooms"], ["baths", "Bathrooms"], ["toilets", "Toilets"],
-              ["sqm", "Size (sqm)"], ["parking", "Parking spaces"],
-            ] as Array<[keyof PropertyFormValues, string]>).map(([key, label]) => (
-              <Field key={key} label={label}>
-                <Input
-                  inputMode="numeric"
-                  value={values[key] as string}
-                  onChange={(e) => set(key, e.target.value.replace(/[^0-9]/g, "") as never)}
-                />
-              </Field>
-            ))}
-            <Field label="Furnishing">
-              <Select value={values.furnishing} onChange={(e) => set("furnishing", e.target.value)} aria-label="Furnishing">
-                <option value="">Select</option>
-                <option value="furnished">Furnished</option>
-                <option value="semi_furnished">Semi-furnished</option>
-                <option value="unfurnished">Unfurnished</option>
-              </Select>
-            </Field>
-          </div>
-
-          <div className="mt-5">
-            <Field label="Description" error={errors.description} required hint="At least 60 characters — describe the space, finishings and estate.">
-              <Textarea rows={6} value={values.description} onChange={(e) => set("description", e.target.value)} />
-            </Field>
-            <p className="mt-1 text-xs text-ink-muted">{values.description.trim().length} / 60 characters minimum</p>
-          </div>
-
-          <div className="mt-5">
-            <p className="mb-2 text-sm font-medium text-ink-strong">Features</p>
-            <p className="mb-2 text-xs text-ink-muted">
-              Tap to select. Features you type yourself are saved to <strong>your</strong> account only, so your suggestions stay relevant.
-            </p>
-            <div className="flex flex-wrap gap-2">
-              {allFeatureOptions.map((feature) => {
-                const active = values.features.includes(feature);
-                return (
+      <form onSubmit={(e) => { e.preventDefault(); void save(true); }} className="mt-6 space-y-5" noValidate>
+        <fieldset disabled={locked} className="space-y-5">
+          {/* --------------------------------------------- 1. the basics */}
+          <Section step={1} title="The basics">
+            <div id="field-listingType">
+              <p className="label">This property is for</p>
+              <div className="grid grid-cols-2 gap-2 rounded-lg bg-brand-50 p-1" role="group" aria-label="Listing for">
+                {(["SALE", "RENT"] as const).map((option) => (
                   <button
-                    key={feature}
+                    key={option}
                     type="button"
-                    onClick={() =>
-                      set("features", active ? values.features.filter((f) => f !== feature) : [...values.features, feature])
-                    }
-                    aria-pressed={active}
-                    className={`rounded-full px-3 py-1.5 text-xs font-medium transition-colors ${
-                      active ? "bg-brand-700 text-white" : "bg-white text-ink-soft ring-1 ring-brand-200 hover:bg-brand-50"
+                    onClick={() => set("listingType", option)}
+                    aria-pressed={values.listingType === option}
+                    className={`rounded-md px-4 py-2.5 text-sm font-semibold transition-colors ${
+                      values.listingType === option ? "bg-brand-700 text-white" : "text-brand-700 hover:bg-brand-100"
                     }`}
                   >
-                    {feature}
+                    {option === "SALE" ? "Sale" : "Rent"}
                   </button>
-                );
-              })}
+                ))}
+              </div>
             </div>
-            <div className="mt-3 flex gap-2">
-              <Input
-                value={customFeature}
-                onChange={(e) => setCustomFeature(e.target.value)}
-                placeholder="Add a custom feature"
-                aria-label="Custom feature"
-                onKeyDown={(e) => {
-                  if (e.key === "Enter") {
-                    e.preventDefault();
-                    void addCustomFeature();
-                  }
-                }}
-              />
-              <Button type="button" variant="outline" onClick={() => void addCustomFeature()}>
-                Add
+
+            <div className="grid gap-4 sm:grid-cols-2">
+              <div id="field-category">
+                <Field label="Type of property" error={errors.category} required>
+                  <Select value={values.category} onChange={(e) => set("category", e.target.value)} aria-label="Type of property">
+                    {(propertyTypes ?? []).length === 0 && <option value="">Loading…</option>}
+                    {(propertyTypes ?? []).map((type) => (
+                      <option key={type.id} value={type.name}>{type.name}</option>
+                    ))}
+                  </Select>
+                </Field>
+              </div>
+              <div id="field-price">
+                <Field
+                  label={priceLabel}
+                  error={errors.price}
+                  required
+                  hint={values.price ? formatNaira(Number(values.price)) : "Numbers only, e.g. 4500000"}
+                >
+                  <Input
+                    inputMode="numeric"
+                    autoComplete="off"
+                    value={values.price}
+                    onChange={(e) => set("price", digitsOnly(e.target.value))}
+                    placeholder="e.g. 4500000"
+                  />
+                </Field>
+              </div>
+            </div>
+
+            <div id="field-title">
+              <Field
+                label="Listing title"
+                error={errors.title}
+                required
+                hint={
+                  values.title.trim().length < MIN_TITLE_LENGTH
+                    ? `e.g. 4-bedroom duplex with pool in Lekki · at least ${MIN_TITLE_LENGTH} characters`
+                    : "Looks good."
+                }
+              >
+                <Input value={values.title} maxLength={140} onChange={(e) => set("title", e.target.value)} />
+              </Field>
+            </div>
+          </Section>
+
+          {/* ------------------------------------- 2. photos and video */}
+          {!staffMode ? (
+            <Section
+              step={2}
+              title="Photos & video"
+              subtitle={
+                isNew
+                  ? "Add them now — they upload when you save or submit."
+                  : "New files upload straight away."
+              }
+            >
+              <div id="field-files">
+                <ListingMediaPicker media={media} videoLimits={videoLimits} listingSaved={!isNew} disabled={blocked} />
+                {errors.files && <p className="mt-3 text-sm font-medium text-red-600">{errors.files}</p>}
+              </div>
+            </Section>
+          ) : (
+            <Section step={2} title="Photos & video">
+              <p className="text-sm text-ink-muted">
+                Photos and walkthrough videos are managed by the listing provider. Every other detail can be edited here.
+              </p>
+            </Section>
+          )}
+
+          {/* ------------------------------------------- 3. location */}
+          <Section step={3} title="Where is it?" subtitle="The exact address is only shared with our legal team.">
+            <div className="grid gap-4 sm:grid-cols-2">
+              <div id="field-state">
+                <Field label="State" error={errors.state} required>
+                  <Select
+                    value={values.state}
+                    onChange={(e) => {
+                      set("state", e.target.value);
+                      set("region", "");
+                      set("lga", "");
+                      set("area", "");
+                    }}
+                    aria-label="State"
+                  >
+                    <option value="">Choose a state</option>
+                    {STATES.map((state) => (
+                      <option key={state.name} value={state.name}>{state.name}</option>
+                    ))}
+                  </Select>
+                </Field>
+              </div>
+              {values.state === "Lagos" && (
+                <Field label="Island or Mainland" hint="Optional">
+                  <Select value={values.region} onChange={(e) => set("region", e.target.value)} aria-label="Island or Mainland">
+                    <option value="">Not sure</option>
+                    <option value="Island">Island</option>
+                    <option value="Mainland">Mainland</option>
+                  </Select>
+                </Field>
+              )}
+              <div id="field-lga">
+                <Field label="Local government area (LGA)" error={errors.lga} required>
+                  <Select
+                    value={lgaSelectValue}
+                    onChange={(e) => {
+                      // "Other" clears the value so the text box below takes over.
+                      set("lga", e.target.value === OTHER_OPTION ? "" : e.target.value);
+                      set("area", "");
+                    }}
+                    aria-label="Local government area"
+                    disabled={!values.state}
+                  >
+                    <option value="">{values.state ? "Choose an LGA" : "Choose a state first"}</option>
+                    {lgaOptions.map((lga) => (
+                      <option key={lga} value={lga}>{lga}</option>
+                    ))}
+                    <option value={OTHER_OPTION}>Not listed — I&apos;ll type it</option>
+                  </Select>
+                </Field>
+                {lgaSelectValue === OTHER_OPTION && (
+                  <Input
+                    className="mt-2"
+                    value={values.lga}
+                    onChange={(e) => set("lga", e.target.value)}
+                    placeholder="Type the LGA name"
+                    aria-label="LGA name"
+                  />
+                )}
+              </div>
+              <div id="field-area">
+                <Field label="Area or neighbourhood" error={errors.area} required>
+                  <Select
+                    value={areaSelectValue}
+                    onChange={(e) => set("area", e.target.value === OTHER_OPTION ? "" : e.target.value)}
+                    aria-label="Area"
+                    disabled={!values.lga}
+                  >
+                    <option value="">{values.lga ? "Choose an area" : "Choose an LGA first"}</option>
+                    {areaOptions.map((area) => (
+                      <option key={area} value={area}>{area}</option>
+                    ))}
+                    <option value={OTHER_OPTION}>Not listed — I&apos;ll type it</option>
+                  </Select>
+                </Field>
+                {areaSelectValue === OTHER_OPTION && (
+                  <Input
+                    className="mt-2"
+                    value={values.area}
+                    onChange={(e) => set("area", e.target.value)}
+                    placeholder="e.g. Nestoil Estate"
+                    aria-label="Area name"
+                  />
+                )}
+              </div>
+              <div id="field-address" className="sm:col-span-2">
+                <Field label="Street address or directions" error={errors.address} required>
+                  <Textarea
+                    rows={2}
+                    value={values.address}
+                    onChange={(e) => set("address", e.target.value)}
+                    placeholder="e.g. 12 Admiralty Way, off Lekki Phase 1 roundabout"
+                  />
+                </Field>
+              </div>
+            </div>
+          </Section>
+
+          {/* ---------------------------------------- 4. description */}
+          <Section step={4} title="Describe it">
+            <div id="field-description">
+              <Field label="Description" error={errors.description} required>
+                <Textarea
+                  rows={5}
+                  value={values.description}
+                  onChange={(e) => set("description", e.target.value)}
+                  placeholder="What makes it special? Rooms, finishing, the estate, nearby roads and amenities."
+                />
+              </Field>
+              <CharacterCount length={values.description.trim().length} minimum={MIN_DESCRIPTION_LENGTH} />
+            </div>
+
+            <div id="field-features">
+              <p className="label">Features <span className="font-normal text-ink-muted">(tap any that apply)</span></p>
+              <div className="flex flex-wrap gap-2">
+                {allFeatureOptions.map((feature) => {
+                  const active = values.features.includes(feature);
+                  return (
+                    <button
+                      key={feature}
+                      type="button"
+                      onClick={() =>
+                        set("features", active ? values.features.filter((f) => f !== feature) : [...values.features, feature])
+                      }
+                      aria-pressed={active}
+                      className={`rounded-full px-3 py-2 text-xs font-medium transition-colors ${
+                        active ? "bg-brand-700 text-white" : "bg-white text-ink-soft ring-1 ring-brand-200 hover:bg-brand-50"
+                      }`}
+                    >
+                      {active ? "✓ " : ""}{feature}
+                    </button>
+                  );
+                })}
+              </div>
+              <div className="mt-3 flex gap-2">
+                <Input
+                  value={customFeature}
+                  onChange={(e) => setCustomFeature(e.target.value)}
+                  placeholder="Something else? Type it here"
+                  aria-label="Custom feature"
+                  maxLength={MAX_CUSTOM_FEATURE_LENGTH}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter") {
+                      e.preventDefault();
+                      void addCustomFeature();
+                    }
+                  }}
+                />
+                <Button type="button" variant="outline" onClick={() => void addCustomFeature()}>
+                  Add
+                </Button>
+              </div>
+              {errors.features && <p className="mt-1 text-xs font-medium text-red-600">{errors.features}</p>}
+            </div>
+          </Section>
+
+          {/* --------------------------------- 5. optional extra details */}
+          <Card className="overflow-hidden">
+            <button
+              type="button"
+              onClick={() => setDetailsOpen((open) => !open)}
+              aria-expanded={detailsOpen}
+              className="flex w-full items-center justify-between gap-3 p-5 text-left sm:p-6"
+            >
+              <span>
+                <span className="block text-lg font-semibold text-ink-strong">More details <span className="text-sm font-normal text-ink-muted">(optional)</span></span>
+                <span className="mt-0.5 block text-sm text-ink-muted">Bedrooms, bathrooms, size, parking, furnishing</span>
+              </span>
+              <span aria-hidden className={`text-xl text-brand-700 transition-transform ${detailsOpen ? "rotate-45" : ""}`}>+</span>
+            </button>
+            {detailsOpen && (
+              <div className="grid grid-cols-2 gap-4 border-t border-brand-100 p-5 sm:grid-cols-3 sm:p-6">
+                {NUMBER_DETAILS.map(([key, label]) => (
+                  <div key={key} id={`field-${key}`}>
+                    <Field label={label} error={errors[key]}>
+                      <Input
+                        inputMode="numeric"
+                        value={values[key] as string}
+                        onChange={(e) => set(key, digitsOnly(e.target.value) as never)}
+                      />
+                    </Field>
+                  </div>
+                ))}
+                <div id="field-furnishing">
+                  <Field label="Furnishing" error={errors.furnishing}>
+                    <Select value={values.furnishing} onChange={(e) => set("furnishing", e.target.value)} aria-label="Furnishing">
+                      <option value="">Not stated</option>
+                      <option value="furnished">Furnished</option>
+                      <option value="semi_furnished">Semi-furnished</option>
+                      <option value="unfurnished">Unfurnished</option>
+                    </Select>
+                  </Field>
+                </div>
+                <div id="field-availability" className="col-span-2 sm:col-span-1">
+                  <Field label="Availability" error={errors.availability}>
+                    <Select value={values.availability} onChange={(e) => set("availability", e.target.value)} aria-label="Availability">
+                      <option value="AVAILABLE">Available</option>
+                      <option value="UNDER_OFFER">Under offer</option>
+                      <option value="UNAVAILABLE">Unavailable</option>
+                    </Select>
+                  </Field>
+                </div>
+              </div>
+            )}
+          </Card>
+        </fieldset>
+
+        {/* ------------------------------------------------ action bar */}
+        {/* Sticky so Submit is always within thumb reach on phones. */}
+        <div className="sticky bottom-0 z-10 -mx-4 border-t border-brand-100 bg-white/95 px-4 py-3 backdrop-blur sm:mx-0 sm:rounded-xl sm:border">
+          {media.uploading && (
+            <p className="mb-2 text-xs text-ink-muted" aria-live="polite">Uploading files — please keep this page open.</p>
+          )}
+          <div className="grid grid-cols-2 gap-2 sm:flex sm:items-center sm:justify-end">
+            {staffMode ? (
+              <Button type="submit" loading={saving !== null} disabled={blocked} className="col-span-2">
+                Save changes
               </Button>
-            </div>
-            {values.features.length > 0 && (
-              <p className="mt-2 text-xs text-ink-muted">Selected: {values.features.join(", ")}</p>
+            ) : (
+              <>
+                <Button
+                  type="button"
+                  variant="outline"
+                  onClick={() => void save(false)}
+                  loading={saving === "draft"}
+                  disabled={blocked || media.uploading}
+                >
+                  Save as draft
+                </Button>
+                <Button type="submit" loading={saving === "submit"} disabled={blocked || media.uploading}>
+                  {saving === "submit" ? "Submitting…" : "Submit for review"}
+                </Button>
+              </>
             )}
           </div>
-        </Card>
-
-        {/* ----------------------------------------------- photographs */}
-        {!staffMode && (
-        <Card className="p-5 sm:p-6">
-          <h2 className="text-lg font-semibold text-ink-strong">Photographs</h2>
-          <p className="mt-0.5 text-sm text-ink-muted">
-            {mode === "new"
-              ? "Save the listing first, then upload photographs (JPEG, PNG or WebP, up to 5 MB each)."
-              : "Upload photographs (JPEG, PNG or WebP, up to 5 MB each). The first photo is the cover."}
-          </p>
-          {mode === "edit" && (
-            <>
-              {images.length > 0 && (
-                <div className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-4">
-                  {images.map((image, index) => (
-                    <div key={image.id} className="group relative">
-                      { }
-                      <img src={image.url} alt={image.label} className="aspect-[4/3] w-full rounded-lg object-cover" />
-                      {index === 0 && (
-                        <span className="absolute left-2 top-2 rounded-full bg-brand-700 px-2 py-0.5 text-[10px] font-bold text-white">
-                          Cover
-                        </span>
-                      )}
-                      <button
-                        type="button"
-                        onClick={() => void removeImage(image.id)}
-                        aria-label={`Remove ${image.label}`}
-                        className="absolute right-2 top-2 grid h-7 w-7 place-items-center rounded-full bg-white/90 text-ink-soft shadow hover:text-red-600"
-                      >
-                        ✕
-                      </button>
-                    </div>
-                  ))}
-                </div>
-              )}
-              <MediaDropzone
-                accept={PHOTO_ACCEPT}
-                multiple
-                busy={uploading}
-                label="Drag & drop photos here, or click to browse"
-                hint={`JPEG, PNG or WebP · up to ${MAX_PHOTO_MB} MB each · max ${MAX_PHOTOS} photos`}
-                onFiles={(files) => void uploadFiles(files)}
-              />
-              {errors.files && <Alert tone="error">{errors.files}</Alert>}
-            </>
-          )}
-        </Card>
-        )}
-
-        {/* ------------------------------------------------------ video */}
-        {!staffMode && (
-        <Card className="p-5 sm:p-6">
-          <h2 className="text-lg font-semibold text-ink-strong">Video walkthrough</h2>
-          <p className="mt-0.5 text-sm text-ink-muted">
-            {mode === "new"
-              ? "Optional. Save the listing first, then add a short walkthrough video from the edit page."
-              : "Optional — one video per listing. It is replaced when you upload a new one."}
-          </p>
-          <p className="mt-1 text-xs text-ink-muted">
-            Limits set by the admin team: {videoLimits.maxMb} MB · {videoLimits.maxDurationSec} seconds · MP4, WebM or MOV.
-          </p>
-          {mode === "edit" && (
-            <>
-              {video && (
-                <div className="mt-4">
-                  <video
-                    src={video.url}
-                    controls
-                    className="max-h-72 w-full rounded-lg bg-black"
-                    data-testid="listing-video"
-                  />
-                  <div className="mt-2 flex items-center justify-between">
-                    <p className="text-xs text-ink-muted">
-                      {video.durationSec ? `${video.durationSec}s · ` : ""}
-                      {video.bytes ? `${(video.bytes / (1024 * 1024)).toFixed(1)} MB` : "uploaded"}
-                    </p>
-                    <Button type="button" variant="outline" onClick={() => void removeVideo()}>
-                      Remove video
-                    </Button>
-                  </div>
-                </div>
-              )}
-              <MediaDropzone
-                accept={VIDEO_ACCEPT}
-                busy={uploadingVideo}
-                label={
-                  video
-                    ? "Drag & drop a new video here, or click to replace it"
-                    : "Drag & drop a video here, or click to browse"
-                }
-                hint={`MP4, WebM or MOV · up to ${videoLimits.maxMb} MB · max ${videoLimits.maxDurationSec}s (optional)`}
-                onFiles={(files) => void uploadVideo(files[0] ?? null)}
-              />
-            </>
-          )}
-        </Card>
-        )}
-
-        {staffMode && (
-          <Card className="p-5 sm:p-6">
-            <h2 className="text-lg font-semibold text-ink-strong">Photographs &amp; video</h2>
-            <p className="mt-0.5 text-sm text-ink-muted">
-              Photos and walkthrough videos are managed by the listing provider from their own dashboard. Every
-              other detail can be edited here.
-            </p>
-          </Card>
-        )}
-
-        {/* --------------------------------------------------- submit row */}
-        <div className="flex flex-wrap items-center justify-end gap-3 pb-6">
-          <Button type="button" variant="outline" onClick={() => void save(false)} loading={saving === "draft"}>
-            {mode === "new" ? "Save as draft" : "Save without submitting"}
-          </Button>
-          <Button type="submit" loading={saving === "submit"}>
-            {mode === "new" ? "Submit for review" : isDraft ? "Submit for review" : "Submit for review"}
-          </Button>
         </div>
       </form>
     </div>
   );
 }
 
-/**
- * Shared photo/video dropzone: click to browse or drag files onto it.
- * Dropped files are filtered by the same MIME list the file picker
- * enforces, because the OS drop tray ignores the `accept` attribute.
- */
-function MediaDropzone({
-  accept,
-  multiple = false,
-  busy,
-  label,
-  hint,
-  onFiles,
+/** A numbered form group, so the provider always knows where they are. */
+function Section({
+  step,
+  title,
+  subtitle,
+  children,
 }: {
-  accept: string;
-  multiple?: boolean;
-  busy: boolean;
-  label: string;
-  hint: string;
-  onFiles: (files: File[]) => void;
+  step: number;
+  title: string;
+  subtitle?: string;
+  children: ReactNode;
 }) {
-  const [dragging, setDragging] = useState(false);
-  const allowedTypes = accept.split(",").map((t) => t.trim());
-
   return (
-    <label
-      onDragOver={(e) => {
-        e.preventDefault();
-        setDragging(true);
-      }}
-      onDragLeave={() => setDragging(false)}
-      onDrop={(e) => {
-        e.preventDefault();
-        setDragging(false);
-        const files = Array.from(e.dataTransfer.files).filter((f) => allowedTypes.includes(f.type));
-        if (files.length > 0) onFiles(multiple ? files : files.slice(0, 1));
-      }}
-      className={`mt-4 flex cursor-pointer flex-col items-center justify-center gap-2 rounded-xl border-2 border-dashed px-6 py-8 text-center transition-colors ${
-        dragging
-          ? "border-brand-600 bg-brand-50"
-          : "border-brand-200 hover:border-brand-400 hover:bg-brand-50/40"
-      }`}
-    >
-      <span className="text-sm font-medium text-ink-soft">{busy ? "Uploading…" : label}</span>
-      <span className="text-xs text-ink-muted">{hint}</span>
-      <input
-        type="file"
-        accept={accept}
-        multiple={multiple}
-        className="sr-only"
-        disabled={busy}
-        onChange={(e) => {
-          const files = Array.from(e.target.files ?? []);
-          e.target.value = ""; // allow picking the same file again later
-          if (files.length > 0) onFiles(files);
-        }}
-      />
-    </label>
+    <Card className="p-5 sm:p-6">
+      <div className="flex items-start gap-3">
+        <span className="grid h-7 w-7 shrink-0 place-items-center rounded-full bg-brand-700 text-xs font-bold text-white" aria-hidden>
+          {step}
+        </span>
+        <div>
+          <h2 className="text-lg font-semibold text-ink-strong">{title}</h2>
+          {subtitle && <p className="mt-0.5 text-sm text-ink-muted">{subtitle}</p>}
+        </div>
+      </div>
+      <div className="mt-4 space-y-4">{children}</div>
+    </Card>
+  );
+}
+
+function CharacterCount({ length, minimum }: { length: number; minimum: number }) {
+  const remaining = minimum - length;
+  return (
+    <p className={`mt-1 text-xs ${remaining > 0 ? "text-ink-muted" : "text-emerald-700"}`}>
+      {remaining > 0 ? `${remaining} more character${remaining === 1 ? "" : "s"} needed` : `${length} characters — great`}
+    </p>
   );
 }
